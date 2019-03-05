@@ -27,4 +27,5 @@ homeserver-v2-frontend/npm-debug.log
 homeserver-v2-frontend/yarn-error.log
 homeserver-v2-frontend/testem.log
 homeserver-v2-frontend/typings
+homeserver-v2-frontend/*.lock
 
