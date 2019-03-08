@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<package xmlns="http://www.idpf.org/2007/opf" unique-identifier="uuid_id" version="2.0">
+    <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+        <dc:identifier opf:scheme="calibre" id="calibre_id">2</dc:identifier>
+        <dc:identifier opf:scheme="uuid" id="uuid_id">c521640c-074e-4715-b633-dcc62798de8c</dc:identifier>
+        <dc:title>The Geography of Bliss: One Grump's Search for the Happiest Places in the World</dc:title>
+        <dc:creator opf:file-as="WEINER, ERIC" opf:role="aut">Eric Weiner</dc:creator>
+        <dc:contributor opf:file-as="calibre" opf:role="bkp">calibre (2.55.0) [http://calibre-ebook.com]</dc:contributor>
+        <dc:date>2008-01-03T08:00:00+00:00</dc:date>
+        <dc:description>Part foreign affairs discourse, part humor, and part twisted self-help guide, The Geography of Bliss takes the reader from America to Iceland to India in search of happiness, or, in the crabby author's case, moments of 'un-unhappiness.' The book uses a beguiling mixture of travel, psychology, science and humor to investigate not what happiness is, but where it is. Are people in Switzerland happier because it is the most democratic country in the world? Do citizens of Singapore benefit psychologically by having their options limited by the government? Is the King of Bhutan a visionary for his initiative to calculate Gross National Happiness? Why is Asheville, North Carolina so damn happy? With engaging wit and surprising insights, Eric Weiner answers those questions and many others, offering travelers of all moods some interesting new ideas for sunnier destinations and dispositions.</dc:description>
+        <dc:publisher>Twelve</dc:publisher>
+        <dc:identifier opf:scheme="ISBN">9780446511070</dc:identifier>
+        <dc:language>eng</dc:language>
+        <dc:subject>TRV000000</dc:subject>
+        <meta content="{&quot;Eric Weiner&quot;: &quot;&quot;}" name="calibre:author_link_map"/>
+        <meta content="2018-09-05T21:58:28.360871+00:00" name="calibre:timestamp"/>
+        <meta content="Geography of Bliss: One Grump's Search for the Happiest Places in the World, The" name="calibre:title_sort"/>
+    </metadata>
+    <guide>
+        <reference href="cover.jpg" title="Cover" type="cover"/>
+    </guide>
+</package>
