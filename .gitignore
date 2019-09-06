@@ -1,31 +1,27 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-homeserver-v2-frontend/dist
-homeserver-v2-frontend/tmp
-homeserver-v2-frontend/out-tsc
-# Only exists if Bazel was run
-homeserver-v2-frontend/bazel-out
+dist
+tmp
+out-tsc
 
 # dependencies
-homeserver-v2-frontend/node_modules
+**/node_modules
 
 # profiling files
-homeserver-v2-frontend/chrome-profiler-events.json
-homeserver-v2-frontend/speed-measure-plugin.json
+chrome-profiler-events.json
+speed-measure-plugin.json
 
 # IDEs and editors
 **/*.swp
 **/*.vim
 
 # misc
-homeserver-v2-frontend/.sass-cache
-homeserver-v2-frontend/connect.lock
-homeserver-v2-frontend/coverage
-homeserver-v2-frontend/libpeerconnection.log
-homeserver-v2-frontend/npm-debug.log
-homeserver-v2-frontend/yarn-error.log
-homeserver-v2-frontend/testem.log
-homeserver-v2-frontend/typings
-homeserver-v2-frontend/*.lock
-
+sass-cache
+connect.lock
+coverage
+libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+*.lock

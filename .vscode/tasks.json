@@ -1,0 +1,28 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "npm",
+            "label": "build_server",
+            "script": "build",
+            "path": "server/",
+            "problemMatcher": []
+        },
+        {
+            "type": "npm",
+            "label": "build_client",
+            "script": "build",
+            "path": "client/",
+            "problemMatcher": []
+        },
+        {
+            "label": "Build",
+            "dependsOn": [
+                "build_server",
+                "build_client"
+            ]
+        }
+    ]
+}
