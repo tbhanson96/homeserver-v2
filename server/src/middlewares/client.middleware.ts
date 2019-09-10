@@ -14,8 +14,6 @@ const allowedExt = [
   '.ttf',
   '.svg',
 ];
-  
-const resolvePath = (file: string) => path.resolve(`client/dist/${file}`);
 
 @Injectable()
 export class ClientMiddleware implements NestMiddleware {
@@ -26,10 +24,15 @@ export class ClientMiddleware implements NestMiddleware {
         next();
     } else if (allowedExt.filter(ext => url.indexOf(ext) > 0).length > 0) {
         // it has a file extension --> resolve the file
-        res.sendFile(resolvePath(url));
+        res.sendFile(this.resolvePath(url));
     } else {
         // in all other cases, redirect to the index.html
-        res.sendFile(resolvePath('index.html'));
+        res.sendFile(this.resolvePath('index.html'));
     }
+  }
+
+  private resolvePath(file: string): string {
+    let res = path.join(__dirname, `../../../client/dist/${file}`); // TODO: find a way to decouple path to client build files
+    return res;
   }
 }
