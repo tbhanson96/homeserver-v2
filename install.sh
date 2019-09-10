@@ -8,7 +8,7 @@ echo "Finished building server."
 cd ../../client/src
 echo "Building client..."
 npm install
-npm run build
+npm run build:prod
 echo "Finished building client"
 
 cd ../..
