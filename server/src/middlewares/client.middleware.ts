@@ -1,7 +1,7 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response } from 'express'
 import * as path from 'path';
-import * as routes from '../routes.json';
+import { routes } from '../routes';
 
 const allowedExt = [
   '.js',
