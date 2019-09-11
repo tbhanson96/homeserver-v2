@@ -1,9 +1,11 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, BaseExceptionFilter } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { MorganInterceptor } from 'nest-morgan';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.useGlobalInterceptors(new (MorganInterceptor('combined')));
 
   const options = new DocumentBuilder()
     .setTitle('Homeserver')
