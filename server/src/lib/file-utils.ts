@@ -1,10 +1,6 @@
-import * as validFileTypes from '../config/valid-file-types.json';
-import * as path from 'path';
+import { validFileTypes } from '../config/valid-file-types';
 
 export class FileUtils {
-    public static parseFileName(filePath: string): string {
-        return filePath.split(path.sep)[-1]
-    }
 
     public static parsePerms(perms: number): string {
         let permsBuffer = [];
@@ -62,7 +58,8 @@ export class FileUtils {
         let timestamp = this.parseTimestamp(stats.mtime.toDateString());
         let permissions = this.parsePerms(stats.mode.toString());
         let extension = filename.split('.').slice(-1)[0];
-        let type = validFileTypes.find(t => t === extension);
+        console.log(validFileTypes);
+        let type = validFileTypes[extension];
         if(!type) {
             type = 'file';
         }

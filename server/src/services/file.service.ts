@@ -11,7 +11,7 @@ export class FileService implements OnModuleInit {
 
     onModuleInit() {
         // TODO: refactor to use config service
-        this.rootDir = process.env.rootDir || __dirname;
+        this.rootDir = "/home/tim/Documents"
     }
 
     getFiles(directory: string): File[] {
