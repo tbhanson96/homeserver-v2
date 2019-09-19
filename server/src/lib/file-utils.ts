@@ -1,5 +1,3 @@
-import { validFileTypes } from '../config/valid-file-types';
-
 export class FileUtils {
 
     public static parsePerms(perms: number): string {
@@ -57,9 +55,7 @@ export class FileUtils {
     public static getFileProps(filename: string, stats: any): any {
         let timestamp = this.parseTimestamp(stats.mtime.toDateString());
         let permissions = this.parsePerms(stats.mode.toString());
-        let extension = filename.split('.').slice(-1)[0];
-        console.log(validFileTypes);
-        let type = validFileTypes[extension];
+        let type = filename.split('.').slice(-1)[0];
         if(!type) {
             type = 'file';
         }
