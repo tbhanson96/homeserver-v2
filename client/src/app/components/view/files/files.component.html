@@ -1,0 +1,9 @@
+<mdc-list-group subheader="Folders">
+    <mdc-list twoLine avatar border="true" class="demo-list--custom">
+        <mdc-list-item *ngFor="let file of files">
+        <mdc-icon mdcListItemGraphic>folder</mdc-icon>
+        <mdc-list-item-text [secondaryText]="file.addDate">{{file.name}}</mdc-list-item-text>
+        <a href="#/list-demo/examples" mdcListItemMeta mdcIcon aria-label="View more" title="More info">info</a>
+        </mdc-list-item>
+    </mdc-list>
+</mdc-list-group>
