@@ -1,9 +1,10 @@
 <mdc-top-app-bar class="topAppBar" fixed [scrollTarget]="content">
     <app-top-bar></app-top-bar>
 </mdc-top-app-bar>
-<mdc-drawer mdcTopAppBarFixedAdjust drawer="modal" [open]="isOpen">
+<mdc-drawer mdcTopAppBarFixedAdjust drawer="dismissible" [open]="isOpen">
+    <mdc-drawer-header title="Tim's Homeserver" subtitle="Services"></mdc-drawer-header>
     <app-side-bar></app-side-bar>
 </mdc-drawer>
-<div mdcTopAppBarFixedAdjust #content>
+<div mdcTopAppBarFixedAdjust mdcDrawerAppContent #content class="mainContent" fxLayout="column" fxLayoutAlign="center">
     <router-outlet></router-outlet>
 </div>

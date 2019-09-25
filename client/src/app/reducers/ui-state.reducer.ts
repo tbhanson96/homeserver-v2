@@ -3,7 +3,7 @@ import { UiStateAction, UiStateActionType } from '@actions/ui-state.actions';
 import * as UiStateActions from '@actions/ui-state.actions';
 
 const initialState: IUiStateStore = {
-    sidebarOpen: false,
+    sidebarOpen: true,
 };
 
 export default function uiStateReducer(state: IUiStateStore = initialState, action: UiStateAction): IUiStateStore {

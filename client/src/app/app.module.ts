@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { MdcTopAppBarModule, MdcIconModule, MdcDrawerModule, MdcListModule } from '@angular-mdc/web';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +22,7 @@ import { FilesComponent } from '@components/view/files/files.component';
   imports: [
     ReduxModule,
     StoreModule.forRoot(rootReducer),
+    FlexLayoutModule,
     BrowserModule,
     AppRoutingModule,
     MdcTopAppBarModule,

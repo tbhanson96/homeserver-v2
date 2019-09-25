@@ -8,7 +8,7 @@ import { UiStateSelectors } from '@selectors/ui-state.selectors';
 })
 export class AppComponent {
   private subscriptions = [];
-  private isOpen = false;
+  private isOpen = true;
   constructor(private readonly uiStateSelectors: UiStateSelectors) { }
 
   ngOnInit() {
@@ -17,6 +17,7 @@ export class AppComponent {
         this.isOpen = open;
       }),
     ]
+
   }
 
   ngOnDestroy() {
