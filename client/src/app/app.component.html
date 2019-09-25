@@ -1,1 +1,9 @@
-<app-layout></app-layout>
+<mdc-top-app-bar class="topAppBar" fixed [scrollTarget]="content">
+    <app-top-bar></app-top-bar>
+</mdc-top-app-bar>
+<mdc-drawer mdcTopAppBarFixedAdjust drawer="modal" [open]="isOpen">
+    <app-side-bar></app-side-bar>
+</mdc-drawer>
+<div mdcTopAppBarFixedAdjust #content>
+    <router-outlet></router-outlet>
+</div>

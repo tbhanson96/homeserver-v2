@@ -1,2 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
-@import "~@angular-mdc/theme/material"
+@import "~@angular-mdc/theme/material";
+body {
+    margin: 0px;
+}
+$mdc-theme-primary: blue; // primary color
+$mdc-theme-secondary: #388e3c; // secondary color
