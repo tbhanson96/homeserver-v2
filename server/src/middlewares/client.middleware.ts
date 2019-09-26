@@ -3,18 +3,6 @@ import { Request, Response } from 'express'
 import * as path from 'path';
 import { routes } from '../routes';
 
-const allowedExt = [
-  '.js',
-  '.ico',
-  '.css',
-  '.png',
-  '.jpg',
-  '.woff2',
-  '.woff',
-  '.ttf',
-  '.svg',
-];
-
 @Injectable()
 export class ClientMiddleware implements NestMiddleware {
 
@@ -25,7 +13,7 @@ export class ClientMiddleware implements NestMiddleware {
     if (url.indexOf(routes.api) === 1) {
         // it starts with /api --> continue with execution
         next();
-    } else if (allowedExt.filter(ext => url.indexOf(ext) > 0).length > 0) {
+    } else if (url.includes('.')) {
         // it has a file extension --> resolve the file
         res.sendFile(this.resolvePath(url));
     } else {
