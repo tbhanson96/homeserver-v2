@@ -1,0 +1,25 @@
+<mdc-drawer-content>
+  <mdc-list>
+    <a mdc-list-item *ngFor="let item of destinations" href="#/drawer-demo/examples" [activated]="item.activated">
+      <mdc-icon mdcListItemGraphic *ngIf="item.icon">{{item.icon}}</mdc-icon>{{item.label}}
+    </a>
+    <mdc-list-divider></mdc-list-divider>
+    <h6 mdcListGroupSubheader>Labels</h6>
+    <a mdc-list-item href="#/drawer-demo/examples">
+      <mdc-icon mdcListItemGraphic>bookmark</mdc-icon>Family
+    </a>
+    <a mdc-list-item href="#/drawer-demo/examples">
+      <mdc-icon mdcListItemGraphic>bookmark</mdc-icon>Friends
+    </a>
+    <a mdc-list-item href="#/drawer-demo/examples">
+      <mdc-icon mdcListItemGraphic>bookmark</mdc-icon>Work
+    </a>
+    <mdc-list-divider></mdc-list-divider>
+    <a mdc-list-item href="#/drawer-demo/examples">
+      <mdc-icon mdcListItemGraphic>settings</mdc-icon>Settings
+    </a>
+    <a mdc-list-item href="#/drawer-demo/examples">
+      <mdc-icon mdcListItemGraphic>announcement</mdc-icon>Help & feedback
+    </a>
+  </mdc-list>
+</mdc-drawer-content>

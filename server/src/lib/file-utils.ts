@@ -56,6 +56,9 @@ export class FileUtils {
         let timestamp = this.parseTimestamp(stats.mtime.toDateString());
         let permissions = this.parsePerms(stats.mode.toString());
         let type = filename.split('.').slice(-1)[0];
+        if(!type) {
+            type = 'file';
+        }
         if (stats.isDirectory()) {
             type = 'dir';
         }

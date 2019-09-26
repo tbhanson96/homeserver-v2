@@ -9,6 +9,15 @@
     "experimentalDecorators": true,
     "module": "esnext",
     "moduleResolution": "node",
+    "paths": {
+      "@components/*": ["src/app/components/*"],
+      "@models/*": ["src/app/models/*"],
+      "@services/*": ["src/app/services/*"],
+      "@shared/*": ["src/app/shared/*"],
+      "@actions/*": ["src/app/actions/*"],
+      "@reducers/*": ["src/app/reducers/*"],
+      "@selectors/*": ["src/app/selectors/*"]
+    },
     "importHelpers": true,
     "target": "es2015",
     "typeRoots": [
