@@ -1,16 +1,15 @@
 import { Module, NestModule, MiddlewareConsumer, RequestMethod, Scope } from '@nestjs/common';
-import { APP_INTERCEPTOR } from '@nestjs/core';
-import { MorganModule, MorganInterceptor } from 'nest-morgan';
+import * as path from 'path';
 import { AppController } from './controllers/app.controller';
 import { AppService } from './services/app.service';
 import { ClientMiddleware } from './middlewares/client.middleware';
 import { FileService } from './services/file.service';
+import { ConfigService } from './services/config.service';
 import { FileController } from './controllers/file.controller';
 import { FileValidationPipe } from './pipes/file-validation.pipe';
 
 @Module({
   imports: [
-    MorganModule.forRoot(),
   ],
   controllers: [
     AppController,
@@ -20,6 +19,7 @@ import { FileValidationPipe } from './pipes/file-validation.pipe';
     //Services
     AppService,
     FileService,
+    ConfigService,
     //Pipes
     {
       provide: FileValidationPipe,
@@ -27,9 +27,9 @@ import { FileValidationPipe } from './pipes/file-validation.pipe';
       scope: Scope.REQUEST,
     },
     {
-      provide: APP_INTERCEPTOR,
-      useClass: MorganInterceptor('combined'),
-    }
+      provide: "APP_ROOT",
+      useValue: path.join(__dirname, '..', '..'),
+    },
   ],
 })
 export class AppModule implements NestModule {

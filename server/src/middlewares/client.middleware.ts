@@ -1,4 +1,4 @@
-import { Injectable, NestMiddleware } from '@nestjs/common';
+import { Injectable, NestMiddleware, Inject } from '@nestjs/common';
 import { Request, Response } from 'express'
 import * as path from 'path';
 import { routes } from '../routes';
@@ -17,6 +17,9 @@ const allowedExt = [
 
 @Injectable()
 export class ClientMiddleware implements NestMiddleware {
+
+  constructor(@Inject('APP_ROOT') private appRoot: string) { }
+
   use(req: Request, res: Response, next: Function) {
     const { url } = req;
     if (url.indexOf(routes.api) === 1) {
@@ -32,7 +35,7 @@ export class ClientMiddleware implements NestMiddleware {
   }
 
   private resolvePath(file: string): string {
-    let res = path.join(__dirname, `../../../client/dist/${file}`); // TODO: find a way to decouple path to client build files
+    let res = path.join(this.appRoot, 'client', 'dist', file);
     return res;
   }
 }

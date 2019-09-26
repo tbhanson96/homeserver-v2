@@ -6,16 +6,17 @@ import { FileService } from "../services/file.service";
 export class FileValidationPipe implements PipeTransform {
     constructor(private readonly fileService: FileService) { }
 
-    transform(value: any, metadata: ArgumentMetadata) {
+    transform(filePath: string, metadata: ArgumentMetadata) {
         try {
-            console.log(this.fileService.getLocalFilePath(value || ''))
-            let stat = fs.statSync(this.fileService.getLocalFilePath(value || ''));
-            if (!stat.isDirectory) {
+            let stat = fs.statSync(this.fileService.getLocalFilePath(filePath || ''));
+            if (metadata.data === 'path' && !stat.isDirectory) {
+                throw new Error();
+            } else if (metadata.data === 'file' && stat.isDirectory) {
                 throw new Error();
             }
         } catch {
-            throw new BadRequestException(`Invalid directory path: ${value}`);
+            throw new BadRequestException(`Invalid directory path: ${filePath}`);
         }
-        return value;
+        return filePath;
     }
 }
