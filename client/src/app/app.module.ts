@@ -11,6 +11,8 @@ import { ReduxModule } from './redux.module';
 import { StoreModule } from '@ngrx/store';
 import { rootReducer } from '@reducers/root.reducer';
 import { FilesComponent } from '@components/view/files/files.component';
+import { ClientService } from '@services/client.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -20,17 +22,20 @@ import { FilesComponent } from '@components/view/files/files.component';
     FilesComponent
   ],
   imports: [
+    BrowserModule,
+    HttpClientModule,
     ReduxModule,
     StoreModule.forRoot(rootReducer),
     FlexLayoutModule,
-    BrowserModule,
     AppRoutingModule,
     MdcTopAppBarModule,
     MdcIconModule,
     MdcDrawerModule,
     MdcListModule,
   ],
-  providers: [],
+  providers: [
+    ClientService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

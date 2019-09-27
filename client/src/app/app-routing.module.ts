@@ -4,7 +4,9 @@ import { FilesComponent } from '@components/view/files/files.component';
 
 
 const routes: Routes = [
-  { path: 'files', component: FilesComponent },
+  { path: 'files', children: [
+    { path: '**', component: FilesComponent },
+  ]},
   { path: '', redirectTo: '/files', pathMatch: 'full' },
 ];
 
