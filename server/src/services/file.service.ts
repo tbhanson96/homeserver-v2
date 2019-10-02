@@ -1,5 +1,5 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { File } from '../models/file';
+import { FileData } from '../models/fileData';
 import { FileUtils } from '../lib/file-utils';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -15,19 +15,18 @@ export class FileService implements OnModuleInit {
         this.rootDir = this.configService.env.ROOT_DIR;
     }
 
-    getFiles(directory?: string): File[] {
-        let ret: File[] = [];
+    getFiles(directory?: string): FileData[] {
+        let ret: FileData[] = [];
         let files = fs.readdirSync(path.join(this.rootDir, directory || ''));
         for (let f of files) {
             let stats = fs.statSync(path.join(this.rootDir, directory || '', f));
             const props = FileUtils.getFileProps(f, stats); 
-            ret.push(new File(props));
+            ret.push(new FileData(props));
         }
         return ret;
     }
 
     getLocalFilePath(filePath: string): string {
-        console.log(path.join(this.rootDir, filePath));
         return path.join(this.rootDir, filePath);
     }
 }

@@ -1,10 +1,20 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { INestApplication } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const document = await buildApi(app);
 
+  SwaggerModule.setup('swagger', app, document);
+  await app.listen(3000);
+}
+
+export async function buildApi(app?: INestApplication) {
+  if (!app) {
+    app = await NestFactory.create(AppModule);
+  }
   const options = new DocumentBuilder()
     .setTitle('Homeserver')
     .setDescription('Api for homeserver')
@@ -13,8 +23,9 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('swagger', app, document);
-
-  await app.listen(3000);
+  return document;
 }
-bootstrap();
+
+if (require.main === module) {
+  bootstrap();
+}

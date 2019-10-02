@@ -11,8 +11,9 @@ import { ReduxModule } from './redux.module';
 import { StoreModule } from '@ngrx/store';
 import { rootReducer } from '@reducers/root.reducer';
 import { FilesComponent } from '@components/view/files/files.component';
-import { ClientService } from '@services/client.service';
 import { HttpClientModule } from '@angular/common/http';
+import { FilesService } from '@services/files.service';
+import { ApiService } from '@api/services';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { HttpClientModule } from '@angular/common/http';
     MdcListModule,
   ],
   providers: [
-    ClientService,
+    ApiService,
+    FilesService,
   ],
   bootstrap: [AppComponent]
 })

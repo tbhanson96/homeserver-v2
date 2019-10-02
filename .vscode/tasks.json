@@ -18,8 +18,14 @@
             "problemMatcher": []
         },
         {
+            "type": "shell",
+            "label": "codegen",
+            "command": "./codegen.sh"
+        },
+        {
             "label": "Build",
             "dependsOn": [
+                "codegen",
                 "build_server",
                 "build_client"
             ]

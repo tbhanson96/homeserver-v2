@@ -16,6 +16,10 @@ speed-measure-plugin.json
 **/*.swp
 **/*.vim
 
+#codegen
+server/swagger.json
+client/src/app/api
+
 # misc
 sass-cache
 connect.lock
