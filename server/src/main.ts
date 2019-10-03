@@ -3,12 +3,14 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { INestApplication } from '@nestjs/common';
 
-async function bootstrap() {
+declare const module: any;
+
+export async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const document = await buildApi(app);
 
   SwaggerModule.setup('swagger', app, document);
-  await app.listen(3000);
+  return await app.listen(3000);
 }
 
 export async function buildApi(app?: INestApplication) {

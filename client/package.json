@@ -5,9 +5,9 @@
     "ng": "ng",
     "codegen": "ng-swagger-gen -i ../server/swagger.json -o src/app/api",
     "start": "ng serve",
-    "build": "ng build",
-    "build:prod": "ng build --prod",
-    "build:watch": "ng build --watch=true",
+    "build": "npm run codegen && ng build",
+    "build:prod": "npm run codegen && ng build --prod",
+    "build:watch": "npm run codegen && ng build --watch=true",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

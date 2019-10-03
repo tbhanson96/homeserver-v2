@@ -7,10 +7,19 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
-            "preLaunchTask": "Build",
+            "name": "Launch Dev",
+            "program": "${workspaceFolder}/server/dev-server.js",
             "runtimeVersion": "12.9.1",
-            "program": "${workspaceFolder}/server/dist/main.js"
+            "autoAttachChildProcesses": true,
+            "sourceMaps": true
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Production",
+            // "preLaunchTask": "Build",
+            "runtimeVersion": "12.9.1",
+            "program": "${workspaceFolder}/server/dist/server.js"
         },
     ]
 }
