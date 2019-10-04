@@ -3,8 +3,6 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { INestApplication } from '@nestjs/common';
 
-declare const module: any;
-
 export async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const document = await buildApi(app);

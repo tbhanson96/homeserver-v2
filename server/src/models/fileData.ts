@@ -7,6 +7,7 @@ export class FileData {
         this.timestamp = attr.timestamp;
         this.size = attr.size;
         this.permissions = attr.permissions;
+        this.link = attr.link;
     }
     @ApiModelProperty()
     name: string;
@@ -22,4 +23,7 @@ export class FileData {
 
     @ApiModelProperty()
     permissions: string;
+
+    @ApiModelProperty()
+    link: string;
 }

@@ -14,13 +14,15 @@ import { FilesComponent } from '@components/view/files/files.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FilesService } from '@services/files.service';
 import { ApiService } from '@api/services';
+import { NotFoundComponent } from '@components/view/not-found/not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TopbarComponent,
     SideBarComponent,
-    FilesComponent
+    FilesComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

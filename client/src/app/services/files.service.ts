@@ -14,6 +14,7 @@ export class FilesService {
     return this.api.getApiFilesPath(filePath);
   }
 
-  public async getFile(filePath: string) {
+  public getFile(filePath: string): Observable<any> {
+    return this.api.getApiFilesFile(filePath);
   }
 }

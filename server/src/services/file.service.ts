@@ -16,11 +16,13 @@ export class FileService implements OnModuleInit {
     }
 
     getFiles(directory?: string): FileData[] {
+        directory = directory || '';
         let ret: FileData[] = [];
-        let files = fs.readdirSync(path.join(this.rootDir, directory || ''));
+        let files = fs.readdirSync(path.join(this.rootDir, directory));
         for (let f of files) {
-            let stats = fs.statSync(path.join(this.rootDir, directory || '', f));
+            let stats = fs.statSync(path.join(this.rootDir, directory, f));
             const props = FileUtils.getFileProps(f, stats); 
+            props.link = path.join(directory, f);
             ret.push(new FileData(props));
         }
         return ret;

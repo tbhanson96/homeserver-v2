@@ -21,11 +21,11 @@ tscClient.on('success', () => {
 tscClient.on('compile_errors', () => {
     console.log('[SERVER]: Error compiling source code:');
 });
-tscClient.start('-p', 'tsconfig.build.json');
+tscClient.start('-p', path.join(__dirname, 'tsconfig.build.json'));
 
 var app;
 async function start() {
-    const { bootstrap } = require('./dist/main');
+    const { bootstrap } = require(path.join(__dirname, 'dist', 'main'));
     if(app) {
         await app.close();
     }

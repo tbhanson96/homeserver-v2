@@ -19,7 +19,8 @@
             "name": "Launch Production",
             // "preLaunchTask": "Build",
             "runtimeVersion": "12.9.1",
-            "program": "${workspaceFolder}/server/dist/server.js"
+            "program": "${workspaceFolder}/server/dist/main.js",
+            "sourceMaps": true,
         },
     ]
 }
