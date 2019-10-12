@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { MdcTopAppBarModule, MdcIconModule, MdcDrawerModule, MdcListModule } from '@angular-mdc/web';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -15,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FilesService } from '@services/files.service';
 import { ApiService } from '@api/services';
 import { NotFoundComponent } from '@components/view/not-found/not-found.component';
+import { MaterialModule } from './material.module';
 
 @NgModule({
   declarations: [
@@ -31,10 +31,7 @@ import { NotFoundComponent } from '@components/view/not-found/not-found.componen
     StoreModule.forRoot(rootReducer),
     FlexLayoutModule,
     AppRoutingModule,
-    MdcTopAppBarModule,
-    MdcIconModule,
-    MdcDrawerModule,
-    MdcListModule,
+    MaterialModule,
   ],
   providers: [
     ApiService,
