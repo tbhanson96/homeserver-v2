@@ -7,11 +7,17 @@ export type UiStateAction = IAction;
 
 export enum UiStateActionType {
     TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR',
+    SET_APP_BUSY = 'SET_APP_BUSY',
 }
 
 export class ToggleSidebarAction implements UiStateAction {
   readonly type = UiStateActionType.TOGGLE_SIDEBAR;
   constructor(public payload: { toggle: boolean }) { }
+}
+
+export class SetAppBusyAction implements UiStateAction {
+  readonly type = UiStateActionType.SET_APP_BUSY;
+  constructor(public payload: { busy: boolean }) { }
 }
 
 @Injectable()
@@ -20,5 +26,9 @@ export class UiStateActions {
 
   toggleSidebar(toggle: boolean) {
     this.store.dispatch(new ToggleSidebarAction({ toggle }));
+  }
+
+  setAppBusy(busy: boolean) {
+    this.store.dispatch(new SetAppBusyAction({ busy }));
   }
 }

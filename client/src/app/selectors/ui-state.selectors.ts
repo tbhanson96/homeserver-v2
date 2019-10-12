@@ -10,4 +10,8 @@ export class UiStateSelectors {
   getSidebarOpen(): Observable<boolean> {
     return this.store.pipe(select(state => state.uiStateStore.sidebarOpen));
   }
+
+  getAppBusy(): Observable<boolean> {
+    return this.store.pipe(select(state => state.uiStateStore.appBusy));
+  }
 }

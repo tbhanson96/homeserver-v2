@@ -5,6 +5,7 @@
     <mdc-drawer-header title="Tim's Homeserver" subtitle="Services"></mdc-drawer-header>
     <app-side-bar></app-side-bar>
 </mdc-drawer>
+<mdc-linear-progress [open]="isBusy"></mdc-linear-progress>
 <div mdcTopAppBarFixedAdjust mdcDrawerAppContent #content class="mainContent" fxLayout="column" fxLayoutAlign="center">
     <router-outlet></router-outlet>
 </div>

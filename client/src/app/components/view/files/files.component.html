@@ -2,12 +2,12 @@
     <mdc-list twoLine avatar border="true" class="demo-list--custom">
         <ng-container *ngFor="let file of files" [ngSwitch]="file.type">
             <mdc-list-item *ngSwitchCase="'dir'" [routerLink]="file.name">
-                <mdc-icon mdcListItemGraphic>folder</mdc-icon>
+                <img class="list-image" [src]="'/assets/icons/' + file.type + '.png'" />
                 <mdc-list-item-text [secondaryText]="file.timestamp">{{file.name}}</mdc-list-item-text>
                 <mdc-icon mdcListItemMeta aria-label="View more" title="More info">info</mdc-icon>
             </mdc-list-item>
-            <a mdc-list-item *ngSwitchDefault [href]="'files' + file.link">
-                <mdc-icon mdcListItemGraphic>folder</mdc-icon>
+            <a mdc-list-item *ngSwitchDefault [href]="'files/' + file.link">
+                <img class="list-image" [src]="'/assets/icons/' + file.type + '.png'" />
                 <mdc-list-item-text [secondaryText]="file.timestamp">{{file.name}}</mdc-list-item-text>
                 <mdc-icon mdcListItemMeta aria-label="View more" title="More info">info</mdc-icon>
             </a>

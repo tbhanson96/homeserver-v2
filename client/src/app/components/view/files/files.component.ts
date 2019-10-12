@@ -24,6 +24,11 @@ export class FilesComponent implements OnInit {
         const reqPath = parts.join('/') || '/';
         if (!this.isFileRequest(reqPath)) {
           this.filesService.getDirectory(reqPath).subscribe(data => {
+            for(let file of data) {
+              if (!validFileTypes[file.type]) {
+                file.type = 'file';
+              }
+            }
             this.files = data;
           });
         }

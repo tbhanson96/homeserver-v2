@@ -9,6 +9,7 @@ import { UiStateSelectors } from '@selectors/ui-state.selectors';
 export class AppComponent {
   private subscriptions = [];
   private isOpen = true;
+  private isBusy = true;
   constructor(private readonly uiStateSelectors: UiStateSelectors) { }
 
   ngOnInit() {
@@ -16,8 +17,10 @@ export class AppComponent {
       this.uiStateSelectors.getSidebarOpen().subscribe(open => {
         this.isOpen = open;
       }),
+      this.uiStateSelectors.getAppBusy().subscribe(busy => {
+        this.isBusy = busy;
+      })
     ]
-
   }
 
   ngOnDestroy() {
