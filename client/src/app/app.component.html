@@ -1,11 +1,11 @@
 <mdc-top-app-bar class="topAppBar" fixed [scrollTarget]="content">
     <app-top-bar></app-top-bar>
+<mdc-linear-progress [open]="isBusy"></mdc-linear-progress>
 </mdc-top-app-bar>
 <mdc-drawer mdcTopAppBarFixedAdjust drawer="dismissible" [open]="isOpen">
     <mdc-drawer-header title="Tim's Homeserver" subtitle="Services"></mdc-drawer-header>
     <app-side-bar></app-side-bar>
 </mdc-drawer>
-<mdc-linear-progress [open]="isBusy"></mdc-linear-progress>
 <div mdcTopAppBarFixedAdjust mdcDrawerAppContent #content class="mainContent" fxLayout="column" fxLayoutAlign="center">
     <router-outlet></router-outlet>
 </div>

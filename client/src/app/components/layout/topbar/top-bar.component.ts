@@ -7,7 +7,7 @@ import { UiStateActions } from '@actions/ui-state.actions';
   styleUrls: ['./top-bar.component.scss']
 })
 export class TopbarComponent implements OnInit {
-  private sidebarOpen = false;
+  private sidebarOpen = true;
   constructor(private readonly uiStateActions: UiStateActions) { }
 
   ngOnInit() {

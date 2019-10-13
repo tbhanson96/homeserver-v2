@@ -4,7 +4,7 @@ import * as UiStateActions from '@actions/ui-state.actions';
 
 const initialState: IUiStateStore = {
     sidebarOpen: true,
-    appBusy: true,
+    appBusy: false,
 };
 
 export default function uiStateReducer(state: IUiStateStore = initialState, action: UiStateAction): IUiStateStore {
