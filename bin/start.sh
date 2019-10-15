@@ -1,2 +1,4 @@
 "Starting application..."
-node server/dist/main.js
+SCRIPT=$(readlink -f "$BASH_SOURCE")
+DIRNAME=$(dirname "$SCRIPT")
+node $DIRNAME/../server/dist/main.js
