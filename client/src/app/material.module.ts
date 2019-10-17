@@ -6,6 +6,7 @@ import {
     MdcListModule,
     MdcLinearProgressModule,
     MdcChipsModule,
+    MdcSnackbarModule,
  } from '@angular-mdc/web';
 
 @NgModule({
@@ -16,6 +17,7 @@ import {
     MdcListModule,
     MdcLinearProgressModule,
     MdcChipsModule,
+    MdcSnackbarModule,
   ]
 })
 export class MaterialModule { }

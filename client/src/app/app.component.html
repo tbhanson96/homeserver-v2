@@ -3,7 +3,7 @@
         <app-top-bar></app-top-bar>
     <mdc-linear-progress [open]="isBusy"></mdc-linear-progress>
     </mdc-top-app-bar>
-    <mdc-drawer class="drawer" mdcTopAppBarFixedAdjust [drawer]="app.offsetWidth< 1200? 'modal' : 'dismissible'" [open]="isOpen">
+    <mdc-drawer class="drawer" mdcTopAppBarFixedAdjust [drawer]="app.offsetWidth< 1200? 'modal' : 'dismissible'" [open]="isOpen" (openedChange)="onSidebarChanged($event)">
         <mdc-drawer-header title="Tim's Homeserver" subtitle="Apps"></mdc-drawer-header>
         <app-side-bar></app-side-bar>
     </mdc-drawer>

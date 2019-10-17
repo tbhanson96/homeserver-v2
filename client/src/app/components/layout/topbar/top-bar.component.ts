@@ -9,8 +9,8 @@ import { UiStateSelectors } from '@selectors/ui-state.selectors';
   styleUrls: ['./top-bar.component.scss']
 })
 export class TopbarComponent implements OnInit, OnDestroy {
-  sidebarOpen = true;
-  shownComponent: string
+  shownComponent: string;
+  sidebarOpen: boolean;
   subscriptions: Subscription[];
   constructor(
     private readonly uiStateActions: UiStateActions,
@@ -22,6 +22,9 @@ export class TopbarComponent implements OnInit, OnDestroy {
       this.uiSelectors.getCurrentApp().subscribe(app => {
         this.shownComponent = app;
       }),
+      this.uiSelectors.getSidebarOpen().subscribe(open => {
+        this.sidebarOpen = open;
+      })
     ];
   }
 
@@ -30,7 +33,6 @@ export class TopbarComponent implements OnInit, OnDestroy {
   }
 
   onToggleSidebar() {
-    this.sidebarOpen = !this.sidebarOpen;
-    this.uiStateActions.toggleSidebar(this.sidebarOpen);
+    this.uiStateActions.toggleSidebar(!this.sidebarOpen);
   }
 }

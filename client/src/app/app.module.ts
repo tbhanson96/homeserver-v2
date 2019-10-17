@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -15,6 +15,7 @@ import { FilesService } from '@services/files.service';
 import { ApiService } from '@api/services';
 import { NotFoundComponent } from '@components/view/not-found/not-found.component';
 import { MaterialModule } from './material.module';
+import { SnackbarErrorService } from './snackbar-error.service';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,10 @@ import { MaterialModule } from './material.module';
   providers: [
     ApiService,
     FilesService,
+    {
+      provide: ErrorHandler,
+      useClass: SnackbarErrorService
+    },
   ],
   bootstrap: [AppComponent]
 })

@@ -16,27 +16,31 @@ export class FilesComponent implements OnInit {
   reqPath: UrlSegment[];
   subscriptions: Subscription[];
   constructor(
-    private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly uiActions: UiStateActions,
     private readonly filesService: FilesService) { }
 
   ngOnInit() {
     this.uiActions.setCurrentApp('Files');
-    this.uiActions.setAppBusy(true); 
+    this.uiActions.setAppBusy(true);
     this.subscriptions = [
       this.route.url.subscribe(parts => {
         this.reqPath = parts;
         const reqPathString = parts.join('/') || '/';
         if (!this.isFileRequest(reqPathString)) {
           this.filesService.getDirectory(reqPathString).subscribe(data => {
-            for(let file of data) {
+            for (const file of data) {
               if (!validFileTypes[file.type]) {
                 file.type = 'file';
+              } else {
+                file.type = validFileTypes[file.type];
               }
             }
             this.files = data;
             this.uiActions.setAppBusy(false);
+          }, err => {
+            this.uiActions.setAppBusy(false);
+            throw new Error(`Could not get directory: ${reqPathString}`);
           });
         }
       }),
@@ -46,7 +50,9 @@ export class FilesComponent implements OnInit {
   private isFileRequest(reqPath: string): boolean {
     if (validFileTypes[reqPath.split('.').slice(-1)[0]]) {
       return true;
-    } else return false;
+    } else {
+      return false;
+    }
   }
 
   private getRouterLinkFromDir(dir: UrlSegment): string {
