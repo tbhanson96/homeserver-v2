@@ -4,7 +4,7 @@
     <mdc-linear-progress [open]="isBusy"></mdc-linear-progress>
     </mdc-top-app-bar>
     <mdc-drawer class="drawer" mdcTopAppBarFixedAdjust [drawer]="app.offsetWidth< 1200? 'modal' : 'dismissible'" [open]="isOpen">
-        <mdc-drawer-header title="Tim's Homeserver" [subtitle]="app.offsetWidth"></mdc-drawer-header>
+        <mdc-drawer-header title="Tim's Homeserver" subtitle="Apps"></mdc-drawer-header>
         <app-side-bar></app-side-bar>
     </mdc-drawer>
     <div mdcTopAppBarFixedAdjust mdcDrawerAppContent #content fxLayout="row" fxLayoutAlign="center">
