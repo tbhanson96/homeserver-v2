@@ -1,10 +1,10 @@
 <mdc-list-group>
     <mdc-chip-set class="file-nav">
-        <mdc-chip [primary]="reqPath.length<1" routerLink="/files">
+        <mdc-chip class="chip" [primary]="reqPath.length<1" routerLink="/files">
             <mdc-chip-icon leading>folder</mdc-chip-icon>
             <mdc-chip-text>Files</mdc-chip-text>
         </mdc-chip>
-        <mdc-chip [primary]="isLast" *ngFor="let part of reqPath; last as isLast" [routerLink]="getRouterLinkFromDir(part)">
+        <mdc-chip class="chip" [primary]="isLast" *ngFor="let part of reqPath; last as isLast" [routerLink]="getRouterLinkFromDir(part)">
             <mdc-chip-text >{{part.toString()}}</mdc-chip-text>
         </mdc-chip>
     </mdc-chip-set>

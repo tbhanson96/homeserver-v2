@@ -6,4 +6,11 @@
 
 .file-nav {
     padding: 15px 0 15px 0;
+    flex-wrap: nowrap;
+    overflow: auto;
+}
+
+.chip {
+    flex-grow: 0;
+    flex-shrink: 0;
 }
