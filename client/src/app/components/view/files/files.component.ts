@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FilesService } from '@services/files.service';
 import { FileData } from '@api/models';
@@ -13,6 +13,7 @@ import { UiStateActions } from '@actions/ui-state.actions';
 })
 export class FilesComponent implements OnInit {
   files: FileData[] = [];
+  reqPath: UrlSegment[];
   subscriptions: Subscription[];
   constructor(
     private readonly router: Router,
@@ -21,12 +22,14 @@ export class FilesComponent implements OnInit {
     private readonly filesService: FilesService) { }
 
   ngOnInit() {
+    this.uiActions.setCurrentApp('Files');
     this.uiActions.setAppBusy(true); 
     this.subscriptions = [
       this.route.url.subscribe(parts => {
-        const reqPath = parts.join('/') || '/';
-        if (!this.isFileRequest(reqPath)) {
-          this.filesService.getDirectory(reqPath).subscribe(data => {
+        this.reqPath = parts;
+        const reqPathString = parts.join('/') || '/';
+        if (!this.isFileRequest(reqPathString)) {
+          this.filesService.getDirectory(reqPathString).subscribe(data => {
             for(let file of data) {
               if (!validFileTypes[file.type]) {
                 file.type = 'file';
@@ -44,5 +47,10 @@ export class FilesComponent implements OnInit {
     if (validFileTypes[reqPath.split('.').slice(-1)[0]]) {
       return true;
     } else return false;
+  }
+
+  private getRouterLinkFromDir(dir: UrlSegment): string {
+    let index = this.reqPath.findIndex(x => x === dir);
+    return '/files/' + this.reqPath.slice(0, index+1).join('/');
   }
 }

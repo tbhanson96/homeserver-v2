@@ -4,17 +4,9 @@
       <mdc-icon mdcListItemGraphic *ngIf="item.icon">{{item.icon}}</mdc-icon>{{item.label}}
     </a>
     <mdc-list-divider></mdc-list-divider>
-    <h6 mdcListGroupSubheader>Labels</h6>
-    <a mdc-list-item href="#/drawer-demo/examples">
-      <mdc-icon mdcListItemGraphic>bookmark</mdc-icon>Family
-    </a>
-    <a mdc-list-item href="#/drawer-demo/examples">
-      <mdc-icon mdcListItemGraphic>bookmark</mdc-icon>Friends
-    </a>
-    <a mdc-list-item href="#/drawer-demo/examples">
-      <mdc-icon mdcListItemGraphic>bookmark</mdc-icon>Work
-    </a>
-    <mdc-list-divider></mdc-list-divider>
+    <mdc-list-item routerLink="/files">
+      <mdc-icon mdcListItemGraphic>folder</mdc-icon>Files
+    </mdc-list-item>
     <a mdc-list-item href="#/drawer-demo/examples">
       <mdc-icon mdcListItemGraphic>settings</mdc-icon>Settings
     </a>

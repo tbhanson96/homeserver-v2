@@ -1,5 +1,8 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { UiStateSelectors } from '@selectors/ui-state.selectors';
+import { UiStateActions } from '@actions/ui-state.actions';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { map, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',

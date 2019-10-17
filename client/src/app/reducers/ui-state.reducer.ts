@@ -5,6 +5,7 @@ import * as UiStateActions from '@actions/ui-state.actions';
 const initialState: IUiStateStore = {
     sidebarOpen: true,
     appBusy: false,
+    currentApp: 'Files',
 };
 
 export default function uiStateReducer(state: IUiStateStore = initialState, action: UiStateAction): IUiStateStore {
@@ -16,6 +17,10 @@ export default function uiStateReducer(state: IUiStateStore = initialState, acti
     case UiStateActionType.SET_APP_BUSY: {
       const { busy } = (action as UiStateActions.SetAppBusyAction).payload;
       return { ...state, appBusy: busy }
+    }
+    case UiStateActionType.SET_CURRENT_APP: {
+      const { currentApp } = (action as UiStateActions.SetCurrentAppAction).payload;
+      return { ...state, currentApp }
     }
     default:
       return state;

@@ -8,6 +8,7 @@ export type UiStateAction = IAction;
 export enum UiStateActionType {
     TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR',
     SET_APP_BUSY = 'SET_APP_BUSY',
+    SET_CURRENT_APP = 'SET_CURRENT_APP',
 }
 
 export class ToggleSidebarAction implements UiStateAction {
@@ -20,6 +21,11 @@ export class SetAppBusyAction implements UiStateAction {
   constructor(public payload: { busy: boolean }) { }
 }
 
+export class SetCurrentAppAction implements UiStateAction {
+  readonly type = UiStateActionType.SET_CURRENT_APP;
+  constructor(public payload: { currentApp: string }) { }
+}
+
 @Injectable()
 export class UiStateActions {
   constructor(private readonly store: Store<IUiStateStore>) { }
@@ -30,5 +36,9 @@ export class UiStateActions {
 
   setAppBusy(busy: boolean) {
     this.store.dispatch(new SetAppBusyAction({ busy }));
+  }
+
+  setCurrentApp(currentApp: string) {
+    this.store.dispatch(new SetCurrentAppAction({ currentApp }));
   }
 }

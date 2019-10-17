@@ -14,4 +14,8 @@ export class UiStateSelectors {
   getAppBusy(): Observable<boolean> {
     return this.store.pipe(select(state => state.uiStateStore.appBusy));
   }
+
+  getCurrentApp(): Observable<string> {
+    return this.store.pipe(select(state => state.uiStateStore.currentApp));
+  }
 }
