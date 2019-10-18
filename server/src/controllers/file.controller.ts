@@ -14,10 +14,11 @@ export class FileController {
     @UsePipes(FileValidationPipe)
     @ApiOkResponse({type: FileData, isArray: true, description: 'Directory path was successfully read' })
     @ApiBadRequestResponse({ description: 'Invalid directory path'})
-    @ApiImplicitQuery({name: 'path', description: 'Path to get files from'})
-    async getPath(@Query('path') filePath: any) {
+    @ApiImplicitQuery({name: 'path', type: String, description: 'Path to get files from'})
+    @ApiImplicitQuery({name: 'includeHidden', type: Boolean, description: 'Whether or not to include hidden files, default to true', required: false})
+    async getPath(@Query('path') filePath: any, @Query('includeHidden') includeHiddenFiles = true) {
         return new Promise((res, rej) => {
-            res(this.fileService.getFiles(filePath))
+            res(this.fileService.getFiles(filePath, includeHiddenFiles))
         });
     }
 

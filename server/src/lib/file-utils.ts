@@ -66,4 +66,15 @@ export class FileUtils {
         let name = stats.isDirectory() ? filename+'/' : filename;
         return { name, type, size, timestamp, permissions };
     }
+
+    public static removeHiddenFiles(files: string[]): string[] {
+        let ret: string[] = [];
+        files.forEach(file => {
+            if(file.charAt(0) != '.') {
+                ret.push(file);
+            }
+        });
+    
+        return ret;
+    }
 }

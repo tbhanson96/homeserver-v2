@@ -15,10 +15,13 @@ export class FileService implements OnModuleInit {
         this.rootDir = this.configService.env.ROOT_DIR;
     }
 
-    getFiles(directory?: string): FileData[] {
+    getFiles(directory: string, includeHiddenFiles: boolean): FileData[] {
         directory = directory || '';
         let ret: FileData[] = [];
         let files = fs.readdirSync(path.join(this.rootDir, directory));
+        if (!includeHiddenFiles) {
+            files = FileUtils.removeHiddenFiles(files);
+        }
         for (let f of files) {
             let stats = fs.statSync(path.join(this.rootDir, directory, f));
             const props = FileUtils.getFileProps(f, stats); 
