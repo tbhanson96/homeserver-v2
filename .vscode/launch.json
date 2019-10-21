@@ -7,18 +7,28 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Launch Chrome",
+            "name": "Debug Client",
             "url": "http://localhost:3000",
-            "webRoot": "${workspaceFolder}/client/dist"
+            "webRoot": "${workspaceFolder}/client",
+            "sourceMaps": true
         },
         {
             "type": "node",
             "request": "launch",
             "name": "Debug Server",
             "preLaunchTask": "Build",
-            "runtimeVersion": "12.9.1",
+            // "runtimeVersion": "12.9.1",
             "program": "${workspaceFolder}/server/dist/main.js",
             "sourceMaps": true,
         },
+    ],
+    "compounds": [
+        {
+            "name": "Debug All",
+            "configurations": [
+                "Debug Server",
+                "Debug Client"
+            ]
+        }
     ]
 }

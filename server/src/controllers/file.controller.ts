@@ -1,5 +1,5 @@
 import { Controller, Get, UsePipes, Query, Res, UseInterceptors, UploadedFiles, Post } from '@nestjs/common';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { FileService } from '../services/file.service';
 import { FileValidationPipe } from '../pipes/file-validation.pipe';
 import { routes, joinRoutes } from '../routes';
@@ -8,11 +8,11 @@ import { FileData } from '../models/fileData';
 import { Response } from 'express';
 
 @Controller(joinRoutes(routes.api, routes.files))
+@UsePipes(FileValidationPipe)
 export class FileController {
     constructor(private readonly fileService: FileService ) {}
 
     @Get('path')
-    @UsePipes(FileValidationPipe)
     @ApiOkResponse({type: FileData, isArray: true, description: 'Directory path was successfully read' })
     @ApiBadRequestResponse({ description: 'Invalid directory path'})
     @ApiImplicitQuery({name: 'path', type: String, description: 'Path to get files from'})
@@ -24,22 +24,21 @@ export class FileController {
     }
 
     @Get('file')
-    @UsePipes(FileValidationPipe)
     @ApiOkResponse({ description: 'File successfully found'})
     @ApiBadRequestResponse({ description: 'Invalid file path'})
     @ApiImplicitQuery({name: 'file', description: 'Path to file to retrieve'})
-    async getFile(@Query('file') filePath: any, @Res() response: Response) {
+    getFile(@Query('file') filePath: any, @Res() response: Response) {
         const localPath = this.fileService.getLocalFilePath(filePath);
         response.sendFile(localPath);
     }
 
     @Post('file')
-    @UseInterceptors(FilesInterceptor('files'))
+    @UseInterceptors(AnyFilesInterceptor())
     @ApiOkResponse({ description: "File(s) succesfully uploaded!"})
-    @ApiImplicitQuery({name: 'directory', description: 'Directory to place file'})
+    @ApiImplicitQuery({name: 'path', description: 'Directory to place file'})
     @ApiConsumes('multipart/form-data')
     @ApiImplicitBody({ name: 'files', type: Object })
-    async uploadFiles(@UploadedFiles() files: any) {
+    uploadFiles(@UploadedFiles() files: any, @Query('path') directory: string) {
         console.log(files);
     } 
 }

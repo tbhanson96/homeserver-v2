@@ -18,17 +18,17 @@ export class UploadDialogComponent implements OnInit {
   }
 
   onFileInput(event: any) {
-    this.files.push(...event.srcElement.files)
+    this.files.push(...event.srcElement.files);
   }
 
   getFileSize(size: number): string {
     let count = 0;
-    const units = ["B", "kB", "mB", "gB"];
+    const units = ['B', 'kB', 'mB', 'gB'];
     while (size / 1024 > 1) {
       size /= 1024;
       count++;
     }
-    return size.toFixed(3) + " " + units[count];
+    return size.toFixed(3) + ' ' + units[count];
   }
 
   onDeleteFile(file: any) {

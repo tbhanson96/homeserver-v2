@@ -47,12 +47,12 @@ export class FilesComponent implements OnInit {
   }
 
   private getRouterLinkFromDir(dir: UrlSegment): string {
-    let index = this.reqPath.findIndex(x => x === dir);
-    return '/files/' + this.reqPath.slice(0, index+1).join('/');
+    const index = this.reqPath.findIndex(x => x === dir);
+    return '/files/' + this.reqPath.slice(0, index + 1).join('/');
   }
 
   public openUploadDialog() {
-    const dialogRef = this.dialog.open(UploadDialogComponent)
+    const dialogRef = this.dialog.open(UploadDialogComponent);
   }
 
   private updateFiles(reqPathString: string) {
