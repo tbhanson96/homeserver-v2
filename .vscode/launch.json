@@ -5,19 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "node",
+            "type": "chrome",
             "request": "launch",
-            "name": "Launch Dev",
-            "program": "${workspaceFolder}/server/dev-server.js",
-            "runtimeVersion": "12.9.1",
-            "autoAttachChildProcesses": true,
-            "sourceMaps": true
+            "name": "Launch Chrome",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}/client/dist"
         },
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Production",
-            // "preLaunchTask": "Build",
+            "name": "Debug Server",
+            "preLaunchTask": "Build",
             "runtimeVersion": "12.9.1",
             "program": "${workspaceFolder}/server/dist/main.js",
             "sourceMaps": true,

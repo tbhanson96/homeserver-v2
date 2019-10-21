@@ -3,7 +3,7 @@ import { UiStateAction, UiStateActionType } from '@actions/ui-state.actions';
 import * as UiStateActions from '@actions/ui-state.actions';
 
 const initialState: IUiStateStore = {
-    sidebarOpen: true,
+    sidebarOpen: false,
     appBusy: false,
     currentApp: 'Files',
 };

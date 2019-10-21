@@ -8,7 +8,7 @@
             <mdc-chip-text >{{part.toString()}}</mdc-chip-text>
         </mdc-chip>
     </mdc-chip-set>
-    <mdc-list twoLine avatar border="true" class="demo-list--custom">
+    <mdc-list twoLine avatar border="true">
         <ng-container *ngFor="let file of files" [ngSwitch]="file.type">
             <mdc-list-item *ngSwitchCase="'dir'" [routerLink]="file.name">
                 <img class="list-image" [src]="'/assets/icons/' + file.type + '.png'" />
@@ -23,3 +23,4 @@
         </ng-container>
     </mdc-list>
 </mdc-list-group>
+<button mdc-fab position="bottomRight" icon="add" (click)="openUploadDialog()"></button>

@@ -16,6 +16,8 @@ import { ApiService } from '@api/services';
 import { NotFoundComponent } from '@components/view/not-found/not-found.component';
 import { MaterialModule } from './material.module';
 import { SnackbarErrorService } from './snackbar-error.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UploadDialogComponent } from './components/view/upload-dialog/upload-dialog.component';
 
 @NgModule({
   declarations: [
@@ -23,9 +25,12 @@ import { SnackbarErrorService } from './snackbar-error.service';
     TopbarComponent,
     SideBarComponent,
     FilesComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    UploadDialogComponent
   ],
   imports: [
+    FormsModule,
+    ReactiveFormsModule,
     BrowserModule,
     HttpClientModule,
     ReduxModule,
@@ -41,6 +46,9 @@ import { SnackbarErrorService } from './snackbar-error.service';
       provide: ErrorHandler,
       useClass: SnackbarErrorService
     },
+  ],
+  entryComponents: [
+    UploadDialogComponent,
   ],
   bootstrap: [AppComponent]
 })

@@ -9,7 +9,7 @@ import { UiStateActions } from '@actions/ui-state.actions';
 })
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   private subscriptions = [];
-  private isOpen = true;
+  private isOpen = false;
   private isBusy = false;
   constructor(
     private readonly uiStateSelectors: UiStateSelectors,
@@ -40,6 +40,14 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   onSidebarChanged(opened: boolean) {
     if (opened !== this.isOpen) {
       this.uiActions.toggleSidebar(opened);
+    }
+  }
+
+  onDrawerChange(type: string) {
+    if (type === 'dismissible') {
+      this.uiActions.toggleSidebar(true);
+    } else {
+      this.uiActions.toggleSidebar(false);
     }
   }
 }

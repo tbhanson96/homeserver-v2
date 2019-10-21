@@ -5,6 +5,13 @@
     "tasks": [
         {
             "type": "npm",
+            "label": "swagger",
+            "script": "swagger",
+            "path": "server/",
+            "problemMatcher": []
+        }
+        {
+            "type": "npm",
             "label": "build_server",
             "script": "build",
             "path": "server/",
@@ -15,17 +22,14 @@
             "label": "build_client",
             "script": "build",
             "path": "client/",
-            "problemMatcher": []
-        },
-        {
-            "type": "shell",
-            "label": "codegen",
-            "command": "./codegen.sh"
+            "problemMatcher": [],
+            "dependsOn": [
+                "swagger"
+            ]
         },
         {
             "label": "Build",
             "dependsOn": [
-                "codegen",
                 "build_server",
                 "build_client"
             ]

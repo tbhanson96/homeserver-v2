@@ -1,0 +1,26 @@
+<mdc-dialog>
+  <mdc-dialog-container>
+    <mdc-dialog-surface>
+      <mdc-dialog-title>Upload Files</mdc-dialog-title>
+        <mdc-dialog-content>
+          <mdc-list twoLine interactive="false">
+              <mdc-list-item *ngFor="let file of files">
+                <mdc-list-item-text [secondaryText]="getFileSize(file.size)">{{file.name}}</mdc-list-item-text>
+                <button mdc-icon-button class="delete-icon" mdcListItemMeta icon="delete" (click)="onDeleteFile(file)">
+                </button>
+              </mdc-list-item>
+          </mdc-list>
+          <form [formGroup]="uploadForm" id="uploadForm" (ngSubmit)="onUploadFiles()" autocomplete="off">
+            <mdc-form-field>
+                <input class="file-input" id="files" type="file" name="files" (input)="onFileInput($event)" multiple>
+                <label mdc-button primary for="files">Add a file...</label>
+            </mdc-form-field>
+          </form>
+        </mdc-dialog-content>
+        <mdc-dialog-actions>
+          <button mdcDialogButton mdcDialogAction="close">Cancel</button>
+          <button mdcDialogButton form="uploadForm" type="submit">Upload</button>
+        </mdc-dialog-actions>
+    </mdc-dialog-surface>
+  </mdc-dialog-container>
+</mdc-dialog>

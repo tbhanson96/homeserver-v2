@@ -5,6 +5,8 @@ import { FilesService } from '@services/files.service';
 import { FileData } from '@api/models';
 import * as validFileTypes from './valid-files';
 import { UiStateActions } from '@actions/ui-state.actions';
+import { MdcDialog } from '@angular-mdc/web';
+import { UploadDialogComponent } from '@components/view/upload-dialog/upload-dialog.component';
 
 @Component({
   selector: 'app-files',
@@ -14,9 +16,11 @@ import { UiStateActions } from '@actions/ui-state.actions';
 export class FilesComponent implements OnInit {
   files: FileData[] = [];
   reqPath: UrlSegment[];
+  showHiddenFiles = false;
   subscriptions: Subscription[];
   constructor(
     private readonly route: ActivatedRoute,
+    private readonly dialog: MdcDialog,
     private readonly uiActions: UiStateActions,
     private readonly filesService: FilesService) { }
 
@@ -28,20 +32,7 @@ export class FilesComponent implements OnInit {
         this.reqPath = parts;
         const reqPathString = parts.join('/') || '/';
         if (!this.isFileRequest(reqPathString)) {
-          this.filesService.getDirectory(reqPathString).subscribe(data => {
-            for (const file of data) {
-              if (!validFileTypes[file.type]) {
-                file.type = 'file';
-              } else {
-                file.type = validFileTypes[file.type];
-              }
-            }
-            this.files = data;
-            this.uiActions.setAppBusy(false);
-          }, err => {
-            this.uiActions.setAppBusy(false);
-            throw new Error(`Could not get directory: ${reqPathString}`);
-          });
+          this.updateFiles(reqPathString);
         }
       }),
     ]
@@ -58,5 +49,26 @@ export class FilesComponent implements OnInit {
   private getRouterLinkFromDir(dir: UrlSegment): string {
     let index = this.reqPath.findIndex(x => x === dir);
     return '/files/' + this.reqPath.slice(0, index+1).join('/');
+  }
+
+  public openUploadDialog() {
+    const dialogRef = this.dialog.open(UploadDialogComponent)
+  }
+
+  private updateFiles(reqPathString: string) {
+    this.filesService.getDirectory(reqPathString, this.showHiddenFiles).subscribe(data => {
+      for (const file of data) {
+        if (!validFileTypes[file.type]) {
+          file.type = 'file';
+        } else {
+          file.type = validFileTypes[file.type];
+        }
+      }
+      this.files = data;
+      this.uiActions.setAppBusy(false);
+    }, err => {
+      this.uiActions.setAppBusy(false);
+      throw new Error(`Could not get directory: ${reqPathString}`);
+    });
   }
 }
