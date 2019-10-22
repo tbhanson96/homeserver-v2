@@ -1,5 +1,6 @@
 import { Injectable, ErrorHandler } from '@angular/core';
 import { MdcSnackbar } from '@angular-mdc/web';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,9 @@ export class SnackbarErrorService extends ErrorHandler {
   }
 
   handleError(error) {
-    this.snackbar.open(error, 'Close');
+    if (environment.showErrors) {
+      this.snackbar.open(error, 'Close');
+    }
     console.error(error);
   }
 }

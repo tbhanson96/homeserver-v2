@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
+import { ActivatedRoute, UrlSegment } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FilesService } from '@services/files.service';
 import { FileData } from '@api/models';
@@ -30,20 +30,9 @@ export class FilesComponent implements OnInit {
     this.subscriptions = [
       this.route.url.subscribe(parts => {
         this.reqPath = parts;
-        const reqPathString = parts.join('/') || '/';
-        if (!this.isFileRequest(reqPathString)) {
-          this.updateFiles(reqPathString);
-        }
+        this.updateFiles(this.reqPath);
       }),
     ]
-  }
-
-  private isFileRequest(reqPath: string): boolean {
-    if (validFileTypes[reqPath.split('.').slice(-1)[0]]) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   private getRouterLinkFromDir(dir: UrlSegment): string {
@@ -55,7 +44,8 @@ export class FilesComponent implements OnInit {
     const dialogRef = this.dialog.open(UploadDialogComponent);
   }
 
-  private updateFiles(reqPathString: string) {
+  private updateFiles(reqPath: UrlSegment[]) {
+    const reqPathString = reqPath.join('/') || '/';
     this.filesService.getDirectory(reqPathString, this.showHiddenFiles).subscribe(data => {
       for (const file of data) {
         if (!validFileTypes[file.type]) {

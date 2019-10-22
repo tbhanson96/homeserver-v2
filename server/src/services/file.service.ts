@@ -15,15 +15,15 @@ export class FileService implements OnModuleInit {
         this.rootDir = this.configService.env.ROOT_DIR;
     }
 
-    getFiles(directory: string, includeHiddenFiles: boolean): FileData[] {
+    async getFiles(directory: string, includeHiddenFiles: boolean): Promise<FileData[]> {
         directory = directory || '';
         let ret: FileData[] = [];
-        let files = fs.readdirSync(path.join(this.rootDir, directory));
+        let files = await fs.readdirSync(path.join(this.rootDir, directory));
         if (!includeHiddenFiles) {
             files = FileUtils.removeHiddenFiles(files);
         }
         for (let f of files) {
-            let stats = fs.statSync(path.join(this.rootDir, directory, f));
+            let stats = await fs.statSync(path.join(this.rootDir, directory, f));
             const props = FileUtils.getFileProps(f, stats); 
             props.link = path.join(directory, f);
             ret.push(new FileData(props));
@@ -36,13 +36,10 @@ export class FileService implements OnModuleInit {
     }
 
     async copyFiles(files: any, directory: string) {
-        for (const i of files) {
-            const file = files[i];
-            const newPath = path.join(directory, file.originalname);
-            await fs.renameSync(file.path, newPath);
+        for (const file of files) {
+            const newPath = path.join(this.rootDir, directory, file.originalname);
+            await fs.copyFileSync(file.path, newPath);
+            await fs.unlinkSync(file.path);
         }
-        return new Promise((res, rej) => {
-            
-        })
     }
 }

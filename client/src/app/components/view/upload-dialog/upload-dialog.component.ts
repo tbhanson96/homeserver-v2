@@ -1,6 +1,8 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FilesService } from '@services/files.service';
+import { MdcDialogRef, MdcSnackbar } from '@angular-mdc/web';
+import { UiStateActions } from '@actions/ui-state.actions';
 
 @Component({
   selector: 'app-upload-dialog',
@@ -12,7 +14,10 @@ export class UploadDialogComponent implements OnInit {
   uploadForm = new FormGroup({
     files: new FormControl(),
   })
-  constructor(private readonly fileService: FilesService) { }
+  constructor(
+    private readonly fileService: FilesService,
+    private readonly snackbar: MdcSnackbar,
+    private readonly uiActions: UiStateActions) { }
 
   ngOnInit() {
   }
@@ -36,7 +41,13 @@ export class UploadDialogComponent implements OnInit {
   }
 
   onUploadFiles() {
-    this.fileService.uploadFiles(this.files, '/Documents');
+    this.uiActions.setAppBusy(true);
+    // TODO: hook this into websocket updates
+    this.fileService.uploadFiles(this.files, '/Documents').subscribe(() => {
+      this.uiActions.setAppBusy(false);
+      let msg = this.files.map(f => f.name).join(", ");
+      this.snackbar.open("Successfully uploaded file(s): " + msg);
+    });
   }
 
 }

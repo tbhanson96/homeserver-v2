@@ -12,7 +12,7 @@ export class FilesService {
   constructor(private readonly api: ApiService) { }
 
   public getDirectory(filePath: string, showHiddenFiles: boolean): Observable<FileData[]> {
-    return this.api.getApiFilesPath({ path: filePath, includeHidden: showHiddenFiles });
+    return this.api.getApiFilesPath(filePath, showHiddenFiles );
   }
 
   public getFile(filePath: string): Observable<any> {
@@ -24,9 +24,6 @@ export class FilesService {
     files.forEach((file, index) => {
       formData.append(index.toString(), file, file.name);
     });
-    this.api.postApiFilesFile({ files: formData, path: directory }).subscribe(() => {
-    }, err => {
-      throw new Error(util.inspect(err));
-    });
+    return this.api.postApiFilesFile(directory, formData);
   }
 }

@@ -19,9 +19,7 @@ export class FileController {
     @ApiImplicitQuery({name: 'includeHidden', type: Boolean, description: 'Whether or not to include hidden files, default to true', required: false })
     async getPath(@Query('path') filePath: any, @Query('includeHidden') includeHiddenFiles = true) {
         const files = await this.fileService.getFiles(filePath, includeHiddenFiles);
-        return new Promise((res, rej) => {
-            res(files);
-        });
+        return files;
     }
 
     @Get('file')
@@ -40,6 +38,6 @@ export class FileController {
     @ApiConsumes('multipart/form-data')
     @ApiImplicitBody({ name: 'files', type: Object })
     async uploadFiles(@UploadedFiles() files: any, @Query('path') directory: string) {
-        
+       await this.fileService.copyFiles(files, directory);
     } 
 }
