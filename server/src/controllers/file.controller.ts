@@ -18,8 +18,9 @@ export class FileController {
     @ApiImplicitQuery({name: 'path', type: String, description: 'Path to get files from'})
     @ApiImplicitQuery({name: 'includeHidden', type: Boolean, description: 'Whether or not to include hidden files, default to true', required: false })
     async getPath(@Query('path') filePath: any, @Query('includeHidden') includeHiddenFiles = true) {
+        const files = await this.fileService.getFiles(filePath, includeHiddenFiles);
         return new Promise((res, rej) => {
-            res(this.fileService.getFiles(filePath, includeHiddenFiles))
+            res(files);
         });
     }
 
@@ -38,7 +39,7 @@ export class FileController {
     @ApiImplicitQuery({name: 'path', description: 'Directory to place file'})
     @ApiConsumes('multipart/form-data')
     @ApiImplicitBody({ name: 'files', type: Object })
-    uploadFiles(@UploadedFiles() files: any, @Query('path') directory: string) {
-        console.log(files);
+    async uploadFiles(@UploadedFiles() files: any, @Query('path') directory: string) {
+        
     } 
 }

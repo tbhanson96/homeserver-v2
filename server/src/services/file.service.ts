@@ -34,4 +34,15 @@ export class FileService implements OnModuleInit {
     getLocalFilePath(filePath: string): string {
         return path.join(this.rootDir, filePath);
     }
+
+    async copyFiles(files: any, directory: string) {
+        for (const i of files) {
+            const file = files[i];
+            const newPath = path.join(directory, file.originalname);
+            await fs.renameSync(file.path, newPath);
+        }
+        return new Promise((res, rej) => {
+            
+        })
+    }
 }
