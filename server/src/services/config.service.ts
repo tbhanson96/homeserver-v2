@@ -5,17 +5,24 @@ import { ConfigMissingException } from '../lib/exceptions';
 
 @Injectable()
 export class ConfigService {
-
-    constructor(@Inject('APP_ROOT') private appRoot: string) {
-        dotenv.config({path: path.join(this.appRoot, 'default.env')}); 
-        process.env.ROOT_DIR = process.env.ROOT_DIR || path.join(this.appRoot, 'mock')
+    private readonly rootWildcard = '{ROOT}';
+    private readonly envFilePath: string;
+    constructor(envFilePath: string) {
+        this.envFilePath = envFilePath;
+        dotenv.config({ path: path.join(this.envFilePath, 'default.env') }); 
+        for (let e of Object.keys(process.env)) {
+            let val = process.env[e];
+            if (val && val.includes(this.rootWildcard)) {
+                process.env[e] = val.replace(this.rootWildcard, this.envFilePath);
+            }
+        }
     } 
 
     get env(): any {
         return this.throwOnUndefined(process.env)
     }
     
-    private throwOnUndefined(obj: any) {
+    private throwOnUndefined(obj: any): string {
         const handler = {
             get(env: any, config: any) {
                 if (env[config]) {

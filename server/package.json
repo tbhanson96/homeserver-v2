@@ -5,11 +5,10 @@
   "author": "",
   "license": "MIT",
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
-    "swagger": "npm run build && node swagger-doc-gen.js",
-    "start": "ts-node -r tsconfig-paths/register src/main.ts",
+    "build": "tsc -p tsconfig.build.json && npm run swagger",
+    "swagger": "node swagger-doc-gen.js",
+    "start": "node dist/main.js",
     "start:dev": "npm run swagger && node dev-server.js",
-    "start:prod": "node dist/main.js",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -49,6 +48,7 @@
     "tsc-watch": "^4.0.0",
     "tsconfig-paths": "3.8.0",
     "tslint": "5.16.0",
+    "ts-loader": "^6.2.0",
     "typescript": "3.4.3"
   },
   "jest": {

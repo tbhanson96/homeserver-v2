@@ -1,6 +1,6 @@
 const TscWatchClient = require('tsc-watch/client');
 const tscClient = new TscWatchClient();
-const { spawn } = require('child_process');
+const { spawn, execSync } = require('child_process');
 const path = require('path');
 
 const child = spawn('npm', ['run', 'build:watch'], { cwd: path.join(__dirname, '..', 'client')})
@@ -17,7 +17,10 @@ child.on('error', (err) => {
 
 tscClient.on('success', () => {
     start();
+    execSync('npm run swagger');
+    execSync('npm run codegen', { cwd: path.join(__dirname, '..', 'client') });
 });
+
 tscClient.on('compile_errors', () => {
     console.log('[SERVER]: Error compiling source code:');
 });
