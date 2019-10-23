@@ -35,7 +35,7 @@ export class FilesComponent implements OnInit {
     ]
   }
 
-  private getRouterLinkFromDir(dir: UrlSegment): string {
+  getRouterLinkFromDir(dir: UrlSegment): string {
     const index = this.reqPath.findIndex(x => x === dir);
     return '/files/' + this.reqPath.slice(0, index + 1).join('/');
   }

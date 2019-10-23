@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IAction } from '@actions/action';
 import { Store } from '@ngrx/store';
-import { IUiStateStore } from '@models/ui-state-store';
+import { UiStateStore } from '@models/ui-state-store';
 
 export type UiStateAction = IAction;
 
@@ -28,7 +28,7 @@ export class SetCurrentAppAction implements UiStateAction {
 
 @Injectable()
 export class UiStateActions {
-  constructor(private readonly store: Store<IUiStateStore>) { }
+  constructor(private readonly store: Store<UiStateStore>) { }
 
   toggleSidebar(toggle: boolean) {
     this.store.dispatch(new ToggleSidebarAction({ toggle }));

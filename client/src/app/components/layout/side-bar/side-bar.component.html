@@ -1,8 +1,5 @@
 <mdc-drawer-content>
   <mdc-list>
-    <a mdc-list-item *ngFor="let item of destinations" href="#/drawer-demo/examples" [activated]="item.activated">
-      <mdc-icon mdcListItemGraphic *ngIf="item.icon">{{item.icon}}</mdc-icon>{{item.label}}
-    </a>
     <mdc-list-divider></mdc-list-divider>
     <mdc-list-item routerLink="/files">
       <mdc-icon mdcListItemGraphic>folder</mdc-icon>Files
