@@ -1,6 +1,5 @@
 import { Module, NestModule, MiddlewareConsumer, RequestMethod, Scope } from '@nestjs/common';
 import * as path from 'path';
-import { AppController } from './controllers/app.controller';
 import { AppService } from './services/app.service';
 import { ClientMiddleware } from './middlewares/client.middleware';
 import { FileService } from './services/file.service';
@@ -23,7 +22,6 @@ import { MulterModule } from '@nestjs/platform-express';
     ConfigService,
   ],
   controllers: [
-    AppController,
     FileController,
   ],
   providers: [
