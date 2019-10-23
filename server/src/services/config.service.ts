@@ -5,7 +5,7 @@ import { ConfigMissingException } from '../lib/exceptions';
 
 @Injectable()
 export class ConfigService {
-    private readonly rootWildcard = '{ROOT}';
+    private readonly rootWildcard = '{.}';
     private readonly envFilePath: string;
     constructor(envFilePath: string) {
         this.envFilePath = envFilePath;
