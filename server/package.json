@@ -6,10 +6,10 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc -p tsconfig.build.json && npm run swagger",
-    "build:prod": "webpack",
+    "build:prod": "npm run build && webpack",
     "swagger": "node swagger-doc-gen.js",
     "start": "node dist/main.js",
-    "start:dev": "npm run swagger && node dev-server.js",
+    "start:dev": "npm run build && node dev-server.js",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -51,6 +51,7 @@
     "tsc-watch": "^4.0.0",
     "tsconfig-paths": "3.8.0",
     "tslint": "5.16.0",
+    "typemoq": "^2.1.0",
     "typescript": "3.4.3",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.9",
@@ -62,7 +63,7 @@
       "json",
       "ts"
     ],
-    "rootDir": "src",
+    "rootDir": "test",
     "testRegex": ".spec.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"

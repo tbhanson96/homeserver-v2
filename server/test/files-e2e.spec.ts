@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
-import { AppModule } from './../src/app.module';
+import { AppModule } from '../src/app.module';
+import { ClientMiddleware } from '../src/middlewares/client.middleware';
 
 describe('AppController (e2e)', () => {
   let app: any;
@@ -8,16 +9,18 @@ describe('AppController (e2e)', () => {
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+    .overrideProvider(ClientMiddleware)
+    .useValue({ use: (req: Request, res: Response, next: Function) => { next() }})
+    .compile();
 
     app = moduleFixture.createNestApplication();
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  it('/api/files/file (GET)', () => {
     return request(app.getHttpServer())
-      .get('/')
+      .get('/api/files/path?path=/')
       .expect(200)
-      .expect('Hello World!');
   });
 });
