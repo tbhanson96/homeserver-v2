@@ -2,13 +2,13 @@ import { UiStateStore } from '@models/ui-state-store';
 import { UiStateAction, UiStateActionType } from '@actions/ui-state.actions';
 import * as UiStateActions from '@actions/ui-state.actions';
 
-const initialState: UiStateStore = {
+export const uiStateStoreInitialState: UiStateStore = {
     sidebarOpen: false,
     appBusy: false,
     currentApp: 'Files',
 };
 
-export default function uiStateReducer(state: UiStateStore = initialState, action: UiStateAction): UiStateStore {
+export function uiStateReducer(state: UiStateStore = uiStateStoreInitialState, action: UiStateAction): UiStateStore {
   switch (action.type) {
     case UiStateActionType.TOGGLE_SIDEBAR: {
       const { toggle } = (action as UiStateActions.ToggleSidebarAction).payload;

@@ -8,7 +8,7 @@ import { TopbarComponent } from '@components/layout/topbar/top-bar.component';
 import { SideBarComponent } from '@components/layout/side-bar/side-bar.component';
 import { ReduxModule } from './redux.module';
 import { StoreModule } from '@ngrx/store';
-import { rootReducer } from '@reducers/root.reducer';
+import { rootReducer, initialState } from '@reducers/root.reducer';
 import { FilesComponent } from '@components/view/files/files.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FilesService } from '@services/files.service';
@@ -34,7 +34,7 @@ import { UploadDialogComponent } from './components/view/upload-dialog/upload-di
     BrowserModule,
     HttpClientModule,
     ReduxModule,
-    StoreModule.forRoot(rootReducer),
+    StoreModule.forRoot(rootReducer, { initialState }),
     FlexLayoutModule,
     AppRoutingModule,
     MaterialModule,
