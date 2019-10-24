@@ -15,7 +15,7 @@
                 <mdc-list-item-text [secondaryText]="file.timestamp">{{file.name}}</mdc-list-item-text>
                 <mdc-icon mdcListItemMeta aria-label="View more" title="More info">more_vert</mdc-icon>
             </mdc-list-item>
-            <a mdc-list-item *ngSwitchDefault [href]="'files/' + file.link">
+            <a mdc-list-item *ngSwitchDefault [href]="'files' + file.link">
                 <img class="list-image" [src]="'/assets/icons/' + file.type + '.png'" />
                 <mdc-list-item-text [secondaryText]="file.timestamp">{{file.name}}</mdc-list-item-text>
                 <mdc-icon mdcListItemMeta aria-label="View more" title="More info">more_vert</mdc-icon>

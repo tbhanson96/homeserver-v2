@@ -1,14 +1,15 @@
-import { Injectable, NestMiddleware, Inject } from '@nestjs/common';
+import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response } from 'express'
 import * as path from 'path';
 import { routes } from '../routes';
 import { FileService } from '../services/file.service';
+import { ConfigService } from '../services/config.service';
 
 @Injectable()
 export class ClientMiddleware implements NestMiddleware {
 
   constructor(
-    @Inject('APP_ROOT') private appRoot: string,
+    private readonly configService: ConfigService,
     private readonly filesService: FileService) { }
 
   use(req: Request, res: Response, next: Function) {
@@ -32,7 +33,7 @@ export class ClientMiddleware implements NestMiddleware {
   }
 
   private resolvePath(file: string): string {
-    let res = path.join(this.appRoot, 'client', 'dist', file);
+    let res = path.join(this.configService.env.CLIENT_DIR, file);
     return res;
   }
 }

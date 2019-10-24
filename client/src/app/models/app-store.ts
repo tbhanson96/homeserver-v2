@@ -1,5 +1,5 @@
-import { IUiStateStore } from '@models/ui-state-store';
+import { UiStateStore } from '@models/ui-state-store';
 
-export interface IAppStore {
-    uiStateStore: IUiStateStore; 
+export class AppStore {
+    uiStateStore: UiStateStore;
 }

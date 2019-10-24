@@ -28,16 +28,15 @@ import { MulterModule } from '@nestjs/platform-express';
     //Services
     AppService,
     FileService,
-    ConfigService,
+    {
+      provide: ConfigService,
+      useValue: new ConfigService(path.join(__dirname, '..', 'env'))
+    },
     //Pipes
     {
       provide: FileValidationPipe,
       useClass: FileValidationPipe,
       scope: Scope.REQUEST,
-    },
-    {
-      provide: "APP_ROOT",
-      useValue: path.join(__dirname, '..', '..'),
     },
   ],
 })

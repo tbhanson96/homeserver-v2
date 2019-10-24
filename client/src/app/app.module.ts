@@ -8,14 +8,14 @@ import { TopbarComponent } from '@components/layout/topbar/top-bar.component';
 import { SideBarComponent } from '@components/layout/side-bar/side-bar.component';
 import { ReduxModule } from './redux.module';
 import { StoreModule } from '@ngrx/store';
-import { rootReducer } from '@reducers/root.reducer';
+import { rootReducer, initialState } from '@reducers/root.reducer';
 import { FilesComponent } from '@components/view/files/files.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FilesService } from '@services/files.service';
 import { ApiService } from '@api/services';
 import { NotFoundComponent } from '@components/view/not-found/not-found.component';
 import { MaterialModule } from './material.module';
-import { SnackbarErrorService } from './snackbar-error.service';
+import { SnackbarErrorService } from '@services/snackbar-error.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UploadDialogComponent } from './components/view/upload-dialog/upload-dialog.component';
 
@@ -34,7 +34,7 @@ import { UploadDialogComponent } from './components/view/upload-dialog/upload-di
     BrowserModule,
     HttpClientModule,
     ReduxModule,
-    StoreModule.forRoot(rootReducer),
+    StoreModule.forRoot(rootReducer, { initialState }),
     FlexLayoutModule,
     AppRoutingModule,
     MaterialModule,

@@ -9,8 +9,8 @@ import { UiStateActions } from '@actions/ui-state.actions';
 })
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   private subscriptions = [];
-  private isOpen = false;
-  private isBusy = false;
+  isOpen = false;
+  isBusy = false;
   constructor(
     private readonly uiStateSelectors: UiStateSelectors,
     private readonly uiActions: UiStateActions,
