@@ -30,7 +30,7 @@ describe('FileController (e2e)', () => {
         "name":"1000_SW_RX_Append_CDMA_1xEV-DO.pdf",
         "type":"pdf",
         "timestamp":expect.any(String),
-        "size":"857.61 kB",
+        "size":"878.20 kB",
         "permissions":expect.stringMatching(/[rwx\-]{9}/),
         "link":"/Documents/1000_SW_RX_Append_CDMA_1xEV-DO.pdf"
       },

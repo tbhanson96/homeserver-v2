@@ -41,10 +41,10 @@ export class FileUtils {
         let ind = -1; //initialize to -1 to correct index, consequence of do-while loop
         do {
             ind++;
-            filesize /= 1024;
+            filesize /= 1000;
         } while (filesize > 1);
 
-        filesize *= 1024;
+        filesize *= 1000;
         if (ind !== 0) {
             return filesize.toFixed(2).toString() + ' ' + suffix[ind];
         } else {
