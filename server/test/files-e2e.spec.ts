@@ -38,7 +38,7 @@ describe('FileController (e2e)', () => {
         "name": "bigDir/",
         "type":"dir",
         "timestamp":expect.any(String),
-        "size":"4.00 kB",
+        "size":expect.any(String),
         "permissions":expect.stringMatching(/[rwx\-]{9}/),
         "link":"/Documents/bigDir"
       }

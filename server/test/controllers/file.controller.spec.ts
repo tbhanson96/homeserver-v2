@@ -1,20 +1,21 @@
+jest.mock( '../../src/services/file.service');
 import { FileController } from '../../src/controllers/file.controller';
 import { FileService } from '../../src/services/file.service';
-import * as mock from 'typemoq';
 
 describe('FileController', () => {
 
+    const fileService = <jest.Mock<FileService>>FileService;
     let controller: FileController;
-    let service: mock.IMock<FileService>;
+    let service: any;
     beforeEach(() => {
-        service = mock.Mock.ofType<FileService>();
-        controller = new FileController(service.object);
+        controller = new FileController(new fileService());
+        service = fileService.mock.instances[0];
     });
 
     describe('getPath', () => {
         it('should call getFiles', async () => {
             await controller.getPath('/');
-            service.verify(f => f.getFiles('/', mock.It.isAny()), mock.Times.once());
+            expect(service.getFiles).toHaveBeenCalledWith('/', true);
         });
     });
 });
