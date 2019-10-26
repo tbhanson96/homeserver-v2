@@ -1,7 +1,6 @@
 jest.mock('dotenv');
 import * as dotenv from 'dotenv';
 import { ConfigService } from '../../src/services/config.service';
-import { promisify } from 'util';
 
 describe('ConfigService', () => {
 

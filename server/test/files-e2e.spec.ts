@@ -65,10 +65,10 @@ describe('FileController (e2e)', () => {
     expect(response.text).toMatch('this is a test file.');
   });
 
-  it('GET /api/files/file?file=/fake-file.fake returns 404', () => {
+  it('GET /api/files/file?file=/fake-file.fake returns 404', async () => {
     const fileController = app.get(FileController);
     const spy = jest.spyOn(fileController, 'getFile');
-    request(app.getHttpServer())
+    await request(app.getHttpServer())
       .get('/api/files/file?file=/fake-file.fake')
       .expect(404);
     expect(spy).not.toBeCalled();
