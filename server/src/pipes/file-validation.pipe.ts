@@ -1,4 +1,4 @@
-import { Injectable, PipeTransform, ArgumentMetadata, BadRequestException } from "@nestjs/common";
+import { Injectable, PipeTransform, ArgumentMetadata, BadRequestException, NotFoundException } from "@nestjs/common";
 import * as fs from 'fs';
 import { FileService } from "../services/file.service";
 
@@ -17,7 +17,7 @@ export class FileValidationPipe implements PipeTransform {
                 }
             }
         } catch {
-            throw new BadRequestException(`Invalid directory path: ${arg}`);
+            throw new NotFoundException(`Invalid directory path: ${arg}`);
         }
         return arg;
     }

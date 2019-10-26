@@ -1,7 +1,7 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response } from 'express'
 import * as path from 'path';
-import { routes } from '../routes';
+import { routes, joinRoutes } from '../routes';
 import { FileService } from '../services/file.service';
 import { ConfigService } from '../services/config.service';
 
@@ -19,9 +19,10 @@ export class ClientMiddleware implements NestMiddleware {
         next();
     } else if (url.includes('.')) {
         if (url.includes(routes.files)) {
-          const reqPath = url.split(routes.files).slice(-1)[0];
-          const localPath = this.filesService.getLocalFilePath(reqPath);
-          res.sendFile(localPath);
+          const reqFilePath = url.split(routes.files).slice(-1)[0];
+          req.url = '/' + joinRoutes(routes.api, routes.files, 'file') + '?file=' + reqFilePath;
+          req.query['file'] = reqFilePath;
+          next();
         } else {
           // it has a file extension --> resolve the file
           res.sendFile(this.resolvePath(url));
