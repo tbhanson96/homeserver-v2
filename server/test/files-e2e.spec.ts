@@ -1,8 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
+import * as path from 'path';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { FileController } from '../src/controllers/file.controller';
+import * as fs from 'fs';
+import { ConfigService } from '../src/services/config.service';
 
 describe('FileController (e2e)', () => {
   let app: INestApplication;
@@ -70,5 +73,21 @@ describe('FileController (e2e)', () => {
       .expect(404);
     expect(spy).not.toBeCalled();
   })
+
+  it('POST /api/files/path?/', async () => {
+    const rootDir = app.get(ConfigService).env.ROOT_DIR;
+    const initialFiles = fs.readdirSync(rootDir);
+    await request(app.getHttpServer())
+      .post('/api/files/file?path=/')
+      .attach('0', path.join(__dirname, 'test.pdf'))
+      .attach('1', path.join(__dirname, 'file.txt'))
+      .expect(201);
+    const files = fs.readdirSync(rootDir);
+    expect(files.includes('file.txt')).toBeTruthy();
+    expect(files.includes('test.pdf')).toBeTruthy();
+    fs.unlinkSync(path.join(rootDir, 'file.txt'));
+    fs.unlinkSync(path.join(rootDir, 'test.pdf'));
+    expect(fs.readdirSync(rootDir)).toEqual(initialFiles);
+  });
 
 });
