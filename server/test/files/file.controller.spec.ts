@@ -1,4 +1,4 @@
-jest.mock( '../../src/services/file.service');
+jest.mock( '../../src/files/file.service');
 jest.mock('express')
 import { FileController } from '../../src/files/file.controller';
 import { FileService } from '../../src/files/file.service';

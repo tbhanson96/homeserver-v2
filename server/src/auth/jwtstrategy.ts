@@ -12,7 +12,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         (req: Request) => {
           if (req.headers.cookie) {
             const cookie = req.headers.cookie;
-            const indexStart = cookie.indexOf('token=') + 'token='.length;
+            const indexStart = cookie.indexOf('access_token=') + 'access_token='.length;
             const indexEnd = cookie.indexOf(';', indexStart);
             return req.headers.cookie.substring(indexStart, indexEnd === -1 ? undefined : indexEnd);
           } else {

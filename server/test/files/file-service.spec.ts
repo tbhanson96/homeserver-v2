@@ -17,7 +17,7 @@ describe('FileController', () => {
         MockConfigService.mockImplementation(() => {
             return { env: { ROOT_DIR: 'root' } }
         })
-        fileService = new FileService(new (<any>ConfigService)())
+        fileService = new FileService(new MockConfigService())
         fileService.onModuleInit();
         jest.spyOn(FileUtils, 'removeHiddenFiles').mockReturnValue(['1', '2'])
         jest.spyOn(FileUtils, 'getFileProps').mockReturnValue({})

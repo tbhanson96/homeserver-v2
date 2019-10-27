@@ -6,6 +6,7 @@ import { AppModule } from '../../src/app.module';
 import { FileController } from '../../src/files/file.controller';
 import * as fs from 'fs';
 import { ConfigService } from '../../src/services/config.service';
+import { AuthGuard } from '@nestjs/passport';
 
 describe('FileController (e2e)', () => {
   let app: INestApplication;
@@ -15,8 +16,10 @@ describe('FileController (e2e)', () => {
       imports: [AppModule],
     })
     .compile();
-
     app = moduleFixture.createNestApplication();
+    
+    app.get(AuthGuard('jwt')).canActivate = () => Promise.resolve(true),
+
     await app.init();
   });
 

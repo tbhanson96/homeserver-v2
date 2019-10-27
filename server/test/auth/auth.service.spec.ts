@@ -1,18 +1,29 @@
-import { Test, TestingModule } from '@nestjs/testing';
+jest.mock( '../../src/services/config.service');
+jest.mock('@nestjs/jwt');
+import { ConfigService } from '../../src/services/config.service';
+import { JwtService } from '@nestjs/jwt';
 import { AuthService } from '../../src/auth/auth.service';
+import { UnauthorizedException } from '@nestjs/common';
 
 describe('AuthService', () => {
-  let service: AuthService;
+    let authService: AuthService;
+    const MockConfigService = <any>ConfigService;
+    const MockJwtService = <any>JwtService;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [AuthService],
-    }).compile();
+    beforeEach(() => {
+        MockConfigService.mockClear();
+        MockJwtService.mockClear();
+        MockConfigService.mockImplementation(() => {
+            return { env: { APP_USER: 'u', APP_PASSWORD: 'p' } }
+        })
+        authService = new AuthService(new MockJwtService(), new MockConfigService());
+    });
 
-    service = module.get<AuthService>(AuthService);
-  });
-
-  it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
+    describe('authenticate', () => {
+        it('returns correct values', async () => {
+          const res = await authService.authenticate('u', 'p');
+          expect(res).toBeTruthy();
+          expect(authService.authenticate('not u', 'not p')).rejects.toThrow(UnauthorizedException);
+        });
+    });
 });

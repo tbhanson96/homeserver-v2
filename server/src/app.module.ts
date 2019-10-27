@@ -8,7 +8,7 @@ import { FileValidationPipe } from './files/file-validation.pipe';
 import { MulterModule } from '@nestjs/platform-express';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
-import { PassportModule } from '@nestjs/passport';
+import { PassportModule, AuthGuard } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './auth/jwtstrategy';
 
