@@ -6,8 +6,10 @@ import { routes, joinRoutes } from '../routes';
 import { ApiBadRequestResponse, ApiOkResponse, ApiImplicitQuery, ApiConsumes, ApiImplicitBody } from '@nestjs/swagger';
 import { FileData } from '../models/fileData';
 import { Response } from 'express';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller(joinRoutes(routes.api, routes.files))
+@UseGuards(AuthGuard('jwt'))
 @UsePipes(FileValidationPipe)
 export class FileController {
     constructor(private readonly fileService: FileService ) {}

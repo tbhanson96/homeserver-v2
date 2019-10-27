@@ -34,6 +34,7 @@ import {
     MdcTypographyModule,
     MdcButtonModule,
     MdcElevationModule,
+    MdcCardModule,
   ]
 })
 export class MaterialModule { }
