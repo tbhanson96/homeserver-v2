@@ -22,6 +22,7 @@ import { AuthComponent } from '@components/view/auth/auth.component';
 import { AppComponent } from '@components/app.component';
 import { AuthService } from '@services/auth.service';
 import { AuthInterceptor } from '@services/auth.interceptor';
+import { CookieService } from 'ngx-cookie-service';
 
 function initialize() {
   return async () => {
@@ -68,6 +69,7 @@ function initialize() {
     ApiService,
     FilesService,
     AuthService,
+    CookieService,
   ],
   entryComponents: [
     UploadDialogComponent,
