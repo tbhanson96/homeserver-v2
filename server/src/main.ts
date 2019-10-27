@@ -20,7 +20,6 @@ export async function buildApi(app?: INestApplication) {
     .setTitle('Homeserver')
     .setDescription('Api for homeserver')
     .setVersion('1.0')
-    .addTag('homeserver')
     .build();
 
   const document = SwaggerModule.createDocument(app, options);

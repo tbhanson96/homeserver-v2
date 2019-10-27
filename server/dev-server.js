@@ -16,7 +16,7 @@ child.on('error', (err) => {
 });
 
 tscClient.on('success', () => {
-    start();
+    setTimeout(() => start(), 500);
     execSync('npm run swagger');
     execSync('npm run codegen', { cwd: path.join(__dirname, '..', 'client') });
 });

@@ -1,6 +1,6 @@
 <mdc-list-group>
     <mdc-chip-set class="file-nav">
-        <mdc-chip class="chip" [primary]="reqPath.length<1" routerLink="/files">
+        <mdc-chip class="chip" [primary]="reqPath.length<1" routerLink="/home/files">
             <mdc-chip-icon leading>folder</mdc-chip-icon>
             <mdc-chip-text>Home</mdc-chip-text>
         </mdc-chip>
@@ -15,7 +15,7 @@
                 <mdc-list-item-text [secondaryText]="file.timestamp">{{file.name}}</mdc-list-item-text>
                 <mdc-icon mdcListItemMeta aria-label="View more" title="More info">more_vert</mdc-icon>
             </mdc-list-item>
-            <a mdc-list-item *ngSwitchDefault [href]="'files' + file.link">
+            <a mdc-list-item *ngSwitchDefault [href]="'home/files/' + file.link">
                 <img class="list-image" [src]="'/assets/icons/' + file.type + '.png'" />
                 <mdc-list-item-text [secondaryText]="file.timestamp">{{file.name}}</mdc-list-item-text>
                 <mdc-icon mdcListItemMeta aria-label="View more" title="More info">more_vert</mdc-icon>

@@ -1,6 +1,9 @@
-@import "~@angular-mdc/theme/material";
+$mdc-theme-primary: #1565c0; // primary color
+$mdc-theme-secondary: #388e3c; // secondary color
+$mdc-theme-surface: rgb(28, 28, 28);
+$mdc-theme-background: $mdc-theme-surface;
 body {
     margin: 0px;
+    background-color: $mdc-theme-surface;
 }
-$mdc-theme-primary: blue; // primary color
-$mdc-theme-secondary: #388e3c; // secondary color
+@import "~@angular-mdc/theme/material";
