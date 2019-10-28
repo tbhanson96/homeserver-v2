@@ -7,6 +7,16 @@ cache:
 
 jobs:
   include:
+    - stage: install
+      name: "Install server dependencies"
+      script: 
+        - cd server
+        - npm install
+    - stage: install
+      name: "Install client dependencies"
+      script:
+        - cd client
+        - npm install
     - stage: build
       name: "Build project"
       script: 
