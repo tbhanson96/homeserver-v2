@@ -4,6 +4,8 @@ node_js:
 cache:
   directories:
     build
+    server/node_modules
+    client/node_modules
 
 jobs:
   include:
