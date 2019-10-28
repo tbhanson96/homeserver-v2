@@ -3,6 +3,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { INestApplication } from '@nestjs/common';
 import { ConfigService } from './services/config.service';
+import { AuthGuard } from '@nestjs/passport';
 
 export async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -10,6 +11,9 @@ export async function bootstrap() {
 
   if (app.get(ConfigService).env.SERVE_SWAGGER === 'true') {
     SwaggerModule.setup('swagger', app, document);
+  }
+  if (app.get(ConfigService).env.REQUIRE_AUTH === 'false') {
+    app.get(AuthGuard('jwt')).canActivate = () => Promise.resolve(true);
   }
   return await app.listen(app.get(ConfigService).env.PORT);
 }

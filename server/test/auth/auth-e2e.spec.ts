@@ -37,10 +37,9 @@ describe('FileController (e2e)', () => {
   })
 
   it('GET /api/auth before login throws error', async () => {
-      await request(app.getHttpServer())
-        .get('/api/auth')
-        .expect(401);
+    await request(app.getHttpServer())
+      .get('/api/auth')
+      .expect(401);
   })
-
 
 });
