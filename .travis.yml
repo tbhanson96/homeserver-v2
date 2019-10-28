@@ -1,7 +1,24 @@
 language: node_js
 node_js:
   - 12.9.1
-install: ./bin/install.sh
-script:
-  - cd server
-  - npm run test
+cache:
+  directories:
+    build
+
+jobs:
+  include:
+    - stage: build
+      name: "Build project"
+      script: 
+        - ./bin/install.sh
+        - mkdir build
+        - tar zcvf build/homeserver.tar.gz dist
+    - stage: build
+      name: "Run tests"
+      script:
+        - cd server
+        - npm run test
+        - cd ..
+    - stage: deploy
+      name: "Deploy"
+      script: ls build
