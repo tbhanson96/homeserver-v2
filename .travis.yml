@@ -29,6 +29,7 @@ jobs:
       name: "Run tests"
       script:
         - cd server
+        - ls node_modules
         - npm run test
         - cd ..
     - stage: deploy
