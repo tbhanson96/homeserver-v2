@@ -6,6 +6,7 @@ import { ConfigService } from './services/config.service';
 import { FileController } from './controllers/file.controller';
 import { FileValidationPipe } from './pipes/file-validation.pipe';
 import { MulterModule } from '@nestjs/platform-express';
+import { appConstants } from './constants';
 
 @Module({
   imports: [
@@ -28,7 +29,7 @@ import { MulterModule } from '@nestjs/platform-express';
     FileService,
     {
       provide: ConfigService,
-      useValue: new ConfigService(path.join(__dirname, '..', 'env'))
+      useValue: new ConfigService(appConstants.envFilePath),
     },
     //Pipes
     {
