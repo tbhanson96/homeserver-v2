@@ -23,7 +23,6 @@ jobs:
       name: "Build project"
       script: 
         - ./bin/install.sh
-        - mkdir build
         - tar zcf build/homeserver.tar.gz dist
     - stage: build
       name: "Run tests"
