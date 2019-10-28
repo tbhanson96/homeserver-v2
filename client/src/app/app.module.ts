@@ -23,11 +23,6 @@ import { AppComponent } from '@components/app.component';
 import { AuthService } from '@services/auth.service';
 import { AuthInterceptor } from '@services/auth.interceptor';
 
-function initialize() {
-  return async () => {
-  }
-}
-
 @NgModule({
   declarations: [
     HomeComponent,
@@ -51,11 +46,6 @@ function initialize() {
     MaterialModule,
   ],
   providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initialize,
-      multi: true,
-    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
