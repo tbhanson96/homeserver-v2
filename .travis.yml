@@ -24,7 +24,7 @@ jobs:
       script: 
         - ./bin/install.sh
         - mkdir build
-        - tar zcvf build/homeserver.tar.gz dist
+        - tar zcf build/homeserver.tar.gz dist
     - stage: build
       name: "Run tests"
       script:
