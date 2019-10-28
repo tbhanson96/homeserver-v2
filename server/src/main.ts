@@ -8,7 +8,9 @@ export async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const document = await buildApi(app);
 
-  SwaggerModule.setup('swagger', app, document);
+  if (app.get(ConfigService).env.SERVE_SWAGGER === 'true') {
+    SwaggerModule.setup('swagger', app, document);
+  }
   return await app.listen(app.get(ConfigService).env.PORT);
 }
 
