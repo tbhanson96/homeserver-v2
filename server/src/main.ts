@@ -10,7 +10,7 @@ import { AuthGuard } from '@nestjs/passport';
 
 export async function bootstrap() {
   const config = new ConfigService(appConstants.envFilePath);
-  let app: INestApplication;asdf
+  let app: INestApplication;
   if ( config.env.USE_HTTPS === 'true') {
     app = await NestFactory.create(AppModule, { 
       httpsOptions: {
