@@ -6,6 +6,7 @@ import { ConfigService } from './services/config.service';
 import { appConstants } from './constants';
 import * as fs from 'fs';
 import * as path from 'path';
+import { AuthGuard } from '@nestjs/passport';
 
 export async function bootstrap() {
   const config = new ConfigService(appConstants.envFilePath);
@@ -22,7 +23,12 @@ export async function bootstrap() {
   }
   const document = await buildApi(app);
 
-  SwaggerModule.setup('swagger', app, document);
+  if (app.get(ConfigService).env.SERVE_SWAGGER === 'true') {
+    SwaggerModule.setup('swagger', app, document);
+  }
+  if (app.get(ConfigService).env.REQUIRE_AUTH === 'false') {
+    app.get(AuthGuard('jwt')).canActivate = () => Promise.resolve(true);
+  }
   return await app.listen(app.get(ConfigService).env.PORT);
 }
 
@@ -34,7 +40,6 @@ export async function buildApi(app?: INestApplication) {
     .setTitle('Homeserver')
     .setDescription('Api for homeserver')
     .setVersion('1.0')
-    .addTag('homeserver')
     .build();
 
   const document = SwaggerModule.createDocument(app, options);

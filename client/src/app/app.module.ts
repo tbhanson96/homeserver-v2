@@ -1,32 +1,43 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule, ErrorHandler, APP_INITIALIZER, forwardRef } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { HomeComponent } from '@components/layout/main/home.component';
 import { TopbarComponent } from '@components/layout/topbar/top-bar.component';
 import { SideBarComponent } from '@components/layout/side-bar/side-bar.component';
 import { ReduxModule } from './redux.module';
 import { StoreModule } from '@ngrx/store';
 import { rootReducer, initialState } from '@reducers/root.reducer';
 import { FilesComponent } from '@components/view/files/files.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FilesService } from '@services/files.service';
 import { ApiService } from '@api/services';
 import { NotFoundComponent } from '@components/view/not-found/not-found.component';
 import { MaterialModule } from './material.module';
 import { SnackbarErrorService } from '@services/snackbar-error.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UploadDialogComponent } from './components/view/upload-dialog/upload-dialog.component';
+import { UploadDialogComponent } from '@components/view/upload-dialog/upload-dialog.component';
+import { AuthComponent } from '@components/view/auth/auth.component';
+import { AppComponent } from '@components/app.component';
+import { AuthService } from '@services/auth.service';
+import { AuthInterceptor } from '@services/auth.interceptor';
+
+function initialize() {
+  return async () => {
+  }
+}
 
 @NgModule({
   declarations: [
-    AppComponent,
+    HomeComponent,
     TopbarComponent,
     SideBarComponent,
     FilesComponent,
     NotFoundComponent,
-    UploadDialogComponent
+    UploadDialogComponent,
+    AuthComponent,
+    AppComponent,
   ],
   imports: [
     FormsModule,
@@ -40,12 +51,23 @@ import { UploadDialogComponent } from './components/view/upload-dialog/upload-di
     MaterialModule,
   ],
   providers: [
-    ApiService,
-    FilesService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initialize,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
     {
       provide: ErrorHandler,
       useClass: SnackbarErrorService
     },
+    ApiService,
+    FilesService,
+    AuthService,
   ],
   entryComponents: [
     UploadDialogComponent,
