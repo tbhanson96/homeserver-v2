@@ -2,7 +2,7 @@ import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response } from 'express'
 import * as path from 'path';
 import { routes, joinRoutes } from '../routes';
-import { FileService } from '../services/file.service';
+import { FileService } from '../files/file.service';
 import { ConfigService } from '../services/config.service';
 
 @Injectable()

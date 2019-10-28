@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, UrlSegment } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FilesService } from '@services/files.service';
@@ -13,7 +13,7 @@ import { UploadDialogComponent } from '@components/view/upload-dialog/upload-dia
   templateUrl: './files.component.html',
   styleUrls: ['./files.component.scss']
 })
-export class FilesComponent implements OnInit {
+export class FilesComponent implements OnInit, OnDestroy {
   files: FileData[] = [];
   reqPath: UrlSegment[];
   showHiddenFiles = false;
@@ -35,9 +35,13 @@ export class FilesComponent implements OnInit {
     ]
   }
 
+  ngOnDestroy() {
+    this.subscriptions.forEach(s => s.unsubscribe());
+  }
+
   getRouterLinkFromDir(dir: UrlSegment): string {
     const index = this.reqPath.findIndex(x => x === dir);
-    return '/files/' + this.reqPath.slice(0, index + 1).join('/');
+    return '/home/files/' + this.reqPath.slice(0, index + 1).join('/');
   }
 
   public openUploadDialog() {

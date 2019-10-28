@@ -11,6 +11,10 @@ import {
     MdcDialogModule,
     MdcTextFieldModule,
     MdcIconButtonModule,
+    MdcCardModule,
+    MdcTypographyModule,
+    MdcButtonModule,
+    MdcElevationModule,
  } from '@angular-mdc/web';
 
 @NgModule({
@@ -26,6 +30,11 @@ import {
     MdcFabModule,
     MdcDialogModule,
     MdcTextFieldModule,
+    MdcCardModule,
+    MdcTypographyModule,
+    MdcButtonModule,
+    MdcElevationModule,
+    MdcCardModule,
   ]
 })
 export class MaterialModule { }
