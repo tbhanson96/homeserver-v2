@@ -44,3 +44,12 @@ export class ConfigService {
         return new Proxy(obj, handler);
     }
 }
+
+export class EnvOptions {
+    public PORT: string;
+    public FILE_UPLOAD_DEST: string;
+    public CLIENT_DIR: string;
+    public USE_HTTPS: string;
+    public SSL_FILEPATH: string;
+    public ROOT_DIR: string; 
+}

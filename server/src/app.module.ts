@@ -6,6 +6,7 @@ import { ConfigService } from './services/config.service';
 import { FileController } from './files/file.controller';
 import { FileValidationPipe } from './files/file-validation.pipe';
 import { MulterModule } from '@nestjs/platform-express';
+import { appConstants } from './constants';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { PassportModule, AuthGuard } from '@nestjs/passport';
@@ -42,7 +43,7 @@ import { JwtStrategy } from './auth/jwtstrategy';
     FileService,
     {
       provide: ConfigService,
-      useValue: new ConfigService(path.join(__dirname, '..', 'env'))
+      useValue: new ConfigService(appConstants.envFilePath),
     },
     {
       provide: FileValidationPipe,

@@ -3,10 +3,24 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { INestApplication } from '@nestjs/common';
 import { ConfigService } from './services/config.service';
+import { appConstants } from './constants';
+import * as fs from 'fs';
+import * as path from 'path';
 import { AuthGuard } from '@nestjs/passport';
 
 export async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const config = new ConfigService(appConstants.envFilePath);
+  let app: INestApplication;
+  if ( config.env.USE_HTTPS === 'true') {
+    app = await NestFactory.create(AppModule, { 
+      httpsOptions: {
+        key: fs.readFileSync(path.join(config.env.SSL_FILEPATH, 'key.pem')),
+        cert: fs.readFileSync(path.join(config.env.SSL_FILEPATH, 'cert.pem')),
+      }
+    });
+  } else {
+    app = await NestFactory.create(AppModule);
+  }
   const document = await buildApi(app);
 
   if (app.get(ConfigService).env.SERVE_SWAGGER === 'true') {
