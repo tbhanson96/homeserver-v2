@@ -1,8 +1,6 @@
 language: node_js
 node_js:
   - 12.9.1
-addons:
-  ssh_known_hosts: $DEPLOY_HOST
 cache:
   directories:
     server/node_modules
@@ -33,7 +31,7 @@ jobs:
         - cd server
         - npm run test
     - stage: deploy
-      # if: branch = master
+      if: branch = master
       name: "Deploy"
       script: 
         - openssl aes-256-cbc -K $encrypted_4d05b4a1e601_key -iv $encrypted_4d05b4a1e601_iv -in deploy_rsa.enc -out deploy_rsa -d
