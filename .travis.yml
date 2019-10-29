@@ -23,13 +23,13 @@ jobs:
       name: "Build project"
       script: 
         - ./bin/install.sh
-        - tar zcf build/homeserver.tar.gz dist
+        - cd dist
+        - tar zcf build/homeserver.tar.gz *
     - stage: build
       name: "Run tests"
       script:
         - cd server
         - npm run test
-        - cd ..
     - stage: deploy
       name: "Deploy"
       script: ls build
