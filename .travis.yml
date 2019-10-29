@@ -1,7 +1,7 @@
 language: node_js
 node_js:
   - 12.9.1
-add_ons:
+addons:
   ssh_known_hosts: hansonserver.ddns.net
 cache:
   directories:
