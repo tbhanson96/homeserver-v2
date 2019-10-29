@@ -23,10 +23,7 @@ jobs:
       script:
         - cd server
         - npm run build
-    - stage: build
-      name: "Build client"
-      script:
-        - cd client
+        - cd ../client
         - npm run build:prod
     - stage: build
       name: "Run tests"
