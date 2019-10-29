@@ -1,3 +1,4 @@
+# travis env vars DEPLOY_USER, DEPLOY_HOST, DEPLOY_DIR must be defined in travis repository settings
 run_command()
 {
     eval $1
@@ -7,11 +8,8 @@ run_command()
     fi
 }
 
-DEST_DIR=/usr/local/share/homeserver
-
 run_command "./bin/build.sh"
 cd dist
 run_command "tar zcf homeserver.tar.gz *"
-run_command "scp homeserver.tar.gz tim@hansonserver.ddns.net:$DEST_DIR"
-run_command "ssh tim@hansonserver.ddns.net \"mkdir -p $DEST_DIR/updates && mv $DEST_DIR/homeserver.tar.gz $DEST_DIR/updates\""
-
+run_command "scp homeserver.tar.gz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_DIR"
+run_command "ssh $DEPLOY_USER@$DEPLOY_HOST \"mkdir -p $DEPLOY_DIR/updates && mv $DEPLOY_DIR/homeserver.tar.gz $DEPLOY_DIR/updates\""

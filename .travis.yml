@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - 12.9.1
 addons:
-  ssh_known_hosts: hansonserver.ddns.net
+  ssh_known_hosts: $DEPLOY_HOST
 cache:
   directories:
     server/node_modules
