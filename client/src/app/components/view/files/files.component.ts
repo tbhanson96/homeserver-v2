@@ -26,9 +26,9 @@ export class FilesComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.uiActions.setCurrentApp('Files');
-    this.uiActions.setAppBusy(true);
     this.subscriptions = [
       this.route.url.subscribe(parts => {
+        this.uiActions.setAppBusy(true);
         this.reqPath = parts;
         this.updateFiles(this.reqPath);
       }),

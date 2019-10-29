@@ -2,11 +2,11 @@
   "name": "homeserver-server",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "Tim Hanson",
   "license": "MIT",
   "scripts": {
     "build": "tsc -p tsconfig.build.json && npm run swagger",
-    "build:prod": "npm run build && webpack",
+    "build:prod": "npm run build && mkdirp ../dist/env && ncp env/default.prod.env ../dist/env/default.env && nexe -t linux-x64 dist/main.js -o ../dist/server",
     "swagger": "node swagger-doc-gen.js",
     "start": "node dist/main.js",
     "start:dev": "npm run build && node dev-server.js",
@@ -31,7 +31,6 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.12",
-    "rimraf": "^2.6.2",
     "rxjs": "^6.3.3",
     "swagger-ui-express": "^4.0.7"
   },
@@ -47,9 +46,11 @@
     "@types/passport-jwt": "^3.0.2",
     "@types/passport-local": "^1.0.33",
     "@types/supertest": "2.0.7",
-    "copy-webpack-plugin": "^5.0.4",
+    "mkdirp": "^0.5.1",
+    "nexe": "^3.3.2",
     "jest": "24.7.1",
     "prettier": "1.17.0",
+    "rimraf": "^2.6.2",
     "supertest": "4.0.2",
     "ts-jest": "24.0.2",
     "ts-loader": "^6.2.1",
@@ -57,10 +58,7 @@
     "tsc-watch": "^4.0.0",
     "tsconfig-paths": "3.8.0",
     "tslint": "5.16.0",
-    "typescript": "3.4.3",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.9",
-    "webpack-node-externals": "^1.7.2"
+    "typescript": "3.4.3"
   },
   "jest": {
     "moduleFileExtensions": [
