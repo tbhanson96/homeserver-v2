@@ -19,7 +19,7 @@ jobs:
         - cd client
         - npm install
     - stage: build
-      name: "Build server"
+      name: "Build"
       script:
         - cd server
         - npm run build
@@ -31,7 +31,7 @@ jobs:
         - cd server
         - npm run test
     - stage: deploy
-      # if: branch = master
+      if: branch = master
       name: "Deploy"
       script: 
         - ./bin/build.sh
