@@ -3,7 +3,6 @@ node_js:
   - 12.9.1
 cache:
   directories:
-    build
     server/node_modules
     client/node_modules
 
@@ -20,16 +19,25 @@ jobs:
         - cd client
         - npm install
     - stage: build
-      name: "Build project"
-      script: 
-        - ./bin/install.sh
-        - cd dist
-        - tar zcf build/homeserver.tar.gz *
+      name: "Build server"
+      script:
+        - cd server
+        - npm run build
+    - stage: build
+      name: "Build client"
+      script:
+        - cd client
+        - npm run build:prod
     - stage: build
       name: "Run tests"
       script:
         - cd server
         - npm run test
     - stage: deploy
+      # if: branch = master
       name: "Deploy"
-      script: ls build
+      script: 
+        - ./bin/build.sh
+        - cd dist
+        - tar zcf homeserver.tar.gz *
+        - ls .
