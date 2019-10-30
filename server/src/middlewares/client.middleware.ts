@@ -4,13 +4,13 @@ import * as path from 'path';
 import { routes, joinRoutes } from '../routes';
 import { FileService } from '../files/file.service';
 import { ConfigService } from '../services/config.service';
+import * as proxy from 'http-proxy-middleware';
 
 @Injectable()
 export class ClientMiddleware implements NestMiddleware {
 
   constructor(
-    private readonly configService: ConfigService,
-    private readonly filesService: FileService) { }
+    private readonly configService: ConfigService) { }
 
   use(req: Request, res: Response, next: Function) {
     const { url } = req;
@@ -18,15 +18,8 @@ export class ClientMiddleware implements NestMiddleware {
         // it starts with /api --> continue with execution
         next();
     } else if (url.includes('.')) {
-        if (url.includes(routes.files)) {
-          const reqFilePath = url.split(routes.files).slice(-1)[0];
-          req.url = '/' + joinRoutes(routes.api, routes.files, 'file') + '?file=' + reqFilePath;
-          req.query['file'] = reqFilePath;
-          next();
-        } else {
-          // it has a file extension --> resolve the file
-          res.sendFile(this.resolvePath(url));
-        }
+      // it has a file extension --> resolve the file
+      res.sendFile(this.resolvePath(url));
     } else {
         // in all other cases, redirect to the index.html
         res.sendFile(this.resolvePath('index.html'));

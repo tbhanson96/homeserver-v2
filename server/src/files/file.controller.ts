@@ -19,7 +19,7 @@ export class FileController {
     @ApiBadRequestResponse({ description: 'Invalid directory path'})
     @ApiImplicitQuery({name: 'path', type: String, description: 'Path to get files from'})
     @ApiImplicitQuery({name: 'includeHidden', type: Boolean, description: 'Whether or not to include hidden files, default to true', required: false })
-    async getPath(@Query('path') filePath: any, @Query('includeHidden') includeHiddenFiles = true) {
+    async getPath(@Query('path') filePath: any, @Query('includeHidden') includeHiddenFiles = false) {
         const files = await this.fileService.getFiles(filePath, includeHiddenFiles);
         return files;
     }

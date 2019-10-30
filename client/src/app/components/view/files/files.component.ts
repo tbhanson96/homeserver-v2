@@ -15,7 +15,7 @@ import { UploadDialogComponent } from '@components/view/upload-dialog/upload-dia
 })
 export class FilesComponent implements OnInit, OnDestroy {
   files: FileData[] = [];
-  reqPath: UrlSegment[];
+  reqPath: string[];
   showHiddenFiles = false;
   subscriptions: Subscription[];
   constructor(
@@ -29,7 +29,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.subscriptions = [
       this.route.url.subscribe(parts => {
         this.uiActions.setAppBusy(true);
-        this.reqPath = parts;
+        this.reqPath = parts.map(p => decodeURI(p.toString()));
         this.updateFiles(this.reqPath);
       }),
     ]
@@ -39,7 +39,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(s => s.unsubscribe());
   }
 
-  getRouterLinkFromDir(dir: UrlSegment): string {
+  getRouterLinkFromDir(dir: string): string {
     const index = this.reqPath.findIndex(x => x === dir);
     return '/home/files/' + this.reqPath.slice(0, index + 1).join('/');
   }
@@ -48,7 +48,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(UploadDialogComponent);
   }
 
-  private updateFiles(reqPath: UrlSegment[]) {
+  private updateFiles(reqPath: string[]) {
     const reqPathString = reqPath.join('/') || '/';
     this.filesService.getDirectory(reqPathString, this.showHiddenFiles).subscribe(data => {
       for (const file of data) {
