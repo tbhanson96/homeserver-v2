@@ -17,7 +17,7 @@ export class ClientMiddleware implements NestMiddleware {
       next();
     } 
     // modify request urls coming from proxy client pages
-    else if(req.headers.referer && req.headers.host) {
+    else if(req.headers.referer && req.headers.referer.includes('/apps') && req.headers.host) {
       const origPath = req.headers.referer.split(req.headers.host)[1];
       const newUrl = `${origPath}${req.path}`;
       res.redirect(newUrl);
