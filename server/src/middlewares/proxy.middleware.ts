@@ -2,7 +2,7 @@ import { Injectable, NestMiddleware, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '../services/config.service';
 import * as proxy from 'http-proxy-middleware'
 import { ConfigInvalidException } from '../lib/exceptions';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { NextFunction } from 'connect';
 import { appConstants } from '../constants';
 
@@ -29,11 +29,12 @@ export class ProxyMiddleware implements NestMiddleware {
     });
   }
 
-  use(req: Request, res: any, next: NextFunction) {
+  use(req: Request, res: Response, next: NextFunction) {
     const route = req.path;
     let found = false;
     Object.keys(this.proxies).forEach(p => {
       if (route.includes(p) && !found) {
+        res.header('X-Forwarded-Host', p);
         this.proxies[p](req, res, next);
         found = true;
       }

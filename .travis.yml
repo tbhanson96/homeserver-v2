@@ -31,7 +31,7 @@ jobs:
         - cd server
         - npm run test
     - stage: deploy
-      if: branch = master
+      if: branch = master AND type = push AND fork = false
       name: "Deploy"
       script: 
         - openssl aes-256-cbc -K $encrypted_4d05b4a1e601_key -iv $encrypted_4d05b4a1e601_iv -in deploy_rsa.enc -out deploy_rsa -d
