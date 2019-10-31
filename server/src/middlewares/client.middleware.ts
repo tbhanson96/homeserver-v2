@@ -12,7 +12,16 @@ export class ClientMiddleware implements NestMiddleware {
 
   use(req: Request, res: Response, next: Function) {
     const { url } = req;
-    if (url.indexOf(routes.api) === 1) {
+    // filter out all requests for proxy middlware
+    if (url.includes('/apps')) {
+      next();
+    } 
+    // modify request urls coming from proxy client pages
+    else if(req.headers.referer && req.headers.host) {
+      const origPath = req.headers.referer.split(req.headers.host)[1];
+      const newUrl = `${origPath}${req.path}`;
+      res.redirect(newUrl);
+    } else if (url.indexOf(routes.api) === 1) {
         // it starts with /api --> continue with execution
         next();
     } else if (url.includes('.')) {

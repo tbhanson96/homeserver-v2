@@ -57,13 +57,14 @@ import { ProxyMiddleware } from './middlewares/proxy.middleware';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
+    consumer.apply(FilesMiddleware, ClientMiddleware)
+    .forRoutes({
+      path: '/**',
+      method: RequestMethod.GET,
+    });
     consumer.apply(ProxyMiddleware).forRoutes({
       path: appConstants.proxyRoute,
       method: RequestMethod.ALL,
-    });
-    consumer.apply(FilesMiddleware, ClientMiddleware).forRoutes({
-      path: '/**',
-      method: RequestMethod.GET,
     });
   }
 }

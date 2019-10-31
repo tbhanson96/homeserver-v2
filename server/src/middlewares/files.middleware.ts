@@ -15,7 +15,7 @@ export class FilesMiddleware implements NestMiddleware {
         // it starts with /api --> continue with execution
         next();
         return;
-    } else if (url.includes(routes.files) && url.includes('.')) {
+    } else if (url.includes(routes.files + '/') && url.includes('.')) {
         const reqFilePath = url.split(routes.files).slice(-1)[0];
         req.url = '/' + joinRoutes(routes.api, routes.files, 'file') + '?file=' + reqFilePath;
         req.query['file'] = reqFilePath;
