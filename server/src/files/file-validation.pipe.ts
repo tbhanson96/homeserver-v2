@@ -9,6 +9,7 @@ export class FileValidationPipe implements PipeTransform {
     transform(arg: any, metadata: ArgumentMetadata) {
         try {
             if (metadata.data === 'path' || metadata.data === 'file') {
+                arg = decodeURI(arg);
                 let stat = fs.statSync(this.fileService.getLocalFilePath(arg || ''));
                 if (metadata.data === 'path' && !stat.isDirectory()) {
                     throw new Error();

@@ -28,7 +28,7 @@
             "type": "node",
             "request": "launch",
             "name": "Debug Server",
-            "preLaunchTask": "Build",
+            "preLaunchTask": "Build Server",
             // "runtimeVersion": "12.9.1",
             "program": "${workspaceFolder}/server/dist/main.js",
             "sourceMaps": true,
