@@ -2,9 +2,7 @@ import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response } from 'express'
 import * as path from 'path';
 import { routes, joinRoutes } from '../routes';
-import { FileService } from '../files/file.service';
 import { ConfigService } from '../services/config.service';
-import * as proxy from 'http-proxy-middleware';
 
 @Injectable()
 export class ClientMiddleware implements NestMiddleware {

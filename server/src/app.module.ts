@@ -1,5 +1,4 @@
 import { Module, NestModule, MiddlewareConsumer, RequestMethod, Scope } from '@nestjs/common';
-import * as path from 'path';
 import { ClientMiddleware } from './middlewares/client.middleware';
 import { FileService } from './files/file.service';
 import { ConfigService } from './services/config.service';
@@ -13,7 +12,7 @@ import { PassportModule, AuthGuard } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './auth/jwtstrategy';
 import { FilesMiddleware } from './middlewares/files.middleware';
-import * as proxy from 'http-proxy-middleware';
+import { ProxyMiddleware } from './middlewares/proxy.middleware';
 
 @Module({
   imports: [
@@ -58,14 +57,13 @@ import * as proxy from 'http-proxy-middleware';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(proxy.default({ target: 'http://localhost:8003', pathRewrite: { '^/transmission/': '' }})).forRoutes({
-      path: '/transmission',
+    consumer.apply(ProxyMiddleware).forRoutes({
+      path: appConstants.proxyRoute,
       method: RequestMethod.ALL,
     });
     consumer.apply(FilesMiddleware, ClientMiddleware).forRoutes({
       path: '/**',
       method: RequestMethod.GET,
     });
-    consumer.apply()
   }
 }

@@ -7,7 +7,7 @@
       <mdc-card fxLayout="column" fxLayoutAlign="center" class="container" [mdcElevation]=10>
         <div mdcHeadline4 class="login-header" >Welcome</div>
         <mdc-text-field class="text-field" label="Username" required (change)="username=$event"></mdc-text-field>
-        <mdc-text-field [type]="password" class="text-field" label="Password" required (change)="password=$event"></mdc-text-field>
+        <mdc-text-field type="password" class="text-field" label="Password" required (change)="password=$event"></mdc-text-field>
         <button mdc-button primary raised (click)="onLogin()">Login</button>
       </mdc-card>
   </div>
