@@ -51,7 +51,7 @@
     "@types/supertest": "2.0.8",
     "mkdirp": "^0.5.1",
     "nexe": "^3.3.2",
-    "jest": "24.7.1",
+    "jest": "24.9.0",
     "prettier": "1.18.2",
     "rimraf": "^2.6.2",
     "supertest": "4.0.2",
