@@ -5,8 +5,6 @@ cache:
   directories:
     server/node_modules
     client/node_modules
-env:
-  - CODECOV_TOKEN=dfa4926c-a8ba-4918-a0fd-db0bfdb699af
 
 jobs:
   include:
