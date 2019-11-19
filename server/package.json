@@ -26,7 +26,7 @@
     "@nestjs/websockets": "6.6.7",
     "@types/http-proxy": "1.17.2",
     "@types/http-proxy-middleware": "0.19.3",
-    "dotenv": "8.1.0",
+    "dotenv": "8.2.0",
     "http-proxy-middleware": "0.20.0",
     "morgan": "1.9.1",
     "ncp": "2.0.0",
