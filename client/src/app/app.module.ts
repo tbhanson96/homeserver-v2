@@ -22,6 +22,7 @@ import { AuthComponent } from '@components/view/auth/auth.component';
 import { AppComponent } from '@components/app.component';
 import { AuthService } from '@services/auth.service';
 import { AuthInterceptor } from '@services/auth.interceptor';
+import { EbooksComponent } from './components/view/ebooks/ebooks.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { AuthInterceptor } from '@services/auth.interceptor';
     UploadDialogComponent,
     AuthComponent,
     AppComponent,
+    EbooksComponent,
   ],
   imports: [
     FormsModule,

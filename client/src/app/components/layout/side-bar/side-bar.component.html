@@ -1,8 +1,11 @@
 <mdc-drawer-content>
   <mdc-list>
     <mdc-list-divider></mdc-list-divider>
-    <mdc-list-item routerLink="/files">
+    <mdc-list-item (click)="onNavigatePage()" routerLink="/home/files">
       <mdc-icon mdcListItemGraphic>folder</mdc-icon>Files
+    </mdc-list-item>
+    <mdc-list-item (click)="onNavigatePage()" routerLink="/home/ebooks">
+      <mdc-icon mdcListItemGraphic>book</mdc-icon>Ebooks
     </mdc-list-item>
     <a mdc-list-item href="#/drawer-demo/examples">
       <mdc-icon mdcListItemGraphic>settings</mdc-icon>Settings

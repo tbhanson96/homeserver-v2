@@ -6,6 +6,7 @@ export const uiStateStoreInitialState: UiStateStore = {
     sidebarOpen: false,
     appBusy: false,
     currentApp: 'Files',
+    currentFilesDirectory: '/'
 };
 
 export function uiStateReducer(state: UiStateStore = uiStateStoreInitialState, action: UiStateAction): UiStateStore {
@@ -22,6 +23,10 @@ export function uiStateReducer(state: UiStateStore = uiStateStoreInitialState, a
       const { currentApp } = (action as UiStateActions.SetCurrentAppAction).payload;
       return { ...state, currentApp }
     }
+    case UiStateActionType.SET_CURRENT_FILES_DIRECTORY: {
+      const { currentFilesDirectory } = (action as UiStateActions.SetCurrentFilesDirectory).payload;
+      return { ...state, currentFilesDirectory }
+    } 
     default:
       return state;
   }

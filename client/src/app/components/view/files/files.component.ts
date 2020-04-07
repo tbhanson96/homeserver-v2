@@ -31,6 +31,7 @@ export class FilesComponent implements OnInit, OnDestroy {
         this.uiActions.setAppBusy(true);
         this.reqPath = parts.map(p => decodeURI(p.toString()));
         this.updateFiles(this.reqPath);
+        this.uiActions.setCurrentFilesDirectory(this.joinReqPath(this.reqPath));
       }),
     ]
   }
@@ -49,7 +50,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   private updateFiles(reqPath: string[]) {
-    const reqPathString = reqPath.join('/') || '/';
+    const reqPathString = this.joinReqPath(this.reqPath);
     this.filesService.getDirectory(reqPathString, this.showHiddenFiles).subscribe(data => {
       for (const file of data) {
         if (!validFileTypes[file.type]) {
@@ -64,5 +65,9 @@ export class FilesComponent implements OnInit, OnDestroy {
       this.uiActions.setAppBusy(false);
       throw new Error(`Could not get directory: ${reqPathString}`);
     });
+  }
+
+  private joinReqPath(reqPath: string[]): string {
+    return reqPath.join('/') || '/';
   }
 }
