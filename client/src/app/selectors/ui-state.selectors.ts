@@ -18,4 +18,8 @@ export class UiStateSelectors {
   getCurrentApp(): Observable<string> {
     return this.store.pipe(select(state => state.uiStateStore.currentApp));
   }
+
+  getCurrentFilesDirectory(): Observable<string> {
+    return this.store.pipe(select(state => state.uiStateStore.currentFilesDirectory));
+  }
 }

@@ -7,6 +7,7 @@ import { FileValidationPipe } from './files/file-validation.pipe';
 import { MulterModule } from '@nestjs/platform-express';
 import { appConstants } from './constants';
 import { AuthController } from './auth/auth.controller';
+import { EbookController } from './ebooks/ebook.controller';
 import { AuthService } from './auth/auth.service';
 import { PassportModule, AuthGuard } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
@@ -39,6 +40,7 @@ import { ProxyMiddleware } from './middlewares/proxy.middleware';
   controllers: [
     FileController,
     AuthController,
+    EbookController,
   ],
   providers: [
     FileService,

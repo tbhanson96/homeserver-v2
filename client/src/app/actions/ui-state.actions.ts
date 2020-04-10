@@ -9,6 +9,7 @@ export enum UiStateActionType {
     TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR',
     SET_APP_BUSY = 'SET_APP_BUSY',
     SET_CURRENT_APP = 'SET_CURRENT_APP',
+    SET_CURRENT_FILES_DIRECTORY = 'SET_CURRENT_FILES_DIRECTORY',
 }
 
 export class ToggleSidebarAction implements UiStateAction {
@@ -26,6 +27,11 @@ export class SetCurrentAppAction implements UiStateAction {
   constructor(public payload: { currentApp: string }) { }
 }
 
+export class SetCurrentFilesDirectory implements UiStateAction {
+  readonly type = UiStateActionType.SET_CURRENT_FILES_DIRECTORY;
+  constructor(public payload: { currentFilesDirectory: string }) { }
+}
+
 @Injectable()
 export class UiStateActions {
   constructor(private readonly store: Store<UiStateStore>) { }
@@ -40,5 +46,9 @@ export class UiStateActions {
 
   setCurrentApp(currentApp: string) {
     this.store.dispatch(new SetCurrentAppAction({ currentApp }));
+  }
+
+  setCurrentFilesDirectory(currentFilesDirectory: string) {
+    this.store.dispatch(new SetCurrentFilesDirectory({ currentFilesDirectory }));
   }
 }

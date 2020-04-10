@@ -5,6 +5,7 @@ import { NotFoundComponent } from '@components/view/not-found/not-found.componen
 import { AuthComponent } from '@components/view/auth/auth.component';
 import { HomeComponent } from '@components/layout/main/home.component';
 import { AuthService } from '@services/auth.service';
+import { EbooksComponent } from '@components/view/ebooks/ebooks.component';
 
 
 const routes: Routes = [
@@ -13,6 +14,7 @@ const routes: Routes = [
     { path: 'files', children: [
       { path: '**', component: FilesComponent },
     ]},
+    { path: 'ebooks', component: EbooksComponent },
   ]},
   { path: 'login', component: AuthComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
