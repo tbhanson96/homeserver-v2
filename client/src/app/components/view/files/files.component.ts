@@ -14,10 +14,17 @@ import { UploadDialogComponent } from '@components/view/upload-dialog/upload-dia
   styleUrls: ['./files.component.scss']
 })
 export class FilesComponent implements OnInit, OnDestroy {
+  readonly defaultMaxFilesShown = 20;
+  readonly showMoreIncrement = 20;
   files: FileData[] = [];
   reqPath: string[];
   showHiddenFiles = false;
+  maxFilesShown = this.defaultMaxFilesShown;
   subscriptions: Subscription[];
+
+  public get visibleFiles() {
+    return this.files.slice(0, this.maxFilesShown);
+  }
   constructor(
     private readonly route: ActivatedRoute,
     private readonly dialog: MdcDialog,
@@ -30,7 +37,7 @@ export class FilesComponent implements OnInit, OnDestroy {
       this.route.url.subscribe(parts => {
         this.uiActions.setAppBusy(true);
         this.reqPath = parts.map(p => decodeURI(p.toString()));
-        this.updateFiles(this.reqPath);
+        this.updateFiles();
         this.uiActions.setCurrentFilesDirectory(this.joinReqPath(this.reqPath));
       }),
     ]
@@ -49,7 +56,12 @@ export class FilesComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(UploadDialogComponent);
   }
 
-  private updateFiles(reqPath: string[]) {
+  public onShowMoreFiles() {
+    this.maxFilesShown += this.showMoreIncrement;
+  }
+
+  private updateFiles() {
+    this.maxFilesShown = this.defaultMaxFilesShown;
     const reqPathString = this.joinReqPath(this.reqPath);
     this.filesService.getDirectory(reqPathString, this.showHiddenFiles).subscribe(data => {
       for (const file of data) {

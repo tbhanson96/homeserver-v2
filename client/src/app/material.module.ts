@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { NgModule } from '@angular/core';
 import {
     MdcTopAppBarModule,
     MdcIconModule,
@@ -15,6 +15,8 @@ import {
     MdcTypographyModule,
     MdcButtonModule,
     MdcElevationModule,
+    MdcImageListModule,
+    MdcMenuSurfaceModule,
  } from '@angular-mdc/web';
 
 @NgModule({
@@ -35,6 +37,8 @@ import {
     MdcButtonModule,
     MdcElevationModule,
     MdcCardModule,
+    MdcImageListModule,
+    MdcMenuSurfaceModule,
   ]
 })
 export class MaterialModule { }

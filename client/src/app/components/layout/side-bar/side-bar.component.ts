@@ -11,7 +11,8 @@ export class SideBarComponent {
   constructor(private uiActions: UiStateActions) { }
 
   onNavigatePage() {
-    this.uiActions.toggleSidebar(false);
+    // TODO: figure out how to only do this if sidebar is in 'dismissible' mode
+    // this.uiActions.toggleSidebar(false);
   }
 
 }

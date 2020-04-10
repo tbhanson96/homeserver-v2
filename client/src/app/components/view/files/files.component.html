@@ -9,7 +9,7 @@
         </mdc-chip>
     </mdc-chip-set>
     <mdc-list twoLine avatar border="true">
-        <ng-container *ngFor="let file of files" [ngSwitch]="file.type">
+        <ng-container *ngFor="let file of visibleFiles" [ngSwitch]="file.type">
             <mdc-list-item *ngSwitchCase="'dir'" [routerLink]="file.name">
                 <img class="list-image" [src]="'/assets/icons/' + file.type + '.png'" />
                 <mdc-list-item-text [secondaryText]="file.timestamp">{{file.name}}</mdc-list-item-text>
@@ -23,4 +23,5 @@
         </ng-container>
     </mdc-list>
 </mdc-list-group>
+<button fxFlexAlign="center" class="show-more" *ngIf="this.maxFilesShown < this.files.length" (click)="onShowMoreFiles()" mdc-button>Show More</button>
 <button mdc-fab position="bottomRight" icon="add" (click)="openUploadDialog()"></button>
