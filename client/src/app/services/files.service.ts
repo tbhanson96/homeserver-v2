@@ -26,4 +26,8 @@ export class FilesService {
     });
     return this.api.postApiFilesFile(directory, formData);
   }
+
+  public deleteFile(file: FileData) {
+    return this.api.deleteApiFilesFile(file);
+  }
 }

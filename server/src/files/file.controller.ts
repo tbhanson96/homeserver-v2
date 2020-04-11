@@ -1,4 +1,4 @@
-import { Controller, Get, UsePipes, Query, Res, UseInterceptors, UploadedFiles, Post, UseGuards } from '@nestjs/common';
+import { Controller, Get, UsePipes, Query, Res, UseInterceptors, UploadedFiles, Post, UseGuards, Body, Delete } from '@nestjs/common';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { FileService } from './file.service';
 import { FileValidationPipe } from './file-validation.pipe';
@@ -42,4 +42,10 @@ export class FileController {
     async uploadFiles(@UploadedFiles() files: any, @Query('path') directory: string) {
        await this.fileService.copyFiles(files, directory);
     } 
+
+    @Delete('file')
+    @ApiOkResponse({ description: "File was successfully deleted."})
+    async deleteFile(@Body() file: FileData) {
+        await this.fileService.deleteFile(file);
+    }
 }

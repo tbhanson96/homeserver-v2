@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, UrlSegment } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { FilesService } from '@services/files.service';
 import { FileData } from '@api/models';
 import * as validFileTypes from './valid-files';
 import { UiStateActions } from '@actions/ui-state.actions';
-import { MdcDialog } from '@angular-mdc/web';
+import { MdcDialog, MdcMenu, MdcSnackbar } from '@angular-mdc/web';
 import { UploadDialogComponent } from '@components/view/upload-dialog/upload-dialog.component';
+import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-files',
@@ -27,6 +28,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
   constructor(
     private readonly route: ActivatedRoute,
+    private readonly snackbar: MdcSnackbar,
     private readonly dialog: MdcDialog,
     private readonly uiActions: UiStateActions,
     private readonly filesService: FilesService) { }
@@ -54,10 +56,44 @@ export class FilesComponent implements OnInit, OnDestroy {
 
   public openUploadDialog() {
     const dialogRef = this.dialog.open(UploadDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result instanceof Observable) {
+        this.uiActions.setAppBusy(true);
+        result.subscribe(() => {
+          this.updateFiles();
+        }, () => {
+          this.uiActions.setAppBusy(false);
+        });
+      }
+    });
   }
 
   public onShowMoreFiles() {
     this.maxFilesShown += this.showMoreIncrement;
+  }
+
+  public onShowFileOptions(event: Event, menu: MdcMenu) {
+    event.preventDefault();
+    event.stopPropagation();
+    menu.open = !menu.open;
+  }
+
+  public onDeleteFile(event: Event, file: FileData) {
+    event.preventDefault();
+    event.stopPropagation();
+    const dialogRef = this.dialog.open(DeleteDialogComponent, { data: file });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result instanceof Observable) {
+        this.uiActions.setAppBusy(true);
+        result.subscribe(() => {
+          this.snackbar.open(`Successfully deleted file: ${file.name}`);
+          this.updateFiles();
+        }, () => {
+          this.uiActions.setAppBusy(false);
+          throw new Error(`Failed to delete file: ${file.name}`);
+        });
+      }
+    });
   }
 
   private updateFiles() {

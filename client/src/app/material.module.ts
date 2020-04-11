@@ -17,6 +17,7 @@ import {
     MdcElevationModule,
     MdcImageListModule,
     MdcMenuSurfaceModule,
+    MdcMenuModule,
  } from '@angular-mdc/web';
 
 @NgModule({
@@ -39,6 +40,7 @@ import {
     MdcCardModule,
     MdcImageListModule,
     MdcMenuSurfaceModule,
+    MdcMenuModule,
   ]
 })
 export class MaterialModule { }

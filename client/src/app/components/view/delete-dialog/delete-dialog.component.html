@@ -1,0 +1,11 @@
+<mdc-dialog>
+    <mdc-dialog-surface>
+        <mdc-dialog-content>
+            Are you sure you want to delete {{ data.name }}?
+        </mdc-dialog-content>
+        <mdc-dialog-actions>
+          <button mdcDialogButton mdcDialogAction="close">Cancel</button>
+          <button mdcDialogButton default (click)="onDeleteFile()">Delete</button>
+        </mdc-dialog-actions>
+    </mdc-dialog-surface>
+</mdc-dialog>

@@ -15,14 +15,14 @@ export class UploadDialogComponent implements OnInit, OnDestroy {
   files = new Array<any>();
   uploadForm = new FormGroup({
     files: new FormControl(),
-  })
+  });
   currentDirectory = '/';
   private subscriptions: Subscription[];
   constructor(
     private readonly fileService: FilesService,
-    private readonly uiSelectors: UiStateSelectors,
     private readonly snackbar: MdcSnackbar,
-    private readonly uiActions: UiStateActions) { }
+    private readonly uiSelectors: UiStateSelectors,
+    private readonly dialogRef: MdcDialogRef<UploadDialogComponent>) { }
 
   ngOnInit() {
     this.subscriptions = [
@@ -55,12 +55,14 @@ export class UploadDialogComponent implements OnInit, OnDestroy {
   }
 
   onUploadFiles() {
-    this.uiActions.setAppBusy(true);
-    this.fileService.uploadFiles(this.files, this.currentDirectory).subscribe(() => {
-      this.uiActions.setAppBusy(false);
-      let msg = this.files.map(f => f.name).join(", ");
-      this.snackbar.open(`Successfully uploaded file(s): ${msg}`);
+    const result = this.fileService.uploadFiles(this.files, this.currentDirectory);
+    const msg = this.files.map(f => f.name).join(', ');
+    result.subscribe(() => {
+      this.snackbar.open(`Successfully upload files: ${msg}`);
+    }, () => {
+      throw new Error(`Failed to upload files: ${msg}`);
     });
+    this.dialogRef.close(result);
   }
 
 }

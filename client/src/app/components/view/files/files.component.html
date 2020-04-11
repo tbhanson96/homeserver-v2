@@ -13,12 +13,28 @@
             <mdc-list-item *ngSwitchCase="'dir'" [routerLink]="file.name">
                 <img class="list-image" [src]="'/assets/icons/' + file.type + '.png'" />
                 <mdc-list-item-text [secondaryText]="file.timestamp">{{file.name}}</mdc-list-item-text>
-                <mdc-icon mdcListItemMeta aria-label="View more" title="More info">more_vert</mdc-icon>
+                <div mdcListItemMeta mdcMenuSurfaceAnchor #optionsAnchor>
+                    <button #optionsButton mdc-icon-button mdcListItemMeta aria-label="View more" title="More info" icon="more_vert" (click)="onShowFileOptions($event, optionsMenu)"></button>
+                    <mdc-menu #optionsMenu fixed class="file-options" [anchorElement]="optionsAnchor">
+                        <mdc-list>
+                            <mdc-list-item class="options-item" (click)="onDeleteFile($event, file)">Delete</mdc-list-item>
+                            <mdc-list-item class="options-item">Move</mdc-list-item>
+                        </mdc-list>
+                    </mdc-menu>
+                </div>
             </mdc-list-item>
             <a mdc-list-item *ngSwitchDefault [href]="'home/files/' + file.link">
                 <img class="list-image" [src]="'/assets/icons/' + file.type + '.png'" />
                 <mdc-list-item-text [secondaryText]="file.timestamp">{{file.name}}</mdc-list-item-text>
-                <mdc-icon mdcListItemMeta aria-label="View more" title="More info">more_vert</mdc-icon>
+                <div mdcListItemMeta mdcMenuSurfaceAnchor #optionsAnchor>
+                    <button #optionsButton mdc-icon-button mdcListItemMeta aria-label="View more" title="More info" icon="more_vert" (click)="onShowFileOptions($event, optionsMenu)"></button>
+                    <mdc-menu #optionsMenu fixed class="file-options" [anchorElement]="optionsAnchor">
+                        <mdc-list>
+                            <mdc-list-item class="options-item" (click)="onDeleteFile($event, file)">Delete</mdc-list-item>
+                            <mdc-list-item class="options-item">Move</mdc-list-item>
+                        </mdc-list>
+                    </mdc-menu>
+                </div>
             </a>
         </ng-container>
     </mdc-list>

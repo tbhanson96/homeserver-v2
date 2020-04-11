@@ -42,4 +42,9 @@ export class FileService implements OnModuleInit {
             await fs.unlinkSync(file.path);
         }
     }
+
+    async deleteFile(file: FileData) {
+        const path = this.getLocalFilePath(file.link);
+        await fs.unlinkSync(path);
+    }
 }
