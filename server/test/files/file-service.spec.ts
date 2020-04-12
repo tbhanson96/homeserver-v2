@@ -5,6 +5,7 @@ import { FileService } from '../../src/files/file.service';
 import { ConfigService } from '../../src/services/config.service';
 import { FileUtils } from '../../src/lib/file-utils';
 import * as fs from 'fs';
+import { Logger } from '@nestjs/common';
 
 describe('FileController', () => {
 
@@ -15,9 +16,9 @@ describe('FileController', () => {
     beforeEach(() => {
         MockConfigService.mockClear();
         MockConfigService.mockImplementation(() => {
-            return { env: { ROOT_DIR: 'root' } }
+            return { env: { FILES_DIR: 'root' } }
         })
-        fileService = new FileService(new MockConfigService())
+        fileService = new FileService(new MockConfigService(), new Logger())
         fileService.onModuleInit();
         jest.spyOn(FileUtils, 'removeHiddenFiles').mockReturnValue(['1', '2'])
         jest.spyOn(FileUtils, 'getFileProps').mockReturnValue({})

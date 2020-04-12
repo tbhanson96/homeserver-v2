@@ -5,12 +5,9 @@ export class EbookData {
         this.name = attr.name;
         this.author = attr.author;
         this.length = attr.length;
-        this.coverPath = attr.coverPath;
+        this.relativeCoverPath = attr.relativeCoverPath;
         this.description = attr.description;
     }
-
-    @ApiModelProperty()
-    id: number;
 
     @ApiModelProperty()
     name: string;
@@ -25,5 +22,5 @@ export class EbookData {
     description: string;
 
     @ApiModelProperty()
-    coverPath: string;
+    relativeCoverPath: string;
 }

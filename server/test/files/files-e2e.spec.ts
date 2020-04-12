@@ -78,7 +78,7 @@ describe('FileController (e2e)', () => {
   })
 
   it('POST /api/files/path?/', async () => {
-    const rootDir = app.get(ConfigService).env.ROOT_DIR;
+    const rootDir = app.get(ConfigService).env.FILES_DIR;
     const initialFiles = fs.readdirSync(rootDir);
     await request(app.getHttpServer())
       .post('/api/files/file?path=/')

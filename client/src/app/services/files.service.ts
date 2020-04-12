@@ -19,7 +19,7 @@ export class FilesService {
     return this.api.getApiFilesFile(filePath);
   }
 
-  public uploadFiles(files: Array<any>, directory: string) {
+  public uploadFiles(files: Array<File>, directory: string) {
     const formData = new FormData();
     files.forEach((file, index) => {
       formData.append(index.toString(), file, file.name);

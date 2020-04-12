@@ -1,4 +1,4 @@
-import { Module, NestModule, MiddlewareConsumer, RequestMethod, Scope } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer, RequestMethod, Scope, Logger } from '@nestjs/common';
 import { ClientMiddleware } from './middlewares/client.middleware';
 import { FileService } from './files/file.service';
 import { ConfigService } from './services/config.service';
@@ -14,6 +14,12 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './auth/jwtstrategy';
 import { FilesMiddleware } from './middlewares/files.middleware';
 import { ProxyMiddleware } from './middlewares/proxy.middleware';
+import { CalibreEbookService } from './ebooks/calibre-ebook.service';
+import { EbookService } from './ebooks/ebook.service';
+import { SimpleEbookService } from './ebooks/simple-ebook.service';
+import { EbooksMiddleware } from './middlewares/ebooks.middleware';
+import { BooleanPipe } from './lib/boolean-transform.pipe';
+import { APP_PIPE } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -53,13 +59,29 @@ import { ProxyMiddleware } from './middlewares/proxy.middleware';
       useClass: FileValidationPipe,
       scope: Scope.REQUEST,
     },
+    {
+      provide: APP_PIPE,
+      useClass: BooleanPipe,
+    },
     AuthService,
+    {
+      provide: EbookService,
+      useFactory: async (config: ConfigService, log: Logger) => {
+        if (config.env.USE_CALIBRE === 'true') {
+          return new CalibreEbookService(config, log);
+        } else {
+          return new SimpleEbookService(config);
+        }
+      },
+      inject: [ConfigService, Logger],
+    },
     JwtStrategy,
+    Logger,
   ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(FilesMiddleware, ClientMiddleware)
+    consumer.apply(FilesMiddleware, EbooksMiddleware, ClientMiddleware)
     .forRoutes({
       path: '/**',
       method: RequestMethod.GET,

@@ -1,28 +1,34 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, UseGuards, Query, Post, UseInterceptors, UploadedFiles, UsePipes } from '@nestjs/common';
 import { routes, joinRoutes } from '../routes';
-import { ApiOkResponse } from '@nestjs/swagger';
+import { ApiOkResponse, ApiImplicitQuery, ApiConsumes, ApiImplicitBody } from '@nestjs/swagger';
 import { EbookData } from '../models/ebookData';
 import { AuthGuard } from '@nestjs/passport';
+import { AnyFilesInterceptor } from '@nestjs/platform-express';
+import { EbookService } from './ebook.service';
 
 @Controller(joinRoutes(routes.api, routes.ebooks))
 @UseGuards(AuthGuard('jwt'))
 export class EbookController {
-    constructor( ) {}
+    constructor(
+        private readonly ebookService: EbookService,
+        ) { }
 
     @Get()
     @ApiOkResponse({type: EbookData, isArray: true, description: 'Directory path was successfully read' })
     async getBooks() {
-        let ret: EbookData[] = [];
-        for (let i = 0; i < 25; i++) {
-            ret.push(new EbookData({
-                id: i,
-                name: `Book ${i}`,
-                author: `author ${i}`,
-                length: '20 pages',
-                description: `description of book ${i}. it was okay`,
-                coverPath: 'files/Photos/book-cover.png'
-            }));
+        return await this.ebookService.getEbooks();
+    }
+
+    @Post()
+    @UseInterceptors(AnyFilesInterceptor())
+    @ApiOkResponse({ description: "Ebook succesfully uploaded!"})
+    @ApiImplicitQuery({name: 'sendToKindle', description: 'Whether or not to send this ebook to kindle library'})
+    @ApiConsumes('multipart/form-data')
+    @ApiImplicitBody({name: 'files' , type: Object })
+    async addEbook(@UploadedFiles() files: Express.Multer.File[], @Query('sendToKindle') sendToKindle: boolean) {
+        const filePaths = await this.ebookService.addBooks(files);
+        if (sendToKindle) {
+            await this.ebookService.sendToKindle(filePaths);
         }
-        return ret;
     }
 }

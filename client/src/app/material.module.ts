@@ -18,6 +18,7 @@ import {
     MdcImageListModule,
     MdcMenuSurfaceModule,
     MdcMenuModule,
+    MdcCheckboxModule,
  } from '@angular-mdc/web';
 
 @NgModule({
@@ -41,6 +42,7 @@ import {
     MdcImageListModule,
     MdcMenuSurfaceModule,
     MdcMenuModule,
+    MdcCheckboxModule,
   ]
 })
 export class MaterialModule { }

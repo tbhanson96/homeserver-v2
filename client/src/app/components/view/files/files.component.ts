@@ -8,6 +8,7 @@ import { UiStateActions } from '@actions/ui-state.actions';
 import { MdcDialog, MdcMenu, MdcSnackbar } from '@angular-mdc/web';
 import { UploadDialogComponent } from '@components/view/upload-dialog/upload-dialog.component';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
+import { UploadType } from '../upload-dialog/upload-type';
 
 @Component({
   selector: 'app-files',
@@ -55,7 +56,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   public openUploadDialog() {
-    const dialogRef = this.dialog.open(UploadDialogComponent);
+    const dialogRef = this.dialog.open(UploadDialogComponent, { data: UploadType.Files });
     dialogRef.afterClosed().subscribe(result => {
       if (result instanceof Observable) {
         this.uiActions.setAppBusy(true);

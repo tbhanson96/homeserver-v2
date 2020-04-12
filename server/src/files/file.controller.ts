@@ -7,6 +7,7 @@ import { ApiBadRequestResponse, ApiOkResponse, ApiImplicitQuery, ApiConsumes, Ap
 import { FileData } from '../models/fileData';
 import { Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
+import { BooleanPipe } from '../lib/boolean-transform.pipe';
 
 @Controller(joinRoutes(routes.api, routes.files))
 @UseGuards(AuthGuard('jwt'))
@@ -19,7 +20,7 @@ export class FileController {
     @ApiBadRequestResponse({ description: 'Invalid directory path'})
     @ApiImplicitQuery({name: 'path', type: String, description: 'Path to get files from'})
     @ApiImplicitQuery({name: 'includeHidden', type: Boolean, description: 'Whether or not to include hidden files, default to true', required: false })
-    async getPath(@Query('path') filePath: any, @Query('includeHidden', { transform: (arg) => arg == 'true' }) includeHiddenFiles = true) {
+    async getPath(@Query('path') filePath: string, @Query('includeHidden') includeHiddenFiles: boolean = true) {
         const files = await this.fileService.getFiles(filePath, includeHiddenFiles);
         return files;
     }
@@ -28,7 +29,7 @@ export class FileController {
     @ApiOkResponse({ description: 'File successfully found'})
     @ApiBadRequestResponse({ description: 'Invalid file path'})
     @ApiImplicitQuery({name: 'file', description: 'Path to file to retrieve'})
-    getFile(@Query('file') filePath: any, @Res() response: Response) {
+    getFile(@Query('file') filePath: string, @Res() response: Response) {
         const localPath = this.fileService.getLocalFilePath(filePath);
         response.sendFile(localPath);
     }
@@ -39,7 +40,7 @@ export class FileController {
     @ApiImplicitQuery({name: 'path', description: 'Directory to place file'})
     @ApiConsumes('multipart/form-data')
     @ApiImplicitBody({ name: 'files', type: Object })
-    async uploadFiles(@UploadedFiles() files: any, @Query('path') directory: string) {
+    async uploadFiles(@UploadedFiles() files: Express.Multer.File[], @Query('path') directory: string) {
        await this.fileService.copyFiles(files, directory);
     } 
 

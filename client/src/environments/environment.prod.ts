@@ -3,5 +3,5 @@ import { EnvDefaults } from './env-defaults';
 export const environment = {
   ...EnvDefaults,
   production: true,
-  showErrors: true,
+  showErrors: false,
 };

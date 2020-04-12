@@ -11,4 +11,12 @@ export class EbooksService {
   getEbooks() {
     return this.apiService.getApiEbooks();
   }
+
+  uploadEbooks(sendToKindle: boolean, files: Array<File>) {
+    const formData = new FormData();
+    files.forEach((file, index) => {
+      formData.append(index.toString(), file, file.name);
+    });
+    return this.apiService.postApiEbooks(sendToKindle, formData);
+  }
 }
