@@ -3,6 +3,7 @@ jest.mock('express')
 import { FileController } from '../../src/files/file.controller';
 import { FileService } from '../../src/files/file.service';
 import { response } from 'express';
+import { randomBytes } from 'crypto';
 
 describe('FileController', () => {
 
@@ -34,7 +35,17 @@ describe('FileController', () => {
 
     describe('uploadFiles', () => {
         it('should call copyFiles', async () => {
-            await controller.uploadFiles({ file1: "file1", file2: "file2"}, '/');
+            await controller.uploadFiles([{
+                fieldname: '',
+                originalname: 'file.txt',
+                encoding: '',
+                mimetype: '',
+                size: 0,
+                destination: '',
+                filename: 'asjdkfl',
+                path: 'askl',
+                buffer: randomBytes(20),
+            }], '/');
             expect(service.copyFiles).toHaveBeenCalledWith(expect.anything(), '/');
         })
     })

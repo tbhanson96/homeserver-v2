@@ -14,12 +14,13 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './auth/jwtstrategy';
 import { FilesMiddleware } from './middlewares/files.middleware';
 import { ProxyMiddleware } from './middlewares/proxy.middleware';
-import { CalibreEbookService } from './ebooks/calibre-ebook.service';
 import { EbookService } from './ebooks/ebook.service';
-import { SimpleEbookService } from './ebooks/simple-ebook.service';
 import { EbooksMiddleware } from './middlewares/ebooks.middleware';
 import { BooleanPipe } from './lib/boolean-transform.pipe';
 import { APP_PIPE } from '@nestjs/core';
+import { CalibreService } from './ebooks/calibre.service';
+import { RealCalibreService } from './ebooks/real-calibre.service';
+import { StubCalibreService } from './ebooks/stub-calibre.service';
 
 @Module({
   imports: [
@@ -55,6 +56,17 @@ import { APP_PIPE } from '@nestjs/core';
       useValue: new ConfigService(appConstants.envFilePath),
     },
     {
+      provide: CalibreService,
+      useFactory: async (config: ConfigService, log: Logger) => {
+        if (config.env.USE_CALIBRE === 'true') {
+          return new RealCalibreService(config, log);
+        } else {
+          return new StubCalibreService(config, log);
+        }
+      },
+      inject: [ConfigService, Logger],
+    },
+    {
       provide: FileValidationPipe,
       useClass: FileValidationPipe,
       scope: Scope.REQUEST,
@@ -64,17 +76,7 @@ import { APP_PIPE } from '@nestjs/core';
       useClass: BooleanPipe,
     },
     AuthService,
-    {
-      provide: EbookService,
-      useFactory: async (config: ConfigService, log: Logger) => {
-        if (config.env.USE_CALIBRE === 'true') {
-          return new CalibreEbookService(config, log);
-        } else {
-          return new SimpleEbookService(config);
-        }
-      },
-      inject: [ConfigService, Logger],
-    },
+    EbookService,
     JwtStrategy,
     Logger,
   ],

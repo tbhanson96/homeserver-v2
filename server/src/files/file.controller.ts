@@ -3,11 +3,10 @@ import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { FileService } from './file.service';
 import { FileValidationPipe } from './file-validation.pipe';
 import { routes, joinRoutes } from '../routes';
-import { ApiBadRequestResponse, ApiOkResponse, ApiImplicitQuery, ApiConsumes, ApiImplicitBody } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiOkResponse, ApiImplicitQuery, ApiConsumes, ApiImplicitBody, ApiAcceptedResponse } from '@nestjs/swagger';
 import { FileData } from '../models/fileData';
 import { Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
-import { BooleanPipe } from '../lib/boolean-transform.pipe';
 
 @Controller(joinRoutes(routes.api, routes.files))
 @UseGuards(AuthGuard('jwt'))
@@ -36,7 +35,7 @@ export class FileController {
 
     @Post('file')
     @UseInterceptors(AnyFilesInterceptor())
-    @ApiOkResponse({ description: "File(s) succesfully uploaded!"})
+    @ApiAcceptedResponse({ description: "File(s) succesfully uploaded!"})
     @ApiImplicitQuery({name: 'path', description: 'Directory to place file'})
     @ApiConsumes('multipart/form-data')
     @ApiImplicitBody({ name: 'files', type: Object })

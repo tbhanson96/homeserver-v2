@@ -40,7 +40,7 @@ export class UploadDialogComponent implements OnInit, OnDestroy {
   }
 
   onFileInput(event: any) {
-    this.files.push(...event.srcElement.files);
+    this.files = event.srcElement.files;
   }
 
   getFileSize(size: number): string {

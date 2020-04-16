@@ -1,6 +1,6 @@
 import { Controller, Get, UseGuards, Query, Post, UseInterceptors, UploadedFiles, UsePipes } from '@nestjs/common';
 import { routes, joinRoutes } from '../routes';
-import { ApiOkResponse, ApiImplicitQuery, ApiConsumes, ApiImplicitBody } from '@nestjs/swagger';
+import { ApiOkResponse, ApiImplicitQuery, ApiConsumes, ApiImplicitBody, ApiAcceptedResponse } from '@nestjs/swagger';
 import { EbookData } from '../models/ebookData';
 import { AuthGuard } from '@nestjs/passport';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
@@ -21,7 +21,7 @@ export class EbookController {
 
     @Post()
     @UseInterceptors(AnyFilesInterceptor())
-    @ApiOkResponse({ description: "Ebook succesfully uploaded!"})
+    @ApiAcceptedResponse({ description: "Ebook succesfully uploaded!"})
     @ApiImplicitQuery({name: 'sendToKindle', description: 'Whether or not to send this ebook to kindle library'})
     @ApiConsumes('multipart/form-data')
     @ApiImplicitBody({name: 'files' , type: Object })
