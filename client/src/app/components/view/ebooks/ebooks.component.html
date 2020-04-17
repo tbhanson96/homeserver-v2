@@ -3,7 +3,7 @@
     <mdc-card class="card">
         <mdc-card-primary-action>
           <mdc-card-media class="card-image">
-            <img [src]="ebook.coverPath" />
+            <img [src]="ebook.relativeCoverPath" />
           </mdc-card-media>
             <div class="demo-card__primary">
               <h2 class="demo-card__title" mdcHeadline6>{{ ebook.name }}</h2>
@@ -26,4 +26,4 @@
       </mdc-card>
   </mdc-image-list-item>
 </mdc-image-list>
-<button mdc-fab position="bottomRight" icon="add" ></button>
+<button mdc-fab position="bottomRight" icon="add" (click)="onUploadClick()"></button>

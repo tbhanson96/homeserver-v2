@@ -5,6 +5,8 @@ import { FileService } from '../../src/files/file.service';
 import { ConfigService } from '../../src/services/config.service';
 import { FileUtils } from '../../src/lib/file-utils';
 import * as fs from 'fs';
+import { Logger } from '@nestjs/common';
+import { randomBytes } from 'crypto';
 
 describe('FileController', () => {
 
@@ -15,9 +17,9 @@ describe('FileController', () => {
     beforeEach(() => {
         MockConfigService.mockClear();
         MockConfigService.mockImplementation(() => {
-            return { env: { ROOT_DIR: 'root' } }
+            return { env: { FILES_DIR: 'root' } }
         })
-        fileService = new FileService(new MockConfigService())
+        fileService = new FileService(new MockConfigService(), new Logger())
         fileService.onModuleInit();
         jest.spyOn(FileUtils, 'removeHiddenFiles').mockReturnValue(['1', '2'])
         jest.spyOn(FileUtils, 'getFileProps').mockReturnValue({})
@@ -45,11 +47,31 @@ describe('FileController', () => {
     describe('copyFiles', () => {
         it ('calls correct methods', async () => {
             await fileService.copyFiles([ 
-                { originalname: 'a', path: 'a'},
-                { originalname: 'b', path: 'b'}
+                { 
+                    fieldname: '',
+                    originalname: 'a.txt',
+                    encoding: '',
+                    mimetype: '',
+                    size: 0,
+                    destination: '',
+                    filename: 'asjdkfl',
+                    path: 'a',
+                    buffer: randomBytes(20),
+                },
+                { 
+                    fieldname: '',
+                    originalname: 'b.txt',
+                    encoding: '',
+                    mimetype: '',
+                    size: 0,
+                    destination: '',
+                    filename: 'asjdkfl',
+                    path: 'b',
+                    buffer: randomBytes(20),
+                },
             ], 'Documents');
-            expect(fsMock.copyFileSync).toHaveBeenCalledWith('a', 'root/Documents/a');
-            expect(fsMock.copyFileSync).toHaveBeenCalledWith('b', 'root/Documents/b');
+            expect(fsMock.copyFileSync).toHaveBeenCalledWith('a', 'root/Documents/a.txt');
+            expect(fsMock.copyFileSync).toHaveBeenCalledWith('b', 'root/Documents/b.txt');
             expect(fsMock.unlinkSync).toHaveBeenCalledTimes(2);
         });
     });

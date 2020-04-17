@@ -51,5 +51,5 @@ export class EnvOptions {
     public CLIENT_DIR: string;
     public USE_HTTPS: string;
     public SSL_FILEPATH: string;
-    public ROOT_DIR: string; 
+    public FILES_DIR: string; 
 }

@@ -13,7 +13,7 @@ echo "Installing all necessary files..."
 cd $DIRNAME/../server
 echo "Building server..."
 run_command "npm install"
-run_command "npm run build:prod"
+run_command "npm run package"
 echo "Finished building server."
 
 cd $DIRNAME/../client

@@ -12,13 +12,14 @@ child.stderr.on('data', (data) => {
 });
 child.on('error', (err) => {
     console.log('[CLIENT]: ' + err);
-    process.exit(-1);
 });
 
 tscClient.on('success', () => {
-    setTimeout(() => start(), 500);
     execSync('npm run swagger');
     execSync('npm run codegen', { cwd: path.join(__dirname, '..', 'client') });
+    start().then(() => {
+        console.log('[SERVER]: Recompiled and restarted app.');
+    })
 });
 
 tscClient.on('compile_errors', () => {

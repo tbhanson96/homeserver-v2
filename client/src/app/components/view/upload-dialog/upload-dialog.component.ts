@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FilesService } from '@services/files.service';
-import { MdcDialogRef, MdcSnackbar } from '@angular-mdc/web';
-import { UiStateActions } from '@actions/ui-state.actions';
+import { MdcDialogRef, MdcSnackbar, MDC_DIALOG_DATA } from '@angular-mdc/web';
 import { UiStateSelectors } from '@selectors/ui-state.selectors';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
+import { EbooksService } from '@services/ebooks.service';
+import { UploadType } from './upload-type';
 
 @Component({
   selector: 'app-upload-dialog',
@@ -12,17 +13,20 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./upload-dialog.component.scss']
 })
 export class UploadDialogComponent implements OnInit, OnDestroy {
-  files = new Array<any>();
+  files = new Array<File>();
   uploadForm = new FormGroup({
     files: new FormControl(),
-  })
+  });
   currentDirectory = '/';
+  sendToKindle = false;
   private subscriptions: Subscription[];
   constructor(
     private readonly fileService: FilesService,
-    private readonly uiSelectors: UiStateSelectors,
+    private readonly ebookService: EbooksService,
     private readonly snackbar: MdcSnackbar,
-    private readonly uiActions: UiStateActions) { }
+    private readonly uiSelectors: UiStateSelectors,
+    private readonly dialogRef: MdcDialogRef<UploadDialogComponent>,
+    @Inject(MDC_DIALOG_DATA) private readonly uploadService: UploadType ) { }
 
   ngOnInit() {
     this.subscriptions = [
@@ -37,6 +41,7 @@ export class UploadDialogComponent implements OnInit, OnDestroy {
   }
 
   onFileInput(event: any) {
+    this.files = [];
     this.files.push(...event.srcElement.files);
   }
 
@@ -50,17 +55,32 @@ export class UploadDialogComponent implements OnInit, OnDestroy {
     return size.toFixed(3) + ' ' + units[count];
   }
 
-  onDeleteFile(file: any) {
+  onDeleteFile(file: File) {
     this.files = this.files.filter(f => f.name !== file.name);
   }
 
   onUploadFiles() {
-    this.uiActions.setAppBusy(true);
-    this.fileService.uploadFiles(this.files, this.currentDirectory).subscribe(() => {
-      this.uiActions.setAppBusy(false);
-      let msg = this.files.map(f => f.name).join(", ");
-      this.snackbar.open(`Successfully uploaded file(s): ${msg}`);
+    let result: Observable<null>;
+    switch (this.uploadService) {
+      case UploadType.Files:
+        result = this.fileService.uploadFiles(this.files, this.currentDirectory);
+        break;
+      case UploadType.Ebooks:
+        result = this.ebookService.uploadEbooks(this.sendToKindle, this.files);
+        break;
+    }
+
+    const msg = this.files.map(f => f.name).join(', ');
+    result.subscribe(() => {
+      this.snackbar.open(`Successfully uploaded files: ${msg}`);
+    }, () => {
+      throw new Error(`Failed to upload files: ${msg}`);
     });
+    this.dialogRef.close(result);
+  }
+
+  onSendToKindleInput(input: boolean) {
+    this.sendToKindle = input;
   }
 
 }

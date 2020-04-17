@@ -24,6 +24,7 @@ import { AuthService } from '@services/auth.service';
 import { AuthInterceptor } from '@services/auth.interceptor';
 import { EbooksComponent } from '@components/view/ebooks/ebooks.component';
 import { EbooksService } from '@services/ebooks.service';
+import { DeleteDialogComponent } from './components/view/delete-dialog/delete-dialog.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { EbooksService } from '@services/ebooks.service';
     AuthComponent,
     AppComponent,
     EbooksComponent,
+    DeleteDialogComponent,
   ],
   imports: [
     FormsModule,
@@ -65,6 +67,7 @@ import { EbooksService } from '@services/ebooks.service';
   ],
   entryComponents: [
     UploadDialogComponent,
+    DeleteDialogComponent,
   ],
   bootstrap: [AppComponent]
 })

@@ -68,13 +68,6 @@ export class FileUtils {
     }
 
     public static removeHiddenFiles(files: string[]): string[] {
-        let ret: string[] = [];
-        files.forEach(file => {
-            if(file.charAt(0) != '.') {
-                ret.push(file);
-            }
-        });
-    
-        return ret;
+        return files.filter(file => file[0] != '.');
     }
 }
