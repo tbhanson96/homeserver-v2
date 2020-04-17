@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '@api/services';
+import { share } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,6 @@ export class EbooksService {
     files.forEach((file, index) => {
       formData.append(index.toString(), file, file.name);
     });
-    return this.apiService.postApiEbooks(sendToKindle, formData);
+    return this.apiService.postApiEbooks(sendToKindle, formData).pipe(share());
   }
 }

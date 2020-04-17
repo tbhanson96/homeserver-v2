@@ -18,6 +18,7 @@ export class UploadDialogComponent implements OnInit, OnDestroy {
     files: new FormControl(),
   });
   currentDirectory = '/';
+  sendToKindle = false;
   private subscriptions: Subscription[];
   constructor(
     private readonly fileService: FilesService,
@@ -40,7 +41,8 @@ export class UploadDialogComponent implements OnInit, OnDestroy {
   }
 
   onFileInput(event: any) {
-    this.files = event.srcElement.files;
+    this.files = [];
+    this.files.push(...event.srcElement.files);
   }
 
   getFileSize(size: number): string {
@@ -64,7 +66,7 @@ export class UploadDialogComponent implements OnInit, OnDestroy {
         result = this.fileService.uploadFiles(this.files, this.currentDirectory);
         break;
       case UploadType.Ebooks:
-        result = this.ebookService.uploadEbooks(true, this.files);
+        result = this.ebookService.uploadEbooks(this.sendToKindle, this.files);
         break;
     }
 
@@ -75,6 +77,10 @@ export class UploadDialogComponent implements OnInit, OnDestroy {
       throw new Error(`Failed to upload files: ${msg}`);
     });
     this.dialogRef.close(result);
+  }
+
+  onSendToKindleInput(input: boolean) {
+    this.sendToKindle = input;
   }
 
 }
