@@ -19,6 +19,7 @@ export class UploadDialogComponent implements OnInit, OnDestroy {
   });
   currentDirectory = '/';
   sendToKindle = false;
+  uploadServiceEnum = UploadType;
   private subscriptions: Subscription[];
   constructor(
     private readonly fileService: FilesService,
@@ -26,7 +27,7 @@ export class UploadDialogComponent implements OnInit, OnDestroy {
     private readonly snackbar: MdcSnackbar,
     private readonly uiSelectors: UiStateSelectors,
     private readonly dialogRef: MdcDialogRef<UploadDialogComponent>,
-    @Inject(MDC_DIALOG_DATA) private readonly uploadService: UploadType ) { }
+    @Inject(MDC_DIALOG_DATA) public readonly uploadService: UploadType ) { }
 
   ngOnInit() {
     this.subscriptions = [

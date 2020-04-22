@@ -18,6 +18,7 @@ module.exports = {
     "mp4": "mp4",
     "pdf": "pdf",
     "png": "png",
+    "PNG": "png",
     "ppt": "ppt",
     "pptx": "ppt",
     "psd": "psd",
