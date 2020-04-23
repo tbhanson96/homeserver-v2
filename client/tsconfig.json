@@ -10,7 +10,6 @@
     "module": "esnext",
     "moduleResolution": "node",
     "paths": {
-      "@api/*": ["src/app/api/*"],
       "@components/*": ["src/app/components/*"],
       "@models/*": ["src/app/models/*"],
       "@services/*": ["src/app/services/*"],

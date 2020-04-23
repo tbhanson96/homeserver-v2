@@ -1,4 +1,3 @@
-import { ApiModelProperty } from "@nestjs/swagger";
 
 export class EbookData {
     constructor(attr: any) {
@@ -9,18 +8,13 @@ export class EbookData {
         this.description = attr.description;
     }
 
-    @ApiModelProperty()
     name: string;
 
-    @ApiModelProperty()
     author: string;
 
-    @ApiModelProperty()
     length: string;
 
-    @ApiModelProperty()
     description: string;
 
-    @ApiModelProperty()
     relativeCoverPath: string;
 }

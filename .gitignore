@@ -18,7 +18,7 @@ speed-measure-plugin.json
 
 #codegen
 server/swagger.json
-client/src/app/api
+**/api.service.ts
 
 # misc
 sass-cache

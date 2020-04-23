@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from '@api/services';
+import { AuthControllerClient, AuthDto } from '@services/api.service';
 import { CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -10,21 +10,12 @@ import { environment } from 'src/environments/environment';
 export class AuthService implements CanActivate {
   private isAuthenticated = true;
   constructor(
-    private readonly api: ApiService,
+    private readonly api: AuthControllerClient,
     private readonly router: Router) { }
- 
-  // async init() {
-  //   return new Promise(res => {
-  //     this.getAuthenticated().subscribe(authed => {
-  //       this.isAuthenticated = authed;
-  //       res();
-  //     });
-  //   });
-  // }
 
   getAuthenticated(): Observable<boolean> {
     return Observable.create(observer => {
-      this.api.getApiAuth().subscribe(() => {
+      this.api.isLoggedIn().subscribe(() => {
         observer.next(true);
         observer.complete();
         this.isAuthenticated = true;
@@ -38,8 +29,8 @@ export class AuthService implements CanActivate {
 
   login(username: string, password: string): Observable<boolean> {
     return Observable.create(observer => {
-      this.api.postApiAuth({ username, password }).subscribe(auth_token => {
-        localStorage.setItem('access_token', auth_token); // save incase we want to get later
+      this.api.login(AuthDto.fromJS({ username, password })).subscribe(authToken => {
+        localStorage.setItem('access_token', authToken); // save incase we want to get later
         observer.next(true);
         observer.complete();
         this.isAuthenticated = true;
@@ -48,12 +39,12 @@ export class AuthService implements CanActivate {
         observer.complete();
         this.isAuthenticated = false;
       });
-    })
+    });
   }
 
   canActivate(): boolean {
     if (!this.isAuthenticated) {
-      this.router.navigateByUrl('/login')
+      this.router.navigateByUrl('/login');
       return false;
     }
     return true;

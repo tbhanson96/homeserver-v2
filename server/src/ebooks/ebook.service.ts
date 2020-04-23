@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import nodemailer from 'nodemailer';
 import { EbookUtils } from '../lib/ebook-utils';
-import { EbookData } from "../models/ebookData";
+import { EbookData } from "../models/ebookData.dto";
 import { routes } from "../routes";
 import { AsyncUtils } from '../lib/async-utils';
 import Mail from "nodemailer/lib/mailer";

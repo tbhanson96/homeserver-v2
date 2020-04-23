@@ -1,6 +1,6 @@
 import { Controller, Post, Body, Get, Req, UseGuards } from '@nestjs/common';
 import { routes, joinRoutes } from '../routes';
-import { AuthDto } from '../models/authDto';
+import { AuthDto } from '../models/authDto.dto';
 import { AuthService } from './auth.service';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { Request } from 'express';

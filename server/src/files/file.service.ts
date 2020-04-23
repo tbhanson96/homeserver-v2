@@ -1,5 +1,5 @@
 import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
-import { FileData } from '../models/fileData';
+import { FileData } from '../models/fileData.dto';
 import { FileUtils } from '../lib/file-utils';
 import * as fs from 'fs';
 import * as path from 'path';
