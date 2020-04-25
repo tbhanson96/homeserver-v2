@@ -25,7 +25,6 @@ import { AuthInterceptor } from '@services/auth.interceptor';
 import { EbooksComponent } from '@components/view/ebooks/ebooks.component';
 import { EbooksService } from '@services/ebooks.service';
 import { DeleteDialogComponent } from './components/view/delete-dialog/delete-dialog.component';
-import { AuthControllerClient, FileControllerClient, EbookControllerClient } from '@services/api.service';
 
 @NgModule({
   declarations: [
@@ -65,9 +64,7 @@ import { AuthControllerClient, FileControllerClient, EbookControllerClient } fro
     FilesService,
     AuthService,
     EbooksService,
-    AuthControllerClient,
-    FileControllerClient,
-    EbookControllerClient,
+    ApiService,
   ],
   entryComponents: [
     UploadDialogComponent,

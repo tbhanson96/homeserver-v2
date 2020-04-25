@@ -7,7 +7,6 @@ import { ApiBadRequestResponse, ApiOkResponse, ApiQuery, ApiConsumes, ApiBody, A
 import { FileData } from '../models/fileData.dto';
 import { Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiFiles } from 'src/lib/api-file-decorator';
 
 @Controller(joinRoutes(routes.api, routes.files))
 @UseGuards(AuthGuard('jwt'))
@@ -40,7 +39,7 @@ export class FileController {
     @ApiBadRequestResponse()
     @ApiQuery({name: 'path', description: 'Directory to place file'})
     @ApiConsumes('multipart/form-data')
-    @ApiFiles()
+    @ApiBody({ type: Object, description: "Form data of files" })
     async uploadFiles(@UploadedFiles() files: Express.Multer.File[], @Query('path') directory: string) {
         if (files.length < 1) {
             throw new BadRequestException("No files were selected.");

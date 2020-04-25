@@ -1,0 +1,15 @@
+{
+  "$schema": "./node_modules/ng-openapi-gen/ng-openapi-gen-schema.json",
+  "output": "src/app/api",
+  "ignoreUnusedModels": true,
+  "minParamsForContainer": 4,
+  "sortParams": "desc",
+  "defaultTag": "Api",
+  "removeStaleFiles": true,
+  "modelIndex": true,
+  "serviceIndex": true,
+  "apiModule": false,
+  "enumModule": true,
+  "generateExamples": false,
+  "camelCase": false
+}

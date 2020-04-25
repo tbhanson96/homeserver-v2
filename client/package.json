@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "codegen": "nswag swagger2tsclient version /input:../server/swagger.json /template:angular /InjectionTokenType:InjectionToken /HttpClass:HttpClient /RxJsVersion:6.0 /output:src/app/services/api.service.ts",
+    "codegen": "ng-openapi-gen -i ../server/swagger.json -o src/app/api",
     "start": "ng serve",
     "build": "npm run codegen && ng build",
     "build:prod": "npm run codegen && ng build --prod",
@@ -46,8 +46,8 @@
     "karma-coverage-istanbul-reporter": "2.1.0",
     "karma-jasmine": "2.0.1",
     "karma-jasmine-html-reporter": "1.4.2",
+    "ng-openapi-gen": "0.10.0",
     "protractor": "5.4.2",
-    "nswag": "13.4.2",
     "ts-node": "8.4.1",
     "tslint": "5.20.0",
     "typescript": "3.5.3"

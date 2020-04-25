@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { share } from 'rxjs/operators';
-import { EbookControllerClient } from './api.service';
+import { ApiService } from '@api/services';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EbooksService {
 
-  constructor(private api: EbookControllerClient) { }
+  constructor(private readonly api: ApiService) { }
 
   getEbooks() {
-    return this.api.getBooks();
+    return this.api.ebookControllerGetBooks();
   }
 
   uploadEbooks(sendToKindle: boolean, files: Array<File>) {
@@ -18,6 +18,6 @@ export class EbooksService {
     files.forEach((file, index) => {
       formData.append(index.toString(), file, file.name);
     });
-    return this.api.addEbook(sendToKindle, formData).pipe(share());
+    return this.api.ebookControllerAddEbook({ sendToKindle, body: formData }).pipe(share());
   }
 }

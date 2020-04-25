@@ -1,4 +1,3 @@
-import * as util from 'util';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FileData } from '@api/models';
@@ -13,11 +12,11 @@ export class FilesService {
   constructor(private readonly api: ApiService) { }
 
   public getDirectory(filePath: string, showHiddenFiles: boolean): Observable<FileData[]> {
-    return this.api.getApiFilesPath(filePath, showHiddenFiles );
+    return this.api.fileControllerGetPath({ path: filePath, includeHidden: showHiddenFiles });
   }
 
   public getFile(filePath: string): Observable<any> {
-    return this.api.getApiFilesFile(filePath);
+    return this.api.fileControllerGetFile({ file: filePath });
   }
 
   public uploadFiles(files: Array<File>, directory: string) {
@@ -25,10 +24,10 @@ export class FilesService {
     files.forEach((file, index) => {
       formData.append(index.toString(), file, file.name);
     });
-    return this.api.postApiFilesFile(directory, formData).pipe(share());
+    return this.api.fileControllerUploadFiles({ path: directory, body: formData }).pipe(share());
   }
 
   public deleteFile(file: FileData) {
-    return this.api.deleteApiFilesFile(file).pipe(share());
+    return this.api.fileControllerDeleteFile({ body: file }).pipe(share());
   }
 }
