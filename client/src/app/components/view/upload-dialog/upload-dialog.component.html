@@ -15,7 +15,7 @@
                 <input class="file-input" id="files" type="file" name="files" (input)="onFileInput($event)" multiple>
                 <label mdc-button primary for="files">Add a file...</label>
             </mdc-form-field>
-            <mdc-form-field>
+            <mdc-form-field *ngIf="uploadService === uploadServiceEnum.Ebooks" >
               <mdc-checkbox #sendToKindle (change)="onSendToKindleInput(sendToKindle.checked)"></mdc-checkbox>
               <label>Send to Kindle</label>
             </mdc-form-field>
