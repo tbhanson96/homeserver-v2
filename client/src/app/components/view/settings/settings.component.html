@@ -1,0 +1,19 @@
+<mdc-dialog>
+  <mdc-dialog-container>
+    <mdc-dialog-surface>
+      <mdc-dialog-title>Settings</mdc-dialog-title>
+        <mdc-dialog-content>
+          <mdc-list avatar singleSelection>
+            <mdc-list-item #listItem *ngFor="let update of updatesAvailable" (click)="onSelectUpdate(update)">
+              <mdc-icon>{{ listItem.selected ? 'check_circle_outline' : 'update' }}</mdc-icon>
+              <mdc-list-item-text>{{ update }}</mdc-list-item-text> 
+            </mdc-list-item>
+          </mdc-list>
+        </mdc-dialog-content>
+        <mdc-dialog-actions>
+          <button mdcDialogButton mdcDialogAction="close">Cancel</button>
+          <button mdcDialogButton default form="uploadForm" type="submit">Update</button>
+        </mdc-dialog-actions>
+    </mdc-dialog-surface>
+  </mdc-dialog-container>
+</mdc-dialog>

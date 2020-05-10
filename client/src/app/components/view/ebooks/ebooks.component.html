@@ -14,8 +14,7 @@
           <mdc-card-action-buttons>
             <div mdcMenuSurfaceAnchor #descriptionAnchor>
               <button mdc-button mdcCardAction="button" (click)="demoSurface.open = !demoSurface.open">Description</button>
-              <mdc-menu-surface #demoSurface class="book-description" [anchorElement]="descriptionAnchor">
-                {{ ebook.description }}
+              <mdc-menu-surface #demoSurface class="book-description" [anchorElement]="descriptionAnchor" [innerHtml]="ebook.description">
               </mdc-menu-surface>
             </div>
           </mdc-card-action-buttons>
