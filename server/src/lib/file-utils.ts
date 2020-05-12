@@ -1,3 +1,7 @@
+import fs from 'fs';
+import path from 'path';
+import { AsyncUtils } from './async-utils';
+
 export class FileUtils {
 
     public static parsePerms(perms: number): string {
@@ -69,5 +73,19 @@ export class FileUtils {
 
     public static removeHiddenFiles(files: string[]): string[] {
         return files.filter(file => file[0] != '.');
+    }
+
+    public static async removeDir(dir: string): Promise<void> {
+        if (fs.existsSync(dir)) {
+            AsyncUtils.forEachAsync(fs.readdirSync(dir), async (file) => {
+                const curPath = path.join(dir, file);
+                if (fs.lstatSync(curPath).isDirectory()) { // recurse
+                    await this.removeDir(curPath);
+                } else { // delete file
+                    fs.unlinkSync(curPath);
+                }
+                });
+            fs.rmdirSync(dir);
+        }
     }
 }

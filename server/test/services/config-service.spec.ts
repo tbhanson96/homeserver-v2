@@ -12,14 +12,14 @@ describe('ConfigService', () => {
     });
 
     it('parses into process.env correctly', () => {
-        const service = new ConfigService('path');
+        const service = new ConfigService('path/default.env');
         expect(mockDotEnv.config).toBeCalled();
         expect(service.env.FILES_DIR).toEqual('path/..')
         expect(service.env.PORT).toEqual('6969');
     });
 
     it('throws if env does not find key', () => {
-        const service = new ConfigService('path');
+        const service = new ConfigService('path/default.env');
         expect(() => {
             service.env.NOT_A_KEY
         }).toThrow();

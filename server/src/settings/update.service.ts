@@ -3,6 +3,7 @@ import { ConfigService } from "../services/config.service";
 import fs from 'fs';
 import path from 'path';
 import tar from 'tar';
+import { FileUtils } from "../lib/file-utils";
 
 @Injectable()
 export class UpdateService implements OnModuleInit {
@@ -38,7 +39,7 @@ export class UpdateService implements OnModuleInit {
         if (!fs.existsSync(updateFilePath)) {
             throw new Error(`Update file ${updateFileName} does not exist`);
         }
-        fs.unlinkSync(this.installDir);
+        await FileUtils.removeDir(this.installDir);
         fs.mkdirSync(this.installDir, { recursive: true });
         await tar.x({
             file: updateFilePath,
