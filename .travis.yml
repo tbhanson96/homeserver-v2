@@ -3,10 +3,10 @@ node_js:
   - 12.9.1
 cache:
   directories:
-    server/node_modules
-    client/node_modules
-    server/dist
-    client/dist
+    - server/node_modules
+    - client/node_modules
+    - server/dist
+    - client/dist
 
 jobs:
   include:

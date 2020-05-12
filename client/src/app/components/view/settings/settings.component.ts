@@ -9,7 +9,7 @@ import { MdcDialogRef } from '@angular-mdc/web';
 })
 export class SettingsComponent implements OnInit {
 
-  public updatesAvailable: string[] = ["update1.tar.gz", "update2.tar.gz"];
+  public updatesAvailable: string[];
   private selectedUpdate: string = null;
   constructor(
     private readonly api: ApiService,
