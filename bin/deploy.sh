@@ -13,6 +13,7 @@ DIRNAME=$(dirname "$SCRIPT")
 
 cd "$DIRNAME/../server"
 run_command "npm run package"
+run_command "cp -r $DIRNAME/../client/dist $DIRNAME/../dist/client"
 
 run_command "VERSION=$(cat $DIRNAME/../VERSION.txt)"
 TAR_FILE="homeserver-$VERSION-$TRAVIS_BUILD_NUMBER.tar.gz"
