@@ -11,7 +11,8 @@ export class FileService implements OnModuleInit {
 
     constructor(
         private configService: ConfigService,
-        private log: Logger) { }
+        private log: Logger,
+        ) { }
 
     onModuleInit() {
         this.rootDir = this.configService.env.FILES_DIR;

@@ -10,7 +10,10 @@
             </mdc-tab-scroller>
           </mdc-tab-bar>
           <div *ngIf="tabBar.activeTabIndex === 0">
-            <mdc-checkbox #showHiddenFiles (change)="onShowHiddenFilesToggle(showHiddenFiles.checked)"></mdc-checkbox>
+            <mdc-form-field>
+              <mdc-checkbox #showHiddenFiles (change)="onShowHiddenFilesToggle(showHiddenFiles.checked)"></mdc-checkbox>
+              <label>Show hidden files</label>
+            </mdc-form-field>
           </div>
           <div *ngIf="tabBar.activeTabIndex === 1">
             <mdc-list avatar singleSelection>
