@@ -11,7 +11,7 @@ export class ConfigService {
     private readonly _env: any;
     constructor(envFilePath: string) {
         this.envFilePath = envFilePath;
-        dotenv.config({ path: path.join(this.envFilePath, 'default.env') }); 
+        dotenv.config({ path: this.envFilePath }); 
         for (let e of Object.keys(process.env)) {
             let val = process.env[e];
             if (val && val.includes(this.rootWildcard)) {
@@ -26,7 +26,7 @@ export class ConfigService {
         return this._env;
     }
 
-    public async set(key: string, value: string) {
+    public set(key: string, value: string) {
         this._env[key] = value;
     }
     

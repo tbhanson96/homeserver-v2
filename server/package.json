@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc -p tsconfig.build.json && npm run swagger",
-    "package": "npm run build && mkdirp ../dist/env && ncp env/default.prod.env ../dist/env/default.env && nexe -t linux-x64 dist/main.js -o ../dist/server",
+    "package": "mkdirp ../dist/env && ncp env/default.prod.env ../dist/env/default.env && nexe -t linux-x64 dist/main.js -o ../dist/server",
     "swagger": "node swagger-doc-gen.js",
     "start": "node dist/main.js",
     "start:dev": "npm run build && node dev-server.js",
@@ -27,9 +27,11 @@
     "@types/http-proxy": "1.17.2",
     "@types/http-proxy-middleware": "0.19.3",
     "@types/nodemailer": "^6.4.0",
+    "@types/tar": "^4.0.3",
     "dotenv": "8.2.0",
     "epub": "^1.2.0",
     "http-proxy-middleware": "0.20.0",
+    "memfs": "^3.1.2",
     "morgan": "1.9.1",
     "ncp": "2.0.0",
     "node-calibre": "^2.1.1",
@@ -39,7 +41,8 @@
     "passport-local": "1.0.0",
     "reflect-metadata": "0.1.13",
     "rxjs": "6.5.3",
-    "swagger-ui-express": "4.1.2"
+    "swagger-ui-express": "4.1.2",
+    "tar": "^6.0.2"
   },
   "devDependencies": {
     "@nestjs/cli": "6.14.2",

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MdcDialog } from '@angular-mdc/web';
+import { MdcDialog, MdcSnackbar } from '@angular-mdc/web';
 import { SettingsComponent } from '@components/view/settings/settings.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-side-bar',
@@ -10,6 +11,7 @@ import { SettingsComponent } from '@components/view/settings/settings.component'
 export class SideBarComponent {
   constructor(
     private readonly dialog: MdcDialog,
+    private readonly snackbar: MdcSnackbar,
     ) { }
   
 
@@ -20,6 +22,15 @@ export class SideBarComponent {
 
   onOpenSettings() {
     const dialogRef = this.dialog.open(SettingsComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result instanceof Observable) {
+        result.subscribe(_ => {
+          this.snackbar.open('Succesfully performed update. Please refresh page.');
+        }, err => {
+          throw new Error('Failed to apply update.');
+        });
+      }
+    });
   }
 
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '@api/services';
+import { MdcDialogRef } from '@angular-mdc/web';
 
 @Component({
   selector: 'app-settings',
@@ -12,16 +13,22 @@ export class SettingsComponent implements OnInit {
   private selectedUpdate: string = null;
   constructor(
     private readonly api: ApiService,
+    private dialogRef: MdcDialogRef<SettingsComponent>,
   ) { }
 
   ngOnInit() {
-    // this.api.checkForUpdates().subscribe(updates => {
-    //   this.updatesAvailable = updates;
-    // });
+    this.api.getApiSettingsUpdate().subscribe(updates => {
+      this.updatesAvailable = updates;
+    });
   }
 
   onSelectUpdate(update: string) {
     this.selectedUpdate = update;
+  }
+
+  onPerformUpdate() {
+    const result = this.api.postApiSettingsUpdate(this.selectedUpdate);
+    this.dialogRef.close(result);
   }
 
 }
