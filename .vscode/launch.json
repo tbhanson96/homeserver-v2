@@ -29,7 +29,7 @@
             "request": "launch",
             "name": "Debug Server",
             "preLaunchTask": "Build Server",
-            // "runtimeVersion": "12.9.1",
+            // "runtimeVersion": "12",
             "program": "${workspaceFolder}/server/dist/main.js",
             "sourceMaps": true,
         },

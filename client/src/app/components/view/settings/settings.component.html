@@ -1,0 +1,24 @@
+<mdc-dialog>
+  <mdc-dialog-container>
+    <mdc-dialog-surface>
+      <mdc-dialog-title>Settings</mdc-dialog-title>
+        <mdc-dialog-content>
+          <mdc-tab-bar>
+            <mdc-tab-scroller>
+              <mdc-tab label="Updates" icon="update"></mdc-tab>
+            </mdc-tab-scroller>
+          </mdc-tab-bar>
+          <mdc-list avatar singleSelection>
+            <mdc-list-item #listItem *ngFor="let update of updatesAvailable" (click)="onSelectUpdate(update)">
+              <mdc-icon mdcListItemGraphic>update</mdc-icon>
+              {{ update }}
+            </mdc-list-item>
+          </mdc-list>
+        </mdc-dialog-content>
+        <mdc-dialog-actions>
+          <button mdcDialogButton mdcDialogAction="close">Cancel</button>
+          <button mdcDialogButton default (click)="onPerformUpdate()">Update</button>
+        </mdc-dialog-actions>
+    </mdc-dialog-surface>
+  </mdc-dialog-container>
+</mdc-dialog>

@@ -21,6 +21,8 @@ import { APP_PIPE } from '@nestjs/core';
 import { CalibreService } from './ebooks/calibre.service';
 import { RealCalibreService } from './ebooks/real-calibre.service';
 import { StubCalibreService } from './ebooks/stub-calibre.service';
+import { UpdateService } from './settings/update.service';
+import { SettingsController } from './settings/settings.controller';
 
 @Module({
   imports: [
@@ -48,6 +50,7 @@ import { StubCalibreService } from './ebooks/stub-calibre.service';
     FileController,
     AuthController,
     EbookController,
+    SettingsController,
   ],
   providers: [
     FileService,
@@ -77,6 +80,7 @@ import { StubCalibreService } from './ebooks/stub-calibre.service';
     },
     AuthService,
     EbookService,
+    UpdateService,
     JwtStrategy,
     Logger,
   ],

@@ -11,11 +11,11 @@ export class ConfigService {
     private readonly _env: any;
     constructor(envFilePath: string) {
         this.envFilePath = envFilePath;
-        dotenv.config({ path: path.join(this.envFilePath, 'default.env') }); 
+        dotenv.config({ path: this.envFilePath }); 
         for (let e of Object.keys(process.env)) {
             let val = process.env[e];
             if (val && val.includes(this.rootWildcard)) {
-                process.env[e] = val.replace(this.rootWildcard, this.envFilePath);
+                process.env[e] = val.replace(this.rootWildcard, path.dirname(this.envFilePath));
             }
         }
         this._env = this.throwOnUndefined(process.env);
@@ -26,7 +26,7 @@ export class ConfigService {
         return this._env;
     }
 
-    public async set(key: string, value: string) {
+    public set(key: string, value: string) {
         this._env[key] = value;
     }
     

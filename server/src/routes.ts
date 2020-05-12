@@ -5,4 +5,5 @@ export const routes: any = {
     files: 'files',
     auth: 'auth',
     ebooks: 'ebooks',
+    settings: 'settings',
 }

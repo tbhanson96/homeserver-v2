@@ -7,9 +7,16 @@ run_command()
         exit 1
     fi
 }
+ 
+SCRIPT=$(readlink -f "$BASH_SOURCE")
+DIRNAME=$(dirname "$SCRIPT")
 
-run_command "./bin/build.sh"
-cd dist
-run_command "tar zcf homeserver.tar.gz *"
-run_command "scp homeserver.tar.gz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_DIR"
-run_command "ssh $DEPLOY_USER@$DEPLOY_HOST \"mkdir -p $DEPLOY_DIR/updates && mv $DEPLOY_DIR/homeserver.tar.gz $DEPLOY_DIR/updates\""
+cd "$DIRNAME/../src/server"
+run_command "npm run package"
+
+run_command "VERSION=$(cat $DIRNAME/../VERSION.txt)"
+TAR_FILE="homeserver-$VERSION-$TRAVIS_BUILD_NUMBER.tar.gz"
+
+cd "$DIRNAME/../dist"
+run_command "tar zcf $TAR_FILE *"
+run_command "scp $TAR_FILE $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_DIR"

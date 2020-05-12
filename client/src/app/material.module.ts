@@ -19,6 +19,7 @@ import {
     MdcMenuSurfaceModule,
     MdcMenuModule,
     MdcCheckboxModule,
+    MdcTabBarModule,
  } from '@angular-mdc/web';
 
 @NgModule({
@@ -43,6 +44,7 @@ import {
     MdcMenuSurfaceModule,
     MdcMenuModule,
     MdcCheckboxModule,
+    MdcTabBarModule,
   ]
 })
 export class MaterialModule { }

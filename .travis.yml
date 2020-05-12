@@ -5,6 +5,8 @@ cache:
   directories:
     server/node_modules
     client/node_modules
+    server/dist
+    client/dist
 
 jobs:
   include:
@@ -21,10 +23,7 @@ jobs:
     - stage: build
       name: "Build"
       script:
-        - cd server
-        - npm run build
-        - cd ../client
-        - npm run build:prod
+        - ./bin/build.sh
     - stage: build
       name: "Run tests"
       script:

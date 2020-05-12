@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { UiStateActions } from '@actions/ui-state.actions';
+import { Component, OnInit } from '@angular/core';
+import { MdcDialog, MdcSnackbar } from '@angular-mdc/web';
+import { SettingsComponent } from '@components/view/settings/settings.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-side-bar',
@@ -7,12 +9,28 @@ import { UiStateActions } from '@actions/ui-state.actions';
   styleUrls: ['./side-bar.component.scss']
 })
 export class SideBarComponent {
-
-  constructor(private uiActions: UiStateActions) { }
+  constructor(
+    private readonly dialog: MdcDialog,
+    private readonly snackbar: MdcSnackbar,
+    ) { }
+  
 
   onNavigatePage() {
     // TODO: figure out how to only do this if sidebar is in 'dismissible' mode
     // this.uiActions.toggleSidebar(false);
+  }
+
+  onOpenSettings() {
+    const dialogRef = this.dialog.open(SettingsComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result instanceof Observable) {
+        result.subscribe(_ => {
+          this.snackbar.open('Succesfully performed update. Please refresh page.');
+        }, err => {
+          throw new Error('Failed to apply update.');
+        });
+      }
+    });
   }
 
 }

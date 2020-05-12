@@ -7,11 +7,8 @@
     <mdc-list-item (click)="onNavigatePage()" routerLink="/home/ebooks">
       <mdc-icon mdcListItemGraphic>book</mdc-icon>Ebooks
     </mdc-list-item>
-    <a mdc-list-item href="#/drawer-demo/examples">
+    <mdc-list-item (click)="onOpenSettings()">
       <mdc-icon mdcListItemGraphic>settings</mdc-icon>Settings
-    </a>
-    <a mdc-list-item href="#/drawer-demo/examples">
-      <mdc-icon mdcListItemGraphic>announcement</mdc-icon>Help & feedback
-    </a>
+    </mdc-list-item>
   </mdc-list>
 </mdc-drawer-content>
