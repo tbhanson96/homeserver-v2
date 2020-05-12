@@ -11,6 +11,8 @@ export class SettingsComponent implements OnInit {
 
   public updatesAvailable: string[];
   private selectedUpdate: string = null;
+  private showHiddenFiles: boolean = false;
+
   constructor(
     private readonly api: ApiService,
     private dialogRef: MdcDialogRef<SettingsComponent>,
@@ -29,6 +31,10 @@ export class SettingsComponent implements OnInit {
   onPerformUpdate() {
     const result = this.api.postApiSettingsUpdate(this.selectedUpdate);
     this.dialogRef.close(result);
+  }
+
+  onShowHiddenFilesToggle(show: boolean) {
+    this.showHiddenFiles = show;
   }
 
 }

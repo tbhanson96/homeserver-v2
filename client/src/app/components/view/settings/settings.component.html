@@ -3,21 +3,28 @@
     <mdc-dialog-surface>
       <mdc-dialog-title>Settings</mdc-dialog-title>
         <mdc-dialog-content>
-          <mdc-tab-bar>
+          <mdc-tab-bar #tabBar [activeTabIndex]="0">
             <mdc-tab-scroller>
+              <mdc-tab label="General" icon="settings"></mdc-tab>
               <mdc-tab label="Updates" icon="update"></mdc-tab>
             </mdc-tab-scroller>
           </mdc-tab-bar>
-          <mdc-list avatar singleSelection>
-            <mdc-list-item #listItem *ngFor="let update of updatesAvailable" (click)="onSelectUpdate(update)">
-              <mdc-icon mdcListItemGraphic>update</mdc-icon>
-              {{ update }}
-            </mdc-list-item>
-          </mdc-list>
+          <div *ngIf="tabBar.activeTabIndex === 0">
+            <mdc-checkbox #showHiddenFiles (change)="onShowHiddenFilesToggle(showHiddenFiles.checked)"></mdc-checkbox>
+          </div>
+          <div *ngIf="tabBar.activeTabIndex === 1">
+            <mdc-list avatar singleSelection>
+              <mdc-list-item #listItem *ngFor="let update of updatesAvailable" (click)="onSelectUpdate(update)">
+                <mdc-icon mdcListItemGraphic>update</mdc-icon>
+                {{ update }}
+              </mdc-list-item>
+            </mdc-list>
+          </div>
         </mdc-dialog-content>
         <mdc-dialog-actions>
           <button mdcDialogButton mdcDialogAction="close">Cancel</button>
-          <button mdcDialogButton default (click)="onPerformUpdate()">Update</button>
+          <button *ngIf="tabBar.activeTabIndex === 0" mdcDialogButton default (click)="onSettingsSave()">Save</button>
+          <button *ngIf="tabBar.activeTabIndex === 1" mdcDialogButton default (click)="onPerformUpdate()">Update</button>
         </mdc-dialog-actions>
     </mdc-dialog-surface>
   </mdc-dialog-container>
