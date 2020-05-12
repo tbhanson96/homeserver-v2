@@ -15,7 +15,7 @@ export class ConfigService {
         for (let e of Object.keys(process.env)) {
             let val = process.env[e];
             if (val && val.includes(this.rootWildcard)) {
-                process.env[e] = val.replace(this.rootWildcard, this.envFilePath);
+                process.env[e] = val.replace(this.rootWildcard, path.dirname(this.envFilePath));
             }
         }
         this._env = this.throwOnUndefined(process.env);
