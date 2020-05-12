@@ -11,7 +11,7 @@ run_command()
 SCRIPT=$(readlink -f "$BASH_SOURCE")
 DIRNAME=$(dirname "$SCRIPT")
 
-cd "$DIRNAME/../src/server"
+cd "$DIRNAME/../server"
 run_command "npm run package"
 
 run_command "VERSION=$(cat $DIRNAME/../VERSION.txt)"
