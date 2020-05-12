@@ -47,7 +47,7 @@
               ],
               "optimization": true,
               "outputHashing": "all",
-              "outputPath": "../dist/client",
+              "outputPath": "dist/",
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
