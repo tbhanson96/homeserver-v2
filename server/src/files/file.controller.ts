@@ -7,20 +7,24 @@ import { ApiBadRequestResponse, ApiOkResponse, ApiImplicitQuery, ApiConsumes, Ap
 import { FileData } from '../models/fileData';
 import { Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
+import { SettingsService } from '../settings/settings.service';
 
 @Controller(joinRoutes(routes.api, routes.files))
 @UseGuards(AuthGuard('jwt'))
 @UsePipes(FileValidationPipe)
 export class FileController {
-    constructor(private readonly fileService: FileService ) {}
+    constructor(
+        private readonly fileService: FileService,
+        private readonly settingsService: SettingsService,
+        ) {}
 
     @Get('path')
     @ApiOkResponse({type: FileData, isArray: true, description: 'Directory path was successfully read' })
     @ApiBadRequestResponse({ description: 'Invalid directory path'})
     @ApiImplicitQuery({name: 'path', type: String, description: 'Path to get files from'})
-    @ApiImplicitQuery({name: 'includeHidden', type: Boolean, description: 'Whether or not to include hidden files, default to true', required: false })
-    async getPath(@Query('path') filePath: string, @Query('includeHidden') includeHiddenFiles: boolean = true) {
-        const files = await this.fileService.getFiles(filePath, includeHiddenFiles);
+    async getPath(@Query('path') filePath: string) {
+        const showHidden = this.settingsService.getSettings().showHiddenFiles;
+        const files = await this.fileService.getFiles(filePath, showHidden);
         return files;
     }
 

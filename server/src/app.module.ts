@@ -23,6 +23,7 @@ import { RealCalibreService } from './ebooks/real-calibre.service';
 import { StubCalibreService } from './ebooks/stub-calibre.service';
 import { UpdateService } from './settings/update.service';
 import { SettingsController } from './settings/settings.controller';
+import { SettingsService } from './settings/settings.service';
 
 @Module({
   imports: [
@@ -81,6 +82,7 @@ import { SettingsController } from './settings/settings.controller';
     AuthService,
     EbookService,
     UpdateService,
+    SettingsService,
     JwtStrategy,
     Logger,
   ],

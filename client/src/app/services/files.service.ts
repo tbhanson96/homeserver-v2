@@ -13,7 +13,7 @@ export class FilesService {
   constructor(private readonly api: ApiService) { }
 
   public getDirectory(filePath: string, showHiddenFiles: boolean): Observable<FileData[]> {
-    return this.api.getApiFilesPath(filePath, showHiddenFiles );
+    return this.api.getApiFilesPath(filePath);
   }
 
   public getFile(filePath: string): Observable<any> {

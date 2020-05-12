@@ -1,26 +1,37 @@
 jest.mock( '../../src/files/file.service');
+jest.mock('../../src/settings/settings.service');
 jest.mock('express')
 import { FileController } from '../../src/files/file.controller';
 import { FileService } from '../../src/files/file.service';
 import { response } from 'express';
 import { randomBytes } from 'crypto';
+import { SettingsService } from '../../src/settings/settings.service';
+import { SettingsDto } from 'src/models/settingsDto';
 
 describe('FileController', () => {
 
     const fileService = <jest.Mock<FileService>>FileService;
+    const settingsService = <jest.Mock<SettingsService>>SettingsService;
     let controller: FileController;
     let service: any;
     beforeEach(() => {
         fileService.mockClear();
-        controller = new FileController(new fileService());
+        settingsService.mockClear();
+        controller = new FileController(new fileService(), new settingsService());
         service = fileService.mock.instances[0];
+        jest.spyOn(settingsService.mock.instances[0], 'getSettings').mockImplementation(() => {
+            const settings: SettingsDto = {
+                showHiddenFiles: false, 
+            };
+            return settings;
+        });
     });
 
     describe('getPath', () => {
         it('should call getFiles', async () => {
             await controller.getPath('/');
-            expect(service.getFiles).toHaveBeenCalledWith('/', true);
-            await controller.getPath('/', false)
+            expect(service.getFiles).toHaveBeenCalledWith('/', false);
+            await controller.getPath('/')
             expect(service.getFiles).toHaveBeenCalledWith('/', false);
         });
     });
