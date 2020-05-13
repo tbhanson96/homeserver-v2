@@ -23,6 +23,4 @@ describe('FileUtil', () => {
         await FileUtils.removeDir(rootPath);
         expect(fs.existsSync(rootPath)).toBeFalsy();
     });
-
-
 });
