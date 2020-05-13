@@ -77,14 +77,15 @@ export class FileUtils {
 
     public static async removeDir(dir: string): Promise<void> {
         if (fs.existsSync(dir)) {
-            await AsyncUtils.forEachAsync(fs.readdirSync(dir), async (file) => {
+            const contents = await fs.promises.readdir(dir);
+            await AsyncUtils.forEachAsync(contents, async (file) => {
                 const curPath = path.join(dir, file);
                 if (fs.lstatSync(curPath).isDirectory()) { // recurse
                     await this.removeDir(curPath);
                 } else { // delete file
                     fs.unlinkSync(curPath);
                 }
-                });
+            });
             fs.rmdirSync(dir);
         }
     }
