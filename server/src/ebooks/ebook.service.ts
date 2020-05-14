@@ -116,4 +116,8 @@ export class EbookService implements OnModuleInit {
             });
         });
     }
+
+    public async removeBookFromLibrary(book: EbookData): Promise<void> {
+        await this.calibre.removeBookFromLibrary(book.id);
+    }
 }

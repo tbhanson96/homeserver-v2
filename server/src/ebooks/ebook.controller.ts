@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards, Query, Post, UseInterceptors, UploadedFiles, UsePipes } from '@nestjs/common';
+import { Controller, Get, UseGuards, Query, Post, UseInterceptors, UploadedFiles, UsePipes, Delete, Body } from '@nestjs/common';
 import { routes, joinRoutes } from '../routes';
 import { ApiOkResponse, ApiImplicitQuery, ApiConsumes, ApiImplicitBody, ApiAcceptedResponse } from '@nestjs/swagger';
 import { EbookData } from '../models/ebookData';
@@ -18,6 +18,10 @@ export class EbookController {
     async getBooks() {
         return await this.ebookService.getEbooks();
     }
+
+    // @Delete()
+    // @ApiOkResponse({ description: 'Succesfully deleted ebook.'})
+    // async deleteEbook(@Body() ebook: EbookData)
 
     @Post()
     @UseInterceptors(AnyFilesInterceptor())

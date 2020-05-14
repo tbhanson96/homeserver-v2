@@ -33,6 +33,16 @@ export class RealCalibreService implements OnModuleInit, CalibreService {
         return mobiFilePath;
     }
 
+    public async removeBookFromLibrary(id: number): Promise<void> {
+        await this.calibre.run('calibredb remove', [id]);
+        this.log.log(`Succesfully removed book ${id} from library.`);
+    }
+
+    public async getLibraryData(): Promise<any> {
+        const result = await this.calibre.run('calibredb list --for-machine');
+        return JSON.parse(result);
+    }
+
     private getCalibreIdFromAddResult(result: string): number {
         return parseInt(result.slice(result.indexOf(': ') + 1, result.length));
     }
