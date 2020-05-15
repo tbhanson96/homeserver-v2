@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { CalibreLibraryData } from "src/models/calibreLibraryData";
 
 @Injectable()
 export class CalibreService {
@@ -11,5 +12,5 @@ export class CalibreService {
 
     public async removeBookFromLibrary(id: number): Promise<void> { }
 
-    public async getLibraryData(): Promise<any> { return {}; }
+    public async getLibraryData(): Promise<CalibreLibraryData[]> { return []; }
 }

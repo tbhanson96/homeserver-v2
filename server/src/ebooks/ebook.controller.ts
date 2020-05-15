@@ -19,9 +19,11 @@ export class EbookController {
         return await this.ebookService.getEbooks();
     }
 
-    // @Delete()
-    // @ApiOkResponse({ description: 'Succesfully deleted ebook.'})
-    // async deleteEbook(@Body() ebook: EbookData)
+    @Delete()
+    @ApiOkResponse({ description: 'Succesfully deleted ebook.'})
+    async deleteEbook(@Body() ebook: EbookData) {
+        await this.ebookService.removeBookFromLibrary(ebook);
+    }
 
     @Post()
     @UseInterceptors(AnyFilesInterceptor())

@@ -82,7 +82,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   public onDeleteFile(event: Event, file: FileData) {
     event.preventDefault();
     event.stopPropagation();
-    const dialogRef = this.dialog.open(DeleteDialogComponent, { data: file });
+    const dialogRef = this.dialog.open(DeleteDialogComponent, { data: { service: UploadType.Files, file }});
     dialogRef.afterClosed().subscribe(result => {
       if (result instanceof Observable) {
         this.uiActions.setAppBusy(true);

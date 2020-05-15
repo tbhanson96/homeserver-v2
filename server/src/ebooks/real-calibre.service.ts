@@ -2,6 +2,7 @@ import { Injectable, Logger, OnModuleInit } from "@nestjs/common";
 import { ConfigService } from "../services/config.service";
 import { Calibre } from 'node-calibre';
 import { CalibreService } from "./calibre.service";
+import { CalibreLibraryData } from "src/models/calibreLibraryData";
 
 @Injectable()
 export class RealCalibreService implements OnModuleInit, CalibreService {
@@ -38,7 +39,7 @@ export class RealCalibreService implements OnModuleInit, CalibreService {
         this.log.log(`Succesfully removed book ${id} from library.`);
     }
 
-    public async getLibraryData(): Promise<any> {
+    public async getLibraryData(): Promise<CalibreLibraryData[]> {
         const result = await this.calibre.run('calibredb list --for-machine');
         return JSON.parse(result);
     }

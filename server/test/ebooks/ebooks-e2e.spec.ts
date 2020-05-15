@@ -10,6 +10,8 @@ import fs from 'fs';
 import { AuthGuard } from '@nestjs/passport';
 import { ConfigService } from '../../src/services/config.service';
 import { setupMockFs } from '../mock-helper';
+import { EbookData } from '../../src/models/ebookData';
+import { FileUtils } from '../../src/lib/file-utils';
 
 
 describe('EbookController (e2e)', () => {
@@ -17,9 +19,9 @@ describe('EbookController (e2e)', () => {
 
   beforeAll(async () => {
     const animal = path.join(__dirname, 'animal.epub');
-    const alice = path.join(__dirname, 'alice.epub');
+    const god = path.join(__dirname, 'god.epub');
     const igp = path.join(__dirname, 'igp.epub');
-    const configService = setupMockFs(animal, igp, alice); 
+    const configService = setupMockFs(animal, igp, god); 
     fs.renameSync(animal, path.join(configService.env.EBOOK_DIR, path.basename(animal)));
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -49,7 +51,7 @@ describe('EbookController (e2e)', () => {
         {
           "name": "The Social Animal",
           "author": "Elliot Aronson",
-          "relativeCoverPath": null,
+          "relativeCoverPath": '',
           "description": 
             "<p class=\"description\">Newly revised and up-to-date, this edition of The Social Animal is a " +
             "brief, compelling introduction to modern social psychology. Through vivid narrative, lively presentations " +
@@ -64,14 +66,31 @@ describe('EbookController (e2e)', () => {
     const rootDir = app.get(ConfigService).env.EBOOK_DIR;
     await request(app.getHttpServer())
       .post('/api/ebooks?sendToKindle=false')
-      .attach('0', path.join(__dirname, 'alice.epub'))
+      .attach('0', path.join(__dirname, 'god.epub'))
       .attach('1', path.join(__dirname, 'igp.epub'))
       .expect(201);
     const newFiles = fs.readdirSync(rootDir);
-    expect(newFiles.includes('alice.epub')).toBeTruthy();
+    expect(newFiles.includes('god.epub')).toBeTruthy();
     expect(newFiles.includes('igp.epub')).toBeTruthy();
-    expect(newFiles.includes('alice.mobi')).toBeTruthy();
+    expect(newFiles.includes('god.mobi')).toBeTruthy();
     expect(newFiles.includes('igp.mobi')).toBeTruthy();
+  });
+
+  it('DELETE /api/ebooks deletes correctly', async () => {
+    const response = await request(app.getHttpServer())
+      .get('/api/ebooks')
+      .expect(200);
+    const book: EbookData = response.body[0];
+    await request(app.getHttpServer())
+      .delete('/api/ebooks')
+      .send(book)
+      .expect(200);
+    
+    const { body: newBooks } : { body: EbookData[] } = await request(app.getHttpServer())
+      .get('/api/ebooks')
+      .expect(200);
+    
+    expect(newBooks.find(b => b.name === book.name)).toBeFalsy();
   });
 
 });

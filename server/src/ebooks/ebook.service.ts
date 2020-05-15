@@ -41,34 +41,27 @@ export class EbookService implements OnModuleInit {
     }
 
     public async getEbooks(): Promise<EbookData[]> {
-        const filePaths = await this.scanLibForEpubsRecursiveHelper(this.ebookDir);
+        const filePaths = await EbookUtils.scanLibForEpubsRecursiveHelper(this.ebookDir);
         const epubs = await EbookUtils.getEpubData(filePaths);
+        const library = await this.calibre.getLibraryData();
         const ret: EbookData[] = [];
         epubs.forEach((epub, index) => {
-            ret.push(new EbookData({
+            const id = library.find(entry =>
+                entry.title === epub.metadata.title
+            )?.id ??
+            library.find(entry => 
+                filePaths[index] === entry.title
+            )?.id ?? -1;
+            ret.push({
+                id: id,
+                length: '',
                 name: epub.metadata.title,
                 author: epub.metadata.creator,
                 description: epub.metadata.description,
                 relativeCoverPath: fs.existsSync(path.join(path.dirname(filePaths[index]), 'cover.jpg'))
                     ? `${routes.ebooks}/${path.relative(this.ebookDir, path.join(path.dirname(filePaths[index]), 'cover.jpg'))}`
-                    : null,
-            }));
-        });
-        return ret;
-    }
-
-    private async scanLibForEpubsRecursiveHelper(curDir: string): Promise<string[]> {
-        const ret: string[] = [];
-        const files = fs.readdirSync(curDir);
-        await AsyncUtils.forEachAsync(files, async fileName => {
-            const filePath = path.join(curDir, fileName);
-            let stats = fs.statSync(filePath);
-            if(stats.isDirectory()) {
-                ret.push(...(await this.scanLibForEpubsRecursiveHelper(filePath)));
-            }
-            if (path.extname(fileName) === '.epub') {
-                ret.push(filePath);
-            }
+                    : '',
+            });
         });
         return ret;
     }

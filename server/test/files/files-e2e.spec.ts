@@ -11,6 +11,7 @@ import { FileController } from '../../src/files/file.controller';
 import { ConfigService } from '../../src/services/config.service';
 import { AuthGuard } from '@nestjs/passport';
 import { setupMockFs } from '../mock-helper';
+import { FileData } from 'src/models/fileData';
 
 describe('FileController (e2e)', () => {
   let app: INestApplication;
@@ -87,7 +88,6 @@ describe('FileController (e2e)', () => {
 
   it('POST /api/files/path?/', async () => {
     const rootDir = app.get(ConfigService).env.FILES_DIR;
-    const initialFiles = fs.readdirSync(rootDir);
     fs.writeFileSync('test3.pdf', 'test pdf');
     fs.writeFileSync('test4.jpg', 'test jpg');
     await request(app.getHttpServer())
@@ -98,6 +98,21 @@ describe('FileController (e2e)', () => {
     const files = fs.readdirSync(rootDir);
     expect(files.includes('test3.pdf')).toBeTruthy();
     expect(files.includes('test4.jpg')).toBeTruthy();
+  });
+
+  it('DELETE /api/files/file', async () => {
+    const rootDir = app.get(ConfigService).env.FILES_DIR;
+    const { body: files } : { body: FileData[] } = await request(app.getHttpServer())
+      .get('/api/files/path?path=/')
+      .expect(200);
+
+    const fileToDelete = files[0]; 
+    await request(app.getHttpServer())
+      .delete('/api/files/file')
+      .send(fileToDelete)
+      .expect(200);
+    
+    expect(fs.readdirSync(rootDir).find(f => f === fileToDelete.name)).toBeFalsy();
   });
 
 });

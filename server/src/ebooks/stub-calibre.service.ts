@@ -3,6 +3,8 @@ import fs from 'fs';
 import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
 import { CalibreService } from './calibre.service';
 import { ConfigService } from '../services/config.service';
+import { EbookUtils } from '../lib/ebook-utils';
+import { CalibreLibraryData } from 'src/models/calibreLibraryData';
 
 @Injectable()
 export class StubCalibreService implements CalibreService, OnModuleInit {
@@ -17,8 +19,13 @@ export class StubCalibreService implements CalibreService, OnModuleInit {
         private readonly log: Logger,
     ) { }
 
-    onModuleInit() {
+    async onModuleInit(): Promise<void> {
         this.libraryPath = this.configService.env.EBOOK_DIR;
+        const files = await EbookUtils.scanLibForEpubsRecursiveHelper(this.libraryPath);
+        files.forEach(file => {
+            this.books.push(file);
+            this.curId++;
+        });
     }
 
     public async addBookToLibrary(filePath: string): Promise<number> {
@@ -54,8 +61,18 @@ export class StubCalibreService implements CalibreService, OnModuleInit {
         this.books[id] = '';
     }
 
-    public async getLibraryData(): Promise<any> {
-        const result = [];
+    public async getLibraryData(): Promise<CalibreLibraryData[]> {
+        const ret: CalibreLibraryData[] = [];
+        this.books.forEach((book, index) => {
+            if (book) {
+                ret.push({
+                    id: index,
+                    title: book, 
+                    authors: '',
+                });
+            }
+        });
+        return ret;
     }
 
     private getFileName(filePath: string): string {
