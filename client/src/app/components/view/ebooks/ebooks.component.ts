@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { UiStateActions } from '@actions/ui-state.actions';
 import { EbooksService } from '@services/ebooks.service';
 import { EbookData } from '@api/models';
-import { MdcDialog } from '@angular-mdc/web';
+import { MdcDialog, MdcSnackbar, MdcMenu } from '@angular-mdc/web';
 import { UploadDialogComponent } from '../upload-dialog/upload-dialog.component';
 import { Observable } from 'rxjs';
 import { UploadType } from '../upload-dialog/upload-type';
+import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-ebooks',
@@ -18,14 +19,16 @@ export class EbooksComponent implements OnInit {
   constructor(
     private uiActions: UiStateActions,
     private ebooksService: EbooksService,
-    private dialog: MdcDialog) { }
+    private dialog: MdcDialog,
+    private snackbar: MdcSnackbar,
+    ) { }
 
   ngOnInit() {
     this.uiActions.setCurrentApp('Ebooks');
     this.updateEbooks();
   }
 
-  onUploadClick() {
+  public onUploadClick() {
     const dialogRef = this.dialog.open(UploadDialogComponent, { data: UploadType.Ebooks });
     dialogRef.afterClosed().subscribe(result => {
       if (result instanceof Observable) {
@@ -37,6 +40,28 @@ export class EbooksComponent implements OnInit {
         });
       }
     });
+  }
+
+  public onDeleteFile(event: Event, file: EbookData) {
+    event.preventDefault();
+    const dialogRef = this.dialog.open(DeleteDialogComponent, { data: { service: UploadType.Ebooks, file }});
+    dialogRef.afterClosed().subscribe(result => {
+      if (result instanceof Observable) {
+        this.uiActions.setAppBusy(true);
+        result.subscribe(() => {
+          this.snackbar.open(`Successfully remove ebook from libary: ${file.name}`);
+          this.updateEbooks();
+        }, () => {
+          this.uiActions.setAppBusy(false);
+          throw new Error(`Failed to remove ebook from library: ${file.name}`);
+        });
+      }
+    });
+  }
+
+  public onShowEbookOptions(event: Event, menu: MdcMenu) {
+    event.preventDefault();
+    menu.open = !menu.open;
   }
 
   private updateEbooks() {

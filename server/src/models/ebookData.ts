@@ -10,6 +10,9 @@ export class EbookData {
     }
 
     @ApiModelProperty()
+    id: number;
+
+    @ApiModelProperty()
     name: string;
 
     @ApiModelProperty()

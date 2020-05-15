@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<package xmlns="http://www.idpf.org/2007/opf" unique-identifier="uuid_id" version="2.0">
+    <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+        <dc:identifier opf:scheme="calibre" id="calibre_id">17</dc:identifier>
+        <dc:identifier opf:scheme="uuid" id="uuid_id">dedff395-58dd-44ac-b763-1d11708f9f69</dc:identifier>
+        <dc:title>God's Debris: A Thought Experiment</dc:title>
+        <dc:creator opf:file-as="Adams, Scott" opf:role="aut">Scott Adams</dc:creator>
+        <dc:contributor opf:file-as="calibre" opf:role="bkp">calibre (3.31.0) [https://calibre-ebook.com]</dc:contributor>
+        <dc:date>2004-09-01T12:00:00+00:00</dc:date>
+        <dc:description>&lt;div&gt;&lt;p&gt;&lt;em&gt;God's Debris&lt;/em&gt; is the first non-&lt;em&gt;Dilbert&lt;/em&gt;, non-humor book by best-selling author Scott Adams. Adams describes &lt;em&gt;God's Debris&lt;/em&gt; as a thought experiment wrapped in a story. &lt;/p&gt;
+&lt;p&gt;Imagine that you meet a very old man who you eventually realize knows literally everything. Imagine that he explains for you the great mysteries of life: quantum physics, evolution, God, gravity, light psychic phenomenon, and probability in a way so simple, so novel, and so compelling that it all fits together and makes perfect sense. What does it feel like to suddenly understand everything?  &lt;/p&gt;
+&lt;p&gt;You may not find the final answer to the big question, but &lt;em&gt;God's Debris&lt;/em&gt; might provide the most compelling vision of reality you will ever read. The thought experiment is this: Try to figure out what's wrong with the old man's explanation of reality. &lt;/p&gt;&lt;h3&gt;Amazon Review&lt;/h3&gt;
+&lt;p&gt;Scott Adams, creator of the popular comic strip "Dilbert," has written a modern-day parable about a young man and an unlikely mentor. &lt;em&gt;God's Debris&lt;/em&gt; starts with a young deliveryman trying to hand over a package to an old man with a San Francisco address. But delivering the package proves to be as difficult as trying to understand the meaning of God.&lt;/p&gt;
+&lt;p&gt;The deliveryman begins to realize that he's not dealing with a feeble-minded old man; he's dealing with a situation that could alter his life. The sincerity and metaphysical complexity of this fable will surprise those who expect comedy, but Adams is following a tradition set by such writers as Dan Millman (&lt;em&gt;Way of the Peaceful Warrior&lt;/em&gt;) and Richard Bach (&lt;em&gt;Illusions&lt;/em&gt;). As in many parables that have come before, the deliveryman learns the meaning of life from an illusive mentor who seems to arise from a wrinkle in time. The cleverness of the &lt;i&gt;God's Debris&lt;/i&gt; concept is original and bound to leave readers pondering some altered definitions of God, the universe, and just about everything else. &lt;em&gt;--Gail Hudson&lt;/em&gt;&lt;/p&gt;
+&lt;h3&gt;About the Author&lt;/h3&gt;
+&lt;p&gt;What started as a doodle has turned Scott Adams into a superstar of the cartoon world. &lt;em&gt;Dilbert&lt;/em&gt; debuted on the comics page in 1989, while Adams was in the tech department at Pacific Bell. Adams continued to work at Pacific Bell until he was voluntarily downsized in 1995. He has lived in the San Francisco Bay Area since 1979. &lt;/p&gt;&lt;/div&gt;</dc:description>
+        <dc:publisher>Andrews McMeel Publishing</dc:publisher>
+        <dc:identifier opf:scheme="AMAZON">0740747878</dc:identifier>
+        <dc:identifier opf:scheme="GOOGLE">lP5jAgAAQBAJ</dc:identifier>
+        <dc:identifier opf:scheme="ISBN">9781449459840</dc:identifier>
+        <dc:language>eng</dc:language>
+        <dc:subject>Fiction</dc:subject>
+        <dc:subject>God</dc:subject>
+        <dc:subject>Philosophy</dc:subject>
+        <dc:subject>Religion</dc:subject>
+        <meta content="{&quot;Scott Adams&quot;: &quot;&quot;}" name="calibre:author_link_map"/>
+        <meta content="2020-05-15T19:17:50.699393+00:00" name="calibre:timestamp"/>
+        <meta content="God's Debris: A Thought Experiment" name="calibre:title_sort"/>
+    </metadata>
+    <guide>
+        <reference href="cover.jpg" title="Cover" type="cover"/>
+    </guide>
+</package>

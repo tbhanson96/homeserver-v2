@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <package xmlns="http://www.idpf.org/2007/opf" unique-identifier="uuid_id" version="2.0">
     <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
-        <dc:identifier opf:scheme="calibre" id="calibre_id">1</dc:identifier>
-        <dc:identifier opf:scheme="uuid" id="uuid_id">876bdae7-773e-46fd-8e8a-466e06b43721</dc:identifier>
+        <dc:identifier opf:scheme="calibre" id="calibre_id">16</dc:identifier>
+        <dc:identifier opf:scheme="uuid" id="uuid_id">d3886896-40dd-461b-94f9-c42bd39691e0</dc:identifier>
         <dc:title>The Social Animal</dc:title>
         <dc:creator opf:file-as="Aronson, Elliot" opf:role="aut">Elliot Aronson</dc:creator>
         <dc:contributor opf:file-as="calibre" opf:role="bkp">calibre (3.31.0) [https://calibre-ebook.com]</dc:contributor>
@@ -15,7 +15,7 @@
         <dc:subject>Social Psychology</dc:subject>
         <dc:subject>Psychology</dc:subject>
         <meta content="{&quot;Elliot Aronson&quot;: &quot;&quot;}" name="calibre:author_link_map"/>
-        <meta content="2020-04-12T21:02:23.946160+00:00" name="calibre:timestamp"/>
+        <meta content="2020-05-15T19:16:56.765468+00:00" name="calibre:timestamp"/>
         <meta content="Social Animal, The" name="calibre:title_sort"/>
     </metadata>
     <guide>

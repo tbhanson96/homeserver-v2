@@ -2,6 +2,7 @@ import { Injectable, Logger, OnModuleInit } from "@nestjs/common";
 import { ConfigService } from "../services/config.service";
 import { Calibre } from 'node-calibre';
 import { CalibreService } from "./calibre.service";
+import { CalibreLibraryData } from "src/models/calibreLibraryData";
 
 @Injectable()
 export class RealCalibreService implements OnModuleInit, CalibreService {
@@ -31,6 +32,16 @@ export class RealCalibreService implements OnModuleInit, CalibreService {
         const mobiFilePath = await this.calibre.ebookConvert(filepath, 'mobi');
         this.log.log(`Succesfully converted ${filepath} to ${mobiFilePath}`);
         return mobiFilePath;
+    }
+
+    public async removeBookFromLibrary(id: number): Promise<void> {
+        await this.calibre.run('calibredb remove', [id]);
+        this.log.log(`Succesfully removed book ${id} from library.`);
+    }
+
+    public async getLibraryData(): Promise<CalibreLibraryData[]> {
+        const result = await this.calibre.run('calibredb list --for-machine');
+        return JSON.parse(result);
     }
 
     private getCalibreIdFromAddResult(result: string): number {
