@@ -10,6 +10,7 @@ export enum UiStateActionType {
     SET_APP_BUSY = 'SET_APP_BUSY',
     SET_CURRENT_APP = 'SET_CURRENT_APP',
     SET_CURRENT_FILES_DIRECTORY = 'SET_CURRENT_FILES_DIRECTORY',
+    SET_DARK_MODE = 'SET_DARK_MODE',
 }
 
 export class ToggleSidebarAction implements UiStateAction {
@@ -32,6 +33,12 @@ export class SetCurrentFilesDirectory implements UiStateAction {
   constructor(public payload: { currentFilesDirectory: string }) { }
 }
 
+export class SetDarkModeAction implements UiStateAction {
+  readonly type = UiStateActionType.SET_DARK_MODE;
+  constructor(public payload: { useDarkMode: boolean }) { }
+}
+
+
 @Injectable()
 export class UiStateActions {
   constructor(private readonly store: Store<UiStateStore>) { }
@@ -50,5 +57,9 @@ export class UiStateActions {
 
   setCurrentFilesDirectory(currentFilesDirectory: string) {
     this.store.dispatch(new SetCurrentFilesDirectory({ currentFilesDirectory }));
+  }
+
+  setDarkMode(darkMode: boolean) {
+    this.store.dispatch(new SetDarkModeAction({ useDarkMode: darkMode }));
   }
 }

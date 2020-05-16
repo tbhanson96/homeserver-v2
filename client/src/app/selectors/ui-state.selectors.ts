@@ -22,4 +22,8 @@ export class UiStateSelectors {
   getCurrentFilesDirectory(): Observable<string> {
     return this.store.pipe(select(state => state.uiStateStore.currentFilesDirectory));
   }
+
+  getUseDarkMode(): Observable<boolean> {
+    return this.store.pipe(select(state => state.uiStateStore.useDarkMode));
+  }
 }

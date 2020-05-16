@@ -6,7 +6,8 @@ export const uiStateStoreInitialState: UiStateStore = {
     sidebarOpen: false,
     appBusy: false,
     currentApp: 'Files',
-    currentFilesDirectory: '/'
+    currentFilesDirectory: '/',
+    useDarkMode: false,
 };
 
 export function uiStateReducer(state: UiStateStore = uiStateStoreInitialState, action: UiStateAction): UiStateStore {
@@ -27,6 +28,10 @@ export function uiStateReducer(state: UiStateStore = uiStateStoreInitialState, a
       const { currentFilesDirectory } = (action as UiStateActions.SetCurrentFilesDirectory).payload;
       return { ...state, currentFilesDirectory }
     } 
+    case UiStateActionType.SET_DARK_MODE: {
+      const { useDarkMode } = (action as UiStateActions.SetDarkModeAction).payload;
+      return { ...state, useDarkMode };
+    }
     default:
       return state;
   }

@@ -9,10 +9,14 @@
               <mdc-tab label="Updates" icon="update"></mdc-tab>
             </mdc-tab-scroller>
           </mdc-tab-bar>
-          <div *ngIf="tabBar.activeTabIndex === 0">
-            <mdc-form-field>
+          <div fxLayout="column" fxLayoutGap="20px" *ngIf="tabBar.activeTabIndex === 0">
+            <mdc-form-field >
               <mdc-checkbox #showHiddenFiles (change)="onShowHiddenFilesToggle(showHiddenFiles.checked)"></mdc-checkbox>
               <label>Show hidden files</label>
+            </mdc-form-field>
+            <mdc-form-field class="dark-mode-switch">
+              <mdc-switch #darkModeSwitch (change)="onUseDarkModeToggle(darkModeSwitch.checked)"></mdc-switch>
+              <label>Use dark mode</label>
             </mdc-form-field>
           </div>
           <div *ngIf="tabBar.activeTabIndex === 1">
