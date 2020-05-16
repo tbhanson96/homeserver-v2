@@ -13,6 +13,7 @@ export class SettingsService implements OnModuleInit {
     onModuleInit() {
         this.settings = {
             showHiddenFiles: false,
+            useDarkMode: false,
         };
     }
 

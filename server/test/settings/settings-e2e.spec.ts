@@ -11,6 +11,8 @@ import { AuthGuard } from '@nestjs/passport';
 import { setupMockFs } from '../mock-helper';
 import { UpdateService } from '../../src/settings/update.service';
 import { ConfigService } from '../../src/services/config.service';
+import { SettingsService } from '../../src/settings/settings.service';
+import { SettingsDto } from 'src/models/settingsDto';
 
 describe('SettingsController (e2e)', () => {
   let app: INestApplication;
@@ -60,6 +62,30 @@ describe('SettingsController (e2e)', () => {
     expect(install.includes('client')).toBeTruthy();
     expect(install.includes('server')).toBeTruthy();
     expect(install.includes('env')).toBeTruthy();
+  });
+
+  it('POST /api/settings', async() => {
+    const settingsService = app.get(SettingsService);
+    const newSettings: SettingsDto = {
+      useDarkMode: true,
+      showHiddenFiles: true,
+    };
+    await request(app.getHttpServer())
+      .post('/api/settings')
+      .send(newSettings)
+      .expect(201);
+    
+    expect(settingsService.getSettings()).toMatchObject(newSettings);
+  });
+
+  it('GET /api/settings', async () => {
+    const settingsService = app.get(SettingsService);
+    const settings = settingsService.getSettings();
+    const { body: retrievedSettings }: { body: SettingsDto } = await request(app.getHttpServer())
+      .get('/api/settings')
+      .expect(200);
+    
+    expect(retrievedSettings).toMatchObject(settings);
   });
 
 });

@@ -65,6 +65,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   onSettingsSave() {
     const settings: SettingsDto = {
       showHiddenFiles: this.showHiddenFiles,
+      useDarkMode: this.useDarkMode,
     };
     this.api.postApiSettings(settings).subscribe(() => { }, () => {
       throw new Error(`Failed to save settings: ${settings}`)

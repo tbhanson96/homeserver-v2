@@ -26,6 +26,7 @@ import { EbooksComponent } from '@components/view/ebooks/ebooks.component';
 import { EbooksService } from '@services/ebooks.service';
 import { DeleteDialogComponent } from '@components/view/delete-dialog/delete-dialog.component';
 import { SettingsComponent } from '@components/view/settings/settings.component';
+import { UiStateActions } from '@actions/ui-state.actions';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,21 @@ import { SettingsComponent } from '@components/view/settings/settings.component'
     MaterialModule,
   ],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (apiService: ApiService, uiActions: UiStateActions) => {
+        return () => {
+          return new Promise(res => {
+            apiService.getApiSettings().subscribe(settings => {
+              uiActions.setDarkMode(settings.useDarkMode);
+              res();
+            });
+          });
+        };
+      },
+      deps: [ApiService, UiStateActions],
+      multi: true,
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
