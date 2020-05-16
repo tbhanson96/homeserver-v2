@@ -22,6 +22,7 @@ describe('FileController', () => {
         jest.spyOn(settingsService.mock.instances[0], 'getSettings').mockImplementation(() => {
             const settings: SettingsDto = {
                 showHiddenFiles: false, 
+                useDarkMode: false,
             };
             return settings;
         });
