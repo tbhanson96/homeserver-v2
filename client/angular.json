@@ -23,15 +23,25 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": false,
+            "extractCss": true,
             "assets": [
               "src/assets"
             ],
             "styles": [
               "src/styles.scss",
+              {
+                "input": "src/styles/dark.scss",
+                "bundleName": "dark",
+                "inject": false
+              },
+              {
+                "input": "src/styles/light.scss",
+                "bundleName": "light",
+                "inject": false
+              }
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "src/styles",
                 "node_modules"
               ]
             },

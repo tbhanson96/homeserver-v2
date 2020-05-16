@@ -3,4 +3,5 @@ export class UiStateStore {
     appBusy: boolean;
     currentApp: string;
     currentFilesDirectory: string;
+    useDarkMode: boolean;
 }
