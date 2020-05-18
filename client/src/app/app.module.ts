@@ -58,10 +58,12 @@ import { UiStateActions } from '@actions/ui-state.actions';
       provide: APP_INITIALIZER,
       useFactory: (apiService: ApiService, uiActions: UiStateActions) => {
         return () => {
-          return new Promise(res => {
+          return new Promise((res, rej) => {
             apiService.getApiSettings().subscribe(settings => {
               uiActions.setDarkMode(settings.useDarkMode);
               res();
+            }, err => {
+              rej(err);
             });
           });
         };
