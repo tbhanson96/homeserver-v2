@@ -7,7 +7,6 @@ import { SettingsDto } from "../models/settingsDto";
 import { SettingsService } from "./settings.service";
 
 @Controller(joinRoutes(routes.api, routes.settings))
-@UseGuards(AuthGuard('jwt'))
 export class SettingsController {
 
     constructor (
@@ -15,25 +14,28 @@ export class SettingsController {
         private readonly settingsService: SettingsService,
     ) { }
 
-    @Get()
+    @Get() // no auth on this call so dark mode can be applied on login screen
     @ApiOkResponse({ type: SettingsDto, description: 'Server settings found.'})
     getSettings() {
         return this.settingsService.getSettings();
     }
 
     @Post()
+    @UseGuards(AuthGuard('jwt'))
     @ApiOkResponse({ description: 'Successfully set server settings.'})
     setSettings(@Body() settings: SettingsDto) {
         this.settingsService.setSettings(settings);
     }
 
     @Get('update')
+    @UseGuards(AuthGuard('jwt'))
     @ApiOkResponse({ type: String, isArray: true, description: 'Succesfully found updates.' })
     async getPath() {
         return await this.updateService.getUpdates();
     }
 
     @Post('update')
+    @UseGuards(AuthGuard('jwt'))
     @ApiOkResponse({ description: 'Successfully performed update.'})
     @ApiImplicitQuery({ name: 'update', type: String, description: 'Name of package to update app to.' })
     async performUpdate(@Query('update') update: string) {
