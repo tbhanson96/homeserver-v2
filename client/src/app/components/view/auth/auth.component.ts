@@ -9,6 +9,7 @@ import { MdcSnackbar } from '@angular-mdc/web';
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
+  public consoleHtml = console;
   username: string;
   password: string;
   constructor(
