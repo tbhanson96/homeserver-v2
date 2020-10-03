@@ -8,7 +8,7 @@ import request from 'supertest';
 import { AppModule } from '../../src/app.module';
 import * as fs from 'fs';
 import { AuthGuard } from '@nestjs/passport';
-import { setupMockFs } from '../mock-helper';
+import { getConfigService, setupMockFs } from '../mock-helper';
 import { UpdateService } from '../../src/settings/update.service';
 import { ConfigService } from '../../src/services/config.service';
 import { SettingsService } from '../../src/settings/settings.service';
@@ -20,7 +20,8 @@ describe('SettingsController (e2e)', () => {
   beforeAll(async () => {
     const update1 = path.join(__dirname, 'update1.tar.gz');
     const update2 = path.join(__dirname, 'update2.tar.gz');
-    const configService = setupMockFs(update1, update2);
+    setupMockFs(update1, update2);
+    const configService = getConfigService();
     fs.renameSync(update1, path.join(configService.env.UPDATES_DIR, 'update1.tar.gz'));
     fs.renameSync(update2, path.join(configService.env.UPDATES_DIR, 'update2.tar.gz'));
 
@@ -39,7 +40,6 @@ describe('SettingsController (e2e)', () => {
     await app.close();
   })
 
-
   it('GET /api/settings/update returns correct information', async () => {
     const response = await request(app.getHttpServer())
       .get('/api/settings/update')
@@ -48,7 +48,7 @@ describe('SettingsController (e2e)', () => {
       'update1.tar.gz',
       'update2.tar.gz',
     ]);
-  });
+  })
 
   it('POST /api/settings/update applies update', async () => {
     const updateService = app.get(UpdateService);
@@ -63,6 +63,20 @@ describe('SettingsController (e2e)', () => {
     expect(install.includes('server')).toBeTruthy();
     expect(install.includes('env')).toBeTruthy();
   });
+
+  it('GET /api/settings/update trims available packages', async () => {
+    const config = app.get(ConfigService);
+    // create too many updates so they get trimmed
+    const maxUpdates = parseInt(config.env.UPDATES_LIMIT);
+    for (let i = 0; i < maxUpdates + 2; i++) {
+      fs.writeFileSync(path.join(config.env.UPDATES_DIR, `someupdate${i}.tar.gz`), 'random data');
+    }
+    const response = await request(app.getHttpServer())
+      .get('/api/settings/update')
+      .expect(200)
+    expect(response.body.length).toEqual(maxUpdates);
+  });
+
 
   it('POST /api/settings', async() => {
     const settingsService = app.get(SettingsService);

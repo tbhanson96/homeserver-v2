@@ -10,14 +10,15 @@ import { AppModule } from '../../src/app.module';
 import { FileController } from '../../src/files/file.controller';
 import { ConfigService } from '../../src/services/config.service';
 import { AuthGuard } from '@nestjs/passport';
-import { setupMockFs } from '../mock-helper';
+import { getConfigService, setupMockFs } from '../mock-helper';
 import { FileData } from 'src/models/fileData';
 
 describe('FileController (e2e)', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
-    const configService = setupMockFs();
+    setupMockFs();
+    const configService = getConfigService();
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],

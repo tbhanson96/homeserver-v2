@@ -6,7 +6,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, HttpServer } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '../../src/app.module';
-import { setupMockFs } from '../mock-helper';
+import { getConfigService, setupMockFs } from '../mock-helper';
 import { ConfigService } from '../../src/services/config.service';
 
 describe('ClientMiddleware (e2e)', () => {
@@ -15,7 +15,8 @@ describe('ClientMiddleware (e2e)', () => {
   beforeAll(async () => {
     const file1 = path.join(__dirname, 'client-file.txt');
     const index = path.join(__dirname, 'index.html');
-    const configService = setupMockFs(file1, index);
+    setupMockFs(file1, index);
+    const configService = getConfigService();
     configService.set('CLIENT_DIR', __dirname);
     
     const moduleFixture: TestingModule = await Test.createTestingModule({

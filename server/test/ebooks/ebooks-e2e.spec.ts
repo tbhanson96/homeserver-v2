@@ -9,7 +9,7 @@ import path from 'path';
 import fs from 'fs';
 import { AuthGuard } from '@nestjs/passport';
 import { ConfigService } from '../../src/services/config.service';
-import { setupMockFs } from '../mock-helper';
+import { getConfigService, setupMockFs } from '../mock-helper';
 import { EbookData } from '../../src/models/ebookData';
 import { FileUtils } from '../../src/lib/file-utils';
 
@@ -21,7 +21,8 @@ describe('EbookController (e2e)', () => {
     const animal = path.join(__dirname, 'animal.epub');
     const god = path.join(__dirname, 'god.epub');
     const igp = path.join(__dirname, 'igp.epub');
-    const configService = setupMockFs(animal, igp, god); 
+    setupMockFs(animal, igp, god); 
+    const configService = getConfigService();
     fs.renameSync(animal, path.join(configService.env.EBOOK_DIR, path.basename(animal)));
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
