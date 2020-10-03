@@ -4,11 +4,8 @@ import path from 'path';
 import { ConfigService } from "../src/services/config.service";
 const realFs = jest.requireActual('fs');
 
-export function setupMockFs(...filesToMock: string[]): ConfigService {
-    const envFileContents = realFs.readFileSync(appConstants.envFilePath);
-    fs.mkdirSync(path.dirname(appConstants.envFilePath), { recursive: true });
-    fs.writeFileSync(appConstants.envFilePath, envFileContents);
-    const config = new ConfigService(appConstants.envFilePath);
+export function setupMockFs(...filesToMock: string[]): void {
+    const config = getConfigService();
     fs.mkdirSync(config.env.FILES_DIR, { recursive: true });
     fs.mkdirSync(config.env.CLIENT_DIR, { recursive: true });
     fs.mkdirSync(config.env.EBOOK_DIR, { recursive: true });
@@ -21,5 +18,11 @@ export function setupMockFs(...filesToMock: string[]): ConfigService {
         const contents = realFs.readFileSync(f);
         fs.writeFileSync(f, contents);
     });
-    return config;
+}
+
+export function getConfigService(): ConfigService {
+    const envFileContents = realFs.readFileSync(appConstants.envFilePath);
+    fs.mkdirSync(path.dirname(appConstants.envFilePath), { recursive: true });
+    fs.writeFileSync(appConstants.envFilePath, envFileContents);
+    return new ConfigService(appConstants.envFilePath);
 }
