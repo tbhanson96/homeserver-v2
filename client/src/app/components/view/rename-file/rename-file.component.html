@@ -1,0 +1,11 @@
+<mdc-dialog>
+    <mdc-dialog-surface>
+        <mdc-dialog-content>
+          <mdc-text-field class="text-field" [label]="data.selectedFile.name" required (change)="username=$event"></mdc-text-field>
+        </mdc-dialog-content>
+        <mdc-dialog-actions>
+          <button mdcDialogButton mdcDialogAction="close">Cancel</button>
+          <button mdcDialogButton default (click)="onRenameFile()">Ok</button>
+        </mdc-dialog-actions>
+    </mdc-dialog-surface>
+</mdc-dialog>

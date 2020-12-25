@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, UrlSegment } from '@angular/router';
 import { Subscription, Observable } from 'rxjs';
 import { FilesService } from '@services/files.service';
@@ -9,6 +9,7 @@ import { MdcDialog, MdcMenu, MdcSnackbar } from '@angular-mdc/web';
 import { UploadDialogComponent } from '@components/view/upload-dialog/upload-dialog.component';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 import { UploadType } from '../upload-dialog/upload-type';
+import { RenameFileComponent } from '../rename-file/rename-file.component';
 
 @Component({
   selector: 'app-files',
@@ -79,7 +80,8 @@ export class FilesComponent implements OnInit, OnDestroy {
     menu.open = !menu.open;
   }
 
-  public onDeleteFile(event: Event, file: FileData) {
+  public onDeleteFile(event: Event, menu: MdcMenu, file: FileData) {
+    menu.open = false;
     event.preventDefault();
     event.stopPropagation();
     const dialogRef = this.dialog.open(DeleteDialogComponent, { data: { service: UploadType.Files, file }});
@@ -92,6 +94,32 @@ export class FilesComponent implements OnInit, OnDestroy {
         }, () => {
           this.uiActions.setAppBusy(false);
           throw new Error(`Failed to delete file: ${file.name}`);
+        });
+      }
+    });
+  }
+
+  public onMoveFile(event: Event, menu: MdcMenu, file: FileData) {
+    menu.open = false;
+    event.preventDefault();
+    event.stopPropagation();
+    // move file
+  }
+
+  public onRenameFile(event: Event, menu: MdcMenu, file: FileData) {
+    menu.open = false;
+    event.preventDefault();
+    event.stopPropagation();
+    const dialogRef = this.dialog.open(RenameFileComponent, { data: { selectedFile: file }});
+    dialogRef.afterClosed().subscribe(result => {
+      if (result instanceof Observable) {
+        this.uiActions.setAppBusy(true);
+        result.subscribe(() => {
+          this.snackbar.open(`Successfully renamed file: ${file.name}`);
+          this.updateFiles();
+        }, () => {
+          this.uiActions.setAppBusy(false);
+          throw new Error(`Failed to rename file: ${file.name}`);
         });
       }
     });

@@ -116,4 +116,21 @@ describe('FileController (e2e)', () => {
     expect(fs.readdirSync(rootDir).find(f => f === fileToDelete.name)).toBeFalsy();
   });
 
+  it('PUT /api/files/file', async () => {
+    const rootDir = app.get(ConfigService).env.FILES_DIR;
+    const { body: files } : { body: FileData[] } = await request(app.getHttpServer())
+      .get('/api/files/path?path=/')
+      .expect(200);
+
+    const fileToRename = files[1]; 
+    const newName = "newName";
+    await request(app.getHttpServer())
+      .put('/api/files/file?name=' + newName)
+      .send(fileToRename)
+      .expect(200);
+    
+    expect(fs.readdirSync(rootDir).find(f => f === fileToRename.name)).toBeFalsy();
+    expect(fs.readdirSync(rootDir).find(f => f === "newName")).toBeTruthy();
+  });
+
 });

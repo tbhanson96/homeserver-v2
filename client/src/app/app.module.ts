@@ -27,6 +27,7 @@ import { EbooksService } from '@services/ebooks.service';
 import { DeleteDialogComponent } from '@components/view/delete-dialog/delete-dialog.component';
 import { SettingsComponent } from '@components/view/settings/settings.component';
 import { UiStateActions } from '@actions/ui-state.actions';
+import { RenameFileComponent } from '@components/view/rename-file/rename-file.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { UiStateActions } from '@actions/ui-state.actions';
     EbooksComponent,
     DeleteDialogComponent,
     SettingsComponent,
+    RenameFileComponent,
   ],
   imports: [
     FormsModule,
@@ -89,6 +91,7 @@ import { UiStateActions } from '@actions/ui-state.actions';
     UploadDialogComponent,
     DeleteDialogComponent,
     SettingsComponent,
+    RenameFileComponent,
   ],
   bootstrap: [AppComponent]
 })

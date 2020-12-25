@@ -1,13 +1,14 @@
-import { Controller, Get, UsePipes, Query, Res, UseInterceptors, UploadedFiles, Post, UseGuards, Body, Delete } from '@nestjs/common';
+import { Controller, Get, UsePipes, Query, Res, UseInterceptors, UploadedFiles, Post, UseGuards, Body, Delete, Put } from '@nestjs/common';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { FileService } from './file.service';
 import { FileValidationPipe } from './file-validation.pipe';
 import { routes, joinRoutes } from '../routes';
-import { ApiBadRequestResponse, ApiOkResponse, ApiImplicitQuery, ApiConsumes, ApiImplicitBody, ApiAcceptedResponse } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiOkResponse, ApiImplicitQuery, ApiConsumes, ApiImplicitBody, ApiAcceptedResponse, ApiNotFoundResponse } from '@nestjs/swagger';
 import { FileData } from '../models/fileData';
 import { Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { SettingsService } from '../settings/settings.service';
+import * as path from 'path'; 
 
 @Controller(joinRoutes(routes.api, routes.files))
 @UseGuards(AuthGuard('jwt'))
@@ -45,6 +46,17 @@ export class FileController {
     @ApiImplicitBody({ name: 'files', type: Object })
     async uploadFiles(@UploadedFiles() files: Express.Multer.File[], @Query('path') directory: string) {
        await this.fileService.copyFiles(files, directory);
+    } 
+
+    @Put('file')
+    @ApiOkResponse({ description: "File succesfully renamed!"})
+    @ApiNotFoundResponse({ description: "File not found"})
+    @ApiBadRequestResponse({ description: "New path is invalid"})
+    @ApiImplicitQuery({ name: 'name', description: 'Directory to place file' })
+    @ApiImplicitBody({ name: 'file', type: FileData })
+    async renameFile(@Body() file: FileData, @Query('name') name: string) {
+        const newPath = path.join(path.dirname(this.fileService.getLocalFilePath(file.link)), name); 
+        await this.fileService.moveFile(file, newPath);
     } 
 
     @Delete('file')

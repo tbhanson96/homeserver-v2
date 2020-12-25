@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
+import { Injectable, OnModuleInit, Logger, BadRequestException } from '@nestjs/common';
 import { FileData } from '../models/fileData';
 import { FileUtils } from '../lib/file-utils';
 import * as fs from 'fs';
@@ -50,5 +50,26 @@ export class FileService implements OnModuleInit {
         const path = this.getLocalFilePath(file.link);
         fs.unlinkSync(path);
         this.log.log(`Succesfully deleted file ${file.name}`);
+    }
+
+    async moveFile(file: FileData, filePath: string) {
+        let newPath = '';
+        try {
+            const stats = fs.statSync(filePath);
+            if (stats.isDirectory()) {
+                newPath = path.join(filePath, file.name);
+            } else {
+                const message = `Can't rename file ${file.name}:a file already exists at location: ${filePath}`;
+                this.log.error(message);
+                throw new BadRequestException(message)
+            }
+        } catch (e) {
+            if (e instanceof BadRequestException) {
+                throw e;
+            } else {
+                newPath = filePath;
+            }
+        }
+        fs.renameSync(this.getLocalFilePath(file.link), newPath);
     }
 }
