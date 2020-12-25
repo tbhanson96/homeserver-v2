@@ -17,8 +17,9 @@
                     <button #optionsButton mdcIconButton mdcListItemMeta aria-label="View more" title="More info" icon="more_vert" (click)="onShowFileOptions($event, optionsMenu)"></button>
                     <mdc-menu #optionsMenu fixed [anchorElement]="optionsAnchor">
                         <mdc-list>
-                            <mdc-list-item (click)="onDeleteFile($event, file)">Delete</mdc-list-item>
-                            <mdc-list-item>Move</mdc-list-item>
+                            <mdc-list-item (click)="onRenameFile($event, optionsMenu, file)">Rename</mdc-list-item>
+                            <!-- <mdc-list-item (click)="onMoveFile($event, file)">Move</mdc-list-item> -->
+                            <mdc-list-item (click)="onDeleteFile($event, optionsMenu, file)">Delete</mdc-list-item>
                         </mdc-list>
                     </mdc-menu>
                 </div>
@@ -30,8 +31,9 @@
                     <button #optionsButton mdcIconButton mdcListItemMeta aria-label="View more" title="More info" icon="more_vert" (click)="onShowFileOptions($event, optionsMenu)"></button>
                     <mdc-menu #optionsMenu fixed [anchorElement]="optionsAnchor">
                         <mdc-list>
-                            <mdc-list-item (click)="onDeleteFile($event, file)">Delete</mdc-list-item>
-                            <mdc-list-item>Move</mdc-list-item>
+                            <mdc-list-item (click)="onRenameFile($event, optionsMenu, file)">Rename</mdc-list-item>
+                            <!-- <mdc-list-item (click)="onMoveFile($event, file)">Move</mdc-list-item> -->
+                            <mdc-list-item (click)="onDeleteFile($event, optionsMenu, file)">Delete</mdc-list-item>
                         </mdc-list>
                     </mdc-menu>
                 </div>

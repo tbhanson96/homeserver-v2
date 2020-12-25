@@ -1,5 +1,6 @@
 import { Injectable, PipeTransform, ArgumentMetadata, BadRequestException, NotFoundException } from "@nestjs/common";
 import * as fs from 'fs';
+import { pathToFilename } from "memfs/lib/volume";
 import { FileService } from "./file.service";
 
 @Injectable()
@@ -19,6 +20,12 @@ export class FileValidationPipe implements PipeTransform {
             }
         } catch {
             throw new NotFoundException(`Invalid directory path: ${arg}`);
+        }
+        if (metadata.data === 'name') {
+            const name = decodeURI(arg);
+            if (name.includes('/') || name.includes('\\')) {
+                throw new BadRequestException(`Name is not valid: ${arg}`);
+            }
         }
         return arg;
     }

@@ -6,14 +6,16 @@ import { FileService } from '../../src/files/file.service';
 import { response } from 'express';
 import { randomBytes } from 'crypto';
 import { SettingsService } from '../../src/settings/settings.service';
-import { SettingsDto } from 'src/models/settingsDto';
+import { SettingsDto } from '../../src/models/settingsDto';
+import { FileData } from '../../src/models/fileData';
+import * as path from 'path';
 
 describe('FileController', () => {
 
     const fileService = <jest.Mock<FileService>>FileService;
     const settingsService = <jest.Mock<SettingsService>>SettingsService;
     let controller: FileController;
-    let service: any;
+    let service: FileService;
     beforeEach(() => {
         fileService.mockClear();
         settingsService.mockClear();
@@ -59,6 +61,18 @@ describe('FileController', () => {
                 buffer: randomBytes(20),
             }], '/');
             expect(service.copyFiles).toHaveBeenCalledWith(expect.anything(), '/');
+        })
+    })
+
+    describe('renameFile', () => {
+        it('should call moveFile', async () => {
+            const myFile = new FileData({
+                name: "myFile",
+                link: "/path/to/myFile"
+            });
+            jest.spyOn(service, 'getLocalFilePath').mockImplementation(filePath => filePath);
+            await controller.renameFile(myFile, 'myNewFile');
+            expect(service.moveFile).toHaveBeenCalledWith(myFile, "/path/to/myNewFile");
         })
     })
 });

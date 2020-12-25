@@ -31,4 +31,8 @@ export class FilesService {
   public deleteFile(file: FileData) {
     return this.api.deleteApiFilesFile(file).pipe(share());
   }
+
+  public renameFile(file: FileData, newName: string) {
+    return this.api.putApiFilesFile(newName, file).pipe(share());
+  }
 }

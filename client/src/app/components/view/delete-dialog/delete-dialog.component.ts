@@ -16,7 +16,8 @@ export class DeleteDialogComponent implements OnInit {
     private fileService: FilesService,
     private ebookService: EbooksService,
     private dialogRef: MdcDialogRef<DeleteDialogComponent>,
-    @Inject(MDC_DIALOG_DATA) public data: { service: UploadType, file: EbookData | FileData }) { }
+    @Inject(MDC_DIALOG_DATA) public data: { service: UploadType, file: EbookData | FileData },
+    ) { }
 
   ngOnInit() {
   }
