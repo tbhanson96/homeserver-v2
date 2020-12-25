@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FileData } from '@api/models';
-import { MDC_DIALOG_DATA } from '@angular-mdc/web';
-import { of, Observable } from 'rxjs';
+import { MdcDialogRef, MDC_DIALOG_DATA } from '@angular-mdc/web';
+import { FilesService } from '@services/files.service';
 
 @Component({
   selector: 'app-rename-file',
@@ -13,20 +13,20 @@ export class RenameFileComponent implements OnInit {
   public newFileName: string;
 
   constructor(
+    private readonly fileService: FilesService,
+    private dialogRef: MdcDialogRef<RenameFileComponent>,
     @Inject(MDC_DIALOG_DATA) public data: { selectedFile: FileData},
   ) { }
 
   ngOnInit() {
-    this.newFileName = this.data.selectedFile.name;
   }
 
-  public onRenameFile(): Observable<void> {
-    console.log('rename file called with arg:' + this.newFileName);
-    return new Observable(subscriber => {
-      setTimeout(() => {
-        subscriber.complete();
-      }, 2000);
-    })
+  public onRenameFile() {
+    if (!this.newFileName) {
+      this.dialogRef.close();
+    } else {
+      const result = this.fileService.renameFile(this.data.selectedFile, this.newFileName)
+      this.dialogRef.close(result);
+    }
   }
-
 }

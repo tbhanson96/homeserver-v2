@@ -53,7 +53,6 @@ export class FileController {
     @ApiNotFoundResponse({ description: "File not found"})
     @ApiBadRequestResponse({ description: "New path is invalid"})
     @ApiImplicitQuery({ name: 'name', description: 'Directory to place file' })
-    @ApiImplicitBody({ name: 'file', type: FileData })
     async renameFile(@Body() file: FileData, @Query('name') name: string) {
         const newPath = path.join(path.dirname(this.fileService.getLocalFilePath(file.link)), name); 
         await this.fileService.moveFile(file, newPath);
