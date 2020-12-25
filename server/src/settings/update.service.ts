@@ -66,7 +66,7 @@ export class UpdateService implements OnModuleInit {
             packages = packages.sort((p1, p2) => {
                 const t1 = fs.statSync(path.join(this.updateDir, p1)).mtimeMs;
                 const t2 = fs.statSync(path.join(this.updateDir, p2)).mtimeMs;
-                return t1 < t2 ? -1 : 1;
+                return t2 < t1 ? -1 : 1;
             });
             const packagesToRemove = packages.slice(this.maxUpdatePackages, packages.length);
             await AsyncUtils.forEachAsync(packagesToRemove, async p => {
