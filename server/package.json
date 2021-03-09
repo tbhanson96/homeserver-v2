@@ -55,7 +55,7 @@
     "@types/node": "11.15.2",
     "@types/passport-jwt": "3.0.2",
     "@types/passport-local": "1.0.33",
-    "@types/supertest": "2.0.8",
+    "@types/supertest": "2.0.10",
     "jest": "24.9.0",
     "mkdirp": "0.5.1",
     "nexe": "3.3.7",
