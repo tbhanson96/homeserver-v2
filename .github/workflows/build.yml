@@ -18,9 +18,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Download server dependencies 
+        working-directory: server
         run: npm install
-          working-directory: server
 
       - name: Download client dependencies 
+        working-directory: client
         run: npm install
-          working-directory: client
