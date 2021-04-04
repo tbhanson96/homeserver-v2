@@ -45,11 +45,12 @@ jobs:
             client/dist
           key: ${{ github.sha }}
 
+      - name: Build server
+        working-directory: server
+        run: npm run build
+
       - name: Build client
         working-directory: client
         run: npm run build
 
-      - name: Build server
-        working-directory: server
-        run: npm run build
 
