@@ -116,15 +116,21 @@ jobs:
         run: cp -r client/dist dist/client
       - run: cp server/dist/server dist/server
       - run: cp server/env/default.prod.env dist/default.env
-
+      - name: create tar file
+        working-directory: dist
+        run: |
+          VERSION=$(cat $DIRNAME/../VERSION.txt)
+          TAR_FILE=homeserver-$VERSION-$GITHUB_RUN_NUMBER.tar.gz
+          tar zcf $TAR_FILE *
       - name: Deploy artifact to server
+        working-directory: dist
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
-          source: "tests/a.txt,tests/b.txt"
-          target: "test"
+          source: "*.tar.gz"
+          target: ${{ secrets.DEPLOY_DIR }}
 
       - name: Store build artifacts
         uses: actions/upload-artifact@v2
