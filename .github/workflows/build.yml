@@ -123,18 +123,17 @@ jobs:
           TAR_FILE=homeserver-$VERSION-$GITHUB_RUN_NUMBER.tar.gz
           tar zcf $TAR_FILE *
       - name: Deploy artifact to server
-        working-directory: dist
         uses: appleboy/scp-action@master
-          with:
-            host: ${{ secrets.DEPLOY_HOST }}
-            username: ${{ secrets.DEPLOY_USER }}
-            key: ${{ secrets.DEPLOY_KEY }}
-            source: "*.tar.gz"
-            target: ${{ secrets.DEPLOY_DIR }}
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          source: "dist/*.tar.gz"
+          target: ${{ secrets.DEPLOY_DIR }}
 
       - name: Store build artifacts
         uses: actions/upload-artifact@v2
-          with:
-            name: artifacts
-            path: |
-              dist
+        with:
+          name: artifacts
+          path: |
+            dist
