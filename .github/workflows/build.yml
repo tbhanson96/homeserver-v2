@@ -89,7 +89,6 @@ jobs:
             client/node_modules
             client/dist
           key: ${{ github.sha }}
-        - uses: actions/checkout@master
       - run: mkdir -p dist
       - name: Package server binary
           working-directory: server
