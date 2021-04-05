@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc -p tsconfig.build.json && npm run swagger",
-    "package": "mkdirp ../dist/env && ncp env/default.prod.env ../dist/env/default.env && nexe -t linux-x64 dist/main.js -o ../dist/server",
+    "package": "nexe -t linux-x64 dist/main.js -o dist/server",
     "swagger": "node swagger-doc-gen.js",
     "start": "node dist/main.js",
     "start:dev": "npm run build && node dev-server.js",
