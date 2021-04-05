@@ -11,8 +11,10 @@ run_command()
 SCRIPT=$(readlink -f "$BASH_SOURCE")
 DIRNAME=$(dirname "$SCRIPT")
 
+run_command "mkdir -p $DIRNAME/../dist"
 cd "$DIRNAME/../server"
 run_command "npm run package"
+run_command "cp $DIRNAME/../server/dist/server $DIRNAME/../dist/"
 run_command "cp -r $DIRNAME/../client/dist $DIRNAME/../dist/client"
 
 run_command "VERSION=$(cat $DIRNAME/../VERSION.txt)"

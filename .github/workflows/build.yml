@@ -1,0 +1,140 @@
+name: Build
+
+# Run this workflow every time a new commit pushed to your repository
+on: push
+
+jobs:
+  install:
+    name: Install dependencies 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12.x'
+
+      - name: Download server dependencies 
+        working-directory: server
+        run: npm install
+
+      - name: Download client dependencies 
+        working-directory: client
+        run: npm install
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        id: restore-dependencies-cache
+        with:
+          path: |
+            server/node_modules
+            client/node_modules
+          key: dependencies-${{ github.sha }}
+
+  
+  build:
+    name: Build project
+    runs-on: ubuntu-latest
+    needs: install
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12.x'
+      - uses: actions/cache@v2
+        id: restore-dependencies-cache
+        with:
+          path: |
+            server/node_modules
+            client/node_modules
+          key: dependencies-${{ github.sha }}
+
+      - name: Build server
+        working-directory: server
+        run: npm run build
+
+      - name: Build client
+        working-directory: client
+        run: npm run build:prod
+
+      - uses: actions/cache@v2
+        id: build-cache
+        with:
+          path: |
+            server/dist
+            client/dist
+          key: build-${{ github.sha }}
+  
+  test:
+    name: Test Project
+    runs-on: ubuntu-latest
+    needs: install
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12.x'
+      - uses: actions/cache@v2
+        id: restore-dependencies-cache
+        with:
+          path: |
+            server/node_modules
+            client/node_modules
+          key: dependencies-${{ github.sha }}
+      - name: Run tests
+        working-directory: server
+        run: npm run test
+
+  deploy:
+    name: Deploy
+    if: ${{ github.ref == 'refs/head/master' }}
+    runs-on: ubuntu-latest
+    needs: [build, test]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12.x'
+      - uses: actions/cache@v2
+        id: restore-dependencies-cache
+        with:
+          path: |
+            server/node_modules
+            client/node_modules
+          key: dependencies-${{ github.sha }}
+      - uses: actions/cache@v2
+        id: build-cache
+        with:
+          path: |
+            server/dist
+            client/dist
+          key: build-${{ github.sha }}
+      - run: mkdir -p dist
+      - name: Package server binary
+        working-directory: server
+        run: npm run package
+      - name: Package client files
+        run: cp -r client/dist dist/client
+      - run: cp server/dist/server dist/server
+      - run: cp server/env/default.prod.env dist/default.env
+      - name: create tar file
+        working-directory: dist
+        run: |
+          VERSION=$(cat ../VERSION.txt)
+          TAR_FILE=homeserver-$VERSION-$GITHUB_RUN_NUMBER.tar.gz
+          tar zcf $TAR_FILE *
+
+      - name: Store build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: homeserver
+          path: dist/*.tar.gz
+
+      - name: Deploy artifacts to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          source: "dist/*.tar.gz"
+          target: ${{ secrets.DEPLOY_DIR }}
+          strip_components: 1
