@@ -64,8 +64,8 @@ jobs:
         with:
           path: |
             server/node_modules
-            server/dist
             client/node_modules
+            server/dist
             client/dist
           key: cache-${{ github.run_number }}-${{ hashFiles('**/package-lock.json')}}
       - name: Run tests
