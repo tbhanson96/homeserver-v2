@@ -19,7 +19,7 @@ jobs:
             client/node_modules
             server/dist
             client/dist
-          key: ${{ github.sha }}
+          key: cache-${{ github.run_number }}
 
       - name: Download server dependencies 
         working-directory: server
@@ -43,7 +43,7 @@ jobs:
             client/node_modules
             server/dist
             client/dist
-          key: ${{ github.sha }}
+          key: cache-${{ github.run_number }}
 
       - name: Build server
         working-directory: server
@@ -69,7 +69,7 @@ jobs:
             # currently unnecessary for running tests
             # client/node_modules
             # client/dist
-          key: ${{ github.sha }}
+          key: cache-${{ github.run_number }}
       - name: Run tests
         working-directory: server
         run: npm run test
@@ -88,7 +88,7 @@ jobs:
             server/dist
             client/node_modules
             client/dist
-          key: ${{ github.sha }}
+          key: cache-${{ github.run_number }}
       - run: mkdir -p dist
       - name: Package server binary
         working-directory: server
