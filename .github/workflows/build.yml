@@ -118,10 +118,17 @@ jobs:
       - name: create tar file
         working-directory: dist
         run: |
-          VERSION=$(cat $DIRNAME/../VERSION.txt)
+          VERSION=$(cat ../VERSION.txt)
           TAR_FILE=homeserver-$VERSION-$GITHUB_RUN_NUMBER.tar.gz
           tar zcf $TAR_FILE *
-      - name: Deploy artifact to server
+
+      - name: Store build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifacts
+          path: dist
+
+      - name: Deploy artifacts to server
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.DEPLOY_HOST }}
@@ -129,10 +136,3 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           source: "dist/*.tar.gz"
           target: ${{ secrets.DEPLOY_DIR }}
-
-      - name: Store build artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: artifacts
-          path: |
-            dist
