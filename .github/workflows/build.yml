@@ -19,7 +19,7 @@ jobs:
             client/node_modules
             server/dist
             client/dist
-          key: cache-${{ github.run_number }}
+          key: cache-${{ github.run_number }}-${{ hashFiles('**/package-lock.json')}}
 
       - name: Download server dependencies 
         working-directory: server
@@ -43,7 +43,7 @@ jobs:
             client/node_modules
             server/dist
             client/dist
-          key: cache-${{ github.run_number }}
+          key: cache-${{ github.run_number }}-${{ hashFiles('**/package-lock.json')}}
 
       - name: Build server
         working-directory: server
@@ -65,11 +65,9 @@ jobs:
           path: |
             server/node_modules
             server/dist
-
-            # currently unnecessary for running tests
-            # client/node_modules
-            # client/dist
-          key: cache-${{ github.run_number }}
+            client/node_modules
+            client/dist
+          key: cache-${{ github.run_number }}-${{ hashFiles('**/package-lock.json')}}
       - name: Run tests
         working-directory: server
         run: npm run test
@@ -88,7 +86,7 @@ jobs:
             server/dist
             client/node_modules
             client/dist
-          key: cache-${{ github.run_number }}
+          key: cache-${{ github.run_number }}-${{ hashFiles('**/package-lock.json')}}
       - run: mkdir -p dist
       - name: Package server binary
         working-directory: server
