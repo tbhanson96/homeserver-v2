@@ -125,8 +125,8 @@ jobs:
       - name: Store build artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: artifacts
-          path: dist
+          name: homeserver
+          path: dist/*.tar.gz
 
       - name: Deploy artifacts to server
         uses: appleboy/scp-action@master
@@ -136,3 +136,4 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           source: "dist/*.tar.gz"
           target: ${{ secrets.DEPLOY_DIR }}
+          strip_components: 1
