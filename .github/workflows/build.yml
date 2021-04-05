@@ -10,17 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        id: restore-dependencies-cache
-        with:
-          path: |
-            server/node_modules
-            client/node_modules
-            server/dist
-            client/dist
-          key: cache-${{ github.run_number }}-${{ hashFiles('**/package-lock.json')}}
-
       - name: Download server dependencies 
         working-directory: server
         run: npm install
@@ -28,6 +17,16 @@ jobs:
       - name: Download client dependencies 
         working-directory: client
         run: npm install
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        id: restore-dependencies-cache
+        with:
+          path: |
+            server/node_modules
+            client/node_modules
+          key: dependencies-${{ github.run_number }}-${{ hashFiles('**/package-lock.json')}}
+
   
   build:
     name: Build project
@@ -41,9 +40,7 @@ jobs:
           path: |
             server/node_modules
             client/node_modules
-            server/dist
-            client/dist
-          key: cache-${{ github.run_number }}-${{ hashFiles('**/package-lock.json')}}
+          key: dependencies-${{ github.run_number }}-${{ hashFiles('**/package-lock.json')}}
 
       - name: Build server
         working-directory: server
@@ -52,6 +49,14 @@ jobs:
       - name: Build client
         working-directory: client
         run: npm run build:prod
+
+      - uses: actions/cache@v2
+        id: build-cache
+        with:
+          path: |
+            server/dist
+            client/dist
+          key: build-${{ github.run_number }}-${{ hashFiles('**/package-lock.json')}}
   
   test:
     name: Test Project
@@ -65,9 +70,7 @@ jobs:
           path: |
             server/node_modules
             client/node_modules
-            server/dist
-            client/dist
-          key: cache-${{ github.run_number }}-${{ hashFiles('**/package-lock.json')}}
+          key: dependencies-${{ github.run_number }}-${{ hashFiles('**/package-lock.json')}}
       - name: Run tests
         working-directory: server
         run: npm run test
@@ -84,11 +87,16 @@ jobs:
           path: |
             server/node_modules
             client/node_modules
+          key: dependencies-${{ github.run_number }}-${{ hashFiles('**/package-lock.json')}}
+      - uses: actions/cache@v2
+        id: build-cache
+        with:
+          path: |
             server/dist
             client/dist
-          key: cache-${{ github.run_number }}-${{ hashFiles('**/package-lock.json')}}
+          key: build-${{ github.run_number }}-${{ hashFiles('**/package-lock.json')}}
       - run: mkdir -p dist
-      - run: ls server && ls server/dist
+      - run: ls server
       - name: Package server binary
         working-directory: server
         run: npm run package
