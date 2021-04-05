@@ -91,10 +91,10 @@ jobs:
           key: ${{ github.sha }}
       - run: mkdir -p dist
       - name: Package server binary
-          working-directory: server
-          run: npm run package
+        working-directory: server
+        run: npm run package
       - name: Package client files
-          run: cp -r client/dist dist/client
+        run: cp -r client/dist dist/client
       - run: cp server/dist/server dist/server
       - run: cp server/env/default.prod.env dist/default.env
 
