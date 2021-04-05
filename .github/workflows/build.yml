@@ -108,7 +108,6 @@ jobs:
             client/dist
           key: build-${{ github.sha }}
       - run: mkdir -p dist
-      - run: ls server
       - name: Package server binary
         working-directory: server
         run: npm run package
