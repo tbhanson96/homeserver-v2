@@ -27,7 +27,7 @@
     "@types/http-proxy": "1.17.4",
     "@types/http-proxy-middleware": "0.19.3",
     "@types/nodemailer": "6.4.0",
-    "@types/tar": "4.0.3",
+    "@types/tar": "4.0.4",
     "dotenv": "8.2.0",
     "epub": "1.2.1",
     "http-proxy-middleware": "0.20.0",
