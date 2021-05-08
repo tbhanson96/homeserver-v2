@@ -22,7 +22,7 @@
     "@nestjs/microservices": "6.11.7",
     "@nestjs/passport": "6.1.0",
     "@nestjs/platform-express": "6.11.7",
-    "@nestjs/swagger": "3.1.0",
+    "@nestjs/swagger": "4.7.16",
     "@nestjs/websockets": "6.11.7",
     "@types/http-proxy": "1.17.5",
     "@types/http-proxy-middleware": "0.19.3",
