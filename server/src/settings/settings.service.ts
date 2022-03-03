@@ -1,6 +1,6 @@
 
 import { Injectable, OnModuleInit, Logger } from "@nestjs/common";
-import { SettingsDto } from "../models/settingsDto";
+import { SettingsDto } from "../models/settings.dto";
 
 @Injectable()
 export class SettingsService implements OnModuleInit {

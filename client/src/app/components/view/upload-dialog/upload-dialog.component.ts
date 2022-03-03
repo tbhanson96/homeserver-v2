@@ -61,7 +61,7 @@ export class UploadDialogComponent implements OnInit, OnDestroy {
   }
 
   onUploadFiles() {
-    let result: Observable<null>;
+    let result: Observable<void>;
     switch (this.uploadService) {
       case UploadType.Files:
         result = this.fileService.uploadFiles(this.files, this.currentDirectory);

@@ -74,16 +74,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.maxFilesShown += this.showMoreIncrement;
   }
 
-  public onShowFileOptions(event: Event, menu: MdcMenu) {
-    event.preventDefault();
-    event.stopPropagation();
-    menu.open = !menu.open;
-  }
-
-  public onDeleteFile(event: Event, menu: MdcMenu, file: FileData) {
-    menu.open = false;
-    event.preventDefault();
-    event.stopPropagation();
+  public onDeleteFile(file: FileData) {
     const dialogRef = this.dialog.open(DeleteDialogComponent, { data: { service: UploadType.Files, file }});
     dialogRef.afterClosed().subscribe(result => {
       if (result instanceof Observable) {
@@ -99,17 +90,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onMoveFile(event: Event, menu: MdcMenu, file: FileData) {
-    menu.open = false;
-    event.preventDefault();
-    event.stopPropagation();
-    // move file
-  }
-
-  public onRenameFile(event: Event, menu: MdcMenu, file: FileData) {
-    menu.open = false;
-    event.preventDefault();
-    event.stopPropagation();
+  public onRenameFile(file: FileData) {
     const dialogRef = this.dialog.open(RenameFileComponent, { data: { selectedFile: file }});
     dialogRef.afterClosed().subscribe(result => {
       if (result instanceof Observable) {

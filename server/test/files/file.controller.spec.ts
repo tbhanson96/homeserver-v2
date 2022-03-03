@@ -6,8 +6,8 @@ import { FileService } from '../../src/files/file.service';
 import { response } from 'express';
 import { randomBytes } from 'crypto';
 import { SettingsService } from '../../src/settings/settings.service';
-import { SettingsDto } from '../../src/models/settingsDto';
-import { FileData } from '../../src/models/fileData';
+import { SettingsDto } from '../../src/models/settings.dto';
+import { FileData } from '../../src/models/fileData.dto';
 import * as path from 'path';
 
 describe('FileController', () => {

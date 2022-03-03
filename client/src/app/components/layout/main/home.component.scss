@@ -1,11 +1,16 @@
-.topAppBar {
+.toolbar {
     z-index: 7;
+    position: fixed;
+    left: 0;
+    top: 0;
 }
 
 .main-content {
-    width: 90%;
+    padding: 20px;
+    top: 64px;
+    min-height: calc(100vh - 64px);
 }
 
-.drawer {
-    position: fixed;
+.sidebar {
+    padding: 20px;
 }

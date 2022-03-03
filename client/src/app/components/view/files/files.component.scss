@@ -1,6 +1,6 @@
 .list-image {
-    height: 48px;
-    width: 48px;
+    height: 32px;
+    width: 32px;
     margin-right: 20px;
 }
 
@@ -13,6 +13,13 @@
 .chip {
     flex-grow: 0;
     flex-shrink: 0;
+}
+
+.upload-button {
+    padding: 64px;
+    position: fixed;
+    bottom: 100vh;
+    right: 100vw;
 }
 
 .show-more {

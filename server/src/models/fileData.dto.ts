@@ -1,5 +1,3 @@
-import { ApiModelProperty } from "@nestjs/swagger";
-
 export class FileData {
     constructor(attr: any) {
         this.name = attr.name;
@@ -9,21 +7,10 @@ export class FileData {
         this.permissions = attr.permissions;
         this.link = attr.link;
     }
-    @ApiModelProperty()
     name: string;
-
-    @ApiModelProperty()
     type: string;
-
-    @ApiModelProperty()
     timestamp: string;
-
-    @ApiModelProperty()
     size: string;
-
-    @ApiModelProperty()
     permissions: string;
-
-    @ApiModelProperty()
     link: string;
 }

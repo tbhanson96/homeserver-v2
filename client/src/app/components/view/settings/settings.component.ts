@@ -18,8 +18,8 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   private selectedUpdate: string = null;
   private showHiddenFiles: boolean;
   private useDarkMode: boolean;
-  @ViewChild('showHiddenFiles', { static: false }) showHiddenFilesCheckbox: MdcCheckbox;
-  @ViewChild('darkModeSwitch', { static: false }) darkModeSwitch: MdcSwitch;
+  @ViewChild('showHiddenFiles') showHiddenFilesCheckbox: MdcCheckbox;
+  @ViewChild('darkModeSwitch') darkModeSwitch: MdcSwitch;
 
   constructor(
     private readonly api: ApiService,
@@ -29,13 +29,13 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-    this.api.getApiSettingsUpdate().subscribe(updates => {
+    this.api.settingsControllerGetPath().subscribe(updates => {
       this.updatesAvailable = updates;
     });
   }
 
   ngAfterViewInit() {
-    this.api.getApiSettings().subscribe(settings => {
+    this.api.settingsControllerGetSettings().subscribe(settings => {
       this.showHiddenFiles = settings.showHiddenFiles; 
       this.showHiddenFilesCheckbox.checked = this.showHiddenFiles;
     });
@@ -50,7 +50,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   }
 
   onPerformUpdate() {
-    const result = this.api.postApiSettingsUpdate(this.selectedUpdate);
+    const result = this.api.settingsControllerPerformUpdate({ update: this.selectedUpdate });
     this.dialogRef.close(result);
   }
 
@@ -67,8 +67,11 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       showHiddenFiles: this.showHiddenFiles,
       useDarkMode: this.useDarkMode,
     };
-    this.api.postApiSettings(settings).subscribe(() => { }, () => {
-      throw new Error(`Failed to save settings: ${settings}`)
+    this.api.settingsControllerSetSettings({ body: settings }).subscribe({
+      complete: () => { },
+      error: () => {
+        throw new Error(`Failed to save settings: ${settings}`)
+      }
     });
     this.dialogRef.close('accept');
     this.uiActions.setDarkMode(this.useDarkMode);

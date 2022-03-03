@@ -10,7 +10,7 @@ import fs from 'fs';
 import { AuthGuard } from '@nestjs/passport';
 import { ConfigService } from '../../src/services/config.service';
 import { getConfigService, setupMockFs } from '../mock-helper';
-import { EbookData } from '../../src/models/ebookData';
+import { EbookData } from '../../src/models/ebookData.dto';
 import { FileUtils } from '../../src/lib/file-utils';
 
 
