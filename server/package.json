@@ -31,7 +31,7 @@
     "dotenv": "8.2.0",
     "epub": "1.2.1",
     "http-proxy-middleware": "0.20.0",
-    "memfs": "3.1.2",
+    "memfs": "3.4.1",
     "morgan": "1.9.1",
     "ncp": "2.0.0",
     "node-calibre": "2.1.1",
