@@ -25,7 +25,7 @@
     "@angular/platform-browser-dynamic": "8.2.5",
     "@angular/router": "8.2.5",
     "@auth0/angular-jwt": "3.0.1",
-    "@ngrx/store": "7.4.0",
+    "@ngrx/store": "13.0.2",
     "ng-swagger-gen": "1.8.1",
     "rxjs": "6.5.3",
     "tslib": "1.10.0",
