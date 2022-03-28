@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MdcDialog, MdcSnackbar } from '@angular-mdc/web';
 import { SettingsComponent } from '@components/view/settings/settings.component';
 import { Observable } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-side-bar',
@@ -10,8 +11,8 @@ import { Observable } from 'rxjs';
 })
 export class SideBarComponent {
   constructor(
-    private readonly dialog: MdcDialog,
-    private readonly snackbar: MdcSnackbar,
+    private readonly dialog: MatDialog,
+    private readonly snackbar: MatSnackBar,
     ) { }
   
 

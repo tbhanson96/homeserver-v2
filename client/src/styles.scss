@@ -1,1 +1,9 @@
+@use '@angular/material' as mat;
 //global styles go here
+@include mat.core();
+html, body { 
+    height: 100vh;
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-color: mat.get-color-from-palette(mat.$blue-gray-palette);
+}

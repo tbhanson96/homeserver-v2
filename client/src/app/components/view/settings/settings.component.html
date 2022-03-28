@@ -1,38 +1,38 @@
-<mdc-dialog>
-  <mdc-dialog-container>
-    <mdc-dialog-surface>
-      <mdc-dialog-title>Settings</mdc-dialog-title>
-        <mdc-dialog-content>
-          <mdc-tab-bar #tabBar [activeTabIndex]="0">
-            <mdc-tab-scroller>
-              <mdc-tab label="General" icon="settings"></mdc-tab>
-              <mdc-tab label="Updates" icon="update"></mdc-tab>
-            </mdc-tab-scroller>
-          </mdc-tab-bar>
-          <div fxLayout="column" fxLayoutGap="20px" *ngIf="tabBar.activeTabIndex === 0">
-            <mdc-form-field >
-              <mdc-checkbox #showHiddenFiles (change)="onShowHiddenFilesToggle(showHiddenFiles.checked)"></mdc-checkbox>
-              <label>Show hidden files</label>
-            </mdc-form-field>
-            <mdc-form-field class="dark-mode-switch">
-              <mdc-switch #darkModeSwitch (change)="onUseDarkModeToggle(darkModeSwitch.checked)"></mdc-switch>
-              <label>Use dark mode</label>
-            </mdc-form-field>
-          </div>
-          <div *ngIf="tabBar.activeTabIndex === 1">
-            <mdc-list avatar singleSelection>
-              <mdc-list-item #listItem *ngFor="let update of updatesAvailable" (click)="onSelectUpdate(update)">
-                <mdc-icon mdcListItemGraphic>update</mdc-icon>
-                {{ update }}
-              </mdc-list-item>
-            </mdc-list>
-          </div>
-        </mdc-dialog-content>
-        <mdc-dialog-actions>
-          <button mdcDialogButton mdcDialogAction="close">Cancel</button>
-          <button *ngIf="tabBar.activeTabIndex === 0" mdcDialogButton default (click)="onSettingsSave()">Save</button>
-          <button *ngIf="tabBar.activeTabIndex === 1" mdcDialogButton default (click)="onPerformUpdate()">Update</button>
-        </mdc-dialog-actions>
-    </mdc-dialog-surface>
-  </mdc-dialog-container>
-</mdc-dialog>
+<h2 mat-dialog-title>Settings</h2>
+<mat-dialog-content>
+  <mat-tab-group #tabBar>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>settings</mat-icon>
+        General
+      </ng-template>
+      <div fxLayout="column" fxLayoutGap="20px">
+        <mat-checkbox #showHiddenFiles (change)="onShowHiddenFilesToggle(showHiddenFiles.checked)">
+          Show Hidden Files
+        </mat-checkbox>
+        <mat-slide-toggle #darkModeSwitch (change)="onUseDarkModeToggle(darkModeSwitch.checked)">
+          Use Dark mode
+        </mat-slide-toggle>
+      </div>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>update</mat-icon>
+        Updates
+      </ng-template>
+      <div fxLayout="column" fxLayoutGap="20px">
+        <mat-selection-list [multiple]="false">
+          <mat-list-option #listItem *ngFor="let update of updatesAvailable" (click)="onSelectUpdate(update)">
+            <mat-icon mat-list-icon>update</mat-icon>
+            {{ update }}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button *ngIf="activeTab === 0" mat-button mat-dialog-close (click)="onSettingsSave()">Save</button>
+  <button *ngIf="activeTab === 1" mat-button mat-dialog-close (click)="onPerformUpdate()">Update</button>
+</mat-dialog-actions>

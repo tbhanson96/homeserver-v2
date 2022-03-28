@@ -11,7 +11,7 @@ import { FileController } from '../../src/files/file.controller';
 import { ConfigService } from '../../src/services/config.service';
 import { AuthGuard } from '@nestjs/passport';
 import { getConfigService, setupMockFs } from '../mock-helper';
-import { FileData } from 'src/models/fileData';
+import { FileData } from '../../src/models/fileData.dto';
 
 describe('FileController (e2e)', () => {
   let app: INestApplication;

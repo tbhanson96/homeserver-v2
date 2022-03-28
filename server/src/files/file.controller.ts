@@ -42,8 +42,8 @@ export class FileController {
     @UseInterceptors(AnyFilesInterceptor())
     @ApiAcceptedResponse({ description: "File(s) succesfully uploaded!"})
     @ApiQuery({name: 'path', description: 'Directory to place file'})
-    @ApiConsumes('multipart/form-data')
     @ApiBody({ type: Object })
+    @ApiConsumes('multipart/form-data')
     async uploadFiles(@UploadedFiles() files: Express.Multer.File[], @Query('path') directory: string) {
        await this.fileService.copyFiles(files, directory);
     } 

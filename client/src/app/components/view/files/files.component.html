@@ -1,49 +1,38 @@
 <mat-chip-list class="file-nav">
-    <mat-chip class="chip" routerLink="/home/files">
+    <mat-chip class="chip" [selected]="reqPath.length === 0" routerLink="/home/files">
         <mat-icon>folder</mat-icon>
         Home
     </mat-chip>
-    <mat-chip *ngFor="let part of reqPath; last as isLast" [routerLink]="getRouterLinkFromDir(part)" class="chip">
+    <mat-chip *ngFor="let part of reqPath; last as isLast" [selected]="isLast" [routerLink]="getRouterLinkFromDir(part)"
+        class="chip">
         {{part.toString()}}
     </mat-chip>
 </mat-chip-list>
 <mat-selection-list [multiple]="false">
-    <ng-container *ngFor="let file of visibleFiles" [ngSwitch]="file.type">
-        <mat-list-option *ngSwitchCase="'dir'" [routerLink]="file.name">
-            <img matListAvatar class="list-image" [src]="'/assets/icons/' + file.type + '.png'" />
-            <h3 matLine>{{file.name}}</h3>
-            <p matLine>{{file.timestamp}}</p>
-            <!-- <button mat-icon-button [matMenuTriggerFor]="optionsMenu" aria-label="View more" title="More info">
-                <mat-icon>more_vert</mat-icon>
-            </button> -->
-            <mat-menu #optionsMenu>
-                <mat-list>
-                    <mat-list-item (click)="onRenameFile(file)">Rename</mat-list-item>
-                    <!-- <mat-list-item (click)="onMoveFile($event, file)">Move</mat-list-item> -->
-                    <mat-list-item (click)="onDeleteFile(file)">Delete</mat-list-item>
-                </mat-list>
-            </mat-menu>
-        </mat-list-option>
-        <a mat-list-item *ngSwitchDefault [href]="'home/files/' + file.link">
-            <img matListAvatar class="list-image" [src]="'/assets/icons/' + file.type + '.png'" />
-            <h3 matLine>{{file.name}}</h3>
-            <p matLine>{{file.timestamp}}</p>
-            <div>
-                <button mat-button [matMenuTriggerFor]="optionsMenu" aria-label="View more" title="More info">
+    <mat-list-option *ngFor="let file of visibleFiles" (click)="navigateToFileUrl(file)">
+        <div matListAvatar>
+            <img class="list-image" [src]="'/assets/icons/' + file.type + '.png'" />
+        </div>
+        <div>
+            <div fxFlex>
+                <div mat-line>{{file.name}}</div>
+                <div mat-line>{{file.timestamp}}</div>
+            </div>
+            <div fxLayoutAlign="center">
+                <button (click)="$event.stopPropagation()" mat-icon-button [matMenuTriggerFor]="optionsMenu" title="More info">
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #optionsMenu>
-                    <mat-list>
-                        <mat-list-item (click)="onRenameFile(file)">Rename</mat-list-item>
-                        <!-- <mat-list-item (click)="onMoveFile($event, file)">Move</mat-list-item> -->
-                        <mat-list-item (click)="onDeleteFile(file)">Delete</mat-list-item>
-                    </mat-list>
+                    <button mat-menu-item (click)="onRenameFile(file, $event)">Rename</button>
+                    <!-- <mat-list-item (click)="onMoveFile($event, file)">Move</mat-list-item> -->
+                    <button mat-menu-item (click)="onDeleteFile(file, $event)">Delete</button>
                 </mat-menu>
             </div>
-        </a>
-    </ng-container>
+        </div>
+    </mat-list-option>
 </mat-selection-list>
-<button fxFlexAlign="center" class="show-more" *ngIf="this.maxFilesShown < this.files.length" (click)="onShowMoreFiles()" mat-button>Show More</button>
+<button fxFlexAlign="center" class="show-more" *ngIf="this.maxFilesShown < this.files.length"
+    (click)="onShowMoreFiles()" mat-button>Show More</button>
 <button mat-fab class="upload-button" color="primary" (click)="openUploadDialog()">
     <mat-icon>add</mat-icon>
 </button>

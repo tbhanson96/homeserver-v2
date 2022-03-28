@@ -1,45 +1,4 @@
-@use '@material/image-list';
-@use '@material/menu-surface';
-
-.masonry-image-list {
-    padding-top: 50px;
-    @include image-list.masonry-columns(4);
-}
-  
-@media (max-width: 1499px) {
-    .masonry-image-list {
-        @include image-list.masonry-columns(3);
-    }
-}
-
-@media (max-width: 599px) {
-    .masonry-image-list {
-        @include image-list.masonry-columns(1);
-    }
-}
-
-.card {
-    width: 300px;
-}
-
-.card__primary {
-  padding: 1rem;
-}
-
-.card__title {
-  margin: 0;
-}
-
-.card__subtitle {
-  margin: 0;
-}
-
 .card-image {
     max-height: 100%;
     max-width: 100%;
-}
-
-.book-description {
-    @include menu-surface.shape-radius(5px);
-    width: 200px;
 }

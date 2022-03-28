@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { UiStateActions } from '@actions/ui-state.actions';
 import { EbooksService } from '@services/ebooks.service';
 import { EbookData } from '@api/models';
-import { MdcDialog, MdcSnackbar, MdcMenu } from '@angular-mdc/web';
 import { UploadDialogComponent } from '../upload-dialog/upload-dialog.component';
 import { Observable } from 'rxjs';
 import { UploadType } from '../upload-dialog/upload-type';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatMenu } from '@angular/material/menu';
 
 @Component({
   selector: 'app-ebooks',
@@ -19,8 +21,8 @@ export class EbooksComponent implements OnInit {
   constructor(
     private uiActions: UiStateActions,
     private ebooksService: EbooksService,
-    private dialog: MdcDialog,
-    private snackbar: MdcSnackbar,
+    private dialog: MatDialog,
+    private snackbar: MatSnackBar,
     ) { }
 
   ngOnInit() {
@@ -33,10 +35,13 @@ export class EbooksComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result instanceof Observable) {
         this.uiActions.setAppBusy(true);
-        result.subscribe(() => {
-          this.updateEbooks();
-        }, () => {
-          this.uiActions.setAppBusy(false);
+        result.subscribe({
+          next: () => {
+            this.updateEbooks();
+          },
+          error: () => {
+            this.uiActions.setAppBusy(false);
+          },
         });
       }
     });
@@ -48,30 +53,36 @@ export class EbooksComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result instanceof Observable) {
         this.uiActions.setAppBusy(true);
-        result.subscribe(() => {
-          this.snackbar.open(`Successfully remove ebook from libary: ${file.name}`);
-          this.updateEbooks();
-        }, () => {
-          this.uiActions.setAppBusy(false);
-          throw new Error(`Failed to remove ebook from library: ${file.name}`);
+        result.subscribe({
+          next: () => {
+            this.snackbar.open(`Successfully remove ebook from libary: ${file.name}`);
+            this.updateEbooks();
+          },
+          error: () => {
+            this.uiActions.setAppBusy(false);
+            throw new Error(`Failed to remove ebook from library: ${file.name}`);
+          },
         });
       }
     });
   }
 
-  public onShowEbookOptions(event: Event, menu: MdcMenu) {
+  public onShowEbookOptions(event: Event, menu: MatMenu) {
     event.preventDefault();
-    menu.open = !menu.open;
+    // menu.cl = !menu.open;
   }
 
   private updateEbooks() {
     this.uiActions.setAppBusy(true);
-    this.ebooksService.getEbooks().subscribe(ebooks => {
-      this.ebooks = ebooks;
-      this.uiActions.setAppBusy(false);
-    }, e => {
-      this.uiActions.setAppBusy(false);
-      throw e;
+    this.ebooksService.getEbooks().subscribe({
+      next: ebooks => {
+        this.ebooks = ebooks;
+        this.uiActions.setAppBusy(false);
+      },
+      error: e => {
+        this.uiActions.setAppBusy(false);
+        throw e;
+      },
     });
   }
 }

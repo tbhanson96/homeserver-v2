@@ -1,15 +1,17 @@
 <div class="main">
-    <mat-toolbar class="toolbar" color="primary" >
-        <app-top-bar></app-top-bar>
-    <mat-progress-bar *ngif="isBusy"></mat-progress-bar>
-    </mat-toolbar>
-    <mat-sidenav-container autosize>
+    <div class="toolbar">
+        <mat-toolbar color="primary" >
+            <app-top-bar></app-top-bar>
+        </mat-toolbar>
+        <mat-progress-bar mode="indeterminate" *ngIf="isBusy"></mat-progress-bar> 
+    </div>
+    <mat-sidenav-container class="main-content" autosize>
         <mat-sidenav class="sidebar" [fixedTopGap]="64" [fixedInViewport]="true" [(opened)]="isOpen" mode="side" (openedChange)="onSidebarChanged($event)">
             <h2>Tim's Homeserver</h2>
             <mat-divider></mat-divider>
             <app-side-bar></app-side-bar>
         </mat-sidenav>
-        <mat-sidenav-content class="main-content" fxLayout="row" fxLayoutAlign="center">
+        <mat-sidenav-content fxLayout="row" class="router-content" fxLayoutAlign="center">
             <div fxLayout="column" fxFlexFill>
                 <router-outlet></router-outlet>
             </div>

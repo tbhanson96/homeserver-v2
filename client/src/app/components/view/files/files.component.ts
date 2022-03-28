@@ -1,15 +1,16 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { ActivatedRoute, UrlSegment } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, Observable } from 'rxjs';
 import { FilesService } from '@services/files.service';
 import { FileData } from '@api/models';
 import * as validFileTypes from './valid-files';
 import { UiStateActions } from '@actions/ui-state.actions';
-import { MdcDialog, MdcMenu, MdcSnackbar } from '@angular-mdc/web';
 import { UploadDialogComponent } from '@components/view/upload-dialog/upload-dialog.component';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 import { UploadType } from '../upload-dialog/upload-type';
 import { RenameFileComponent } from '../rename-file/rename-file.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-files',
@@ -29,9 +30,10 @@ export class FilesComponent implements OnInit, OnDestroy {
     return this.files.slice(0, this.maxFilesShown);
   }
   constructor(
+    private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private readonly snackbar: MdcSnackbar,
-    private readonly dialog: MdcDialog,
+    private readonly snackbar: MatSnackBar,
+    private readonly dialog: MatDialog,
     private readonly uiActions: UiStateActions,
     private readonly filesService: FilesService) { }
 
@@ -74,33 +76,49 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.maxFilesShown += this.showMoreIncrement;
   }
 
-  public onDeleteFile(file: FileData) {
+  public navigateToFileUrl(file: FileData) {
+    const route = encodeURI('/home/files' + file.link);
+    if (file.type === 'dir') {
+      this.router.navigateByUrl(route) 
+    } else {
+      const origin = window.location.origin;
+      window.location.assign(origin + route);
+    }
+  }
+
+  public onDeleteFile(file: FileData, event?: Event) {
     const dialogRef = this.dialog.open(DeleteDialogComponent, { data: { service: UploadType.Files, file }});
     dialogRef.afterClosed().subscribe(result => {
       if (result instanceof Observable) {
         this.uiActions.setAppBusy(true);
-        result.subscribe(() => {
-          this.snackbar.open(`Successfully deleted file: ${file.name}`);
-          this.updateFiles();
-        }, () => {
-          this.uiActions.setAppBusy(false);
-          throw new Error(`Failed to delete file: ${file.name}`);
+        result.subscribe({
+          next: () => {
+            this.snackbar.open(`Successfully deleted file: ${file.name}`);
+            this.updateFiles();
+          },
+          error: () => {
+              this.uiActions.setAppBusy(false);
+              throw new Error(`Failed to delete file: ${file.name}`);
+          },
         });
       }
     });
   }
 
-  public onRenameFile(file: FileData) {
+  public onRenameFile(file: FileData, event?: Event) {
     const dialogRef = this.dialog.open(RenameFileComponent, { data: { selectedFile: file }});
     dialogRef.afterClosed().subscribe(result => {
       if (result instanceof Observable) {
         this.uiActions.setAppBusy(true);
-        result.subscribe(() => {
-          this.snackbar.open(`Successfully renamed file: ${file.name}`);
-          this.updateFiles();
-        }, () => {
-          this.uiActions.setAppBusy(false);
-          throw new Error(`Failed to rename file: ${file.name}`);
+        result.subscribe({
+          next: () => {
+            this.snackbar.open(`Successfully renamed file: ${file.name}`);
+            this.updateFiles();
+          },
+          error: () => {
+            this.uiActions.setAppBusy(false);
+            throw new Error(`Failed to rename file: ${file.name}`);
+          },
         });
       }
     });

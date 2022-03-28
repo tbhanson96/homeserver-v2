@@ -1,29 +1,36 @@
-import { Component, OnInit, ViewChild, AfterViewChecked, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewChecked, AfterViewInit, OnDestroy } from '@angular/core';
 import { ApiService } from '@api/services';
-import { MdcDialogRef, MdcCheckbox, MdcSwitch } from '@angular-mdc/web';
 import { SettingsDto } from '@api/models/settings-dto';
 import { UiStateSelectors } from '@selectors/ui-state.selectors';
 import { UiStateActions } from '@actions/ui-state.actions';
 import { take } from 'rxjs/operators';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatTabGroup } from '@angular/material/tabs';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss']
 })
-export class SettingsComponent implements OnInit, AfterViewInit {
-
+export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public updatesAvailable: string[];
+  public activeTab: number;
+  private subscriptions: Subscription[] = [];
+
   private selectedUpdate: string = null;
   private showHiddenFiles: boolean;
   private useDarkMode: boolean;
-  @ViewChild('showHiddenFiles') showHiddenFilesCheckbox: MdcCheckbox;
-  @ViewChild('darkModeSwitch') darkModeSwitch: MdcSwitch;
+  @ViewChild('tabBar') tabBar: MatTabGroup;
+  @ViewChild('showHiddenFiles') showHiddenFilesCheckbox: MatCheckbox;
+  @ViewChild('darkModeSwitch') darkModeSwitch: MatSlideToggle;
 
   constructor(
     private readonly api: ApiService,
-    private dialogRef: MdcDialogRef<SettingsComponent>,
+    private readonly dialogRef: MatDialogRef<SettingsComponent>,
     private readonly uiSelectors: UiStateSelectors,
     private readonly uiActions: UiStateActions,
   ) { }
@@ -43,6 +50,13 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       this.useDarkMode = useDarkMode;
       this.darkModeSwitch.checked = useDarkMode;
     });
+    this.subscriptions.push(this.tabBar.selectedTabChange.subscribe(value => {
+      this.activeTab = value.index;
+    }));
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   onSelectUpdate(update: string) {

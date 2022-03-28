@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@services/auth.service';
 import { Router } from '@angular/router';
-import { MdcSnackbar } from '@angular-mdc/web';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-auth',
@@ -14,7 +14,7 @@ export class AuthComponent implements OnInit {
   password: string;
   constructor(
     private readonly authService: AuthService,
-    private readonly snackbar: MdcSnackbar,
+    private readonly snackbar: MatSnackBar,
     private readonly router: Router) { }
 
   ngOnInit() {

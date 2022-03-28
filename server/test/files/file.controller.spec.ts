@@ -8,7 +8,6 @@ import { randomBytes } from 'crypto';
 import { SettingsService } from '../../src/settings/settings.service';
 import { SettingsDto } from '../../src/models/settings.dto';
 import { FileData } from '../../src/models/fileData.dto';
-import * as path from 'path';
 
 describe('FileController', () => {
 
@@ -51,9 +50,10 @@ describe('FileController', () => {
         it('should call copyFiles', async () => {
             await controller.uploadFiles([{
                 fieldname: '',
-                originalname: 'file.txt',
                 encoding: '',
+                originalname: 'file.txt',
                 mimetype: '',
+                stream: <any>{},
                 size: 0,
                 destination: '',
                 filename: 'asjdkfl',

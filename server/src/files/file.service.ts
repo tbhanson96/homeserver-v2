@@ -28,7 +28,7 @@ export class FileService implements OnModuleInit {
         for (let f of files) {
             let stats = fs.statSync(path.join(this.rootDir, directory, f));
             const props = FileUtils.getFileProps(f, stats); 
-            props.link = directory === '' ? f : path.join(directory, f);
+            props.link = directory === '' ? f : path.join('/', directory, f);
             ret.push(new FileData(props));
         }
         return ret;

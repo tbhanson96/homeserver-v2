@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FilesService } from '@services/files.service';
-import { MdcDialogRef, MdcSnackbar, MDC_DIALOG_DATA } from '@angular-mdc/web';
 import { UiStateSelectors } from '@selectors/ui-state.selectors';
 import { Subscription, Observable } from 'rxjs';
 import { EbooksService } from '@services/ebooks.service';
 import { UploadType } from './upload-type';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-upload-dialog',
@@ -24,10 +25,10 @@ export class UploadDialogComponent implements OnInit, OnDestroy {
   constructor(
     private readonly fileService: FilesService,
     private readonly ebookService: EbooksService,
-    private readonly snackbar: MdcSnackbar,
+    private readonly snackbar: MatSnackBar,
     private readonly uiSelectors: UiStateSelectors,
-    private readonly dialogRef: MdcDialogRef<UploadDialogComponent>,
-    @Inject(MDC_DIALOG_DATA) public readonly uploadService: UploadType ) { }
+    private readonly dialogRef: MatDialogRef<UploadDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public readonly uploadService: UploadType ) { }
 
   ngOnInit() {
     this.subscriptions = [
@@ -72,10 +73,13 @@ export class UploadDialogComponent implements OnInit, OnDestroy {
     }
 
     const msg = this.files.map(f => f.name).join(', ');
-    result.subscribe(() => {
-      this.snackbar.open(`Successfully uploaded files: ${msg}`);
-    }, () => {
-      throw new Error(`Failed to upload files: ${msg}`);
+    result.subscribe({
+      next: () => {
+        this.snackbar.open(`Successfully uploaded files: ${msg}`);
+      },
+      error: () => {
+        throw new Error(`Failed to upload files: ${msg}`);
+      }
     });
     this.dialogRef.close(result);
   }

@@ -16,11 +16,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.uiSelectors.getUseDarkMode().subscribe(useDarkMode => {
-      if (useDarkMode) {
-        this.document.getElementById('theme').setAttribute('href', 'dark.css');
-      } else {
-        this.document.getElementById('theme').setAttribute('href', 'light.css');
-      }
+      // do something here 
     })
   }
 

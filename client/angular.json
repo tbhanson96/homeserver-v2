@@ -21,23 +21,17 @@
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
+            "sourceMap": true,
+            "aot": false,
+            "buildOptimizer": false,
+            "optimization": false,
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
               "src/styles.scss",
-              {
-                "input": "src/styles/dark.scss",
-                "bundleName": "dark",
-                "inject": false
-              },
-              {
-                "input": "src/styles/light.scss",
-                "bundleName": "light",
-                "inject": false
-              }
+              "node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
