@@ -1,42 +1,40 @@
-<mat-grid-list rowHeight="fit" cols="4" class="masonry-image-list">
-  <mat-grid-tile
-    *ngFor="let ebook of ebooks"
-    [colspan]="1"
-    [rowspan]="1"
-  >
-    <mat-card class="card">
-      <mat-card-header>
-        <mat-card-title>{{ ebook.name }}</mat-card-title>
-        <mat-card-subtitle>{{ ebook.author }}</mat-card-subtitle>
-      </mat-card-header>
-      <img class="card-image" [src]="ebook.relativeCoverPath" />
-      <mat-card-actions>
-          <div matMenuSurfaceAnchor #descriptionAnchor>
-            <button mat-button [matMenuTriggerFor]="demoSurface">Description</button>
-            <mat-menu #demoSurface class="book-description" [innerHtml]="ebook.description || 'No description provided.'">
-            </mat-menu>
+<div fxLayoutAlign="space-around" fxLayout="row wrap">
+  <mat-card *ngFor="let ebook of ebooks" class="card">
+    <mat-card-header>
+      <mat-card-title>{{ ebook.name }}</mat-card-title>
+      <mat-card-subtitle>{{ ebook.author }}</mat-card-subtitle>
+    </mat-card-header>
+    <div fxLayoutAlign="center">
+      <img class="card-image" [src]="ebook.relativeCoverPath || 'assets/book.png'" />
+    </div>
+    <mat-card-actions>
+      <div #descriptionAnchor>
+        <button mat-button [matMenuTriggerFor]="demoSurface">Description</button>
+        <mat-menu #demoSurface class="book-description">
+          <div class="description" [innerHtml]="ebook.description || 'No description provided.'">
           </div>
-            <div matListItemMeta matMenuSurfaceAnchor #optionsAnchor>
-              <button
-                #optionsButton
-                mat-icon-button
-                aria-label="View more"
-                title="More info"
-                [matMenuTriggerFor]="optionsMenu"
-              >
-              <mat-icon>
-                more
-              </mat-icon>
-              </button>
-              <mat-menu #optionsMenu>
-                <mat-list>
-                  <mat-list-item class="options-item" (click)="onDeleteFile($event, ebook)">Delete</mat-list-item>
-                  <mat-list-item class="options-item">Resend to kindle</mat-list-item>
-                </mat-list>
-              </mat-menu>
-            </div>
-        </mat-card-actions>
-      </mat-card>
-  </mat-grid-tile>
-</mat-grid-list>
-<button mat-fab position="bottomRight" icon="add" (click)="onUploadClick()"></button>
+        </mat-menu>
+      </div>
+      <div fxLayoutAlign="end">
+        <button
+          #optionsButton
+          mat-icon-button
+          aria-label="View more"
+          title="More info"
+          [matMenuTriggerFor]="optionsMenu"
+        >
+        <mat-icon>
+          menu
+        </mat-icon>
+        </button>
+        <mat-menu #optionsMenu>
+          <button mat-menu-item (click)="onDeleteFile($event, ebook)">Delete</button>
+          <button mat-menu-item>Resend to Kindle</button>
+        </mat-menu>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</div>
+<button mat-fab class="upload-button" color="primary" (click)="onUploadClick()">
+    <mat-icon>add</mat-icon>
+</button>

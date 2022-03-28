@@ -44,6 +44,8 @@ export class FileService implements OnModuleInit {
             fs.copyFileSync(file.path, newPath);
             fs.unlinkSync(file.path);
         }
+        const msg = files.map(f => f.originalname).join(', ');
+        this.log.log(`Successfully uploaded file(s): ${msg}`);
     }
 
     async deleteFile(file: FileData) {
@@ -71,5 +73,6 @@ export class FileService implements OnModuleInit {
             }
         }
         fs.renameSync(this.getLocalFilePath(file.link), newPath);
+        this.log.log(`Moved ${file.name} to ${newPath}`);
     }
 }

@@ -20,9 +20,9 @@ export class FilesService {
   }
 
   public uploadFiles(files: File[], directory: string) {
-    const formData = new FormData();
-    files.forEach((file, index) => {
-      formData.append(index.toString(), file, file.name);
+    const formData = {};
+    files.forEach(f => {
+      formData[f.name] = f;
     });
     return this.api.fileControllerUploadFiles({ path: directory, body: formData }).pipe(share());
   }

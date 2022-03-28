@@ -31,7 +31,16 @@
             ],
             "styles": [
               "src/styles.scss",
-              "node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css"
+              {
+                "input": "node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
+                "bundleName": "dark",
+                "inject": false
+              },
+              {
+                "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+                "bundleName": "light",
+                "inject": false
+              }
             ],
             "stylePreprocessorOptions": {
               "includePaths": [

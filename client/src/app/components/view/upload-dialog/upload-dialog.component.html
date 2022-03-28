@@ -13,18 +13,17 @@
           </div>
       </mat-list-item>
   </mat-list>
-  <form fxLayout="column" fxLayoutAlign="center" [formGroup]="uploadForm" id="uploadForm" (ngSubmit)="onUploadFiles()" autocomplete="off">
-      <input id="files" type="file" class="file-input" (input)="onFileInput($event)" multiple>
-      <label button mat-button for="files">
-          Add a file...
-      </label>
-    <mat-form-field *ngIf="uploadService === uploadServiceEnum.Ebooks" >
-      <mat-checkbox #sendToKindle (change)="onSendToKindleInput(sendToKindle.checked)"></mat-checkbox>
-      <label>Send to Kindle</label>
-    </mat-form-field>
-  </form>
+  <div class="menu-content" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px">
+    <input id="files" type="file" class="file-input" (input)="onFileInput($event)" multiple>
+    <label button for="files">
+        Add a file...
+    </label>
+    <mat-checkbox *ngIf="uploadService === uploadServiceEnum.Ebooks" #sendToKindle (change)="onSendToKindleInput(sendToKindle.checked)">
+      Send To Kindle
+    </mat-checkbox>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button form="uploadForm" type="submit" mat-dialog-close>Upload</button>
+  <button mat-button form="uploadForm" type="submit" mat-dialog-close (click)="onUploadFiles()">Upload</button>
 </mat-dialog-actions>

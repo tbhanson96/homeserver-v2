@@ -18,7 +18,7 @@ import { Subscription } from 'rxjs';
 export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public updatesAvailable: string[];
-  public activeTab: number;
+  public activeTab = 0;
   private subscriptions: Subscription[] = [];
 
   private selectedUpdate: string = null;

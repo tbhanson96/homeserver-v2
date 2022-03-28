@@ -29,7 +29,6 @@ import { SettingsComponent } from '@components/view/settings/settings.component'
 import { UiStateActions } from '@actions/ui-state.actions';
 import { RenameFileComponent } from '@components/view/rename-file/rename-file.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatModule } from './mat.module';
 
 @NgModule({
   declarations: [
@@ -56,7 +55,6 @@ import { MatModule } from './mat.module';
     FlexLayoutModule,
     AppRoutingModule,
     MaterialModule,
-    MatModule,
     BrowserAnimationsModule,
   ],
   providers: [

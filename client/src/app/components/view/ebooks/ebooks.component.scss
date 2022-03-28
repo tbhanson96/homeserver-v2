@@ -1,4 +1,21 @@
+.card {
+    width: 200px;
+    margin-bottom: 10px;
+}
+
 .card-image {
-    max-height: 100%;
-    max-width: 100%;
+    max-width: 80%;
+}
+
+.description {
+    color: white;
+    padding: 20px;
+    max-height: 200px;
+}
+
+.upload-button {
+    margin: 64px;
+    position: fixed;
+    bottom: 0;
+    left: calc(100% - 184px);
 }

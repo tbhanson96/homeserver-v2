@@ -2,9 +2,9 @@ import { Controller, Post, Body, Get, Req, UseGuards } from '@nestjs/common';
 import { routes, joinRoutes } from '../routes';
 import { AuthDto } from '../models/auth.dto';
 import { AuthService } from './auth.service';
-import { ApiOkResponse } from '@nestjs/swagger';
 import { Request } from 'express';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiCreatedResponse, ApiProduces, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
 @Controller(joinRoutes(routes.api, routes.auth))
 export class AuthController {
@@ -12,7 +12,9 @@ export class AuthController {
     constructor(private readonly authService: AuthService) { }
 
     @Post()
-    @ApiOkResponse({ description: "Successfully logged in", type: String })
+    @ApiProduces('text/html')
+    @ApiCreatedResponse({ description: 'Succesfully logged in', type: String })
+    @ApiUnauthorizedResponse({ description: 'Failed to login' })
     async login(@Body() authDto: AuthDto, @Req() request: Request) {
         const authed = await this.authService.authenticate(authDto.username, authDto.password);
         if (authed) {
@@ -22,6 +24,8 @@ export class AuthController {
                 request.res.cookie('access_token', token, { httpOnly: true, sameSite: true });
             }
             return token;
+        } else {
+            return '';
         }
     }
 

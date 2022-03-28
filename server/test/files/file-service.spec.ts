@@ -33,7 +33,7 @@ describe('FileController', () => {
 
         it('returns correct values', async () => {
             const res = await fileService.getFiles('Documents', false);
-            expect(res).toMatchObject( [ { link: 'Documents/1' }, { link: 'Documents/2' } ]);
+            expect(res).toMatchObject( [ { link: '/Documents/1' }, { link: '/Documents/2' } ]);
         });
     });
 

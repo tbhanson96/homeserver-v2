@@ -15,9 +15,9 @@ export class EbooksService {
   }
 
   uploadEbooks(sendToKindle: boolean, files: Array<File>) {
-    const formData = new FormData();
-    files.forEach((file, index) => {
-      formData.append(index.toString(), file, file.name);
+    const formData = {}; 
+    files.forEach((file) => {
+      formData[file.name] = file;
     });
     return this.apiService.ebookControllerAddEbook({ sendToKindle, body: formData }).pipe(share());
   }

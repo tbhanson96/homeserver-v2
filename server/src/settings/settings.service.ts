@@ -23,6 +23,6 @@ export class SettingsService implements OnModuleInit {
 
     public setSettings(settings: SettingsDto) {
         this.settings = settings;
-        this.log.log(`Updated server settings: ${settings}`);
+        this.log.log(`Updated server settings: ${JSON.stringify(settings)}`);
     }
 }
