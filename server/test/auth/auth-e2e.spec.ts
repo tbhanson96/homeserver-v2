@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '../../src/app.module';
 import { ConfigService } from '../../src/services/config.service';
-import { AuthDto } from '../../src/models/authDto';
+import { AuthDto } from '../../src/models/auth.dto';
 
 describe('FileController (e2e)', () => {
   let app: INestApplication;

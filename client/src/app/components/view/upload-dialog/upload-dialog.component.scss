@@ -2,6 +2,15 @@
     display: none;
 }
 
+.file-title {
+    max-width: 300px;
+    text-overflow: ellipsis;
+}
+
 .delete-icon {
    margin-left: 15px;
+}
+
+.menu-content { 
+    padding: 10px;
 }

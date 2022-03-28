@@ -11,18 +11,18 @@ export class EbooksService {
   constructor(private apiService: ApiService) { }
 
   getEbooks() {
-    return this.apiService.getApiEbooks();
+    return this.apiService.ebookControllerGetBooks();
   }
 
   uploadEbooks(sendToKindle: boolean, files: Array<File>) {
-    const formData = new FormData();
-    files.forEach((file, index) => {
-      formData.append(index.toString(), file, file.name);
+    const formData = {}; 
+    files.forEach((file) => {
+      formData[file.name] = file;
     });
-    return this.apiService.postApiEbooks(sendToKindle, formData).pipe(share());
+    return this.apiService.ebookControllerAddEbook({ sendToKindle, body: formData }).pipe(share());
   }
 
   deleteEbook(ebook: EbookData) {
-    return this.apiService.deleteApiEbooks(ebook);
+    return this.apiService.ebookControllerDeleteEbook({ body: ebook });
   }
 }

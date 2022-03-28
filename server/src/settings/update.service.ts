@@ -27,7 +27,7 @@ export class UpdateService implements OnModuleInit {
         const ret = [];
         try {
             await this.trimUpdatePackagesAsync();
-        } catch (e) {
+        } catch (e: any) {
             this.log.error(`Failed to trim old update packages from directory.`, e.stack);
         }
         let updates = fs.readdirSync(this.updateDir);

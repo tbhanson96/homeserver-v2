@@ -1,7 +1,6 @@
 .list-image {
-    height: 48px;
-    width: 48px;
-    margin-right: 20px;
+    height: 32px;
+    width: 32px;
 }
 
 .file-nav {
@@ -13,6 +12,13 @@
 .chip {
     flex-grow: 0;
     flex-shrink: 0;
+}
+
+.upload-button {
+    margin: 64px;
+    position: fixed;
+    bottom: 0;
+    left: calc(100% - 184px);
 }
 
 .show-more {

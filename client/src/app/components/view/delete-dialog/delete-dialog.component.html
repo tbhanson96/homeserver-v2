@@ -1,11 +1,7 @@
-<mdc-dialog>
-    <mdc-dialog-surface>
-        <mdc-dialog-content>
-            Are you sure you want to delete {{ data.file.name }}?
-        </mdc-dialog-content>
-        <mdc-dialog-actions>
-          <button mdcDialogButton mdcDialogAction="close">Cancel</button>
-          <button mdcDialogButton default (click)="onDeleteFile()">Delete</button>
-        </mdc-dialog-actions>
-    </mdc-dialog-surface>
-</mdc-dialog>
+<mat-dialog-content>
+    Are you sure you want to delete {{ data.file.name }}
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button mat-dialog-close >Cancel</button>
+    <button mat-button mat-dialog-close (click)="onDeleteFile()">Delete</button>
+</mat-dialog-actions>

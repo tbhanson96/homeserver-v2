@@ -23,30 +23,36 @@ export class AuthService implements CanActivate {
   // }
 
   getAuthenticated(): Observable<boolean> {
-    return Observable.create(observer => {
-      this.api.getApiAuth().subscribe(() => {
+    return new Observable(observer => {
+      this.api.authControllerIsLoggedIn().subscribe({
+        next: () => {
         observer.next(true);
         observer.complete();
         this.isAuthenticated = true;
-      }, () => {
-        observer.next(false);
-        observer.complete();
-        this.isAuthenticated = false;
+        },
+        error: () => {
+          observer.next(false);
+          observer.complete();
+          this.isAuthenticated = false;
+        }
       });
     });
   }
 
   login(username: string, password: string): Observable<boolean> {
-    return Observable.create(observer => {
-      this.api.postApiAuth({ username, password }).subscribe(auth_token => {
-        localStorage.setItem('access_token', auth_token); // save incase we want to get later
-        observer.next(true);
-        observer.complete();
-        this.isAuthenticated = true;
-      }, err => {
-        observer.next(false);
-        observer.complete();
-        this.isAuthenticated = false;
+    return new Observable(observer => {
+      this.api.authControllerLogin({ body: { username, password }}).subscribe({
+        next: auth_token => {
+          localStorage.setItem('access_token', auth_token); // save incase we want to get later
+          observer.next(true);
+          observer.complete();
+          this.isAuthenticated = true;
+        },
+        error:  err => {
+          observer.next(false);
+          observer.complete();
+          this.isAuthenticated = false;
+        }
       });
     })
   }

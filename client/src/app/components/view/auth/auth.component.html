@@ -4,11 +4,17 @@
 
 <div class="background" fxLayout="column" fxLayoutAlign="center">
   <div fxLayout="row" fxLayoutAlign="center">
-      <mdc-card fxLayout="column" fxLayoutAlign="center" class="container" [mdcElevation]=10>
-        <div mdcHeadline4 class="login-header text" >Welcome</div>
-        <mdc-text-field class="text-field" label="Username" required (input)="username=$event" (keydown.enter)="onLogin()"></mdc-text-field>
-        <mdc-text-field type="password" class="text-field" label="Password" required (input)="password=$event" (keydown.enter)="onLogin()"></mdc-text-field>
-        <button mdc-button primary raised (click)="onLogin()">Login</button>
-      </mdc-card>
+      <mat-card fxLayout="column" fxLayoutAlign="center" class="container">
+        <h2 class="login-header" >Welcome</h2>
+        <mat-form-field required appearance="fill">
+          <mat-label>Username</mat-label>
+          <input matInput (change)="username=$event.target.value"/>
+        </mat-form-field>
+        <mat-form-field required appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" (change)="password=$event.target.value">
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="onLogin()">Login</button>
+      </mat-card>
   </div>
 </div>

@@ -14,6 +14,8 @@ export class AppComponent implements OnInit {
     private readonly uiSelectors: UiStateSelectors,
   ) { }
 
+  private THEME_PATH = 'node_modules/@angular/material/prebuilt-themes/';
+
   ngOnInit() {
     this.uiSelectors.getUseDarkMode().subscribe(useDarkMode => {
       if (useDarkMode) {

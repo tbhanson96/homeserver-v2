@@ -1,30 +1,29 @@
-<mdc-dialog>
-  <mdc-dialog-container>
-    <mdc-dialog-surface>
-      <mdc-dialog-title>Upload Files</mdc-dialog-title>
-        <mdc-dialog-content>
-          <mdc-list twoLine interactive="false">
-              <mdc-list-item *ngFor="let file of files">
-                <mdc-list-item-text [secondaryText]="getFileSize(file.size)">{{file.name}}</mdc-list-item-text>
-                <button mdc-icon-button class="delete-icon" mdcListItemMeta icon="delete" (click)="onDeleteFile(file)">
-                </button>
-              </mdc-list-item>
-          </mdc-list>
-          <form fxLayout="column" fxLayoutAlign="center" [formGroup]="uploadForm" id="uploadForm" (ngSubmit)="onUploadFiles()" autocomplete="off">
-            <mdc-form-field>
-                <input class="file-input" id="files" type="file" name="files" (input)="onFileInput($event)" multiple>
-                <label mdc-button primary for="files">Add a file...</label>
-            </mdc-form-field>
-            <mdc-form-field *ngIf="uploadService === uploadServiceEnum.Ebooks" >
-              <mdc-checkbox #sendToKindle (change)="onSendToKindleInput(sendToKindle.checked)"></mdc-checkbox>
-              <label>Send to Kindle</label>
-            </mdc-form-field>
-          </form>
-        </mdc-dialog-content>
-        <mdc-dialog-actions>
-          <button mdcDialogButton mdcDialogAction="close">Cancel</button>
-          <button mdcDialogButton default form="uploadForm" type="submit">Upload</button>
-        </mdc-dialog-actions>
-    </mdc-dialog-surface>
-  </mdc-dialog-container>
-</mdc-dialog>
+<h2 mat-dialog-title>Upload Files</h2>
+<mat-dialog-content>
+  <mat-list twoLine>
+      <mat-list-item *ngFor="let file of files">
+          <div fxFlex>
+            <div mat-line class="file-title">{{file.name}}</div>
+            <div mat-line>{{ getFileSize(file.size) }}</div>
+          </div>
+          <div fxLayoutAlign="center">
+            <button mat-icon-button class="delete-icon" (click)="onDeleteFile(file)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+      </mat-list-item>
+  </mat-list>
+  <div class="menu-content" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px">
+    <input id="files" type="file" class="file-input" (input)="onFileInput($event)" multiple>
+    <label button for="files">
+        Add a file...
+    </label>
+    <mat-checkbox *ngIf="uploadService === uploadServiceEnum.Ebooks" #sendToKindle (change)="onSendToKindleInput(sendToKindle.checked)">
+      Send To Kindle
+    </mat-checkbox>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button form="uploadForm" type="submit" mat-dialog-close (click)="onUploadFiles()">Upload</button>
+</mat-dialog-actions>

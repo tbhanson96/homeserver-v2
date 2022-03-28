@@ -1,36 +1,40 @@
-<mdc-image-list masonry class="masonry-image-list">
-  <mdc-image-list-item *ngFor="let ebook of ebooks">
-    <mdc-card class="card">
-        <mdc-card-primary-action>
-          <mdc-card-media>
-            <img class="card-image" [src]="ebook.relativeCoverPath" />
-          </mdc-card-media>
-            <div class="card__primary">
-              <div class="card__title text" mdcHeadline6>{{ ebook.name }}</div>
-              <div class="card__subtitle text" mdcSubtitle2>{{ ebook.author }}</div>
-            </div>
-        </mdc-card-primary-action>
-        <mdc-card-actions>
-          <mdc-card-action-buttons>
-            <div mdcMenuSurfaceAnchor #descriptionAnchor>
-              <button mdc-button mdcCardAction="button" (click)="demoSurface.open = !demoSurface.open">Description</button>
-              <mdc-menu-surface #demoSurface class="book-description" [anchorElement]="descriptionAnchor" [innerHtml]="ebook.description || 'No description provided.'">
-              </mdc-menu-surface>
-            </div>
-          </mdc-card-action-buttons>
-          <mdc-card-action-icons>
-                <div mdcListItemMeta mdcMenuSurfaceAnchor #optionsAnchor>
-                    <button #optionsButton mdcIconButton mdcListItemMeta aria-label="View more" title="More info" icon="more_vert" (click)="onShowEbookOptions($event, optionsMenu)"></button>
-                    <mdc-menu #optionsMenu fixed [anchorElement]="optionsAnchor">
-                        <mdc-list>
-                            <mdc-list-item class="options-item" (click)="onDeleteFile($event, ebook)">Delete</mdc-list-item>
-                            <mdc-list-item class="options-item">Resend to kindle</mdc-list-item>
-                        </mdc-list>
-                    </mdc-menu>
-                </div>
-          </mdc-card-action-icons>
-        </mdc-card-actions>
-      </mdc-card>
-  </mdc-image-list-item>
-</mdc-image-list>
-<button mdc-fab position="bottomRight" icon="add" (click)="onUploadClick()"></button>
+<div fxLayoutAlign="space-around" fxLayout="row wrap">
+  <mat-card *ngFor="let ebook of ebooks" class="card">
+    <mat-card-header>
+      <mat-card-title>{{ ebook.name }}</mat-card-title>
+      <mat-card-subtitle>{{ ebook.author }}</mat-card-subtitle>
+    </mat-card-header>
+    <div fxLayoutAlign="center">
+      <img class="card-image" [src]="ebook.relativeCoverPath || 'assets/book.png'" />
+    </div>
+    <mat-card-actions>
+      <div #descriptionAnchor>
+        <button mat-button [matMenuTriggerFor]="demoSurface">Description</button>
+        <mat-menu #demoSurface class="book-description">
+          <div class="description" [innerHtml]="ebook.description || 'No description provided.'">
+          </div>
+        </mat-menu>
+      </div>
+      <div fxLayoutAlign="end">
+        <button
+          #optionsButton
+          mat-icon-button
+          aria-label="View more"
+          title="More info"
+          [matMenuTriggerFor]="optionsMenu"
+        >
+        <mat-icon>
+          menu
+        </mat-icon>
+        </button>
+        <mat-menu #optionsMenu>
+          <button mat-menu-item (click)="onDeleteFile($event, ebook)">Delete</button>
+          <button mat-menu-item>Resend to Kindle</button>
+        </mat-menu>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</div>
+<button mat-fab class="upload-button" color="primary" (click)="onUploadClick()">
+    <mat-icon>add</mat-icon>
+</button>

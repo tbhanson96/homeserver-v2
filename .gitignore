@@ -29,3 +29,4 @@ npm-debug.log
 yarn-error.log
 testem.log
 *.lock
+.angular

@@ -1,9 +1,9 @@
 import { Controller, UseGuards, Get, Query, Post, Body } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { UpdateService } from "./update.service";
-import { ApiOkResponse, ApiImplicitQuery, ApiImplicitBody } from "@nestjs/swagger";
+import { ApiOkResponse, ApiQuery } from "@nestjs/swagger";
 import { joinRoutes, routes } from "../routes";
-import { SettingsDto } from "../models/settingsDto";
+import { SettingsDto } from "../models/settings.dto";
 import { SettingsService } from "./settings.service";
 
 @Controller(joinRoutes(routes.api, routes.settings))
@@ -37,7 +37,7 @@ export class SettingsController {
     @Post('update')
     @UseGuards(AuthGuard('jwt'))
     @ApiOkResponse({ description: 'Successfully performed update.'})
-    @ApiImplicitQuery({ name: 'update', type: String, description: 'Name of package to update app to.' })
+    @ApiQuery({ name: 'update', type: String, description: 'Name of package to update app to.' })
     async performUpdate(@Query('update') update: string) {
         await this.updateService.performUpdate(update);
         this.updateService.shutdownApplication(); // don't await this call, return http response before shutdown

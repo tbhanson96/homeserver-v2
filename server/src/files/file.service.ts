@@ -1,5 +1,5 @@
 import { Injectable, OnModuleInit, Logger, BadRequestException } from '@nestjs/common';
-import { FileData } from '../models/fileData';
+import { FileData } from '../models/fileData.dto';
 import { FileUtils } from '../lib/file-utils';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -28,7 +28,7 @@ export class FileService implements OnModuleInit {
         for (let f of files) {
             let stats = fs.statSync(path.join(this.rootDir, directory, f));
             const props = FileUtils.getFileProps(f, stats); 
-            props.link = directory === '' ? f : path.join(directory, f);
+            props.link = directory === '' ? f : path.join('/', directory, f);
             ret.push(new FileData(props));
         }
         return ret;
@@ -44,6 +44,8 @@ export class FileService implements OnModuleInit {
             fs.copyFileSync(file.path, newPath);
             fs.unlinkSync(file.path);
         }
+        const msg = files.map(f => f.originalname).join(', ');
+        this.log.log(`Successfully uploaded file(s): ${msg}`);
     }
 
     async deleteFile(file: FileData) {
@@ -71,5 +73,6 @@ export class FileService implements OnModuleInit {
             }
         }
         fs.renameSync(this.getLocalFilePath(file.link), newPath);
+        this.log.log(`Moved ${file.name} to ${newPath}`);
     }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
 import { UiStateSelectors } from '@selectors/ui-state.selectors';
 import { UiStateActions } from '@actions/ui-state.actions';
 import { AuthService } from '@services/auth.service';
@@ -34,7 +34,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.isBusy = false;
     this.subscriptions.push(
       this.uiStateSelectors.getSidebarOpen().subscribe(open => {
         this.isOpen = open;

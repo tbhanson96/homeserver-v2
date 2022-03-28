@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MdcDialogRef, MDC_DIALOG_DATA, MdcSnackbar } from '@angular-mdc/web';
 import { FileData, EbookData } from '@api/models';
 import { FilesService } from '@services/files.service';
 import { UploadType } from '../upload-dialog/upload-type';
 import { EbooksService } from '@services/ebooks.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-delete-dialog',
@@ -15,8 +15,8 @@ export class DeleteDialogComponent implements OnInit {
   constructor(
     private fileService: FilesService,
     private ebookService: EbooksService,
-    private dialogRef: MdcDialogRef<DeleteDialogComponent>,
-    @Inject(MDC_DIALOG_DATA) public data: { service: UploadType, file: EbookData | FileData },
+    private dialogRef: MatDialogRef<DeleteDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { service: UploadType, file: EbookData | FileData },
     ) { }
 
   ngOnInit() {

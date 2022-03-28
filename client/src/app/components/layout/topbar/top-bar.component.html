@@ -1,10 +1,6 @@
-<mdc-top-app-bar-row>
-    <mdc-top-app-bar-section align="start" [title]="shownComponent">
-    <button mdcTopAppBarNavIcon (click)="onToggleSidebar()">
-        <mdc-icon>menu</mdc-icon>
+<mat-toolbar-row fxLayoutGap="20px">
+    <button mat-icon-button (click)="onToggleSidebar()">
+        <mat-icon>menu</mat-icon>
     </button>
-    </mdc-top-app-bar-section>
-    <mdc-top-app-bar-section align="end">
-    <mdc-icon mdcTopAppBarActionItem>search</mdc-icon>
-    </mdc-top-app-bar-section>
-</mdc-top-app-bar-row>
+    <span>{{shownComponent}}</span>
+</mat-toolbar-row>

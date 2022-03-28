@@ -1,11 +1,10 @@
-<mdc-dialog>
-    <mdc-dialog-surface>
-        <mdc-dialog-content>
-          <mdc-text-field class="text-field" [label]="data.selectedFile.name" required (change)="newFileName=$event"></mdc-text-field>
-        </mdc-dialog-content>
-        <mdc-dialog-actions>
-          <button mdcDialogButton mdcDialogAction="close">Cancel</button>
-          <button mdcDialogButton default (click)="onRenameFile()">Ok</button>
-        </mdc-dialog-actions>
-    </mdc-dialog-surface>
-</mdc-dialog>
+<mat-dialog-content>
+  <mat-form-field required appearance="fill">
+    <mat-label>{{ data.selectedFile.name }}</mat-label>
+    <input matInput (change)="newFileName=$event.target.value"/>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button mat-dialog-close (click)="onRenameFile()">Ok</button>
+</mat-dialog-actions>

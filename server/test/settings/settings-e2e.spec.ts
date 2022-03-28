@@ -12,7 +12,7 @@ import { getConfigService, setupMockFs } from '../mock-helper';
 import { UpdateService } from '../../src/settings/update.service';
 import { ConfigService } from '../../src/services/config.service';
 import { SettingsService } from '../../src/settings/settings.service';
-import { SettingsDto } from 'src/models/settingsDto';
+import { SettingsDto } from '../../src/models/settings.dto';
 
 describe('SettingsController (e2e)', () => {
   let app: INestApplication;

@@ -6,9 +6,8 @@ import { FileService } from '../../src/files/file.service';
 import { response } from 'express';
 import { randomBytes } from 'crypto';
 import { SettingsService } from '../../src/settings/settings.service';
-import { SettingsDto } from '../../src/models/settingsDto';
-import { FileData } from '../../src/models/fileData';
-import * as path from 'path';
+import { SettingsDto } from '../../src/models/settings.dto';
+import { FileData } from '../../src/models/fileData.dto';
 
 describe('FileController', () => {
 
@@ -51,9 +50,10 @@ describe('FileController', () => {
         it('should call copyFiles', async () => {
             await controller.uploadFiles([{
                 fieldname: '',
-                originalname: 'file.txt',
                 encoding: '',
+                originalname: 'file.txt',
                 mimetype: '',
+                stream: <any>{},
                 size: 0,
                 destination: '',
                 filename: 'asjdkfl',

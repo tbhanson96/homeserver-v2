@@ -1,14 +1,14 @@
-<mdc-drawer-content>
-  <mdc-list>
-    <mdc-list-divider></mdc-list-divider>
-    <mdc-list-item (click)="onNavigatePage()" routerLink="/home/files">
-      <mdc-icon mdcListItemGraphic>folder</mdc-icon>Files
-    </mdc-list-item>
-    <mdc-list-item (click)="onNavigatePage()" routerLink="/home/ebooks">
-      <mdc-icon mdcListItemGraphic>book</mdc-icon>Ebooks
-    </mdc-list-item>
-    <mdc-list-item (click)="onOpenSettings()">
-      <mdc-icon mdcListItemGraphic>settings</mdc-icon>Settings
-    </mdc-list-item>
-  </mdc-list>
-</mdc-drawer-content>
+<mat-selection-list [multiple]="false">
+  <mat-list-option (click)="onNavigatePage()" routerLink="/home/files">
+    <mat-icon mat-list-icon>folder</mat-icon>
+    <div mat-line>Files</div>
+  </mat-list-option>
+  <mat-list-option (click)="onNavigatePage()" routerLink="/home/ebooks">
+    <mat-icon mat-list-icon>book</mat-icon>
+    <div mat-line>Ebooks</div>
+  </mat-list-option>
+  <mat-list-option (click)="onOpenSettings()">
+    <mat-icon mat-list-icon>settings</mat-icon>
+    <div mat-line>Settings</div>
+  </mat-list-option>
+</mat-selection-list>

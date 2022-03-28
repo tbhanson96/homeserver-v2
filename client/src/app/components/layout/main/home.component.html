@@ -1,15 +1,20 @@
-<div #main>
-    <mdc-top-app-bar class="topAppBar" fixed [scrollTarget]="content">
-        <app-top-bar></app-top-bar>
-    <mdc-linear-progress [open]="isBusy"></mdc-linear-progress>
-    </mdc-top-app-bar>
-    <mdc-drawer #drawer class="drawer" mdcTopAppBarFixedAdjust [drawer]="main.offsetWidth< 1200? 'modal' : 'dismissible'" [open]="isOpen" (openedChange)="onSidebarChanged($event)" (drawerChange)="onDrawerChange(drawer.drawer)">
-        <mdc-drawer-header title="Tim's Homeserver" subtitle="Apps"></mdc-drawer-header>
-        <app-side-bar></app-side-bar>
-    </mdc-drawer>
-    <div mdcTopAppBarFixedAdjust mdcDrawerAppContent #content fxLayout="row" fxLayoutAlign="center">
-        <div fxLayout="column" class="main-content">
-            <router-outlet></router-outlet>
-        </div>
+<div class="main">
+    <div class="toolbar">
+        <mat-toolbar color="primary" >
+            <app-top-bar></app-top-bar>
+        </mat-toolbar>
+        <mat-progress-bar mode="indeterminate" *ngIf="isBusy"></mat-progress-bar> 
     </div>
+    <mat-sidenav-container class="main-content" autosize>
+        <mat-sidenav class="sidebar" [fixedTopGap]="64" [fixedInViewport]="true" [(opened)]="isOpen" mode="side" (openedChange)="onSidebarChanged($event)">
+            <h2>Tim's Homeserver</h2>
+            <mat-divider></mat-divider>
+            <app-side-bar></app-side-bar>
+        </mat-sidenav>
+        <mat-sidenav-content fxLayout="row" class="router-content" fxLayoutAlign="center">
+            <div fxLayout="column" fxFlexFill>
+                <router-outlet></router-outlet>
+            </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
 </div>

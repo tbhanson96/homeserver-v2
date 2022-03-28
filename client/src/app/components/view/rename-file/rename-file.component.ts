@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FileData } from '@api/models';
-import { MdcDialogRef, MDC_DIALOG_DATA } from '@angular-mdc/web';
 import { FilesService } from '@services/files.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-rename-file',
@@ -14,14 +14,15 @@ export class RenameFileComponent implements OnInit {
 
   constructor(
     private readonly fileService: FilesService,
-    private dialogRef: MdcDialogRef<RenameFileComponent>,
-    @Inject(MDC_DIALOG_DATA) public data: { selectedFile: FileData},
+    private dialogRef: MatDialogRef<RenameFileComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { selectedFile: FileData},
   ) { }
 
   ngOnInit() {
   }
 
   public onRenameFile() {
+    console.log(this.newFileName);
     if (!this.newFileName) {
       this.dialogRef.close();
     } else {

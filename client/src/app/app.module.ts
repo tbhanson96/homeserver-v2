@@ -28,6 +28,7 @@ import { DeleteDialogComponent } from '@components/view/delete-dialog/delete-dia
 import { SettingsComponent } from '@components/view/settings/settings.component';
 import { UiStateActions } from '@actions/ui-state.actions';
 import { RenameFileComponent } from '@components/view/rename-file/rename-file.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -54,18 +55,21 @@ import { RenameFileComponent } from '@components/view/rename-file/rename-file.co
     FlexLayoutModule,
     AppRoutingModule,
     MaterialModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     {
       provide: APP_INITIALIZER,
       useFactory: (apiService: ApiService, uiActions: UiStateActions) => {
         return () => {
-          return new Promise((res, rej) => {
-            apiService.getApiSettings().subscribe(settings => {
-              uiActions.setDarkMode(settings.useDarkMode);
-              res();
-            }, err => {
-              rej(err);
+          return new Promise<void>((res, rej) => {
+            apiService.settingsControllerGetSettings().subscribe({
+              next: settings => {
+                uiActions.setDarkMode(settings.useDarkMode);
+                res();
+              }, error: e => {
+                rej(e);
+              }
             });
           });
         };

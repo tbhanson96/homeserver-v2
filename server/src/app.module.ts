@@ -13,7 +13,6 @@ import { PassportModule, AuthGuard } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './auth/jwtstrategy';
 import { FilesMiddleware } from './middlewares/files.middleware';
-import { ProxyMiddleware } from './middlewares/proxy.middleware';
 import { EbookService } from './ebooks/ebook.service';
 import { EbooksMiddleware } from './middlewares/ebooks.middleware';
 import { BooleanPipe } from './lib/boolean-transform.pipe';
@@ -93,10 +92,6 @@ export class AppModule implements NestModule {
     .forRoutes({
       path: '/**',
       method: RequestMethod.GET,
-    });
-    consumer.apply(ProxyMiddleware).forRoutes({
-      path: appConstants.proxyRoute,
-      method: RequestMethod.ALL,
     });
   }
 }
