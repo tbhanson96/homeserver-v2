@@ -24,7 +24,7 @@ export class EbookService implements OnModuleInit {
 
     onModuleInit() {
         this.ebookDir = this.configService.env.EBOOK_DIR;
-        if (this.configService.env.USE_CALIBRE === 'true') {
+        if (this.configService.env.USE_EMAIL_CLIENT === 'true') {
             this.mailer = nodemailer.createTransport({
                 host: this.configService.env.EMAIL_HOST,
                 port: this.configService.env.EMAIL_PORT,

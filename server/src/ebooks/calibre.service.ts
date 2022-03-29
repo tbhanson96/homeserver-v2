@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { CalibreLibraryData } from "src/models/calibreLibraryData";
+import { CalibreLibraryData } from "../models/calibreLibraryData";
 
 @Injectable()
 export class CalibreService {

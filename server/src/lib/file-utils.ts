@@ -89,4 +89,10 @@ export class FileUtils {
             fs.rmdirSync(dir);
         }
     }
+
+    public static changeExt(filePath: string, newExt: string): string {
+        const oldExt = path.extname(filePath);
+        const pathNoExt = path.join(path.dirname(filePath), path.basename(filePath, oldExt));
+        return `${pathNoExt}.${newExt}`;
+    }
 }

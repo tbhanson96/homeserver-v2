@@ -17,7 +17,7 @@ speed-measure-plugin.json
 **/*.vim
 
 #codegen
-server/swagger.json
+swagger.json
 client/src/app/api
 
 # misc
@@ -30,3 +30,5 @@ yarn-error.log
 testem.log
 *.lock
 .angular
+
+**/package-lock.json
