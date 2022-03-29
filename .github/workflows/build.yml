@@ -9,9 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+        id: nvm
       - uses: actions/setup-node@v2
         with:
-          node-version: '12.x'
+          node-version: ${{ steps.nvm.outputs.NODE_VERSION}}
 
       - name: Download server dependencies 
         working-directory: server
@@ -37,9 +39,11 @@ jobs:
     needs: install
     steps:
       - uses: actions/checkout@v2
+      - run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+        id: nvm
       - uses: actions/setup-node@v2
         with:
-          node-version: '12.x'
+          node-version: ${{ steps.nvm.outputs.NODE_VERSION}}
       - uses: actions/cache@v2
         id: restore-dependencies-cache
         with:
@@ -70,9 +74,11 @@ jobs:
     needs: install
     steps:
       - uses: actions/checkout@v2
+      - run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+        id: nvm
       - uses: actions/setup-node@v2
         with:
-          node-version: '12.x'
+          node-version: ${{ steps.nvm.outputs.NODE_VERSION}}
       - uses: actions/cache@v2
         id: restore-dependencies-cache
         with:
