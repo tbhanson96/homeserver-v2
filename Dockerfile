@@ -27,4 +27,4 @@ COPY client/dist ./client
 COPY mock ./mnt
 COPY package.json .
 
-# CMD [ "npm", "run", "start:prod" ]
+CMD [ "npm", "run", "start" ]
