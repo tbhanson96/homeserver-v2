@@ -100,8 +100,16 @@ jobs:
         id: restore-dependencies-cache
         with:
           path: |
-            node_modules
+            server/node_modules
+            client/node_modules
           key: dependencies-${{ github.sha }}
+      - uses: actions/cache@v2
+        id: build-cache
+        with:
+          path: |
+            server/dist
+            client/dist
+          key: build-${{ github.sha }}
 
       - name: Log in to Container Registry
         uses: docker/login-action@v1
