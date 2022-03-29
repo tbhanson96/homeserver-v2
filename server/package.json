@@ -1,5 +1,5 @@
 {
-  "name": "homeserver",
+  "name": "homeserver-server",
   "version": "0.0.1",
   "description": "",
   "author": "Tim Hanson",
@@ -14,13 +14,6 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "docker:build": "npm run build && docker build --build-arg NODE_VERSION=$(cat ../.nvmrc) -t $npm_package_name  .",
-    "docker:tag": "docker image tag $npm_package_name:latest ghcr.io/tbhanson96/$npm_package_name:latest",
-    "docker:push": "docker image push ghcr.io/tbhanson96/$npm_package_name:latest",
-    "docker:start": "docker run -it -p 3000:3000 $npm_package_name:latest -v `pwd`/../mock:/opt/app/mnt",
-    "docker:debug": "docker run -it -p 9229:9229 -p 3000:3000 $npm_package_name:latest -v `pwd`/../mock:/opt/app/mnt npm run start:debug",
-    "package": "npm run build:prod && npm run docker:build",
-    "deploy": "npm run docker:tag && npm run docker:push"
   },
   "dependencies": {
     "@nestjs/common": "8.4.3",

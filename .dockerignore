@@ -1,8 +1,7 @@
-node_modules
+**/node_modules
+**/src
 Dockerfile
 npm-debug.log
-.dockerignore
 .git
 .gitignore
-src
 package-lock.json

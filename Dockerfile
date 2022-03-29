@@ -17,11 +17,14 @@ WORKDIR /opt/app
 # Remove later
 RUN mkdir updates
 
-COPY package.json ./
+WORKDIR server
+COPY server/package.json ./
 RUN npm install
-COPY dist ./server
-COPY env/default.prod.env ./env/default.env
-COPY ../client/dist ./client
-COPY ../mock ./mnt
+WORKDIR ..
+COPY server/dist ./server
+COPY server/env/default.prod.env ./env/default.env
+COPY client/dist ./client
+COPY mock ./mnt
+COPY package.json .
 
-CMD [ "npm", "run", "start:prod" ]
+# CMD [ "npm", "run", "start:prod" ]

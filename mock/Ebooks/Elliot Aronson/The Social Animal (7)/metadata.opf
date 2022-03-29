@@ -1,24 +1,24 @@
 <?xml version='1.0' encoding='utf-8'?>
 <package xmlns="http://www.idpf.org/2007/opf" unique-identifier="uuid_id" version="2.0">
     <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
-        <dc:identifier opf:scheme="calibre" id="calibre_id">16</dc:identifier>
-        <dc:identifier opf:scheme="uuid" id="uuid_id">d3886896-40dd-461b-94f9-c42bd39691e0</dc:identifier>
+        <dc:identifier opf:scheme="calibre" id="calibre_id">7</dc:identifier>
+        <dc:identifier opf:scheme="uuid" id="uuid_id">055d179b-0356-4e3c-99d1-6778bdc33ecc</dc:identifier>
         <dc:title>The Social Animal</dc:title>
         <dc:creator opf:file-as="Aronson, Elliot" opf:role="aut">Elliot Aronson</dc:creator>
-        <dc:contributor opf:file-as="calibre" opf:role="bkp">calibre (3.31.0) [https://calibre-ebook.com]</dc:contributor>
+        <dc:contributor opf:file-as="calibre" opf:role="bkp">calibre (5.39.1) [https://calibre-ebook.com]</dc:contributor>
         <dc:date>2018-01-10T07:00:00+00:00</dc:date>
         <dc:description>&lt;p class="description"&gt;Newly revised and up-to-date, this edition of The Social Animal is a brief, compelling introduction to modern social psychology. Through vivid narrative, lively presentations of important research, and intriguing examples, Elliot Aronson probes the patterns and motives of human behavior, covering such diverse topics as terrorism, conformity, obedience, politics, race relations, advertising, war, interpersonal attraction, and the power of religious cults.&lt;/p&gt;</dc:description>
         <dc:publisher>Macmillan</dc:publisher>
-        <dc:identifier opf:scheme="MOBI-ASIN">QOIF2NTXBKNMLPTLM4BO7UB2PE6N22EH</dc:identifier>
         <dc:identifier opf:scheme="ISBN">9780716757153</dc:identifier>
+        <dc:identifier opf:scheme="MOBI-ASIN">QOIF2NTXBKNMLPTLM4BO7UB2PE6N22EH</dc:identifier>
         <dc:language>eng</dc:language>
         <dc:subject>Social Psychology</dc:subject>
         <dc:subject>Psychology</dc:subject>
-        <meta content="{&quot;Elliot Aronson&quot;: &quot;&quot;}" name="calibre:author_link_map"/>
-        <meta content="2020-05-15T19:16:56.765468+00:00" name="calibre:timestamp"/>
-        <meta content="Social Animal, The" name="calibre:title_sort"/>
+        <meta name="calibre:author_link_map" content="{&quot;Elliot Aronson&quot;: &quot;&quot;}"/>
+        <meta name="calibre:timestamp" content="2022-03-29T01:15:58.517073+00:00"/>
+        <meta name="calibre:title_sort" content="Social Animal, The"/>
     </metadata>
     <guide>
-        <reference href="cover.jpg" title="Cover" type="cover"/>
+        <reference type="cover" title="Cover" href="cover.jpg"/>
     </guide>
 </package>

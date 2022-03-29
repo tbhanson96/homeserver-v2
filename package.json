@@ -1,0 +1,27 @@
+
+{
+  "name": "homeserver",
+  "version": "0.0.1",
+  "description": "Personal server application",
+  "author": "Tim Hanson",
+  "license": "MIT",
+  "scripts": {
+    "build": "cd server && npm run build && cd ../client && npm run build && cd ..",
+    "build:server": "cd server && npm run build && cd ..",
+    "build:client": "cd client && npm run build && cd ..",
+    "build:prod": "cd server && npm run build && cd ../client && npm run build:prod && cd ..",
+    "start": "node server/dist/main.js",
+    "start:prod": "node server/main.js",
+    "docker:build": "docker build --build-arg NODE_VERSION=$(cat .nvmrc) -t $npm_package_name  .",
+    "docker:tag": "docker image tag $npm_package_name:latest ghcr.io/tbhanson96/$npm_package_name:latest",
+    "docker:push": "docker image push ghcr.io/tbhanson96/$npm_package_name:latest",
+    "docker:start": "docker run --rm -it -p 3000:3000 -v `pwd`/mock:/opt/app/mnt $npm_package_name:latest",
+    "docker:debug": "docker run --rm -it -p 9229:9229 -p 3000:3000 -v `pwd`/mock:/opt/app/mnt $npm_package_name:latest npm run start:debug",
+    "package": "npm run build:prod && npm run docker:build",
+    "deploy": "npm run docker:tag && npm run docker:push"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}

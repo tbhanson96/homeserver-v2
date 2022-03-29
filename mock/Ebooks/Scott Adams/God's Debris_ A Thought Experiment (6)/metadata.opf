@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <package xmlns="http://www.idpf.org/2007/opf" unique-identifier="uuid_id" version="2.0">
     <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
-        <dc:identifier opf:scheme="calibre" id="calibre_id">17</dc:identifier>
-        <dc:identifier opf:scheme="uuid" id="uuid_id">dedff395-58dd-44ac-b763-1d11708f9f69</dc:identifier>
+        <dc:identifier opf:scheme="calibre" id="calibre_id">6</dc:identifier>
+        <dc:identifier opf:scheme="uuid" id="uuid_id">e9ab0421-3e59-4945-9a66-54cd42ad5864</dc:identifier>
         <dc:title>God's Debris: A Thought Experiment</dc:title>
         <dc:creator opf:file-as="Adams, Scott" opf:role="aut">Scott Adams</dc:creator>
-        <dc:contributor opf:file-as="calibre" opf:role="bkp">calibre (3.31.0) [https://calibre-ebook.com]</dc:contributor>
+        <dc:contributor opf:file-as="calibre" opf:role="bkp">calibre (5.39.1) [https://calibre-ebook.com]</dc:contributor>
         <dc:date>2004-09-01T12:00:00+00:00</dc:date>
         <dc:description>&lt;div&gt;&lt;p&gt;&lt;em&gt;God's Debris&lt;/em&gt; is the first non-&lt;em&gt;Dilbert&lt;/em&gt;, non-humor book by best-selling author Scott Adams. Adams describes &lt;em&gt;God's Debris&lt;/em&gt; as a thought experiment wrapped in a story. &lt;/p&gt;
 &lt;p&gt;Imagine that you meet a very old man who you eventually realize knows literally everything. Imagine that he explains for you the great mysteries of life: quantum physics, evolution, God, gravity, light psychic phenomenon, and probability in a way so simple, so novel, and so compelling that it all fits together and makes perfect sense. What does it feel like to suddenly understand everything?  &lt;/p&gt;
@@ -23,11 +23,11 @@
         <dc:subject>God</dc:subject>
         <dc:subject>Philosophy</dc:subject>
         <dc:subject>Religion</dc:subject>
-        <meta content="{&quot;Scott Adams&quot;: &quot;&quot;}" name="calibre:author_link_map"/>
-        <meta content="2020-05-15T19:17:50.699393+00:00" name="calibre:timestamp"/>
-        <meta content="God's Debris: A Thought Experiment" name="calibre:title_sort"/>
+        <meta name="calibre:author_link_map" content="{&quot;Scott Adams&quot;: &quot;&quot;}"/>
+        <meta name="calibre:timestamp" content="2022-03-29T01:15:35.431443+00:00"/>
+        <meta name="calibre:title_sort" content="God's Debris: A Thought Experiment"/>
     </metadata>
     <guide>
-        <reference href="cover.jpg" title="Cover" type="cover"/>
+        <reference type="cover" title="Cover" href="cover.jpg"/>
     </guide>
 </package>

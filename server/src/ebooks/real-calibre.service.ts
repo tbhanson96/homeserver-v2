@@ -3,6 +3,8 @@ import { ConfigService } from "../services/config.service";
 import { Calibre } from 'node-calibre';
 import { CalibreService } from "./calibre.service";
 import { CalibreLibraryData } from "src/models/calibreLibraryData";
+import { FileUtils } from "src/lib/file-utils";
+import fs from 'fs';
 
 @Injectable()
 export class RealCalibreService implements OnModuleInit, CalibreService {
@@ -29,9 +31,20 @@ export class RealCalibreService implements OnModuleInit, CalibreService {
     }
 
     public async convertToMobi(filepath: string): Promise<string> {
-        const mobiFilePath = await this.calibre.ebookConvert(filepath, 'mobi');
-        this.log.log(`Succesfully converted ${filepath} to ${mobiFilePath}`);
-        return mobiFilePath;
+        const mobiPath = FileUtils.changeExt(filepath, 'mobi');
+        let e;
+        try {
+            await this.calibre.run('ebook-convert', [filepath, FileUtils.changeExt(filepath, 'mobi')]);
+        }
+        catch (e) {
+            this.log.warn(`Error encountered during ebook-convert: ${e}`);
+            e = e;
+        }
+        if (fs.existsSync(mobiPath)) {
+            this.log.log(`Succesfully converted ${filepath} to ${mobiPath}`);
+            return mobiPath;
+        }
+        else throw new Error(`Could not create mobi file: ${e}`);
     }
 
     public async removeBookFromLibrary(id: number): Promise<void> {
