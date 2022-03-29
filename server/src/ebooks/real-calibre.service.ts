@@ -2,8 +2,8 @@ import { Injectable, Logger, OnModuleInit } from "@nestjs/common";
 import { ConfigService } from "../services/config.service";
 import { Calibre } from 'node-calibre';
 import { CalibreService } from "./calibre.service";
-import { CalibreLibraryData } from "src/models/calibreLibraryData";
-import { FileUtils } from "src/lib/file-utils";
+import { CalibreLibraryData } from "../models/calibreLibraryData";
+import { FileUtils } from "../lib/file-utils";
 import fs from 'fs';
 
 @Injectable()
