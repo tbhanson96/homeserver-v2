@@ -6,7 +6,7 @@
     "codegen": "ng-openapi-gen -i ../server/swagger.json -o src/app/api",
     "start": "ng serve",
     "build": "npm run codegen && ng build",
-    "build:prod": "npm run codegen && ng build --prod",
+    "build:prod": "npm run codegen && ng build --configuration production",
     "build:watch": "npm run codegen && ng build --watch=true",
     "test": "ng test",
     "lint": "ng lint",
