@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "node",
+            "name": "Debug Server (Docker)",
+            "request": "attach",
+            "preLaunchTask": "start-docker",
+            "address": "localhost",
+            "remoteRoot": "/opt/app",
+            "localRoot": "${workspaceFolder}",
+            "sourceMapPathOverrides": {
+                "/opt/app/*": "${workspaceFolder}/*"
+            },
+            "port": 9229,
+            "timeout": 30000
+        },
+        {
+            "type": "node",
             "request": "launch",
             "name": "Debug Server (Tests)",
             "runtimeExecutable": "npm",
