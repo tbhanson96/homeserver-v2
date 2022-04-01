@@ -2,7 +2,7 @@ import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response } from 'express'
 import * as path from 'path';
 import { routes, joinRoutes } from '../routes';
-import { ConfigService } from '../services/config.service';
+import { ConfigService } from '../config/config.service';
 
 @Injectable()
 export class ClientMiddleware implements NestMiddleware {
@@ -25,7 +25,7 @@ export class ClientMiddleware implements NestMiddleware {
   }
 
   private resolvePath(file: string): string {
-    let res = path.join(this.configService.env.CLIENT_DIR, file);
+    let res = path.join(this.configService.config.app.clientDir, file);
     return res;
   }
 }

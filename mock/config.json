@@ -1,0 +1,52 @@
+{
+  "app": {
+    "useHttps": false,
+    "serveSwagger": true,
+    "port": 3000,
+    "clientDir": "/Volumes/workplace/homeserver-v2/server/dist/config/../../../client/dist",
+    "requireAuth": false,
+    "configOverridePath": "/Volumes/workplace/homeserver-v2/server/dist/config/../../../mock/config.json",
+    "envPrefix": "APP_",
+    "rootWildCard": "/Volumes/workplace/homeserver-v2/server/dist/config"
+  },
+  "ssl": {
+    "keyPath": "",
+    "certPath": ""
+  },
+  "auth": {
+    "username": "user",
+    "password": "password",
+    "sessionTimeout": "5m",
+    "jwtSecret": "\"C~�h(FI�m��Ӭt�3�"
+  },
+  "files": {
+    "uploadDir": "/Volumes/workplace/homeserver-v2/server/dist/config/../../../tmp",
+    "homeDir": "/Volumes/workplace/homeserver-v2/server/dist/config/../../../mock",
+    "showHidden": false
+  },
+  "ebooks": {
+    "homeDir": "/Volumes/workplace/homeserver-v2/server/dist/config/../../../mock/Ebooks",
+    "useCalibre": false,
+    "useEmailClient": false,
+    "kindeEmail": "tbhanson96@kindle.com"
+  },
+  "email": {
+    "oauth": {
+      "id": "",
+      "secret": "",
+      "refreshToken": ""
+    },
+    "sender": "tbh20715@gmail.com",
+    "smtpPort": 465,
+    "smtpHost": "smtp.gmail.com"
+  },
+  "updates": {
+    "updatesDir": "/Volumes/workplace/homeserver-v2/server/dist/config/../../../mock/updates",
+    "installDir": "/Volumes/workplace/homeserver-v2/server/dist/config/../../../tmp",
+    "limit": 7
+  },
+  "ui": {
+    "darkMode": true
+  },
+  "envConfigFlat": {}
+}

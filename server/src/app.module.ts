@@ -1,11 +1,10 @@
 import { Module, NestModule, MiddlewareConsumer, RequestMethod, Scope, Logger } from '@nestjs/common';
 import { ClientMiddleware } from './middlewares/client.middleware';
 import { FileService } from './files/file.service';
-import { ConfigService } from './services/config.service';
+import { ConfigService } from './config/config.service';
 import { FileController } from './files/file.controller';
 import { FileValidationPipe } from './files/file-validation.pipe';
 import { MulterModule } from '@nestjs/platform-express';
-import { appConstants } from './constants';
 import { AuthController } from './auth/auth.controller';
 import { EbookController } from './ebooks/ebook.controller';
 import { AuthService } from './auth/auth.service';
@@ -29,7 +28,7 @@ import { SettingsService } from './settings/settings.service';
     MulterModule.registerAsync({
       imports: [AppModule],
       useFactory: async (config: ConfigService) => ({
-        dest: config.env.FILE_UPLOAD_DEST
+        dest: config.config.files.uploadDir,
       }),
       inject: [ConfigService],
     }),
@@ -37,8 +36,8 @@ import { SettingsService } from './settings/settings.service';
     JwtModule.registerAsync({
       imports: [AppModule],
       useFactory: async (config: ConfigService) => ({
-        secret: config.env.JWT_SECRET,
-        signOptions: { expiresIn: config.env.SESSION_TIMEOUT },
+        secret: config.config.auth.jwtSecret,
+        signOptions: { expiresIn: config.config.auth.sessionTimeout },
       }),
       inject: [ConfigService],
     })
@@ -56,12 +55,15 @@ import { SettingsService } from './settings/settings.service';
     FileService,
     {
       provide: ConfigService,
-      useValue: new ConfigService(appConstants.envFilePath),
+      useFactory: (log: Logger) => {
+        return new ConfigService(log);
+      },
+      inject: [Logger]
     },
     {
       provide: CalibreService,
       useFactory: async (config: ConfigService, log: Logger) => {
-        if (config.env.USE_CALIBRE === 'true') {
+        if (config.config.ebooks.useCalibre) {
           return new RealCalibreService(config, log);
         } else {
           return new StubCalibreService(config, log);

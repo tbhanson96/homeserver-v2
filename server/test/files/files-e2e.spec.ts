@@ -8,9 +8,9 @@ import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '../../src/app.module';
 import { FileController } from '../../src/files/file.controller';
-import { ConfigService } from '../../src/services/config.service';
+import { ConfigService } from '../../src/config/config.service';
 import { AuthGuard } from '@nestjs/passport';
-import { getConfigService, setupMockFs } from '../mock-helper';
+import { setupMockFs } from '../mock-helper';
 import { FileData } from '../../src/models/fileData.dto';
 
 describe('FileController (e2e)', () => {
@@ -18,19 +18,16 @@ describe('FileController (e2e)', () => {
 
   beforeAll(async () => {
     setupMockFs();
-    const configService = getConfigService();
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     })
-    .overrideProvider(ConfigService)
-    .useValue(configService)
     .compile();
     app = moduleFixture.createNestApplication();
     
     app.get(AuthGuard('jwt')).canActivate = () => Promise.resolve(true);
 
-    const rootDir = app.get(ConfigService).env.FILES_DIR;
+    const rootDir = app.get(ConfigService).config.files.homeDir;
 
     fs.writeFileSync(path.join(rootDir, 'test.txt'),  'this is a test file');
     fs.writeFileSync(path.join(rootDir, 'test.png'), 'this is a fake picture');
@@ -88,7 +85,7 @@ describe('FileController (e2e)', () => {
   })
 
   it('POST /api/files/path?/', async () => {
-    const rootDir = app.get(ConfigService).env.FILES_DIR;
+    const rootDir = app.get(ConfigService).config.files.homeDir;
     fs.writeFileSync('test3.pdf', 'test pdf');
     fs.writeFileSync('test4.jpg', 'test jpg');
     await request(app.getHttpServer())
@@ -102,7 +99,7 @@ describe('FileController (e2e)', () => {
   });
 
   it('DELETE /api/files/file', async () => {
-    const rootDir = app.get(ConfigService).env.FILES_DIR;
+    const rootDir = app.get(ConfigService).config.files.homeDir;
     const { body: files } : { body: FileData[] } = await request(app.getHttpServer())
       .get('/api/files/path?path=/')
       .expect(200);
@@ -117,7 +114,7 @@ describe('FileController (e2e)', () => {
   });
 
   it('PUT /api/files/file', async () => {
-    const rootDir = app.get(ConfigService).env.FILES_DIR;
+    const rootDir = app.get(ConfigService).config.files.homeDir;
     const { body: files } : { body: FileData[] } = await request(app.getHttpServer())
       .get('/api/files/path?path=/')
       .expect(200);

@@ -1,5 +1,5 @@
 import { Injectable, OnModuleInit, Logger } from "@nestjs/common";
-import { ConfigService } from "../services/config.service";
+import { ConfigService } from "../config/config.service";
 import fs from 'fs';
 import path from 'path';
 import tar from 'tar';
@@ -18,9 +18,9 @@ export class UpdateService implements OnModuleInit {
     ) { }
 
     onModuleInit() {
-        this.updateDir = this.config.env.UPDATES_DIR;
-        this.installDir = this.config.env.INSTALL_DIR;
-        this.maxUpdatePackages = parseInt(this.config.env.UPDATES_LIMIT);
+        this.updateDir = this.config.config.updates.updatesDir;
+        this.installDir = this.config.config.updates.installDir;
+        this.maxUpdatePackages = this.config.config.updates.limit;
     }
 
     public async getUpdates() {

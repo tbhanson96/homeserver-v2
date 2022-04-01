@@ -1,28 +1,21 @@
-import { appConstants } from "../src/constants";
 import fs from 'fs';
 import path from 'path';
-import { ConfigService } from "../src/services/config.service";
+import { ConfigService } from "../src/config/config.service";
 const realFs = jest.requireActual('fs');
 
 export function setupMockFs(...filesToMock: string[]): void {
-    const config = getConfigService();
-    fs.mkdirSync(config.env.FILES_DIR, { recursive: true });
-    fs.mkdirSync(config.env.CLIENT_DIR, { recursive: true });
-    fs.mkdirSync(config.env.EBOOK_DIR, { recursive: true });
-    fs.mkdirSync(config.env.UPDATES_DIR, { recursive: true });
-    fs.mkdirSync(config.env.INSTALL_DIR, { recursive: true });
-    fs.mkdirSync(config.env.FILE_UPLOAD_DEST, { recursive: true });
+    const config = new ConfigService();
+    fs.mkdirSync(process.cwd(), { recursive: true });
+    fs.mkdirSync(config.config.files.homeDir, { recursive: true });
+    fs.mkdirSync(config.config.app.clientDir, { recursive: true });
+    fs.mkdirSync(config.config.ebooks.homeDir, { recursive: true });
+    fs.mkdirSync(config.config.updates.updatesDir, { recursive: true });
+    fs.mkdirSync(config.config.updates.installDir, { recursive: true });
+    fs.mkdirSync(config.config.files.uploadDir, { recursive: true });
 
     filesToMock.forEach(f => {
         fs.mkdirSync(path.dirname(f), { recursive: true });
         const contents = realFs.readFileSync(f);
         fs.writeFileSync(f, contents);
     });
-}
-
-export function getConfigService(): ConfigService {
-    const envFileContents = realFs.readFileSync(appConstants.envFilePath);
-    fs.mkdirSync(path.dirname(appConstants.envFilePath), { recursive: true });
-    fs.writeFileSync(appConstants.envFilePath, envFileContents);
-    return new ConfigService(appConstants.envFilePath);
 }

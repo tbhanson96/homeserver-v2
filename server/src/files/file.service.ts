@@ -3,7 +3,7 @@ import { FileData } from '../models/fileData.dto';
 import { FileUtils } from '../lib/file-utils';
 import * as fs from 'fs';
 import * as path from 'path';
-import { ConfigService } from '../services/config.service';
+import { ConfigService } from '../config/config.service';
 
 @Injectable()
 export class FileService implements OnModuleInit {
@@ -15,7 +15,7 @@ export class FileService implements OnModuleInit {
         ) { }
 
     onModuleInit() {
-        this.rootDir = this.configService.env.FILES_DIR;
+        this.rootDir = this.configService.config.files.homeDir;
     }
 
     async getFiles(directory: string, includeHiddenFiles: boolean): Promise<FileData[]> {

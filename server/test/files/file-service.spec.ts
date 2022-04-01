@@ -1,8 +1,8 @@
-jest.mock( '../../src/services/config.service');
+jest.mock( '../../src/config/config.service');
 jest.mock('fs');
 jest.mock('../../src/lib/file-utils');
 import { FileService } from '../../src/files/file.service';
-import { ConfigService } from '../../src/services/config.service';
+import { ConfigService } from '../../src/config/config.service';
 import { FileUtils } from '../../src/lib/file-utils';
 import * as fs from 'fs';
 import { Logger } from '@nestjs/common';
@@ -17,7 +17,7 @@ describe('FileController', () => {
     beforeEach(() => {
         MockConfigService.mockClear();
         MockConfigService.mockImplementation(() => {
-            return { env: { FILES_DIR: 'root' } }
+            return { config: { files: { homeDir: 'root' } } }
         })
         fileService = new FileService(new MockConfigService(), new Logger())
         fileService.onModuleInit();

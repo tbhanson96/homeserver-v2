@@ -8,9 +8,9 @@ import request from 'supertest';
 import { AppModule } from '../../src/app.module';
 import * as fs from 'fs';
 import { AuthGuard } from '@nestjs/passport';
-import { getConfigService, setupMockFs } from '../mock-helper';
+import { setupMockFs } from '../mock-helper';
 import { UpdateService } from '../../src/settings/update.service';
-import { ConfigService } from '../../src/services/config.service';
+import { ConfigService } from '../../src/config/config.service';
 import { SettingsService } from '../../src/settings/settings.service';
 import { SettingsDto } from '../../src/models/settings.dto';
 
@@ -21,9 +21,9 @@ describe('SettingsController (e2e)', () => {
     const update1 = path.join(__dirname, 'update1.tar.gz');
     const update2 = path.join(__dirname, 'update2.tar.gz');
     setupMockFs(update1, update2);
-    const configService = getConfigService();
-    fs.renameSync(update1, path.join(configService.env.UPDATES_DIR, 'update1.tar.gz'));
-    fs.renameSync(update2, path.join(configService.env.UPDATES_DIR, 'update2.tar.gz'));
+    const configService = new ConfigService();
+    fs.renameSync(update1, path.join(configService.config.updates.updatesDir, 'update1.tar.gz'));
+    fs.renameSync(update2, path.join(configService.config.updates.updatesDir, 'update2.tar.gz'));
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
@@ -58,7 +58,7 @@ describe('SettingsController (e2e)', () => {
       .expect(201);
     
     expect(spy).toBeCalled();
-    const install = fs.readdirSync(app.get(ConfigService).env.INSTALL_DIR);
+    const install = fs.readdirSync(app.get(ConfigService).config.updates.installDir);
     expect(install.includes('client')).toBeTruthy();
     expect(install.includes('server')).toBeTruthy();
     expect(install.includes('env')).toBeTruthy();
@@ -67,9 +67,9 @@ describe('SettingsController (e2e)', () => {
   it('GET /api/settings/update trims available packages', async () => {
     const config = app.get(ConfigService);
     // create too many updates so they get trimmed
-    const maxUpdates = parseInt(config.env.UPDATES_LIMIT);
+    const maxUpdates = config.config.updates.limit;
     for (let i = 0; i < maxUpdates + 2; i++) {
-      fs.writeFileSync(path.join(config.env.UPDATES_DIR, `someupdate${i}.tar.gz`), 'random data');
+      fs.writeFileSync(path.join(config.config.updates.updatesDir, `someupdate${i}.tar.gz`), 'random data');
     }
     const response = await request(app.getHttpServer())
       .get('/api/settings/update')

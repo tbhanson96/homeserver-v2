@@ -4,6 +4,7 @@ import { UpdateService } from "./update.service";
 import { ApiOkResponse, ApiQuery } from "@nestjs/swagger";
 import { joinRoutes, routes } from "../routes";
 import { SettingsDto } from "../models/settings.dto";
+import { ConfigService } from "../config/config.service";
 import { SettingsService } from "./settings.service";
 
 @Controller(joinRoutes(routes.api, routes.settings))

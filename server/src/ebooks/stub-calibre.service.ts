@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
 import { CalibreService } from './calibre.service';
-import { ConfigService } from '../services/config.service';
+import { ConfigService } from '../config/config.service';
 import { EbookUtils } from '../lib/ebook-utils';
 import { CalibreLibraryData } from 'src/models/calibreLibraryData';
 
@@ -20,7 +20,7 @@ export class StubCalibreService implements CalibreService, OnModuleInit {
     ) { }
 
     async onModuleInit(): Promise<void> {
-        this.libraryPath = this.configService.env.EBOOK_DIR;
+        this.libraryPath = this.configService.config.ebooks.homeDir;
         const files = await EbookUtils.scanLibForEpubsRecursiveHelper(this.libraryPath);
         files.forEach(file => {
             this.books.push(file);
