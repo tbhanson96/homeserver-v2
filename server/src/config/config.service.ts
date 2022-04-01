@@ -9,22 +9,21 @@ import flat from 'flat';
 
 @Injectable()
 export class ConfigService {
-    private readonly configFilePath: string;
     public config = Config;
+    private readonly DELIMITER = '_';
     constructor(
         private readonly log?: Logger,
     ) {
-        const configFlat = this.replaceValuesWithWildcard(flat.flatten<any, any>(Config), __dirname);
-        this.config = flat.unflatten<any, any>(configFlat);
-        this.configFilePath = this.config.app.configOverridePath;
-        this.loadConfig(this.configFilePath);
+        const configFlat = this.replaceValuesWithWildcard(flat.flatten<any, any>(Config, { delimiter: this.DELIMITER }), __dirname);
+        this.config = flat.unflatten<any, any>(configFlat, { delimiter: this.DELIMITER });
+        this.loadConfig(this.config.app.configOverridePath);
         const envConfigFlat = ConfigService.mapEnvToObject();
         const resultFlat = {
             ...this.config,
             ...envConfigFlat,
         };
 
-        this.config = flat.unflatten<any, any>(resultFlat);
+        this.config = flat.unflatten<any, any>(resultFlat, { delimiter: this.DELIMITER });
         this.config.auth.jwtSecret = randomBytes(20).toString();
     } 
 
@@ -32,26 +31,26 @@ export class ConfigService {
     public loadConfig(filePath: string): boolean {
         let configOverrideFlat = {};
         if (fs.existsSync(filePath)) {
-            configOverrideFlat = flat.flatten<any, any>(jsonfile.readFileSync(filePath));
+            configOverrideFlat = flat.flatten<any, any>(jsonfile.readFileSync(filePath), { delimiter: this.DELIMITER });
         } else {
             this.log?.warn(`Config file ${filePath} does not exist, using defaults`);
             return false;
         }
         
-        const curConfigFlat = flat.flatten<any, any>(this.config);
+        const curConfigFlat = flat.flatten<any, any>(this.config, { delimiter: this.DELIMITER });
         let resultFlat = {
             ...curConfigFlat,
             ...configOverrideFlat,
         }
         resultFlat = this.replaceValuesWithWildcard(resultFlat, path.dirname(filePath));
 
-        this.config = flat.unflatten<any, any>(resultFlat);
+        this.config = flat.unflatten<any, any>(resultFlat, { delimiter: this.DELIMITER });
         return true;
     }
 
     public saveConfig(): void {
         jsonfile.writeFileSync(
-            this.configFilePath,
+            this.config.app.configOverridePath,
             this.config,
             {
                 spaces: 2,
@@ -81,7 +80,7 @@ export class ConfigService {
             return obj;
         }, {});
     }
-    
+
     // private throwOnUndefined(obj: any): string {
     //     const handler = {
     //         get(env: any, config: any) {
