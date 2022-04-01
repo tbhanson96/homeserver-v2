@@ -14,6 +14,7 @@ export class ConfigService {
     constructor(
         private readonly log?: Logger,
     ) {
+        process.env['APP_app_configOverridePath']='jslkdjfkla';
         let configFlat = this.replaceValuesWithWildcard(flat.flatten<any, any>(Config, { delimiter: this.DELIMITER }), __dirname);
         this.config = flat.unflatten<any, any>(configFlat, { delimiter: this.DELIMITER });
         const envConfigFlat = ConfigService.mapEnvToObject();
@@ -34,10 +35,10 @@ export class ConfigService {
     // loads config file, returns whether or not load was successful
     public loadConfig(filePath: string): boolean {
         let configOverrideFlat = {};
-        if (fs.existsSync(filePath)) {
+        try {
             configOverrideFlat = flat.flatten<any, any>(jsonfile.readFileSync(filePath), { delimiter: this.DELIMITER });
-        } else {
-            this.log?.warn(`Config file ${filePath} does not exist, using defaults`);
+        } catch (e) {
+            this.log?.warn(`Could not read config file ${filePath} does not exist, using defaults`);
             return false;
         }
         
