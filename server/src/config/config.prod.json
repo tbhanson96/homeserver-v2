@@ -1,0 +1,51 @@
+{
+    "app": {
+        "useHttps": false,
+        "serveSwagger": false,
+        "port": 3000,
+        "clientDir": "{.}/../../client",
+        "requireAuth": true,
+        "configOverridePath": "{.}/config.json",
+        "envPrefix": "APP_",
+        "rootWildCard": "{.}"
+    },
+    "ssl": {
+        "keyPath": "",
+        "certPath": ""
+    },
+    "auth": {
+        "username": "user",
+        "password": "password",
+        "sessionTimeout": "7d",
+        "jwtSecret": ""
+    },
+    "files": {
+        "uploadDir": "/tmp",
+        "homeDir": "/opt/app/mnt",
+        "showHidden": false
+    },
+    "ebooks": {
+        "homeDir": "/opt/app/mnt/Ebooks",
+        "useCalibre": true,
+        "useEmailClient": true,
+        "kindeEmail": "tbhanson96@kindle.com"
+    },
+    "email": {
+        "oauth": {
+            "id": "",
+            "secret": "",
+            "refreshToken": ""
+        },
+        "sender": "tbh20715@gmail.com",
+        "smtpPort": 465,
+        "smtpHost": "smtp.gmail.com"
+    },
+    "updates": {
+        "updatesDir": "/opt/app/homeserver",
+        "installDir": "/opt/app/mnt/updates",
+        "limit": 7
+    },
+    "ui": {
+        "darkMode": false
+    }
+}

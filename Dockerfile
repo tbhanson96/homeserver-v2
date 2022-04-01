@@ -22,7 +22,7 @@ COPY server/package.json ./
 RUN npm install
 WORKDIR ..
 COPY server/dist ./server
-COPY server/env/default.prod.env ./env/default.env
+COPY server/src/config/config.prod.json ./server/config/config.default.json
 COPY client/dist ./client
 COPY mock ./mnt
 COPY package.json .
