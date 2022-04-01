@@ -14,12 +14,16 @@ export class ConfigService {
     constructor(
         private readonly log?: Logger,
     ) {
-        const configFlat = this.replaceValuesWithWildcard(flat.flatten<any, any>(Config, { delimiter: this.DELIMITER }), __dirname);
+        let configFlat = this.replaceValuesWithWildcard(flat.flatten<any, any>(Config, { delimiter: this.DELIMITER }), __dirname);
         this.config = flat.unflatten<any, any>(configFlat, { delimiter: this.DELIMITER });
-        this.loadConfig(this.config.app.configOverridePath);
         const envConfigFlat = ConfigService.mapEnvToObject();
+        const envConfig = flat.unflatten<any, any>(envConfigFlat, { delimiter: this.DELIMITER });
+        this.config.app.configOverridePath = envConfig.app?.configOverridePath || this.config.app.configOverridePath;
+
+        this.loadConfig(this.config.app.configOverridePath);
+        configFlat = flat.flatten<any, any>(this.config, { delimiter: this.DELIMITER });
         const resultFlat = {
-            ...this.config,
+            ...configFlat,
             ...envConfigFlat,
         };
 
