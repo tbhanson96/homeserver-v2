@@ -14,7 +14,6 @@ export class ConfigService {
     constructor(
         private readonly log?: Logger,
     ) {
-        process.env['APP_app_configOverridePath']='jslkdjfkla';
         let configFlat = this.replaceValuesWithWildcard(flat.flatten<any, any>(Config, { delimiter: this.DELIMITER }), __dirname);
         this.config = flat.unflatten<any, any>(configFlat, { delimiter: this.DELIMITER });
         const envConfigFlat = ConfigService.mapEnvToObject();
