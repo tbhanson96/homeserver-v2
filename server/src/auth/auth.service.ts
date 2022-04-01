@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '../services/config.service';
+import { ConfigService } from '../config/config.service';
 import { timingSafeEqual } from 'crypto';
 
 @Injectable()
@@ -13,8 +13,8 @@ export class AuthService {
 
     async authenticate(username: string, password: string): Promise<boolean> {
         try {
-            const localUsername = Buffer.from(this.configService.env.APP_USER);
-            const localPassword = Buffer.from(this.configService.env.APP_PASSWORD);
+            const localUsername = Buffer.from(this.configService.config.auth.username);
+            const localPassword = Buffer.from(this.configService.config.auth.password);
             const isUserEqual = timingSafeEqual(localUsername, Buffer.from(username));
             const isPasswordEqual = timingSafeEqual(localPassword, Buffer.from(password));
             return isUserEqual && isPasswordEqual;

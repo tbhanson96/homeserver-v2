@@ -8,8 +8,8 @@ import { AppModule } from '../../src/app.module';
 import path from 'path';
 import fs from 'fs';
 import { AuthGuard } from '@nestjs/passport';
-import { ConfigService } from '../../src/services/config.service';
-import { getConfigService, setupMockFs } from '../mock-helper';
+import { ConfigService } from '../../src/config/config.service';
+import { setupMockFs } from '../mock-helper';
 import { EbookData } from '../../src/models/ebookData.dto';
 import { FileUtils } from '../../src/lib/file-utils';
 
@@ -22,8 +22,8 @@ describe('EbookController (e2e)', () => {
     const god = path.join(__dirname, 'god.epub');
     const igp = path.join(__dirname, 'igp.epub');
     setupMockFs(animal, igp, god); 
-    const configService = getConfigService();
-    fs.renameSync(animal, path.join(configService.env.EBOOK_DIR, path.basename(animal)));
+    const configService = new ConfigService();
+    fs.renameSync(animal, path.join(configService.config.ebooks.homeDir, path.basename(animal)));
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
@@ -64,7 +64,7 @@ describe('EbookController (e2e)', () => {
   });
 
   it('POST /api/ebooks creates files correctly', async () => {
-    const rootDir = app.get(ConfigService).env.EBOOK_DIR;
+    const rootDir = app.get(ConfigService).config.ebooks.homeDir;
     await request(app.getHttpServer())
       .post('/api/ebooks?sendToKindle=false')
       .attach('0', path.join(__dirname, 'god.epub'))

@@ -1,6 +1,6 @@
-jest.mock( '../../src/services/config.service');
+jest.mock( '../../src/config/config.service');
 jest.mock('@nestjs/jwt');
-import { ConfigService } from '../../src/services/config.service';
+import { ConfigService } from '../../src/config/config.service';
 import { JwtService } from '@nestjs/jwt';
 import { AuthService } from '../../src/auth/auth.service';
 import { UnauthorizedException } from '@nestjs/common';
@@ -14,7 +14,7 @@ describe('AuthService', () => {
         MockConfigService.mockClear();
         MockJwtService.mockClear();
         MockConfigService.mockImplementation(() => {
-            return { env: { APP_USER: 'u', APP_PASSWORD: 'p' } }
+            return { config: { auth: { username: 'u', password: 'p' } } }
         })
         authService = new AuthService(new MockJwtService(), new MockConfigService());
     });

@@ -1,5 +1,5 @@
 import { Injectable, OnModuleInit, Logger } from "@nestjs/common";
-import { ConfigService } from "../services/config.service";
+import { ConfigService } from "../config/config.service";
 import fs from 'fs';
 import path from 'path';
 import nodemailer from 'nodemailer';
@@ -23,18 +23,18 @@ export class EbookService implements OnModuleInit {
         ) { }
 
     onModuleInit() {
-        this.ebookDir = this.configService.env.EBOOK_DIR;
-        if (this.configService.env.USE_EMAIL_CLIENT === 'true') {
+        this.ebookDir = this.configService.config.ebooks.homeDir;
+        if (this.configService.config.ebooks.useEmailClient) {
             this.mailer = nodemailer.createTransport({
-                host: this.configService.env.EMAIL_HOST,
-                port: this.configService.env.EMAIL_PORT,
+                host: this.configService.config.email.smtpHost,
+                port: this.configService.config.email.smtpPort,
                 secure: true,
                 auth: {
                     type: 'OAuth2',
-                    user: this.configService.env.EMAIL_ADDRESS,
-                    clientId: this.configService.env.EMAIL_CLIENT_OAUTH_ID,
-                    clientSecret: this.configService.env.EMAIL_CLIENT_OAUTH_SECRET,
-                    refreshToken: this.configService.env.EMAIL_CLIENT_OAUTH_REFRESH_TOKEN,
+                    user: this.configService.config.email.sender,
+                    clientId: this.configService.config.email.oauth.id,
+                    clientSecret: this.configService.config.email.oauth.secret,
+                    refreshToken: this.configService.config.email.oauth.refreshToken,
                 },
             });
         } 
@@ -90,8 +90,8 @@ export class EbookService implements OnModuleInit {
         }
         filePaths.forEach(file => {
             let options = {
-                from: `<${this.configService.env.EMAIL_ADDRESS}>`,
-                to: this.configService.env.KINDLE_EMAIL_ADDRESS,
+                from: `<${this.configService.config.email.sender}>`,
+                to: this.configService.config.ebooks.kindeEmail,
                 attachments: [
                     {
                         path: file,

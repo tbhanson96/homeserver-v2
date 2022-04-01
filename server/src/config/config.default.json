@@ -1,0 +1,51 @@
+{
+    "app": {
+        "useHttps": false,
+        "serveSwagger": true,
+        "port": 3000,
+        "clientDir": "{.}/../../../client/dist",
+        "requireAuth": false,
+        "configOverridePath": "{.}/../../../mock/config.json",
+        "envPrefix": "APP_",
+        "rootWildCard": "{.}"
+    },
+    "ssl": {
+        "keyPath": "",
+        "certPath": ""
+    },
+    "auth": {
+        "username": "user",
+        "password": "password",
+        "sessionTimeout": "5m",
+        "jwtSecret": ""
+    },
+    "files": {
+        "uploadDir": "{.}/../../../tmp",
+        "homeDir": "{.}/../../../mock",
+        "showHidden": false
+    },
+    "ebooks": {
+        "homeDir": "{.}/../../../mock/Ebooks",
+        "useCalibre": false,
+        "useEmailClient": false,
+        "kindeEmail": "tbhanson96@kindle.com"
+    },
+    "email": {
+        "oauth": {
+            "id": "",
+            "secret": "",
+            "refreshToken": ""
+        },
+        "sender": "tbh20715@gmail.com",
+        "smtpPort": 465,
+        "smtpHost": "smtp.gmail.com"
+    },
+    "updates": {
+        "updatesDir": "{.}/../../../mock/updates",
+        "installDir": "{.}/../../../tmp",
+        "limit": 7
+    },
+    "ui": {
+        "darkMode": false
+    }
+}

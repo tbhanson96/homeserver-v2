@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '../../src/app.module';
-import { ConfigService } from '../../src/services/config.service';
+import { ConfigService } from '../../src/config/config.service';
 import { AuthDto } from '../../src/models/auth.dto';
 
 describe('FileController (e2e)', () => {
@@ -26,7 +26,7 @@ describe('FileController (e2e)', () => {
     const config = app.get(ConfigService);
     const { text: token } = await request(app.getHttpServer())
       .post('/api/auth')
-      .send(new AuthDto(config.env.APP_USER, config.env.APP_PASSWORD))
+      .send(new AuthDto(config.config.auth.username, config.config.auth.password))
       .expect(201)
     expect(token).toBeTruthy();
 

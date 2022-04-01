@@ -2,21 +2,20 @@ import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { INestApplication } from '@nestjs/common';
-import { ConfigService } from './services/config.service';
-import { appConstants } from './constants';
+import { ConfigService } from './config/config.service';
 import * as fs from 'fs';
 import * as path from 'path';
 import { AuthGuard } from '@nestjs/passport';
 import { BooleanPipe } from './lib/boolean-transform.pipe';
 
 export async function bootstrap() {
-  const config = new ConfigService(appConstants.envFilePath);
+  const config = new ConfigService();
   let app: INestApplication;
-  if ( config.env.USE_HTTPS === 'true') {
+  if ( config.config.app.useHttps) {
     app = await NestFactory.create(AppModule, { 
       httpsOptions: {
-        key: fs.readFileSync(path.join(config.env.SSL_FILEPATH, 'key.pem')),
-        cert: fs.readFileSync(path.join(config.env.SSL_FILEPATH, 'cert.pem')),
+        key: fs.readFileSync(config.config.ssl.keyPath),
+        cert: fs.readFileSync(config.config.ssl.certPath),
       }
     });
   } else {
@@ -24,13 +23,13 @@ export async function bootstrap() {
   }
   const document = await buildApi(app);
 
-  if (app.get(ConfigService).env.SERVE_SWAGGER === 'true') {
+  if (app.get(ConfigService).config.app.serveSwagger) {
     SwaggerModule.setup('swagger', app, document);
   }
-  if (app.get(ConfigService).env.REQUIRE_AUTH === 'false') {
+  if (!app.get(ConfigService).config.app.requireAuth) {
     app.get(AuthGuard('jwt')).canActivate = async () => true;
   }
-  return await app.listen(app.get(ConfigService).env.PORT);
+  return await app.listen(app.get(ConfigService).config.app.port);
 }
 
 export async function buildApi(app?: INestApplication) {

@@ -1,5 +1,5 @@
 import { Injectable, Logger, OnModuleInit } from "@nestjs/common";
-import { ConfigService } from "../services/config.service";
+import { ConfigService } from "../config/config.service";
 import { Calibre } from 'node-calibre';
 import { CalibreService } from "./calibre.service";
 import { CalibreLibraryData } from "../models/calibreLibraryData";
@@ -18,7 +18,7 @@ export class RealCalibreService implements OnModuleInit, CalibreService {
     ) { }
 
     onModuleInit() {
-        this.libraryPath = this.configService.env.EBOOK_DIR;
+        this.libraryPath = this.configService.config.ebooks.homeDir;
         this.calibre = new Calibre({ library: this.libraryPath })
     }
 
