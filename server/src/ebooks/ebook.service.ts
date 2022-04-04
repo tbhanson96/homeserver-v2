@@ -9,6 +9,7 @@ import { routes } from "../routes";
 import { AsyncUtils } from '../lib/async-utils';
 import Mail from "nodemailer/lib/mailer";
 import { CalibreService } from "./calibre.service";
+import { FileUtils } from "../lib/file-utils";
 
 @Injectable()
 export class EbookService implements OnModuleInit {
@@ -58,12 +59,18 @@ export class EbookService implements OnModuleInit {
                 name: epub.metadata.title,
                 author: epub.metadata.creator,
                 description: epub.metadata.description,
-                relativeCoverPath: fs.existsSync(path.join(path.dirname(filePaths[index]), 'cover.jpg'))
+                coverPath: fs.existsSync(path.join(path.dirname(filePaths[index]), 'cover.jpg'))
                     ? `${routes.ebooks}/${path.relative(this.ebookDir, path.join(path.dirname(filePaths[index]), 'cover.jpg'))}`
                     : '',
+                filePath: path.join(routes.ebooks, path.relative(this.ebookDir, FileUtils.changeExt(filePaths[index], 'mobi'))),
             });
         });
         return ret;
+    }
+
+    public getLocalFilePath(ebook: EbookData) {
+        const relativePath = path.relative(routes.ebooks, ebook.filePath);
+        return path.resolve(this.ebookDir, relativePath);
     }
 
     public async addBooks(files: any[]): Promise<string[]> {

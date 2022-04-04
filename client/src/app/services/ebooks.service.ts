@@ -25,4 +25,8 @@ export class EbooksService {
   deleteEbook(ebook: EbookData) {
     return this.apiService.ebookControllerDeleteEbook({ body: ebook });
   }
+
+  sendToKindle(ebook: EbookData) {
+    return this.apiService.ebookControllerSendBookToKindle({ body: ebook });
+  }
 }

@@ -3,7 +3,7 @@ export class EbookData {
         this.name = attr.name;
         this.author = attr.author;
         this.length = attr.length;
-        this.relativeCoverPath = attr.relativeCoverPath;
+        this.coverPath = attr.coverPath;
         this.description = attr.description;
     }
 
@@ -12,5 +12,6 @@ export class EbookData {
     author: string;
     length: string;
     description: string;
-    relativeCoverPath: string;
+    coverPath: string;
+    filePath: string;
 }

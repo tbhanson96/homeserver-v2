@@ -17,11 +17,9 @@ import { Subscription } from 'rxjs';
 })
 export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  public updatesAvailable: string[];
   public activeTab = 0;
   private subscriptions: Subscription[] = [];
 
-  private selectedUpdate: string = null;
   private showHiddenFiles: boolean;
   private useDarkMode: boolean;
   @ViewChild('tabBar') tabBar: MatTabGroup;
@@ -36,9 +34,6 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.api.settingsControllerGetPath().subscribe(updates => {
-      this.updatesAvailable = updates;
-    });
   }
 
   ngAfterViewInit() {
@@ -59,12 +54,8 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-  onSelectUpdate(update: string) {
-    this.selectedUpdate = update;
-  }
-
   onPerformUpdate() {
-    const result = this.api.settingsControllerPerformUpdate({ update: this.selectedUpdate });
+    const result = this.api.settingsControllerPerformUpdate();
     this.dialogRef.close(result);
   }
 

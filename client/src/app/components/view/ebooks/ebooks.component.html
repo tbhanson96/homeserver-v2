@@ -5,7 +5,7 @@
       <mat-card-subtitle>{{ ebook.author }}</mat-card-subtitle>
     </mat-card-header>
     <div fxLayoutAlign="start">
-      <img class="card-image" [src]="ebook.relativeCoverPath || 'assets/book.png'" />
+      <img class="card-image" [src]="ebook.coverPath || 'assets/book.png'" />
     </div>
     <mat-card-actions>
       <div #descriptionAnchor>
@@ -28,8 +28,8 @@
         </mat-icon>
         </button>
         <mat-menu #optionsMenu>
-          <button mat-menu-item (click)="onDeleteFile($event, ebook)">Delete</button>
-          <button mat-menu-item>Resend to Kindle</button>
+          <button mat-menu-item (click)="onDeleteEbook(ebook)">Delete</button>
+          <button mat-menu-item (click)="onResendToKindle(ebook)">Resend to Kindle</button>
         </mat-menu>
       </div>
     </mat-card-actions>

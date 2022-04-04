@@ -19,11 +19,11 @@ export class RenameFileComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.newFileName = this.data.selectedFile.name;
   }
 
   public onRenameFile() {
-    console.log(this.newFileName);
-    if (!this.newFileName) {
+    if (!this.newFileName || this.newFileName === this.data.selectedFile.name) {
       this.dialogRef.close();
     } else {
       const result = this.fileService.renameFile(this.data.selectedFile, this.newFileName)

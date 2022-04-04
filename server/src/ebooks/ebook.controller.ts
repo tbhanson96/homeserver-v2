@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards, Query, Post, UseInterceptors, UploadedFiles, UsePipes, Delete, Body } from '@nestjs/common';
+import { Controller, Get, UseGuards, Query, Post, UseInterceptors, UploadedFiles, UsePipes, Delete, Body, Put } from '@nestjs/common';
 import { routes, joinRoutes } from '../routes';
 import { ApiOkResponse, ApiQuery, ApiConsumes, ApiBody, ApiAcceptedResponse } from '@nestjs/swagger';
 import { EbookData } from '../models/ebookData.dto';
@@ -17,6 +17,14 @@ export class EbookController {
     @ApiOkResponse({type: EbookData, isArray: true, description: 'Directory path was successfully read' })
     async getBooks() {
         return await this.ebookService.getEbooks();
+    }
+
+    @Put()
+    @ApiBody({ type: EbookData, description: 'Book to send to kindle'})
+    @ApiAcceptedResponse({ description: "Ebook sucessfully emailed to kindle"})
+    async sendBookToKindle(@Body() book: EbookData) {
+        const localPath = this.ebookService.getLocalFilePath(book);
+        await this.ebookService.sendToKindle([localPath]);
     }
 
     @Delete()

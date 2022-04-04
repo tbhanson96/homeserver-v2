@@ -29,6 +29,7 @@ import { SettingsComponent } from '@components/view/settings/settings.component'
 import { UiStateActions } from '@actions/ui-state.actions';
 import { RenameFileComponent } from '@components/view/rename-file/rename-file.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       provide: ErrorHandler,
       useClass: SnackbarErrorService
     },
+    DeviceDetectorService,
     ApiService,
     FilesService,
     AuthService,

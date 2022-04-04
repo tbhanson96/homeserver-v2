@@ -16,16 +16,13 @@ describe('ClientMiddleware (e2e)', () => {
     const file1 = path.join(__dirname, 'client-file.txt');
     const index = path.join(__dirname, 'index.html');
     setupMockFs(file1, index);
-    const configService = new ConfigService();
-    configService.config.app.clientDir = __dirname;
     
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     })
-    .overrideProvider(ConfigService)
-    .useValue(configService)
     .compile();
     app = moduleFixture.createNestApplication();
+    app.get(ConfigService).config.app.clientDir = __dirname;
     
     await app.init();
   });

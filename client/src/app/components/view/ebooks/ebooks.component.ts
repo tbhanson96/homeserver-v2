@@ -8,7 +8,6 @@ import { UploadType } from '../upload-dialog/upload-type';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatMenu } from '@angular/material/menu';
 
 @Component({
   selector: 'app-ebooks',
@@ -47,8 +46,7 @@ export class EbooksComponent implements OnInit {
     });
   }
 
-  public onDeleteFile(event: Event, file: EbookData) {
-    event.preventDefault();
+  public onDeleteEbook(file: EbookData) {
     const dialogRef = this.dialog.open(DeleteDialogComponent, { data: { service: UploadType.Ebooks, file }});
     dialogRef.afterClosed().subscribe(result => {
       if (result instanceof Observable) {
@@ -67,9 +65,8 @@ export class EbooksComponent implements OnInit {
     });
   }
 
-  public onShowEbookOptions(event: Event, menu: MatMenu) {
-    event.preventDefault();
-    // menu.cl = !menu.open;
+  public onResendToKindle(file: EbookData) {
+    this.ebooksService.sendToKindle(file).subscribe();
   }
 
   private updateEbooks() {

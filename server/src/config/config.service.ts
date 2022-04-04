@@ -4,7 +4,6 @@ import { ConfigMissingException } from '../lib/exceptions';
 import Config from './config.default.json';
 import { randomBytes } from 'crypto';
 import jsonfile from 'jsonfile';
-import { fs } from "memfs";
 import flat from 'flat';
 
 @Injectable()
@@ -29,6 +28,7 @@ export class ConfigService {
 
         this.config = flat.unflatten<any, any>(resultFlat, { delimiter: this.DELIMITER });
         this.config.auth.jwtSecret = randomBytes(20).toString();
+        this.log?.log(`Succesfully loaded config: ${JSON.stringify(this.config)}`);
     } 
 
     // loads config file, returns whether or not load was successful
@@ -46,7 +46,7 @@ export class ConfigService {
             ...curConfigFlat,
             ...configOverrideFlat,
         }
-        resultFlat = this.replaceValuesWithWildcard(resultFlat, path.dirname(filePath));
+        resultFlat = this.replaceValuesWithWildcard(resultFlat, path.resolve(path.dirname(filePath)));
 
         this.config = flat.unflatten<any, any>(resultFlat, { delimiter: this.DELIMITER });
         return true;
@@ -60,7 +60,8 @@ export class ConfigService {
                 spaces: 2,
                 EOL: '\n',
             }
-            );
+        );
+        this.log?.log(`Successfully wrote config to ${this.config.app.configOverridePath}`);
     }
 
     private static mapEnvToObject(): any {

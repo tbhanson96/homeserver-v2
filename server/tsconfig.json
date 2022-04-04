@@ -10,11 +10,11 @@
     "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "incremental": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "strictPropertyInitialization": false,
   },
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*.ts", "src/**/*.json"]
 }

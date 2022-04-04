@@ -4,7 +4,7 @@ import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
 import { CalibreService } from './calibre.service';
 import { ConfigService } from '../config/config.service';
 import { EbookUtils } from '../lib/ebook-utils';
-import { CalibreLibraryData } from 'src/models/calibreLibraryData';
+import { CalibreLibraryData } from '../models/calibreLibraryData';
 
 @Injectable()
 export class StubCalibreService implements CalibreService, OnModuleInit {

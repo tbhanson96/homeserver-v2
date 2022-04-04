@@ -1,7 +1,8 @@
 import fs from 'fs';
+import { IFs } from 'memfs';
 import path from 'path';
 import { ConfigService } from "../src/config/config.service";
-const realFs = jest.requireActual('fs');
+const realFs: IFs = jest.requireActual('fs');
 
 export function setupMockFs(...filesToMock: string[]): void {
     const config = new ConfigService();
