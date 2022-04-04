@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "nest build && npm run swagger",
-    "swagger": "node swagger-doc-gen.js",
+    "swagger": "ts-node swagger-doc-gen.ts",
     "start": "nest start",
     "start:prod": "node dist/main.js",
     "start:watch": "nest start -w",

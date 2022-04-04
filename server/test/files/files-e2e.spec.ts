@@ -26,7 +26,6 @@ describe('FileController (e2e)', () => {
     app = moduleFixture.createNestApplication();
     
     app.get(AuthGuard('jwt')).canActivate = () => Promise.resolve(true);
-
     const rootDir = app.get(ConfigService).config.files.homeDir;
 
     fs.writeFileSync(path.join(rootDir, 'test.txt'),  'this is a test file');

@@ -1,37 +1,93 @@
 jest.mock('fs', () => {
   return require('memfs').fs;
 });
-import fs from 'fs';
 import { setupMockFs } from '../mock-helper';
 import { ConfigService } from '../../src/config/config.service';
+import Config from '../../src/config/config.default.json';
+import path from 'path';
+import jsonfile from 'jsonfile';
 
 describe('ConfigService', () => {
+
+    const defaultConfigPath = '../../src/config/config.default.json';
+
     beforeAll(() => {
         setupMockFs();
     });
 
-    it('loads file correctly', async () => {
-        const port = 12312;
-        await fs.promises.writeFile('config.json', `{ "app": { "port": ${port} }}`);
+    afterAll(() => {
+        jest.unmock('fs');
+    });
+
+    it('loads default', async () => {
+        const port = Config.app.port;
         const config = new ConfigService();
-        config.loadConfig('config.json');
         expect(config.config.app.port).toEqual(port);
     });
 
-    it('loads env correctly', () => {
+    it('loads override file', async () => {
+        const port = 12312;
+        await jsonfile.writeFile('config.json', { app: { port }});
+
+        const mockedConfig = Config;
+        mockedConfig.app.configOverridePath = 'config.json';
+        jest.mock(defaultConfigPath, () => {
+            return mockedConfig;
+        });
+        const config = new ConfigService();
+        expect(config.config.app.port).toEqual(port);
+        jest.unmock(defaultConfigPath);
+    });
+
+    it('loads env', () => {
         const email = "myEmail@fake.com";
         process.env['APP_email_sender'] = `${email}`;
         const config = new ConfigService();
         expect(config.config.email.sender).toEqual(email);
     });
 
-    it('saves file correctly', async () => {
+    it('loads env and override', async () => {
+
+        const port = 12345;
+        process.env['APP_app_configOverridePath'] = 'config.json';
+
+        await jsonfile.writeFile('config.json', { app: { port }});
+        const config = new ConfigService();
+        expect(config.config.app.port).toEqual(port);
+    })
+
+    it('replaces wildcard for default config', async () => {
+        const filesDir = path.resolve(__dirname, path.dirname(defaultConfigPath), 'files');
+        const mockedConfig = Config;
+        mockedConfig.files.homeDir = '{.}/files';
+        jest.mock(defaultConfigPath, () => {
+            return mockedConfig;
+        });
+        const config = new ConfigService();
+        expect(config.config.files.homeDir).toEqual(filesDir);
+        jest.unmock(defaultConfigPath);
+    });
+
+    it('replaces wildcard for override config', async () => {
+        const mockedConfig = Config;
+        mockedConfig.app.configOverridePath = path.resolve('config.json');
+        jest.mock(defaultConfigPath, () => {
+            return mockedConfig;
+        });
+
+        const filesDir = path.resolve('files');
+        await jsonfile.writeFile('config.json', { files: { homeDir: '{.}/files' }})
+
+        const config = new ConfigService();
+        expect(config.config.files.homeDir).toEqual(filesDir);
+        jest.unmock(defaultConfigPath);
+    });
+
+    it('saves file', async () => {
         const config = new ConfigService();
         config.config.app.configOverridePath = 'config.json';
         config.saveConfig();
-        const contents = await fs.promises.readFile('config.json');
-        const json = JSON.parse(contents.toString());
+        const json = await jsonfile.readFile('config.json');
         expect(json).toStrictEqual(config.config); 
     });
-
 });

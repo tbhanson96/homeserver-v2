@@ -32,3 +32,4 @@ testem.log
 .angular
 
 **/package-lock.json
+mock/config.json

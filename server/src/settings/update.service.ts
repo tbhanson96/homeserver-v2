@@ -57,7 +57,14 @@ export class UpdateService implements OnModuleInit {
     }
 
     public async shutdownApplication(): Promise<void> {
-        setTimeout(() => process.exit(0), 3000);
+        this.log.warn('Application shutdown requested, exiting.');
+        this.config.saveConfig();
+        return new Promise((res, rej) => {
+            setTimeout(() => {
+                res();
+                process.exit(0);
+            }, 500);
+        });
     }
 
     private async trimUpdatePackagesAsync(): Promise<void> {

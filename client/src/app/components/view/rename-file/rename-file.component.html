@@ -1,7 +1,8 @@
+<h3 mat-dialog-title>Rename {{ data.selectedFile.name }}</h3>
 <mat-dialog-content>
   <mat-form-field required appearance="fill">
-    <mat-label>{{ data.selectedFile.name }}</mat-label>
-    <input matInput (change)="newFileName=$event.target.value"/>
+    <mat-label>name</mat-label>
+    <input matInput [(ngModel)]="newFileName" />
   </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>

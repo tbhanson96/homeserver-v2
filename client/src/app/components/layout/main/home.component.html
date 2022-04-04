@@ -1,12 +1,19 @@
 <div class="main">
     <div class="toolbar">
-        <mat-toolbar color="primary" >
+        <mat-toolbar color="primary" [style.height.px]="64" >
             <app-top-bar></app-top-bar>
         </mat-toolbar>
         <mat-progress-bar mode="indeterminate" *ngIf="isBusy"></mat-progress-bar> 
     </div>
     <mat-sidenav-container class="main-content" autosize>
-        <mat-sidenav class="sidebar" [fixedTopGap]="64" [fixedInViewport]="true" [(opened)]="isOpen" mode="side" (openedChange)="onSidebarChanged($event)">
+        <mat-sidenav
+            class="sidebar"
+            [fixedTopGap]="64"
+            [fixedInViewport]="true"
+            [(opened)]="isOpen"
+            [mode]="isMobile ? 'over' : 'side'"
+            (openedChange)="onSidebarChanged($event)"
+        >
             <h2>Tim's Homeserver</h2>
             <mat-divider></mat-divider>
             <app-side-bar></app-side-bar>

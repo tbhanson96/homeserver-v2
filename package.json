@@ -1,4 +1,3 @@
-
 {
   "name": "homeserver",
   "version": "0.0.1",
@@ -11,6 +10,7 @@
     "build:client": "cd client && npm run build && cd ..",
     "build:prod": "cd server && npm run build && cd ../client && npm run build:prod && cd ..",
     "start": "node server/main.js",
+    "start:watch": "ts-node dev-server.ts",
     "start:debug": "node --inspect=0.0.0.0:9229 server/main.js",
     "docker:build": "docker build --build-arg NODE_VERSION=$(cat .nvmrc) -t $npm_package_name  .",
     "docker:tag": "docker image tag $npm_package_name:latest ghcr.io/tbhanson96/$npm_package_name:latest",
@@ -20,8 +20,7 @@
     "package": "npm run build:prod && npm run docker:build",
     "deploy": "npm run docker:tag && npm run docker:push"
   },
-  "dependencies": {
-  },
   "devDependencies": {
+    "ts-node": "^10.7.0"
   }
 }

@@ -33,7 +33,7 @@ describe('EbookController (e2e)', () => {
     .compile();
     app = moduleFixture.createNestApplication();
     
-    app.get(AuthGuard('jwt')).canActivate = () => Promise.resolve(true),
+    app.get(AuthGuard('jwt')).canActivate = () => Promise.resolve(true);
 
     await app.init();
   });
@@ -52,13 +52,14 @@ describe('EbookController (e2e)', () => {
         {
           "name": "The Social Animal",
           "author": "Elliot Aronson",
-          "relativeCoverPath": '',
+          "coverPath": '',
           "description": 
             "<p class=\"description\">Newly revised and up-to-date, this edition of The Social Animal is a " +
             "brief, compelling introduction to modern social psychology. Through vivid narrative, lively presentations " +
             "of important research, and intriguing examples, Elliot Aronson probes the patterns and motives of human " +
             "behavior, covering such diverse topics as terrorism, conformity, obedience, politics, race relations, " +
             "advertising, war, interpersonal attraction, and the power of religious cults.</p>",
+          "filePath": 'ebooks/animal.mobi',
         },
       ]);
   });

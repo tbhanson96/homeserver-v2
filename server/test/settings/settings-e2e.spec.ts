@@ -9,10 +9,10 @@ import { AppModule } from '../../src/app.module';
 import * as fs from 'fs';
 import { AuthGuard } from '@nestjs/passport';
 import { setupMockFs } from '../mock-helper';
-import { UpdateService } from '../../src/settings/update.service';
 import { ConfigService } from '../../src/config/config.service';
 import { SettingsService } from '../../src/settings/settings.service';
 import { SettingsDto } from '../../src/models/settings.dto';
+import jsonfile from 'jsonfile';
 
 describe('SettingsController (e2e)', () => {
   let app: INestApplication;
@@ -37,6 +37,7 @@ describe('SettingsController (e2e)', () => {
   });
 
   afterAll(async () => {
+    jest.unmock('fs');
     await app.close();
   })
 
@@ -48,20 +49,25 @@ describe('SettingsController (e2e)', () => {
       'update1.tar.gz',
       'update2.tar.gz',
     ]);
-  })
+  });
 
-  it('POST /api/settings/update applies update', async () => {
-    const updateService = app.get(UpdateService);
-    const spy = jest.spyOn(updateService, 'shutdownApplication').mockImplementation(async () => { });
+  it('POST /api/settings/update exits and writes config', async () => {
+    const config = app.get(ConfigService).config;
+    config.app.configOverridePath = 'config.json';
+    let exitCode = -1;
+    const realExit = process.exit;
+    process.exit = ((code: number) => { exitCode = code }) as any;
+    jest.useFakeTimers();
     await request(app.getHttpServer())
-      .post('/api/settings/update?update=update1.tar.gz')
+      .post('/api/settings/update')
       .expect(201);
     
-    expect(spy).toBeCalled();
-    const install = fs.readdirSync(app.get(ConfigService).config.updates.installDir);
-    expect(install.includes('client')).toBeTruthy();
-    expect(install.includes('server')).toBeTruthy();
-    expect(install.includes('env')).toBeTruthy();
+    jest.advanceTimersToNextTimer();
+    const writtenConfig = await jsonfile.readFile('config.json');
+    expect(writtenConfig).toEqual(config);
+    expect(exitCode).toEqual(0);
+    process.exit = realExit;
+    jest.useRealTimers();
   });
 
   it('GET /api/settings/update trims available packages', async () => {
