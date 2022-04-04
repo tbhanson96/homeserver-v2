@@ -16,7 +16,25 @@
     </div>
 </div>
 <mat-selection-list [multiple]="false">
-    <mat-list-option *ngFor="let torrent of torrents">
-        <div mat-line>{{torrent.title}}</div>
+    <mat-list-option *ngFor="let torrent of torrents" (click)="navigateToUrl(torrent.download)">
+        <div>
+            <div fxFlex class="torrent-info">
+                <div mat-line>{{torrent.title}}</div>
+                <div mat-line>{{torrent.seeders}} Seeders,   {{torrent.size | fileSize }}</div>
+            </div>
+            <div fxLayoutAlign="center">
+                <button (click)="$event.stopPropagation()" mat-icon-button [matMenuTriggerFor]="optionsMenu" title="More info">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #optionsMenu>
+                    <button mat-menu-item (click)="copyLinkToClipboard(torrent)">Copy Link</button>
+                    <!-- <mat-list-item (click)="onMoveFile($event, file)">Move</mat-list-item> -->
+                    <button mat-menu-item disabled>Add</button>
+                </mat-menu>
+            </div>
+        </div>
     </mat-list-option>
 </mat-selection-list>
+<p *ngIf="torrents.length === 0">
+    No results.
+</p>

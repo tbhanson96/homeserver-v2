@@ -1,8 +1,8 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiOkResponse, ApiQuery } from '@nestjs/swagger';
-import { TorrentDto } from 'models/torrent.dto';
-import { joinRoutes, routes } from 'routes';
+import { TorrentDto } from '../models/torrent.dto';
+import { joinRoutes, routes } from '../routes';
 import { TorrentsService, TorrentCategory } from './torrents.service';
 
 @Controller(joinRoutes(routes.api, routes.torrent))

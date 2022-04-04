@@ -1,10 +1,10 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from 'config/config.service';
 import { lastValueFrom } from 'rxjs';
 import { AxiosResponse } from 'axios';
-import { TorrentDto } from 'models/torrent.dto';
-import { AsyncUtils } from 'lib/async-utils';
+import { TorrentDto } from '../models/torrent.dto';
+import { AsyncUtils } from '../lib/async-utils';
 
 export enum TorrentCategory {
     MOVIES = 'movies',
@@ -29,6 +29,7 @@ export class TorrentsService {
             const response = await this.makeRequest({ get_token: 'get_token' });
             this.token = response.data.token;
             this.lastRetrievedToken = now;
+            this.log.log('Retreieved new token for torrent api.');
         }
     }
 
@@ -47,6 +48,9 @@ export class TorrentsService {
         query.token = this.token;
         query.format = 'json_extended';
         const results = await this.makeRequest(query);
+        if (results.data.torrent_results) {
+            this.log.log(`Retrieved results for query: ${query.search_string}, category: ${query.category}`);
+        }
         return results.data.torrent_results || [];
     }
 

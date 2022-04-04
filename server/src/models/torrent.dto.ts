@@ -1,6 +1,8 @@
 export class TorrentDto {
     title: string;
     seeders: number;
+    leechers: number;
+    category: string;
     size: number;
-    filePath: string;
+    download: string;
 }

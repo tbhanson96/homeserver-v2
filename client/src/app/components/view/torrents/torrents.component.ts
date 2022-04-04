@@ -1,5 +1,6 @@
 import { UiStateActions } from '@actions/ui-state.actions';
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { TorrentDto } from '@api/models';
 import { TorrentsService } from '@services/torrents.service';
 
@@ -11,13 +12,14 @@ import { TorrentsService } from '@services/torrents.service';
 export class TorrentsComponent implements OnInit {
 
   public query: string;
-  public torrents: TorrentDto[];
+  public torrents: TorrentDto[] = [];
   public categoryOptions = ['movies', 'tv'];
   public selectedCategory = this.categoryOptions[0];
 
   constructor(
     private readonly torrentService: TorrentsService,
     private readonly uiActions: UiStateActions,
+    private readonly snackbar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -38,6 +40,15 @@ export class TorrentsComponent implements OnInit {
         }
       }
     )
+  }
+
+  navigateToUrl(url: string): void {
+    window.location.assign(url);
+  }
+
+  async copyLinkToClipboard(torrent: TorrentDto): Promise<void> {
+    await navigator.clipboard?.writeText(torrent.download);
+    this.snackbar.open(`Copied link for ${torrent.title} to clipboard!`)
   }
 
 }

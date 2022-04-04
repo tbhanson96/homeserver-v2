@@ -4,7 +4,7 @@
       <mat-list-item *ngFor="let file of files">
           <div fxFlex>
             <div mat-line class="file-title">{{file.name}}</div>
-            <div mat-line>{{ getFileSize(file.size) }}</div>
+            <div mat-line>{{ file.size | fileSize }}</div>
           </div>
           <div fxLayoutAlign="center">
             <button mat-icon-button class="delete-icon" (click)="onDeleteFile(file)">

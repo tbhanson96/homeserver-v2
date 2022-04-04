@@ -32,6 +32,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { TorrentsComponent } from '@components/view/torrents/torrents.component';
 import { TorrentsService } from '@services/torrents.service';
+import { FileSizePipe } from './pipes/fileSizePipe';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { TorrentsService } from '@services/torrents.service';
     SettingsComponent,
     RenameFileComponent,
     TorrentsComponent,
+    FileSizePipe,
   ],
   imports: [
     FormsModule,
