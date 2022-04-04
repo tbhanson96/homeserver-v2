@@ -22,8 +22,12 @@ const start = () => {
         serverBuild.stdout.on('data', (data) => {
             console.log('[SERVER]' + data);
             if (data.toString().includes('Nest application successfully started')) {
-                execSync('npm run swagger', { cwd: serverPath });
-                execSync('npm run codegen', { cwd: clientPath });
+                try {
+                    execSync('npm run swagger', { cwd: serverPath });
+                    execSync('npm run codegen', { cwd: clientPath });
+                } catch (e) {
+                    //do nothing
+                }
             }
         });
 
