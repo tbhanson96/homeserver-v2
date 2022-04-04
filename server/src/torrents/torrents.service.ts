@@ -4,6 +4,7 @@ import { ConfigService } from 'config/config.service';
 import { lastValueFrom } from 'rxjs';
 import { AxiosResponse } from 'axios';
 import { TorrentDto } from 'models/torrent.dto';
+import { AsyncUtils } from 'lib/async-utils';
 
 export enum TorrentCategory {
     MOVIES = 'movies',
@@ -15,6 +16,7 @@ export class TorrentsService {
 
     private token: string;
     private lastRetrievedToken: Date;
+    private lastRequestTime: Date;
     constructor(
         private readonly configService: ConfigService,
         private readonly httpService: HttpService,
@@ -49,7 +51,13 @@ export class TorrentsService {
     }
 
     private async makeRequest(query: any): Promise<AxiosResponse> {
-        query.app_id = 'tim_homeserver'
+        const now = new Date();
+        const diff = now.getTime() - this.lastRequestTime?.getTime() || now.getTime();
+        if (diff < 4 * 1000) {
+            await AsyncUtils.sleepAsync(diff);
+        }
+        this.lastRequestTime = new Date();
+        query.app_id = 'tim_homeserver';
     
         const response = await lastValueFrom(this.httpService.get(this.configService.config.torrent.host, {
             params: query,

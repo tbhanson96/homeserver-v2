@@ -30,6 +30,8 @@ import { UiStateActions } from '@actions/ui-state.actions';
 import { RenameFileComponent } from '@components/view/rename-file/rename-file.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { TorrentsComponent } from '@components/view/torrents/torrents.component';
+import { TorrentsService } from '@services/torrents.service';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
     DeleteDialogComponent,
     SettingsComponent,
     RenameFileComponent,
+    TorrentsComponent,
   ],
   imports: [
     FormsModule,
@@ -92,6 +95,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
     FilesService,
     AuthService,
     EbooksService,
+    TorrentsService,
   ],
   entryComponents: [
     UploadDialogComponent,

@@ -7,6 +7,10 @@
     <mat-icon mat-list-icon>book</mat-icon>
     <div mat-line>Ebooks</div>
   </mat-list-option>
+  <mat-list-option (click)="onNavigatePage()" routerLink="/home/torrents">
+    <mat-icon mat-list-icon>download</mat-icon>
+    <div mat-line>Torrents</div>
+  </mat-list-option>
   <mat-list-option (click)="onOpenSettings()">
     <mat-icon mat-list-icon>settings</mat-icon>
     <div mat-line>Settings</div>
