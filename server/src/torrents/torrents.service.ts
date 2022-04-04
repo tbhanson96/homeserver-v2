@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { ConfigService } from 'config/config.service';
+import { ConfigService } from '../config/config.service';
 import { lastValueFrom } from 'rxjs';
 import { AxiosResponse } from 'axios';
 import { TorrentDto } from '../models/torrent.dto';
