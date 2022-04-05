@@ -6,4 +6,5 @@ export const routes: any = {
     auth: 'auth',
     ebooks: 'ebooks',
     settings: 'settings',
+    torrent: 'torrent',
 }

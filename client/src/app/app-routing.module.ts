@@ -6,6 +6,7 @@ import { AuthComponent } from '@components/view/auth/auth.component';
 import { HomeComponent } from '@components/layout/main/home.component';
 import { AuthService } from '@services/auth.service';
 import { EbooksComponent } from '@components/view/ebooks/ebooks.component';
+import { TorrentsComponent } from '@components/view/torrents/torrents.component';
 
 
 const routes: Routes = [
@@ -15,6 +16,7 @@ const routes: Routes = [
       { path: '**', component: FilesComponent },
     ]},
     { path: 'ebooks', component: EbooksComponent },
+    { path: 'torrents', component: TorrentsComponent },
   ]},
   { path: 'login', component: AuthComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },

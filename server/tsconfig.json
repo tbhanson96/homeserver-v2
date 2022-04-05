@@ -16,5 +16,5 @@
     "esModuleInterop": true,
     "strictPropertyInitialization": false,
   },
-  "include": ["src/**/*.ts", "src/**/*.json"]
+  "include": ["src/**/*.ts", "src/**/*.json", "test/**/*.ts"]
 }

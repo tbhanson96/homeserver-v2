@@ -5,4 +5,12 @@ export class AsyncUtils {
             return predicate(element);
         }));
     }
+
+    public static async sleepAsync(timeMs: number): Promise<void> {
+        return new Promise((res) => {
+            setTimeout(() => {
+                res();
+            }, timeMs);
+        })
+    }
 }

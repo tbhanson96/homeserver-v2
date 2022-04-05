@@ -28,3 +28,7 @@
 .file-name {
     text-overflow: ellipsis;
 }
+
+.file-info {
+    max-width: calc(100% - 40px);
+}

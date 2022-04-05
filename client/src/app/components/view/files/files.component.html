@@ -14,7 +14,7 @@
             <img class="list-image" [src]="'/assets/icons/' + file.type + '.png'" />
         </div>
         <div>
-            <div fxFlex>
+            <div fxFlex class="file-info">
                 <div mat-line>{{file.name}}</div>
                 <div mat-line>{{file.timestamp}}</div>
             </div>
@@ -23,9 +23,9 @@
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #optionsMenu>
-                    <button mat-menu-item (click)="onRenameFile(file, $event)">Rename</button>
+                    <button mat-menu-item (click)="onRenameFile(file)">Rename</button>
                     <!-- <mat-list-item (click)="onMoveFile($event, file)">Move</mat-list-item> -->
-                    <button mat-menu-item (click)="onDeleteFile(file, $event)">Delete</button>
+                    <button mat-menu-item (click)="onDeleteFile(file)">Delete</button>
                 </mat-menu>
             </div>
         </div>

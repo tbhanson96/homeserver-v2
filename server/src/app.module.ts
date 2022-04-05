@@ -1,4 +1,5 @@
 import { Module, NestModule, MiddlewareConsumer, RequestMethod, Scope, Logger } from '@nestjs/common';
+import { HttpModule } from '@nestjs/axios';
 import { ClientMiddleware } from './middlewares/client.middleware';
 import { FileService } from './files/file.service';
 import { ConfigService } from './config/config.service';
@@ -22,6 +23,8 @@ import { StubCalibreService } from './ebooks/stub-calibre.service';
 import { UpdateService } from './settings/update.service';
 import { SettingsController } from './settings/settings.controller';
 import { SettingsService } from './settings/settings.service';
+import { TorrentsController } from './torrents/torrents.controller';
+import { TorrentsService } from './torrents/torrents.service';
 
 @Module({
   imports: [
@@ -40,7 +43,8 @@ import { SettingsService } from './settings/settings.service';
         signOptions: { expiresIn: config.config.auth.sessionTimeout },
       }),
       inject: [ConfigService],
-    })
+    }),
+    HttpModule,
   ],
   exports: [
     ConfigService,
@@ -50,6 +54,7 @@ import { SettingsService } from './settings/settings.service';
     AuthController,
     EbookController,
     SettingsController,
+    TorrentsController,
   ],
   providers: [
     FileService,
@@ -86,6 +91,7 @@ import { SettingsService } from './settings/settings.service';
     SettingsService,
     JwtStrategy,
     Logger,
+    TorrentsService,
   ],
 })
 export class AppModule implements NestModule {

@@ -2,7 +2,8 @@
     "collection": "@nestjs/schematics",
     "sourceRoot": "src",
     "compilerOptions": {
-      "plugins": ["@nestjs/swagger"]
+      "plugins": ["@nestjs/swagger"],
+      "config": "tsconfig.build.json"
     }
   }
   

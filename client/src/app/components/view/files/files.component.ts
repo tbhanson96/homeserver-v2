@@ -63,11 +63,14 @@ export class FilesComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       if (result instanceof Observable) {
         this.uiActions.setAppBusy(true);
-        result.subscribe(() => {
-          this.updateFiles();
-        }, () => {
-          this.uiActions.setAppBusy(false);
-        });
+        result.subscribe({
+          next: () => {
+            this.updateFiles();
+          },
+          error: () => {
+            this.uiActions.setAppBusy(false);
+          },
+        })
       }
     });
   }
@@ -86,7 +89,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onDeleteFile(file: FileData, event?: Event) {
+  public onDeleteFile(file: FileData) {
     const dialogRef = this.dialog.open(DeleteDialogComponent, { data: { service: UploadType.Files, file }});
     dialogRef.afterClosed().subscribe(result => {
       if (result instanceof Observable) {
@@ -105,7 +108,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onRenameFile(file: FileData, event?: Event) {
+  public onRenameFile(file: FileData) {
     const dialogRef = this.dialog.open(RenameFileComponent, { data: { selectedFile: file }});
     dialogRef.afterClosed().subscribe(result => {
       if (result instanceof Observable) {
