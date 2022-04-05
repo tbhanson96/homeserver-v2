@@ -4,8 +4,10 @@ jest.mock('fs', () => {
 import { setupMockFs } from '../mock-helper';
 import { ConfigService } from '../../src/config/config.service';
 import Config from '../../src/config/config.default.json';
+import ProdConfig from '../../src/config/config.prod.json';
 import path from 'path';
 import jsonfile from 'jsonfile';
+import { flatten } from 'flat';
 
 describe('ConfigService', () => {
 
@@ -17,6 +19,14 @@ describe('ConfigService', () => {
 
     afterAll(() => {
         jest.unmock('fs');
+    });
+
+    it('dummy-check prod and default keys', async () => {
+        const defaultFlat = flatten<any, any>(Config);
+        const prodFlat = flatten<any, any>(ProdConfig);
+        Object.keys(defaultFlat).forEach(defaultKey => {
+            expect(prodFlat[defaultKey]).toBeDefined();
+        });
     });
 
     it('loads default', async () => {
