@@ -7,7 +7,6 @@ import { ApiBadRequestResponse, ApiOkResponse, ApiQuery, ApiConsumes, ApiBody, A
 import { FileData } from '../models/fileData.dto';
 import { Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
-import { SettingsService } from '../settings/settings.service';
 import * as path from 'path'; 
 
 @Controller(joinRoutes(routes.api, routes.files))
@@ -16,7 +15,6 @@ import * as path from 'path';
 export class FileController {
     constructor(
         private readonly fileService: FileService,
-        private readonly settingsService: SettingsService,
         ) {}
 
     @Get('path')
@@ -24,8 +22,7 @@ export class FileController {
     @ApiBadRequestResponse({ description: 'Invalid directory path'})
     @ApiQuery({name: 'path', type: String, description: 'Path to get files from'})
     async getPath(@Query('path') filePath: string) {
-        const showHidden = this.settingsService.getSettings().showHiddenFiles;
-        const files = await this.fileService.getFiles(filePath, showHidden);
+        const files = await this.fileService.getFiles(filePath);
         return files;
     }
 

@@ -11,6 +11,7 @@ export enum UiStateActionType {
     SET_CURRENT_APP = 'SET_CURRENT_APP',
     SET_CURRENT_FILES_DIRECTORY = 'SET_CURRENT_FILES_DIRECTORY',
     SET_DARK_MODE = 'SET_DARK_MODE',
+    SET_SHOW_HIDDEN_FILES = 'SET_SHOW_HIDDEN_FILES',
 }
 
 export class ToggleSidebarAction implements UiStateAction {
@@ -38,6 +39,11 @@ export class SetDarkModeAction implements UiStateAction {
   constructor(public payload: { useDarkMode: boolean }) { }
 }
 
+export class SetShowHiddenFiles implements UiStateAction {
+  readonly type = UiStateActionType.SET_DARK_MODE;
+  constructor(public payload: { showHiddenFiles: boolean }) { }
+}
+
 
 @Injectable()
 export class UiStateActions {
@@ -61,5 +67,9 @@ export class UiStateActions {
 
   setDarkMode(darkMode: boolean) {
     this.store.dispatch(new SetDarkModeAction({ useDarkMode: darkMode }));
+  }
+  
+  setShowHiddenFiles(showHiddenFiles: boolean) {
+    this.store.dispatch(new SetShowHiddenFiles({ showHiddenFiles }));
   }
 }

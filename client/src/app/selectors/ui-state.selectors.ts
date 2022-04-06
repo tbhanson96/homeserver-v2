@@ -26,4 +26,8 @@ export class UiStateSelectors {
   getUseDarkMode(): Observable<boolean> {
     return this.store.pipe(select(state => state.uiStateStore.useDarkMode));
   }
+
+  getShowHiddenFiles(): Observable<boolean> {
+    return this.store.pipe(select(state => state.uiStateStore.showHiddenFiles));
+  }
 }

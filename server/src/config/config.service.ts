@@ -49,6 +49,7 @@ export class ConfigService {
         resultFlat = this.replaceValuesWithWildcard(resultFlat, path.resolve(path.dirname(filePath)));
 
         this.config = flat.unflatten<any, any>(resultFlat, { delimiter: this.DELIMITER });
+        this.log?.log(`Successfully loaded config from file: ${filePath}`);
         return true;
     }
 

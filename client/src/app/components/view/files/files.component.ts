@@ -11,6 +11,7 @@ import { UploadType } from '../upload-dialog/upload-type';
 import { RenameFileComponent } from '../rename-file/rename-file.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
+import { UiStateSelectors } from '@selectors/ui-state.selectors';
 
 @Component({
   selector: 'app-files',
@@ -35,6 +36,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     private readonly snackbar: MatSnackBar,
     private readonly dialog: MatDialog,
     private readonly uiActions: UiStateActions,
+    private readonly uiSelectors: UiStateSelectors,
     private readonly filesService: FilesService) { }
 
   ngOnInit() {
@@ -45,6 +47,10 @@ export class FilesComponent implements OnInit, OnDestroy {
         this.reqPath = parts.map(p => decodeURI(p.toString()));
         this.updateFiles();
         this.uiActions.setCurrentFilesDirectory(this.joinReqPath(this.reqPath));
+      }),
+      this.uiSelectors.getShowHiddenFiles().subscribe(showHiddenFiles => {
+        this.showHiddenFiles = showHiddenFiles;
+        this.updateFiles();
       }),
     ]
   }

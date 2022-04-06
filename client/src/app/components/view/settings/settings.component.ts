@@ -3,7 +3,6 @@ import { ApiService } from '@api/services';
 import { SettingsDto } from '@api/models/settings-dto';
 import { UiStateSelectors } from '@selectors/ui-state.selectors';
 import { UiStateActions } from '@actions/ui-state.actions';
-import { take } from 'rxjs/operators';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { MatTabGroup } from '@angular/material/tabs';
@@ -37,14 +36,13 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.api.settingsControllerGetSettings().subscribe(settings => {
-      this.showHiddenFiles = settings.showHiddenFiles; 
-      this.showHiddenFilesCheckbox.checked = this.showHiddenFiles;
-    });
-    this.uiSelectors.getUseDarkMode().pipe(take(1)).subscribe(useDarkMode => {
-      this.useDarkMode = useDarkMode;
-      this.darkModeSwitch.checked = useDarkMode;
-    });
+    this.subscriptions.push(this.uiSelectors.getUseDarkMode().subscribe({
+      next: useDarkMode => {
+        this.useDarkMode = useDarkMode;
+        this.darkModeSwitch.checked = useDarkMode;
+      },
+    }));
+    this.loadSettings();
     this.subscriptions.push(this.tabBar.selectedTabChange.subscribe(value => {
       this.activeTab = value.index;
     }));
@@ -80,6 +78,25 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     this.dialogRef.close('accept');
     this.uiActions.setDarkMode(this.useDarkMode);
+  }
+
+  onLoadSettingsFile() {
+    this.api.settingsControllerReloadSettings().subscribe({
+      next: () => {
+        this.loadSettings();
+      },
+    });
+  }
+
+  private loadSettings() {
+    this.api.settingsControllerGetSettings().subscribe({
+      next: settings => {
+        this.showHiddenFiles = settings.showHiddenFiles; 
+        this.showHiddenFilesCheckbox.checked = settings.showHiddenFiles;
+        this.uiActions.setDarkMode(settings.useDarkMode)
+        this.uiActions.setShowHiddenFiles(settings.showHiddenFiles);
+      }
+    });
   }
 
 }

@@ -29,5 +29,6 @@
 <mat-dialog-actions>
   <button mat-button mat-dialog-close>Cancel</button>
   <button *ngIf="activeTab === 0" mat-button mat-dialog-close (click)="onSettingsSave()">Save</button>
+  <button *ngIf="activeTab === 0" mat-button mat-dialog-close (click)="onLoadSettingsFile()">Reload</button>
   <button *ngIf="activeTab === 1" mat-button mat-dialog-close (click)="onPerformUpdate()">Update</button>
 </mat-dialog-actions>
