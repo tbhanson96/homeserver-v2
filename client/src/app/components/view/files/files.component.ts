@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription, Observable, Subject, debounceTime, filter } from 'rxjs';
 import { FilesService } from '@services/files.service';
 import { FileData } from '@api/models';
 import * as validFileTypes from './valid-files';
@@ -11,6 +11,7 @@ import { UploadType } from '../upload-dialog/upload-type';
 import { RenameFileComponent } from '../rename-file/rename-file.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
+import { UiStateSelectors } from '@selectors/ui-state.selectors';
 
 @Component({
   selector: 'app-files',
@@ -22,12 +23,18 @@ export class FilesComponent implements OnInit, OnDestroy {
   readonly showMoreIncrement = 20;
   files: FileData[] = [];
   reqPath: string[];
+  searchQuery = '';
   showHiddenFiles = false;
   maxFilesShown = this.defaultMaxFilesShown;
   subscriptions: Subscription[];
 
   public get visibleFiles() {
-    return this.files.slice(0, this.maxFilesShown);
+    let ret = this.files;
+    if (this.searchQuery) {
+      ret = ret.filter(f => f.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
+    }
+    ret = ret.slice(0, this.maxFilesShown);
+    return ret;
   }
   constructor(
     private readonly router: Router,
@@ -35,6 +42,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     private readonly snackbar: MatSnackBar,
     private readonly dialog: MatDialog,
     private readonly uiActions: UiStateActions,
+    private readonly uiSelectors: UiStateSelectors,
     private readonly filesService: FilesService) { }
 
   ngOnInit() {
@@ -42,9 +50,14 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.subscriptions = [
       this.route.url.subscribe(parts => {
         this.uiActions.setAppBusy(true);
+        this.searchQuery = '';
         this.reqPath = parts.map(p => decodeURI(p.toString()));
         this.updateFiles();
         this.uiActions.setCurrentFilesDirectory(this.joinReqPath(this.reqPath));
+      }),
+      this.uiSelectors.getShowHiddenFiles().subscribe(showHiddenFiles => {
+        this.showHiddenFiles = showHiddenFiles;
+        this.updateFiles();
       }),
     ]
   }
@@ -126,7 +139,7 @@ export class FilesComponent implements OnInit, OnDestroy {
       }
     });
   }
-
+  
   private updateFiles() {
     this.maxFilesShown = this.defaultMaxFilesShown;
     const reqPathString = this.joinReqPath(this.reqPath);

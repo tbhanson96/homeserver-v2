@@ -28,8 +28,14 @@
         </mat-icon>
         </button>
         <mat-menu #optionsMenu>
-          <button mat-menu-item (click)="onDeleteEbook(ebook)">Delete</button>
-          <button mat-menu-item (click)="onResendToKindle(ebook)">Resend to Kindle</button>
+          <button mat-menu-item (click)="onDeleteEbook(ebook)">
+              <mat-icon>delete</mat-icon>
+              <span>Delete</span>
+          </button>
+          <button mat-menu-item (click)="onResendToKindle(ebook)">
+              <mat-icon>send</mat-icon>
+              <span>Send to Kindle</span>
+          </button>
         </mat-menu>
       </div>
     </mat-card-actions>

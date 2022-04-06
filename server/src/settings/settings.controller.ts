@@ -1,16 +1,21 @@
-import { Controller, UseGuards, Get, Query, Post, Body } from "@nestjs/common";
+import { Controller, UseGuards, Get, Query, Post, Body, Put } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { UpdateService } from "./update.service";
-import { ApiAcceptedResponse, ApiOkResponse, ApiQuery } from "@nestjs/swagger";
+import { ApiAcceptedResponse, ApiBody, ApiOkResponse, ApiQuery } from "@nestjs/swagger";
 import { joinRoutes, routes } from "../routes";
 import { SettingsDto } from "../models/settings.dto";
 import { SettingsService } from "./settings.service";
+import { ConfigService } from '../config/config.service';
+import { FileData } from "../models/fileData.dto";
+import { FileService } from "../files/file.service";
 
 @Controller(joinRoutes(routes.api, routes.settings))
 export class SettingsController {
 
     constructor (
         private readonly updateService: UpdateService,
+        private readonly configService: ConfigService,
+        private readonly fileService: FileService,
         private readonly settingsService: SettingsService,
     ) { }
 
@@ -25,6 +30,18 @@ export class SettingsController {
     @ApiOkResponse({ description: 'Successfully set server settings.'})
     setSettings(@Body() settings: SettingsDto) {
         this.settingsService.setSettings(settings);
+    }
+
+    @Put()
+    @UseGuards(AuthGuard('jwt'))
+    @ApiOkResponse({ description: 'Successfully reloaded server settings file.'})
+    @ApiBody({ type: FileData, required: false, description: 'Config file to load'})
+    reloadSettings(@Body() config?: FileData) {
+        if (config?.link) {
+            const localPath = this.fileService.getLocalFilePath(config.link);
+            this.configService.loadConfig(localPath);
+        }
+        this.configService.loadConfig(this.configService.config.app.configOverridePath);
     }
 
     @Get('update')

@@ -14,11 +14,11 @@
     flex-shrink: 0;
 }
 
-.upload-button {
-    margin: 64px;
+.floating-buttons {
+    margin: 32px;
     position: fixed;
     bottom: 0;
-    left: calc(100% - 184px);
+    left: calc(100% - 120px);
 }
 
 .show-more {

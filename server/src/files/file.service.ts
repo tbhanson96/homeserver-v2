@@ -18,11 +18,11 @@ export class FileService implements OnModuleInit {
         this.rootDir = this.configService.config.files.homeDir;
     }
 
-    async getFiles(directory: string, includeHiddenFiles: boolean): Promise<FileData[]> {
+    async getFiles(directory: string): Promise<FileData[]> {
         directory = directory || '';
         let ret: FileData[] = [];
         let files = fs.readdirSync(path.join(this.rootDir, directory));
-        if (!includeHiddenFiles) {
+        if (!this.configService.config.files.showHidden) {
             files = FileUtils.removeHiddenFiles(files);
         }
         for (let f of files) {
