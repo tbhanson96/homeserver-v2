@@ -1,40 +1,28 @@
-jest.mock( '../../src/files/file.service');
-jest.mock('../../src/settings/settings.service');
+jest.mock('../../src/files/file.service');
 jest.mock('express')
 import { FileController } from '../../src/files/file.controller';
-import { FileService } from '../../src/files/file.service';
 import { response } from 'express';
 import { randomBytes } from 'crypto';
-import { SettingsService } from '../../src/settings/settings.service';
-import { SettingsDto } from '../../src/models/settings.dto';
 import { FileData } from '../../src/models/fileData.dto';
+import { FileService } from '../../src/files/file.service';
 
 describe('FileController', () => {
 
-    const fileService = <jest.Mock<FileService>>FileService;
-    const settingsService = <jest.Mock<SettingsService>>SettingsService;
+    const fileService: jest.Mock<FileService> = FileService as any;
     let controller: FileController;
     let service: FileService;
     beforeEach(() => {
         fileService.mockClear();
-        settingsService.mockClear();
-        controller = new FileController(new fileService(), new settingsService());
+        controller = new FileController(new fileService()); 
         service = fileService.mock.instances[0];
-        jest.spyOn(settingsService.mock.instances[0], 'getSettings').mockImplementation(() => {
-            const settings: SettingsDto = {
-                showHiddenFiles: false, 
-                useDarkMode: false,
-            };
-            return settings;
-        });
     });
 
     describe('getPath', () => {
         it('should call getFiles', async () => {
             await controller.getPath('/');
-            expect(service.getFiles).toHaveBeenCalledWith('/', false);
+            expect(service.getFiles).toHaveBeenCalledWith('/');
             await controller.getPath('/')
-            expect(service.getFiles).toHaveBeenCalledWith('/', false);
+            expect(service.getFiles).toHaveBeenCalledWith('/');
         });
     });
 
@@ -53,7 +41,7 @@ describe('FileController', () => {
                 encoding: '',
                 originalname: 'file.txt',
                 mimetype: '',
-                stream: <any>{},
+                stream: {} as any,
                 size: 0,
                 destination: '',
                 filename: 'asjdkfl',

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription, Observable, Subject, debounceTime, filter } from 'rxjs';
 import { FilesService } from '@services/files.service';
 import { FileData } from '@api/models';
 import * as validFileTypes from './valid-files';
@@ -12,6 +12,7 @@ import { RenameFileComponent } from '../rename-file/rename-file.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { UiStateSelectors } from '@selectors/ui-state.selectors';
+import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-files',
@@ -23,12 +24,18 @@ export class FilesComponent implements OnInit, OnDestroy {
   readonly showMoreIncrement = 20;
   files: FileData[] = [];
   reqPath: string[];
+  searchQuery = '';
   showHiddenFiles = false;
   maxFilesShown = this.defaultMaxFilesShown;
   subscriptions: Subscription[];
 
   public get visibleFiles() {
-    return this.files.slice(0, this.maxFilesShown);
+    let ret = this.files;
+    if (this.searchQuery) {
+      ret = ret.filter(f => f.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
+    }
+    ret = this.files.slice(0, this.maxFilesShown);
+    return ret;
   }
   constructor(
     private readonly router: Router,
@@ -44,6 +51,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.subscriptions = [
       this.route.url.subscribe(parts => {
         this.uiActions.setAppBusy(true);
+        this.searchQuery = '';
         this.reqPath = parts.map(p => decodeURI(p.toString()));
         this.updateFiles();
         this.uiActions.setCurrentFilesDirectory(this.joinReqPath(this.reqPath));
@@ -131,6 +139,10 @@ export class FilesComponent implements OnInit, OnDestroy {
         });
       }
     });
+  }
+  
+  public onSearchForFiles(): void {
+    this.searchDebounce.next(this.searchQuery);
   }
 
   private updateFiles() {

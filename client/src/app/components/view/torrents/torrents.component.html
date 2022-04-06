@@ -15,6 +15,7 @@
         <button mat-raised-button color="primary" (click)="onTorrentSearch()">Search</button>
     </div>
 </div>
+<mat-divider class="divider"></mat-divider>
 <mat-selection-list [multiple]="false">
     <mat-list-option *ngFor="let torrent of torrents" (click)="navigateToUrl(torrent.download)">
         <div>

@@ -40,7 +40,7 @@ export class SetDarkModeAction implements UiStateAction {
 }
 
 export class SetShowHiddenFiles implements UiStateAction {
-  readonly type = UiStateActionType.SET_DARK_MODE;
+  readonly type = UiStateActionType.SET_SHOW_HIDDEN_FILES;
   constructor(public payload: { showHiddenFiles: boolean }) { }
 }
 

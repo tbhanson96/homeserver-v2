@@ -23,9 +23,15 @@
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #optionsMenu>
-                    <button mat-menu-item (click)="onRenameFile(file)">Rename</button>
+                    <button mat-menu-item (click)="onRenameFile(file)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Rename</span>
+                    </button>
                     <!-- <mat-list-item (click)="onMoveFile($event, file)">Move</mat-list-item> -->
-                    <button mat-menu-item (click)="onDeleteFile(file)">Delete</button>
+                    <button mat-menu-item (click)="onDeleteFile(file)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete</span>
+                    </button>
                 </mat-menu>
             </div>
         </div>
@@ -33,6 +39,19 @@
 </mat-selection-list>
 <button fxFlexAlign="center" class="show-more" *ngIf="this.maxFilesShown < this.files.length"
     (click)="onShowMoreFiles()" mat-button>Show More</button>
-<button mat-fab class="upload-button" color="primary" (click)="openUploadDialog()">
-    <mat-icon>add</mat-icon>
-</button>
+<div fxLayout="column" fxLayoutGap="20px" class="floating-buttons">
+    <button mat-fab color="primary" [matMenuTriggerFor]="searchMenu">
+        <mat-icon>search</mat-icon>
+    </button>
+    <button mat-fab color="primary" (click)="openUploadDialog()">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>
+<mat-menu #searchMenu xPosition="before">
+    <div mat-menu-item fxLayout="row" (click)="$event.stopPropagation()">
+        <mat-form-field appearance="fill">
+            <mat-label>Search</mat-label>
+            <input matInput [(ngModel)]="searchQuery" (input)="onSearchForFiles()">
+        </mat-form-field>
+    </div>
+</mat-menu>

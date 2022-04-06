@@ -17,7 +17,7 @@ describe('FileController', () => {
     beforeEach(() => {
         MockConfigService.mockClear();
         MockConfigService.mockImplementation(() => {
-            return { config: { files: { homeDir: 'root' } } }
+            return { config: { files: { homeDir: 'root', showHidden: false } } }
         })
         fileService = new FileService(new MockConfigService(), new Logger())
         fileService.onModuleInit();
@@ -27,12 +27,12 @@ describe('FileController', () => {
 
     describe('getFiles', () => {
         it ('should call correct methods', async () => {
-            await fileService.getFiles('Documents', false);
+            await fileService.getFiles('Documents');
             expect(fsMock.readdirSync).toBeCalledWith("root/Documents");
         });
 
         it('returns correct values', async () => {
-            const res = await fileService.getFiles('Documents', false);
+            const res = await fileService.getFiles('Documents');
             expect(res).toMatchObject( [ { link: '/Documents/1' }, { link: '/Documents/2' } ]);
         });
     });

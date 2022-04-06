@@ -36,11 +36,13 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.subscriptions.push(this.uiSelectors.getUseDarkMode().subscribe({
-      next: useDarkMode => {
-        this.useDarkMode = useDarkMode;
-        this.darkModeSwitch.checked = useDarkMode;
-      },
+    this.subscriptions.push(this.uiSelectors.getUseDarkMode().subscribe(useDarkMode => {
+      this.useDarkMode = useDarkMode;
+      this.darkModeSwitch.checked = useDarkMode;
+    }));
+    this.subscriptions.push(this.uiSelectors.getShowHiddenFiles().subscribe(showHiddenFiles => {
+      this.showHiddenFiles = showHiddenFiles; 
+      this.showHiddenFilesCheckbox.checked = showHiddenFiles;
     }));
     this.loadSettings();
     this.subscriptions.push(this.tabBar.selectedTabChange.subscribe(value => {
@@ -78,6 +80,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     this.dialogRef.close('accept');
     this.uiActions.setDarkMode(this.useDarkMode);
+    this.uiActions.setShowHiddenFiles(this.showHiddenFiles);
   }
 
   onLoadSettingsFile() {
@@ -91,8 +94,6 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   private loadSettings() {
     this.api.settingsControllerGetSettings().subscribe({
       next: settings => {
-        this.showHiddenFiles = settings.showHiddenFiles; 
-        this.showHiddenFilesCheckbox.checked = settings.showHiddenFiles;
         this.uiActions.setDarkMode(settings.useDarkMode)
         this.uiActions.setShowHiddenFiles(settings.showHiddenFiles);
       }
