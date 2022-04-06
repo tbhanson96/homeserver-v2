@@ -51,7 +51,7 @@
     <div mat-menu-item fxLayout="row" (click)="$event.stopPropagation()">
         <mat-form-field appearance="fill">
             <mat-label>Search</mat-label>
-            <input matInput [(ngModel)]="searchQuery" (input)="onSearchForFiles()">
+            <input matInput [(ngModel)]="searchQuery" >
         </mat-form-field>
     </div>
 </mat-menu>

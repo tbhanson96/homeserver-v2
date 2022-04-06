@@ -12,7 +12,6 @@ import { RenameFileComponent } from '../rename-file/rename-file.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { UiStateSelectors } from '@selectors/ui-state.selectors';
-import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-files',
@@ -34,7 +33,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     if (this.searchQuery) {
       ret = ret.filter(f => f.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
     }
-    ret = this.files.slice(0, this.maxFilesShown);
+    ret = ret.slice(0, this.maxFilesShown);
     return ret;
   }
   constructor(
@@ -141,10 +140,6 @@ export class FilesComponent implements OnInit, OnDestroy {
     });
   }
   
-  public onSearchForFiles(): void {
-    this.searchDebounce.next(this.searchQuery);
-  }
-
   private updateFiles() {
     this.maxFilesShown = this.defaultMaxFilesShown;
     const reqPathString = this.joinReqPath(this.reqPath);
