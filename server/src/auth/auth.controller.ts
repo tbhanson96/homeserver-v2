@@ -13,7 +13,7 @@ export class AuthController {
 
     @Post()
     @ApiProduces('text/html')
-    @ApiCreatedResponse({ description: 'Succesfully logged in', type: String })
+    @ApiCreatedResponse({ description: 'Successfully logged in', type: String })
     @ApiUnauthorizedResponse({ description: 'Failed to login' })
     async login(@Body() authDto: AuthDto, @Req() request: Request) {
         const authed = await this.authService.authenticate(authDto.username, authDto.password);

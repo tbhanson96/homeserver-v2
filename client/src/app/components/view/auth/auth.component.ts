@@ -18,6 +18,11 @@ export class AuthComponent implements OnInit {
     private readonly router: Router) { }
 
   ngOnInit() {
+    const video: any = document.getElementById('video');
+    video.oncanplaythrough = function() {
+      video.muted = true,
+      video.play();
+    }
   }
 
   onLogin() {
