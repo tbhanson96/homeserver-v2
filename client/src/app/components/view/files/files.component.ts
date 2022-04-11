@@ -75,13 +75,18 @@ export class FilesComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(UploadDialogComponent, { data: UploadType.Files });
     dialogRef.afterClosed().subscribe(result => {
       if (result instanceof Observable) {
+        const sub = this.filesService.getUploadProgress().subscribe(progress => {
+          console.log(progress);
+        });
         this.uiActions.setAppBusy(true);
         result.subscribe({
           next: () => {
             this.updateFiles();
+            sub.unsubscribe();
           },
           error: () => {
             this.uiActions.setAppBusy(false);
+            sub.unsubscribe();
           },
         })
       }

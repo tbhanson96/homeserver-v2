@@ -33,6 +33,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { TorrentsComponent } from '@components/view/torrents/torrents.component';
 import { TorrentsService } from '@services/torrents.service';
 import { FileSizePipe } from './pipes/fileSizePipe';
+import { UploadInterceptor } from '@services/upload.interceptor';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,7 @@ import { FileSizePipe } from './pipes/fileSizePipe';
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
+      useClass: UploadInterceptor,
       multi: true,
     },
     {
