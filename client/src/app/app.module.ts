@@ -34,6 +34,7 @@ import { TorrentsComponent } from '@components/view/torrents/torrents.component'
 import { TorrentsService } from '@services/torrents.service';
 import { FileSizePipe } from './pipes/fileSizePipe';
 import { UploadInterceptor } from '@services/upload.interceptor';
+import { ProgressDialogComponent } from './components/view/progress-dialog/progress-dialog.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { UploadInterceptor } from '@services/upload.interceptor';
     RenameFileComponent,
     TorrentsComponent,
     FileSizePipe,
+    ProgressDialogComponent,
   ],
   imports: [
     FormsModule,
@@ -106,6 +108,7 @@ import { UploadInterceptor } from '@services/upload.interceptor';
     DeleteDialogComponent,
     SettingsComponent,
     RenameFileComponent,
+    ProgressDialogComponent,
   ],
   bootstrap: [AppComponent]
 })
