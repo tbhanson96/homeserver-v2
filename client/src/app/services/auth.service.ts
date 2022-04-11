@@ -1,26 +1,17 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '@api/services';
 import { CanActivate, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { lastValueFrom, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService implements CanActivate {
-  private isAuthenticated = true;
+  private isAuthenticated = false;
   constructor(
     private readonly api: ApiService,
-    private readonly router: Router) { }
- 
-  // async init() {
-  //   return new Promise(res => {
-  //     this.getAuthenticated().subscribe(authed => {
-  //       this.isAuthenticated = authed;
-  //       res();
-  //     });
-  //   });
-  // }
+    private readonly router: Router
+  ) { }
 
   getAuthenticated(): Observable<boolean> {
     return new Observable(observer => {
@@ -57,12 +48,17 @@ export class AuthService implements CanActivate {
     })
   }
 
-  canActivate(): boolean {
-    if (!this.isAuthenticated) {
-      this.router.navigateByUrl('/login')
-      return false;
+  async canActivate(): Promise<boolean> {
+    if (this.isAuthenticated) {
+      return true;
     }
-    return true;
+    const authed = await lastValueFrom(this.getAuthenticated());
+    if (authed) {
+      return true;
+    }
+    localStorage.setItem('redirect_url', window.location.pathname);
+    this.router.navigateByUrl('/login')
+    return false;
   }
 
 }
