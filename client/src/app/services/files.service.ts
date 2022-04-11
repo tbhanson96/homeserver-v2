@@ -41,7 +41,7 @@ export class FilesService {
   }
 
   public getUploadProgress(): Observable<number> {
-    return this.upload.progress.pipe(map(event => {
+    return this.upload.getProgress().pipe(map(event => {
       if (event.type === HttpEventType.UploadProgress || event.type === HttpEventType.DownloadProgress) {
         return event.total ? Math.round((100 * event.loaded) / event.total) :  -1;
       } else {

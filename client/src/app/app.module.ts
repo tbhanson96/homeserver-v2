@@ -86,7 +86,7 @@ import { UploadInterceptor } from '@services/upload.interceptor';
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: UploadInterceptor,
+      useExisting: UploadInterceptor,
       multi: true,
     },
     {
@@ -99,6 +99,7 @@ import { UploadInterceptor } from '@services/upload.interceptor';
     AuthService,
     EbooksService,
     TorrentsService,
+    UploadInterceptor,
   ],
   entryComponents: [
     UploadDialogComponent,

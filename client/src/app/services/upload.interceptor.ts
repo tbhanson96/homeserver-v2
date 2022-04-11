@@ -7,7 +7,7 @@ import { Observable, Subject, tap } from 'rxjs';
 })
 export class UploadInterceptor implements HttpInterceptor {
 
-    public readonly progress: Subject<HttpEvent<any>>;
+    private progress: Subject<HttpEvent<any>>;
     constructor(
     ) {
         this.progress = new Subject();
@@ -20,5 +20,9 @@ export class UploadInterceptor implements HttpInterceptor {
         return next.handle(req).pipe(tap(event => {
             this.progress.next(event);
         }));
+    }
+
+    getProgress() {
+        return this.progress.asObservable();
     }
 }
