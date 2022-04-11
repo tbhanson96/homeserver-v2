@@ -33,6 +33,8 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { TorrentsComponent } from '@components/view/torrents/torrents.component';
 import { TorrentsService } from '@services/torrents.service';
 import { FileSizePipe } from './pipes/fileSizePipe';
+import { UploadInterceptor } from '@services/upload.interceptor';
+import { ProgressDialogComponent } from './components/view/progress-dialog/progress-dialog.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,7 @@ import { FileSizePipe } from './pipes/fileSizePipe';
     RenameFileComponent,
     TorrentsComponent,
     FileSizePipe,
+    ProgressDialogComponent,
   ],
   imports: [
     FormsModule,
@@ -85,7 +88,7 @@ import { FileSizePipe } from './pipes/fileSizePipe';
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
+      useExisting: UploadInterceptor,
       multi: true,
     },
     {
@@ -98,12 +101,14 @@ import { FileSizePipe } from './pipes/fileSizePipe';
     AuthService,
     EbooksService,
     TorrentsService,
+    UploadInterceptor,
   ],
   entryComponents: [
     UploadDialogComponent,
     DeleteDialogComponent,
     SettingsComponent,
     RenameFileComponent,
+    ProgressDialogComponent,
   ],
   bootstrap: [AppComponent]
 })

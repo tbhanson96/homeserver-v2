@@ -12,6 +12,7 @@ import { RenameFileComponent } from '../rename-file/rename-file.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { UiStateSelectors } from '@selectors/ui-state.selectors';
+import { ProgressDialogComponent } from '../progress-dialog/progress-dialog.component';
 
 @Component({
   selector: 'app-files',
@@ -75,13 +76,19 @@ export class FilesComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(UploadDialogComponent, { data: UploadType.Files });
     dialogRef.afterClosed().subscribe(result => {
       if (result instanceof Observable) {
+        const progressRef = this.dialog.open(ProgressDialogComponent, { disableClose: true, data: {
+          title: `Uploading file(s)..`,
+          progress: this.filesService.getUploadProgress(),
+        }});
         this.uiActions.setAppBusy(true);
         result.subscribe({
           next: () => {
             this.updateFiles();
+            progressRef.close();
           },
           error: () => {
             this.uiActions.setAppBusy(false);
+            progressRef.close();
           },
         })
       }
@@ -143,19 +150,22 @@ export class FilesComponent implements OnInit, OnDestroy {
   private updateFiles() {
     this.maxFilesShown = this.defaultMaxFilesShown;
     const reqPathString = this.joinReqPath(this.reqPath);
-    this.filesService.getDirectory(reqPathString, this.showHiddenFiles).subscribe(data => {
-      for (const file of data) {
-        if (!validFileTypes[file.type]) {
-          file.type = 'file';
-        } else {
-          file.type = validFileTypes[file.type];
+    this.filesService.getDirectory(reqPathString, this.showHiddenFiles).subscribe({
+      next: data => {
+        for (const file of data) {
+          if (!validFileTypes[file.type]) {
+            file.type = 'file';
+          } else {
+            file.type = validFileTypes[file.type];
+          }
         }
-      }
-      this.files = data;
-      this.uiActions.setAppBusy(false);
-    }, err => {
-      this.uiActions.setAppBusy(false);
-      throw new Error(`Could not get directory: ${reqPathString}`);
+        this.files = data;
+        this.uiActions.setAppBusy(false);
+      },
+      error: err => {
+        this.uiActions.setAppBusy(false);
+        throw new Error(`Could not get directory: ${reqPathString}`);
+      },
     });
   }
 
