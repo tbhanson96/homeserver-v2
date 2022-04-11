@@ -80,19 +80,14 @@ export class FilesComponent implements OnInit, OnDestroy {
           title: `Uploading file(s)..`,
           progress: this.filesService.getUploadProgress(),
         }});
-        const sub = this.filesService.getUploadProgress().subscribe(progress => {
-          console.log(progress);
-        });
         this.uiActions.setAppBusy(true);
         result.subscribe({
           next: () => {
             this.updateFiles();
-            sub.unsubscribe();
             progressRef.close();
           },
           error: () => {
             this.uiActions.setAppBusy(false);
-            sub.unsubscribe();
             progressRef.close();
           },
         })
