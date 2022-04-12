@@ -1,8 +1,6 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
 import { UiStateSelectors } from '@selectors/ui-state.selectors';
 import { UiStateActions } from '@actions/ui-state.actions';
-import { AuthService } from '@services/auth.service';
-import { Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
@@ -19,16 +17,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     private readonly deviceService: DeviceDetectorService,
     private readonly uiStateSelectors: UiStateSelectors,
     private readonly uiActions: UiStateActions,
-    private readonly authService: AuthService,
-    private readonly router: Router,
     ) { }
 
   ngOnInit() {
-    this.authService.getAuthenticated().subscribe(authed => {
-      if (!authed) {
-        this.router.navigateByUrl('/login');
-      }
-    });
     this.subscriptions = [
       this.uiStateSelectors.getAppBusy().subscribe(busy => {
         this.isBusy = busy;

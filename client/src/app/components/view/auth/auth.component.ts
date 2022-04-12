@@ -28,7 +28,13 @@ export class AuthComponent implements OnInit {
   onLogin() {
     this.authService.login(this.username, this.password).subscribe(authed => {
       if (authed) {
-        this.router.navigateByUrl('/home');
+        const redirect = localStorage.getItem('redirect_url');
+        if (redirect) {
+          localStorage.removeItem('redirect_url');
+          this.router.navigateByUrl(redirect);
+        } else {
+          this.router.navigateByUrl('/home');
+        }
       } else {
         this.snackbar.open('Failed to login: invalid username and password.');
       }
