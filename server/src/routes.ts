@@ -7,4 +7,5 @@ export const routes: any = {
     ebooks: 'ebooks',
     settings: 'settings',
     torrent: 'torrent',
+    search: 'search',
 }

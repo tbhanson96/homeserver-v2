@@ -5,12 +5,15 @@ import { EbookData } from '../models/ebookData.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { EbookService } from './ebook.service';
+import { LibgenService } from 'lib/libgen.service';
+import { LibgenData } from 'models/libgen.dto';
 
 @Controller(joinRoutes(routes.api, routes.ebooks))
 @UseGuards(AuthGuard('jwt'))
 export class EbookController {
     constructor(
         private readonly ebookService: EbookService,
+        private readonly libgen: LibgenService,
         ) { }
 
     @Get()
@@ -44,5 +47,11 @@ export class EbookController {
         if (sendToKindle) {
             await this.ebookService.sendToKindle(filePaths);
         }
+    }
+
+    @Get(routes.search)
+    @ApiOkResponse({ type: LibgenData, isArray: true, description: 'List of books returned by search of library genesis'})
+    async searchEbooks(@Query('search') search: string) {
+        return await this.libgen.libgenSearch(search);
     }
 }

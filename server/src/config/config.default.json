@@ -28,7 +28,11 @@
         "homeDir": "{.}/../../../mock/Ebooks",
         "useCalibre": false,
         "useEmailClient": false,
-        "kindeEmail": "tbhanson96@kindle.com"
+        "kindeEmail": "tbhanson96@kindle.com",
+        "libGen": {
+            "url": "http://gen.lib.rus.ec",
+            "downloadUrl": "http://library.lol/main"
+        }
     },
     "email": {
         "oauth": {
