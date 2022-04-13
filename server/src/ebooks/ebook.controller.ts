@@ -49,9 +49,24 @@ export class EbookController {
         }
     }
 
-    @Get(routes.search)
+    @Get(routes.libgen)
     @ApiOkResponse({ type: LibgenData, isArray: true, description: 'List of books returned by search of library genesis'})
     async searchEbooks(@Query('search') search: string) {
         return await this.libgen.libgenSearch(search);
+    }
+
+    @Post(routes.libgen)
+    @ApiAcceptedResponse({ description: 'Succesfully downloaded ebook from libgen'})
+    @ApiQuery({name: 'sendToKindle', description: 'Whether or not to send this ebook to kindle library'})
+    @ApiBody({ type: LibgenData, description: 'Libgen book to download'})
+    async downloadEbook(@Body() book: LibgenData, @Query('sendToKindle') sendToKindle: boolean) {
+        const path = await this.libgen.downloadBook(book);
+        const results = await this.ebookService.addBooks([{
+            originalname: `${book.title}.${book.extension}`,
+            path,
+        }]);
+        if (sendToKindle) {
+            this.ebookService.sendToKindle(results);
+        }
     }
 }

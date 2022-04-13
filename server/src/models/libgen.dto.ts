@@ -5,5 +5,5 @@ export class LibgenData {
     pages: number;
     filesize: number;
     extension: string;
-    download: string;
+    md5: string;
 }
