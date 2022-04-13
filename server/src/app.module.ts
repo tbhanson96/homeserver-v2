@@ -25,6 +25,7 @@ import { SettingsController } from './settings/settings.controller';
 import { SettingsService } from './settings/settings.service';
 import { TorrentsController } from './torrents/torrents.controller';
 import { TorrentsService } from './torrents/torrents.service';
+import { LibgenService } from './lib/libgen.service';
 
 @Module({
   imports: [
@@ -92,6 +93,7 @@ import { TorrentsService } from './torrents/torrents.service';
     JwtStrategy,
     Logger,
     TorrentsService,
+    LibgenService,
   ],
 })
 export class AppModule implements NestModule {
