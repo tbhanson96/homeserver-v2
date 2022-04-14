@@ -1,46 +1,61 @@
-<div fxLayoutAlign="space-around" fxLayout="row wrap">
-  <mat-card *ngFor="let ebook of ebooks" class="card">
-    <mat-card-header>
-      <mat-card-title>{{ ebook.name }}</mat-card-title>
-      <mat-card-subtitle>{{ ebook.author }}</mat-card-subtitle>
-    </mat-card-header>
-    <div fxLayoutAlign="center">
-      <img class="card-image" [src]="ebook.coverPath || 'assets/book.png'" />
-    </div>
-    <mat-card-actions>
-      <div #descriptionAnchor>
-        <button mat-button [matMenuTriggerFor]="demoSurface">Description</button>
-        <mat-menu #demoSurface class="book-description">
-          <div class="description" [innerHtml]="ebook.description || 'No description provided.'">
+<mat-tab-group #tabBar>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon>book</mat-icon>
+      Library
+    </ng-template>
+    <div class="content" fxLayoutAlign="space-around" fxLayout="row wrap">
+      <mat-card *ngFor="let ebook of ebooks" class="card">
+        <mat-card-header>
+          <mat-card-title>{{ ebook.name }}</mat-card-title>
+          <mat-card-subtitle>{{ ebook.author }}</mat-card-subtitle>
+        </mat-card-header>
+        <div fxLayoutAlign="center">
+          <img mat-card-image [src]="ebook.coverPath || 'assets/book.png'" />
+        </div>
+        <mat-card-actions>
+          <div #descriptionAnchor fxLayoutAlign="end">
+            <button mat-button [matMenuTriggerFor]="demoSurface">Description</button>
+            <mat-menu #demoSurface class="book-description">
+              <div class="description" [innerHtml]="ebook.description || 'No description provided.'">
+              </div>
+            </mat-menu>
+            <button
+              #optionsButton
+              mat-icon-button
+              aria-label="View more"
+              title="More info"
+              [matMenuTriggerFor]="optionsMenu"
+            >
+            <mat-icon>
+              menu
+            </mat-icon>
+            </button>
+            <mat-menu #optionsMenu>
+              <button mat-menu-item (click)="onDeleteEbook(ebook)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+              </button>
+              <button mat-menu-item (click)="onResendToKindle(ebook)">
+                  <mat-icon>send</mat-icon>
+                  <span>Send to Kindle</span>
+              </button>
+            </mat-menu>
           </div>
-        </mat-menu>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <button mat-fab class="upload-button" color="primary" (click)="onUploadClick()">
+        <mat-icon>add</mat-icon>
+    </button>
+  </mat-tab>
+  <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>download</mat-icon>
+        Search
+      </ng-template>
+      <div class="content" >
+        <app-libgen (download)="onDownload()"></app-libgen>
       </div>
-      <div fxLayoutAlign="end">
-        <button
-          #optionsButton
-          mat-icon-button
-          aria-label="View more"
-          title="More info"
-          [matMenuTriggerFor]="optionsMenu"
-        >
-        <mat-icon>
-          menu
-        </mat-icon>
-        </button>
-        <mat-menu #optionsMenu>
-          <button mat-menu-item (click)="onDeleteEbook(ebook)">
-              <mat-icon>delete</mat-icon>
-              <span>Delete</span>
-          </button>
-          <button mat-menu-item (click)="onResendToKindle(ebook)">
-              <mat-icon>send</mat-icon>
-              <span>Send to Kindle</span>
-          </button>
-        </mat-menu>
-      </div>
-    </mat-card-actions>
-  </mat-card>
-</div>
-<button mat-fab class="upload-button" color="primary" (click)="onUploadClick()">
-    <mat-icon>add</mat-icon>
-</button>
+  </mat-tab>
+</mat-tab-group>

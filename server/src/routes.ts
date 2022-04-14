@@ -8,4 +8,6 @@ export const routes: any = {
     settings: 'settings',
     torrent: 'torrent',
     libgen: 'libgen',
+    proxy: 'proxy',
+    status: 'status',
 }

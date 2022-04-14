@@ -1,11 +1,11 @@
 import { Injectable, Logger, NotFoundException, OnModuleInit } from '@nestjs/common';
-import { ConfigService } from 'config/config.service';
-import { LibgenData } from 'models/libgen.dto';
 import { HttpService } from '@nestjs/axios';
 import { lastValueFrom } from 'rxjs';
 import fs from 'fs';
 import path from 'path';
 const libgen = require('libgen');
+import { ConfigService } from '../config/config.service';
+import { LibgenData } from '../models/libgen.dto';
 
 @Injectable()
 export class LibgenService {
@@ -33,7 +33,11 @@ export class LibgenService {
                 filesize: parseInt(result.filesize),
                 extension: result.extension,
                 md5: result.md5,
-            })
+                coverUrl: 
+                    result.coverurl ?
+                    `/proxy/covers/${result.coverurl}`
+                    : '',
+            });
         });
         return ret;
     }

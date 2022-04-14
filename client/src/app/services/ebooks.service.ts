@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '@api/services';
 import { share } from 'rxjs/operators';
-import { EbookData } from '@api/models';
+import { EbookData, LibgenData } from '@api/models';
 
 @Injectable({
   providedIn: 'root'
@@ -28,5 +28,13 @@ export class EbooksService {
 
   sendToKindle(ebook: EbookData) {
     return this.apiService.ebookControllerSendBookToKindle({ body: ebook });
+  }
+
+  searchForBooks(query: string) {
+    return this.apiService.ebookControllerSearchEbooks({ search: query});
+  }
+
+  downloadBook(book: LibgenData, sendToKindle: boolean) {
+    return this.apiService.ebookControllerDownloadEbook({ sendToKindle, body: book });
   }
 }

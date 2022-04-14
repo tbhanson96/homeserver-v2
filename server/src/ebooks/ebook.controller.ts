@@ -1,12 +1,12 @@
-import { Controller, Get, UseGuards, Query, Post, UseInterceptors, UploadedFiles, UsePipes, Delete, Body, Put } from '@nestjs/common';
+import { Controller, Get, UseGuards, Query, Post, UseInterceptors, UploadedFiles, UsePipes, Delete, Body, Put, Sse, OnModuleInit } from '@nestjs/common';
 import { routes, joinRoutes } from '../routes';
 import { ApiOkResponse, ApiQuery, ApiConsumes, ApiBody, ApiAcceptedResponse } from '@nestjs/swagger';
 import { EbookData } from '../models/ebookData.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { EbookService } from './ebook.service';
-import { LibgenService } from 'lib/libgen.service';
-import { LibgenData } from 'models/libgen.dto';
+import { LibgenService } from '../lib/libgen.service';
+import { LibgenData } from '../models/libgen.dto';
 
 @Controller(joinRoutes(routes.api, routes.ebooks))
 @UseGuards(AuthGuard('jwt'))
@@ -14,7 +14,8 @@ export class EbookController {
     constructor(
         private readonly ebookService: EbookService,
         private readonly libgen: LibgenService,
-        ) { }
+    ) {
+    }
 
     @Get()
     @ApiOkResponse({type: EbookData, isArray: true, description: 'Directory path was successfully read' })

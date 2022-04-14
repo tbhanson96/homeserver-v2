@@ -1,21 +1,20 @@
 .card {
-    width: 200px;
+    width: 250px;
     margin-bottom: 10px;
 }
 
-.card-image {
-    max-width: 80%;
-}
-
 .description {
-    color: white;
     padding: 20px;
     max-height: 200px;
 }
 
 .upload-button {
-    margin: 64px;
+    margin: 32px;
     position: fixed;
     bottom: 0;
-    left: calc(100% - 184px);
+    left: calc(100% - 120px);
+}
+
+.content {
+    padding: 20px;
 }

@@ -35,6 +35,7 @@ import { TorrentsService } from '@services/torrents.service';
 import { FileSizePipe } from './pipes/fileSizePipe';
 import { UploadInterceptor } from '@services/upload.interceptor';
 import { ProgressDialogComponent } from './components/view/progress-dialog/progress-dialog.component';
+import { LibgenComponent } from '@components/view/ebooks/libgen/libgen.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { ProgressDialogComponent } from './components/view/progress-dialog/progr
     TorrentsComponent,
     FileSizePipe,
     ProgressDialogComponent,
+    LibgenComponent,
   ],
   imports: [
     FormsModule,

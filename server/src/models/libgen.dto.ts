@@ -6,4 +6,5 @@ export class LibgenData {
     filesize: number;
     extension: string;
     md5: string;
+    coverUrl: string;
 }

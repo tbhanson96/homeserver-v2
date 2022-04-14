@@ -26,6 +26,7 @@ import { SettingsService } from './settings/settings.service';
 import { TorrentsController } from './torrents/torrents.controller';
 import { TorrentsService } from './torrents/torrents.service';
 import { LibgenService } from './lib/libgen.service';
+import { ProxyMiddleware } from './middlewares/proxy.middleware';
 
 @Module({
   imports: [
@@ -98,7 +99,7 @@ import { LibgenService } from './lib/libgen.service';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(FilesMiddleware, EbooksMiddleware, ClientMiddleware)
+    consumer.apply(ProxyMiddleware, FilesMiddleware, EbooksMiddleware, ClientMiddleware)
     .forRoutes({
       path: '/**',
       method: RequestMethod.GET,

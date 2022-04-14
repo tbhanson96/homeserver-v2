@@ -1,0 +1,37 @@
+<h2>Search Library Genesis</h2>
+<div fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="start">
+    <mat-form-field class="query" fxFlex appearance="fill">
+        <mat-label>Query String</mat-label>
+        <input matInput [(ngModel)]="query" placeholder="Ex. 'Of Mice And Men'">
+    </mat-form-field>
+    <div fxLayout="column" fxLayoutAlign="center">
+        <button mat-raised-button color="primary" (click)="onLibgenSearch()">Search</button>
+    </div>
+</div>
+<mat-divider class="divider"></mat-divider>
+<div fxLayoutAlign="space-around" fxLayout="row wrap">
+    <mat-card *ngFor="let ebook of books" class="card">
+        <mat-card-header>
+            <mat-card-title>{{ ebook.title }}</mat-card-title>
+            <mat-card-subtitle>{{ ebook.author }}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image [src]="ebook.coverUrl || 'assets/book.png'" />
+        <mat-card-content>
+            <p>Format: {{ ebook.extension }}, Size: {{ ebook.filesize | fileSize }}</p>
+            <p>Year: {{ ebook.year }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+            <div fxLayoutAlign="end center">
+                <mat-checkbox #showHiddenFiles>
+                    Send to Kindle
+                </mat-checkbox>
+                <button mat-icon-button (click)="onDownloadBook(ebook, showHiddenFiles.checked)">
+                    <mat-icon>download</mat-icon>
+                </button>
+            </div>
+        </mat-card-actions>
+    </mat-card>
+</div>
+<p *ngIf="books.length === 0">
+    No results.
+</p>
