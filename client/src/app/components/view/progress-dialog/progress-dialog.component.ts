@@ -1,11 +1,11 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { StatusUpdate } from '@api/models';
 import { Observable, Subscription } from 'rxjs';
 
 export class ProgressDialogData {
   title: string;
-  progress: Observable<number>;
-  subText?: Observable<string>;
+  status: Observable<StatusUpdate>;
 }
 
 @Component({
@@ -28,16 +28,17 @@ export class ProgressDialogComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscriptions.push(
-      this.data.progress.subscribe(p => {
-        if (p < 0) {
+      this.data.status.subscribe(status => {
+        if (status.status === 'Done' || status.status === 'Failed') {
+          this.dialogRef.close(status.status);
+        }
+        if (status.progress < 0) {
           this.mode = 'indeterminate';
         } else {
           this.mode = 'determinate';
         }
-        this.progress = p;
-      }),
-      this.data.subText?.subscribe(text => {
-        this.subText = text; 
+        this.progress = status.progress;
+        this.subText = status.text; 
       }),
     )
   }

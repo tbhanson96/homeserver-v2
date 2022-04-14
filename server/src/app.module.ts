@@ -27,6 +27,8 @@ import { TorrentsController } from './torrents/torrents.controller';
 import { TorrentsService } from './torrents/torrents.service';
 import { LibgenService } from './lib/libgen.service';
 import { ProxyMiddleware } from './middlewares/proxy.middleware';
+import { StatusController } from './status/status.controller';
+import { StatusService } from './status/status.service';
 
 @Module({
   imports: [
@@ -57,6 +59,7 @@ import { ProxyMiddleware } from './middlewares/proxy.middleware';
     EbookController,
     SettingsController,
     TorrentsController,
+    StatusController,
   ],
   providers: [
     FileService,
@@ -95,6 +98,7 @@ import { ProxyMiddleware } from './middlewares/proxy.middleware';
     Logger,
     TorrentsService,
     LibgenService,
+    StatusService,
   ],
 })
 export class AppModule implements NestModule {

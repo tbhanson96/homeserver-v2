@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards, Query, Post, UseInterceptors, UploadedFiles, UsePipes, Delete, Body, Put, Sse, OnModuleInit } from '@nestjs/common';
+import { Controller, Get, UseGuards, Query, Post, UseInterceptors, UploadedFiles, UsePipes, Delete, Body, Put, Sse, OnModuleInit, Res, HttpStatus } from '@nestjs/common';
 import { routes, joinRoutes } from '../routes';
 import { ApiOkResponse, ApiQuery, ApiConsumes, ApiBody, ApiAcceptedResponse } from '@nestjs/swagger';
 import { EbookData } from '../models/ebookData.dto';
@@ -7,6 +7,9 @@ import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { EbookService } from './ebook.service';
 import { LibgenService } from '../lib/libgen.service';
 import { LibgenData } from '../models/libgen.dto';
+import { StatusService } from '../status/status.service';
+import { StatusChannel, StatusType } from 'models/statusUpdate.dto';
+import { Response } from 'express';
 
 @Controller(joinRoutes(routes.api, routes.ebooks))
 @UseGuards(AuthGuard('jwt'))
@@ -14,6 +17,7 @@ export class EbookController {
     constructor(
         private readonly ebookService: EbookService,
         private readonly libgen: LibgenService,
+        private readonly status: StatusService,
     ) {
     }
 
@@ -57,17 +61,39 @@ export class EbookController {
     }
 
     @Post(routes.libgen)
-    @ApiAcceptedResponse({ description: 'Succesfully downloaded ebook from libgen'})
+    @ApiAcceptedResponse({ description: 'Started ebook download'})
     @ApiQuery({name: 'sendToKindle', description: 'Whether or not to send this ebook to kindle library'})
     @ApiBody({ type: LibgenData, description: 'Libgen book to download'})
-    async downloadEbook(@Body() book: LibgenData, @Query('sendToKindle') sendToKindle: boolean) {
-        const path = await this.libgen.downloadBook(book);
-        const results = await this.ebookService.addBooks([{
-            originalname: `${book.title}.${book.extension}`,
-            path,
-        }]);
-        if (sendToKindle) {
-            this.ebookService.sendToKindle(results);
-        }
+    downloadEbook(@Body() book: LibgenData, @Query('sendToKindle') sendToKindle: boolean, @Res() response: Response) {
+        const channel = StatusChannel.EbookDownload;
+        response.status(HttpStatus.ACCEPTED);
+        this.status.runOperation(channel, async () => {
+            this.status.updateStatus(channel, {
+                channel,
+                progress: 25,
+                text: `Downloading ${book.title} from library genesis...`,
+                status: StatusType.InProgress,
+            });
+            const path = await this.libgen.downloadBook(book);
+            this.status.updateStatus(channel, {
+                channel,
+                progress: 50,
+                text: `Converting book format to mobi...`,
+                status: StatusType.InProgress,
+            });
+            const results = await this.ebookService.addBooks([{
+                originalname: `${book.title}.${book.extension}`,
+                path,
+            }]);
+            this.status.updateStatus(channel, {
+                channel,
+                progress: 75,
+                text: `Converting book format to mobi...`,
+                status: StatusType.InProgress,
+            });
+            if (sendToKindle) {
+                this.ebookService.sendToKindle(results);
+            }
+        });
     }
 }

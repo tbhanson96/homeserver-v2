@@ -17,7 +17,7 @@
     "docker:push": "docker image push ghcr.io/tbhanson96/$npm_package_name:latest",
     "docker:start": "docker run --rm -it -p 3000:3000 -v `pwd`/mock:/opt/app/mnt $npm_package_name:latest",
     "docker:debug": "docker run --rm -it -p 9229:9229 -p 3000:3000 -v `pwd`/mock:/opt/app/mnt $npm_package_name:latest npm run start:debug",
-    "package": "npm run build:prod && npm run docker:build",
+    "package": "npm run docker:build",
     "deploy": "npm run docker:tag && npm run docker:push"
   },
   "devDependencies": {
