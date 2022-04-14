@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UiStateActions } from '@actions/ui-state.actions';
 import { EbooksService } from '@services/ebooks.service';
 import { EbookData } from '@api/models';
@@ -8,6 +8,7 @@ import { UploadType } from '../upload-dialog/upload-type';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTabGroup } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-ebooks',
@@ -17,6 +18,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class EbooksComponent implements OnInit {
 
   ebooks: EbookData[];
+  @ViewChild('tabBar') tabs: MatTabGroup;
+
   constructor(
     private uiActions: UiStateActions,
     private ebooksService: EbooksService,
@@ -67,6 +70,11 @@ export class EbooksComponent implements OnInit {
 
   public onResendToKindle(file: EbookData) {
     this.ebooksService.sendToKindle(file).subscribe();
+  }
+
+  public onDownload() {
+    this.tabs.selectedIndex = 0;
+    this.updateEbooks();
   }
 
   private updateEbooks() {

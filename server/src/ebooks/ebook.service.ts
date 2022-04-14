@@ -11,6 +11,11 @@ import Mail from "nodemailer/lib/mailer";
 import { CalibreService } from "./calibre.service";
 import { FileUtils } from "../lib/file-utils";
 
+export interface UploadFile {
+    originalname: string;
+    path: string;
+}
+
 @Injectable()
 export class EbookService implements OnModuleInit {
 
@@ -73,7 +78,7 @@ export class EbookService implements OnModuleInit {
         return path.resolve(this.ebookDir, relativePath);
     }
 
-    public async addBooks(files: any[]): Promise<string[]> {
+    public async addBooks(files: UploadFile[]): Promise<string[]> {
         const ret: string[] = [];
         await AsyncUtils.forEachAsync(files, async f => {
             const newPath = path.join(path.dirname(f.path), f.originalname);

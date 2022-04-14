@@ -7,4 +7,7 @@ export const routes: any = {
     ebooks: 'ebooks',
     settings: 'settings',
     torrent: 'torrent',
+    libgen: 'libgen',
+    proxy: 'proxy',
+    status: 'status',
 }
