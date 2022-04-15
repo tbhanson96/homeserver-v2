@@ -1,14 +1,17 @@
 import { UiStateActions } from '@actions/ui-state.actions';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { LibgenData } from '@api/models';
+import { ProgressDialogComponent } from '@components/view/progress-dialog/progress-dialog.component';
 import { EbooksService } from '@services/ebooks.service';
+import { StatusService } from '@services/status.service';
 
 @Component({
   selector: 'app-libgen',
   templateUrl: './libgen.component.html',
   styleUrls: ['./libgen.component.scss']
 })
-export class LibgenComponent implements OnInit {
+export class LibgenComponent {
 
   query: string;
   books: LibgenData[] = [];
@@ -17,11 +20,9 @@ export class LibgenComponent implements OnInit {
   constructor(
     private readonly ebookService: EbooksService,
     private readonly uiActions: UiStateActions,
+    private readonly dialog: MatDialog,
+    private readonly status: StatusService,
   ) { }
-
-  ngOnInit(): void {
-
-  }
 
   onLibgenSearch() {
     this.uiActions.setAppBusy(true);
@@ -41,8 +42,14 @@ export class LibgenComponent implements OnInit {
     this.uiActions.setAppBusy(true);
     this.ebookService.downloadBook(book, sendToKindle).subscribe({
       next: () => {
-        this.uiActions.setAppBusy(false);
-        this.downloadEvent.emit(null);
+        const ref = this.dialog.open(ProgressDialogComponent, { disableClose: true, data: {
+          title: `Downloading ${book.title}`,
+          status: this.status.getChannelStatus('EbookDownload'),
+        }});
+        ref.afterClosed().subscribe(() => {
+          this.uiActions.setAppBusy(false);
+          this.downloadEvent.emit(null);
+        });
       },
       error: e => {
         this.uiActions.setAppBusy(false);

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FileData } from '@api/models';
+import { FileData, StatusUpdate, StatusChannel, StatusType } from '@api/models';
 import { ApiService } from '@api/services';
 import { share, map } from 'rxjs/operators';
 import { UploadInterceptor } from './upload.interceptor';
@@ -40,13 +40,21 @@ export class FilesService {
     return this.api.fileControllerRenameFile({ name: newName, body: file }).pipe(share());
   }
 
-  public getUploadProgress(): Observable<number> {
+  public getUploadProgress(): Observable<StatusUpdate> {
     return this.upload.getProgress().pipe(map(event => {
+      let progress = -1;
+      let status: StatusType = 'InProgress';
       if (event.type === HttpEventType.UploadProgress || event.type === HttpEventType.DownloadProgress) {
-        return event.total ? Math.round((100 * event.loaded) / event.total) :  -1;
-      } else {
-        return -1;
+        progress = event.total ? Math.round((100 * event.loaded) / event.total) :  -1;
+        if (progress === 100) {
+          status = 'Done';
+        }
       }
+      return {
+        channel: 'FileUpload',
+        progress,
+        status,
+      };
     }));
   }
 }

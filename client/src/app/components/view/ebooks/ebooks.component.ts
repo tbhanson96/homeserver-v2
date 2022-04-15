@@ -9,6 +9,7 @@ import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component'
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabGroup } from '@angular/material/tabs';
+import { StatusService } from '@services/status.service';
 
 @Component({
   selector: 'app-ebooks',
@@ -25,6 +26,7 @@ export class EbooksComponent implements OnInit {
     private ebooksService: EbooksService,
     private dialog: MatDialog,
     private snackbar: MatSnackBar,
+    private status: StatusService,
     ) { }
 
   ngOnInit() {

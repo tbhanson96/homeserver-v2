@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "codegen": "ng-openapi-gen -i ../swagger.json -o src/app/api",
+    "codegen": "ng-openapi-gen -c openapi-gen.json",
     "start": "ng serve",
     "build": "npm run codegen && ng build",
     "build:prod": "npm run codegen && ng build --configuration production",

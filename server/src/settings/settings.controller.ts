@@ -1,7 +1,7 @@
 import { Controller, UseGuards, Get, Query, Post, Body, Put } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { UpdateService } from "./update.service";
-import { ApiAcceptedResponse, ApiBody, ApiOkResponse, ApiQuery } from "@nestjs/swagger";
+import { ApiAcceptedResponse, ApiBody, ApiCreatedResponse, ApiOkResponse, ApiQuery } from "@nestjs/swagger";
 import { joinRoutes, routes } from "../routes";
 import { SettingsDto } from "../models/settings.dto";
 import { SettingsService } from "./settings.service";
@@ -27,7 +27,7 @@ export class SettingsController {
 
     @Post()
     @UseGuards(AuthGuard('jwt'))
-    @ApiOkResponse({ description: 'Successfully set server settings.'})
+    @ApiCreatedResponse({ description: 'Successfully set server settings.'})
     setSettings(@Body() settings: SettingsDto) {
         this.settingsService.setSettings(settings);
     }

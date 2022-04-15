@@ -16,7 +16,7 @@ export class TorrentsController {
     @Get()
     @ApiOkResponse({ type: TorrentDto, isArray: true, description: 'Retrieved torrents succesfully' })
     @ApiQuery({ name: 'search', required: true, description: 'Search string from query'})
-    @ApiQuery({ name: 'category', enum: TorrentCategory, required: true, description: 'Type of torrent (either "movies" or "tv")'})
+    @ApiQuery({ name: 'category', enum: TorrentCategory, enumName: 'TorrentCategory', required: true, description: 'Type of torrent (either "movies" or "tv")'})
     async queryTorrents(@Query('search') query: string, @Query('category') category: TorrentCategory) {
         const results = await this.torrentService.searchTorrents(query, category);
         return results;

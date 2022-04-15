@@ -36,6 +36,7 @@ import { FileSizePipe } from './pipes/fileSizePipe';
 import { UploadInterceptor } from '@services/upload.interceptor';
 import { ProgressDialogComponent } from './components/view/progress-dialog/progress-dialog.component';
 import { LibgenComponent } from '@components/view/ebooks/libgen/libgen.component';
+import { StatusService } from '@services/status.service';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,7 @@ import { LibgenComponent } from '@components/view/ebooks/libgen/libgen.component
   providers: [
     {
       provide: APP_INITIALIZER,
-      useFactory: (apiService: ApiService, uiActions: UiStateActions) => {
+      useFactory: (apiService: ApiService, uiActions: UiStateActions, status: StatusService) => {
         return () => {
           return new Promise<void>((res, rej) => {
             apiService.settingsControllerGetSettings().subscribe({
@@ -104,6 +105,7 @@ import { LibgenComponent } from '@components/view/ebooks/libgen/libgen.component
     EbooksService,
     TorrentsService,
     UploadInterceptor,
+    StatusService,
   ],
   entryComponents: [
     UploadDialogComponent,
