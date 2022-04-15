@@ -64,10 +64,10 @@ export class EbookController {
     @ApiAcceptedResponse({ description: 'Started ebook download'})
     @ApiQuery({name: 'sendToKindle', description: 'Whether or not to send this ebook to kindle library'})
     @ApiBody({ type: LibgenData, description: 'Libgen book to download'})
-    downloadEbook(@Body() book: LibgenData, @Query('sendToKindle') sendToKindle: boolean, @Res() response: Response) {
+    async downloadEbook(@Body() book: LibgenData, @Query('sendToKindle') sendToKindle: boolean, @Res() response: Response) {
         const channel = StatusChannel.EbookDownload;
-        response.status(HttpStatus.ACCEPTED);
-        this.status.runOperation(channel, async () => {
+        response.status(HttpStatus.ACCEPTED).send();
+        await this.status.runOperation(channel, async () => {
             this.status.updateStatus(channel, {
                 channel,
                 progress: 25,

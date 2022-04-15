@@ -11,7 +11,7 @@ import { StatusService } from '@services/status.service';
   templateUrl: './libgen.component.html',
   styleUrls: ['./libgen.component.scss']
 })
-export class LibgenComponent implements OnInit {
+export class LibgenComponent {
 
   query: string;
   books: LibgenData[] = [];
@@ -23,10 +23,6 @@ export class LibgenComponent implements OnInit {
     private readonly dialog: MatDialog,
     private readonly status: StatusService,
   ) { }
-
-  ngOnInit(): void {
-
-  }
 
   onLibgenSearch() {
     this.uiActions.setAppBusy(true);
@@ -46,11 +42,12 @@ export class LibgenComponent implements OnInit {
     this.uiActions.setAppBusy(true);
     this.ebookService.downloadBook(book, sendToKindle).subscribe({
       next: () => {
-        const ref = this.dialog.open(ProgressDialogComponent, { data: {
+        const ref = this.dialog.open(ProgressDialogComponent, { disableClose: true, data: {
           title: `Downloading ${book.title}`,
           status: this.status.getChannelStatus('EbookDownload'),
         }});
         ref.afterClosed().subscribe(() => {
+          this.uiActions.setAppBusy(false);
           this.downloadEvent.emit(null);
         });
       },

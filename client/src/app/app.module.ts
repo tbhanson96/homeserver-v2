@@ -72,7 +72,7 @@ import { StatusService } from '@services/status.service';
   providers: [
     {
       provide: APP_INITIALIZER,
-      useFactory: (apiService: ApiService, uiActions: UiStateActions) => {
+      useFactory: (apiService: ApiService, uiActions: UiStateActions, status: StatusService) => {
         return () => {
           return new Promise<void>((res, rej) => {
             apiService.settingsControllerGetSettings().subscribe({

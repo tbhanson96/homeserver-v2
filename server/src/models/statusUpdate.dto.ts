@@ -1,10 +1,10 @@
 import { ApiProperty } from "@nestjs/swagger";
 
 export enum StatusType {
-    NotRunning,
-    InProgress,
-    Failed,
-    Done,
+    NotRunning = "NotRunning",
+    InProgress = "InProgress",
+    Failed = "Failed",
+    Done = "Done",
 }
 export enum StatusChannel {
     EbookDownload = 'EbookDownload',
