@@ -39,6 +39,7 @@ export class ProgressDialogComponent implements OnInit, OnDestroy {
         }
         this.progress = status.progress;
         this.subText = status.text; 
+        // TODO: figure out why this is necessary and remove it
         this.changeDetector.detectChanges();
       }),
     )

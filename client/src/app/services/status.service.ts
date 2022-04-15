@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { StatusChannel, StatusUpdate } from '@api/models';
-import { ApiService } from '@api/services';
 import { filter, Observable, Subject, tap } from 'rxjs';
 
 @Injectable({
