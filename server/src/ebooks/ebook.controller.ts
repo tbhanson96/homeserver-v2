@@ -1,15 +1,15 @@
 import { Controller, Get, UseGuards, Query, Post, UseInterceptors, UploadedFiles, UsePipes, Delete, Body, Put, Sse, OnModuleInit, Res, HttpStatus } from '@nestjs/common';
-import { routes, joinRoutes } from '../routes';
 import { ApiOkResponse, ApiQuery, ApiConsumes, ApiBody, ApiAcceptedResponse } from '@nestjs/swagger';
-import { EbookData } from '../models/ebookData.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
+import { Response } from 'express';
+import { routes, joinRoutes } from '../routes';
+import { EbookData } from '../models/ebookData.dto';
 import { EbookService } from './ebook.service';
 import { LibgenService } from '../lib/libgen.service';
 import { LibgenData } from '../models/libgen.dto';
 import { StatusService } from '../status/status.service';
-import { StatusChannel, StatusType } from 'models/statusUpdate.dto';
-import { Response } from 'express';
+import { StatusChannel, StatusType } from '../models/statusUpdate.dto';
 
 @Controller(joinRoutes(routes.api, routes.ebooks))
 @UseGuards(AuthGuard('jwt'))
@@ -65,8 +65,9 @@ export class EbookController {
     @ApiQuery({name: 'sendToKindle', description: 'Whether or not to send this ebook to kindle library'})
     @ApiBody({ type: LibgenData, description: 'Libgen book to download'})
     async downloadEbook(@Body() book: LibgenData, @Query('sendToKindle') sendToKindle: boolean, @Res() response: Response) {
+        response.sendStatus(HttpStatus.ACCEPTED);
+        // do long running operation
         const channel = StatusChannel.EbookDownload;
-        response.status(HttpStatus.ACCEPTED).send();
         await this.status.runOperation(channel, async () => {
             this.status.updateStatus(channel, {
                 channel,
