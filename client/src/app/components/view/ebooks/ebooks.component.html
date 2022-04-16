@@ -16,7 +16,7 @@
         <mat-card-actions>
           <div #descriptionAnchor fxLayoutAlign="end">
             <button mat-button [matMenuTriggerFor]="demoSurface">Description</button>
-            <mat-menu #demoSurface class="book-description">
+            <mat-menu #demoSurface>
               <div class="description" [innerHtml]="ebook.description || 'No description provided.'">
               </div>
             </mat-menu>

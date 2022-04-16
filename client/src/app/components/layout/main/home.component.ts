@@ -20,6 +20,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     ) { }
 
   ngOnInit() {
+    this.isMobile = this.deviceService.isMobile();
+    if (this.isMobile) {
+      this.uiActions.toggleSidebar(false);
+    }
     this.subscriptions = [
       this.uiStateSelectors.getAppBusy().subscribe(busy => {
         this.isBusy = busy;
@@ -28,19 +32,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.isOpen = open;
       }),
     ];
-    this.isMobile = this.deviceService.isMobile();
-    if (this.isMobile) {
-      this.uiActions.toggleSidebar(false);
-    }
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach(s => s.unsubscribe);
-  }
-
-  onSidebarChanged(opened: boolean) {
-    if (opened !== this.isOpen) {
-      this.uiActions.toggleSidebar(opened);
-    }
   }
 }
