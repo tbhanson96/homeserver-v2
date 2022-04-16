@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 .container {
     padding: 30px;
     margin-top: 50px;
@@ -9,6 +11,7 @@
     bottom: 0;
     min-width: 100%;
     min-height: 100%;
+    @include mat.elevation(24);
 }
 
 .login-header {

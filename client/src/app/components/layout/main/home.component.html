@@ -10,9 +10,8 @@
             class="sidebar"
             [fixedTopGap]="64"
             [fixedInViewport]="true"
-            [(opened)]="isOpen"
+            [opened]="isOpen"
             [mode]="isMobile ? 'over' : 'side'"
-            (openedChange)="onSidebarChanged($event)"
         >
             <h2>Tim's Homeserver</h2>
             <mat-divider></mat-divider>
