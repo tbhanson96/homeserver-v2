@@ -28,6 +28,7 @@ module.exports = {
     "xls": "xls",
     "xlsx": "xls",
     "xml": "xml",
+    "wav": "mp3",
     "zip": "zip",
     "tar": "zip"
 };
