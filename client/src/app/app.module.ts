@@ -37,6 +37,7 @@ import { UploadInterceptor } from '@services/upload.interceptor';
 import { ProgressDialogComponent } from './components/view/progress-dialog/progress-dialog.component';
 import { LibgenComponent } from '@components/view/ebooks/libgen/libgen.component';
 import { StatusService } from '@services/status.service';
+import { LazyImgComponent } from './components/view/lazy-img/lazy-img.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { StatusService } from '@services/status.service';
     FileSizePipe,
     ProgressDialogComponent,
     LibgenComponent,
+    LazyImgComponent,
   ],
   imports: [
     FormsModule,
