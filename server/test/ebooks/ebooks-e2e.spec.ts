@@ -11,7 +11,6 @@ import { AuthGuard } from '@nestjs/passport';
 import { ConfigService } from '../../src/config/config.service';
 import { setupMockFs } from '../mock-helper';
 import { EbookData } from '../../src/models/ebookData.dto';
-import { FileUtils } from '../../src/lib/file-utils';
 
 
 describe('EbookController (e2e)', () => {
@@ -59,7 +58,7 @@ describe('EbookController (e2e)', () => {
             "of important research, and intriguing examples, Elliot Aronson probes the patterns and motives of human " +
             "behavior, covering such diverse topics as terrorism, conformity, obedience, politics, race relations, " +
             "advertising, war, interpersonal attraction, and the power of religious cults.</p>",
-          "filePath": 'ebooks/animal.mobi',
+          "filePath": 'ebooks/animal.epub',
         },
       ]);
   });
@@ -74,8 +73,6 @@ describe('EbookController (e2e)', () => {
     const newFiles = fs.readdirSync(rootDir);
     expect(newFiles.includes('god.epub')).toBeTruthy();
     expect(newFiles.includes('igp.epub')).toBeTruthy();
-    expect(newFiles.includes('god.mobi')).toBeTruthy();
-    expect(newFiles.includes('igp.mobi')).toBeTruthy();
   });
 
   it('DELETE /api/ebooks deletes correctly', async () => {

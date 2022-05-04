@@ -19,7 +19,7 @@ RUN mkdir updates
 
 WORKDIR server
 COPY server/package.json ./
-RUN npm install
+RUN npm install --production
 WORKDIR ..
 COPY server/dist ./server
 COPY server/src/config/config.prod.json ./server/config/config.default.json
