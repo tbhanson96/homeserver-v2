@@ -79,7 +79,7 @@ export class EbookController {
             this.status.updateStatus(channel, {
                 channel,
                 progress: 50,
-                text: `Adding book to library...`,
+                text: `Converting book format to mobi...`,
                 status: StatusType.InProgress,
             });
             const results = await this.ebookService.addBooks([{

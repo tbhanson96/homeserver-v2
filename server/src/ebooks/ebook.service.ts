@@ -9,6 +9,7 @@ import { routes } from "../routes";
 import { AsyncUtils } from '../lib/async-utils';
 import Mail from "nodemailer/lib/mailer";
 import { CalibreService } from "./calibre.service";
+import { FileUtils } from "../lib/file-utils";
 
 export interface UploadFile {
     originalname: string;
@@ -66,7 +67,7 @@ export class EbookService implements OnModuleInit {
                 coverPath: fs.existsSync(path.join(path.dirname(filePaths[index]), 'cover.jpg'))
                     ? `${routes.ebooks}/${path.relative(this.ebookDir, path.join(path.dirname(filePaths[index]), 'cover.jpg'))}`
                     : '',
-                filePath: path.join(routes.ebooks, path.relative(this.ebookDir, filePaths[index])),
+                filePath: path.join(routes.ebooks, path.relative(this.ebookDir, FileUtils.changeExt(filePaths[index], 'mobi'))),
             });
         });
         return ret;
@@ -84,6 +85,12 @@ export class EbookService implements OnModuleInit {
             fs.renameSync(f.path, newPath);
             const id = await this.calibre.addBookToLibrary(newPath);
             this.log.log(`Successfully added ${newPath} to ebook library`);
+
+            if (path.extname(newPath) !== '.mobi') {
+                const mobiFilePath = await this.calibre.convertToMobi(newPath);
+                ret.push(mobiFilePath);
+                await this.calibre.addBookFormatToLibrary(id, mobiFilePath);
+            }
         });
         return ret;
     }
