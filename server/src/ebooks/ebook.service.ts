@@ -64,10 +64,9 @@ export class EbookService implements OnModuleInit {
                 name: epub.metadata.title,
                 author: epub.metadata.creator,
                 description: epub.metadata.description,
-                // coverPath: fs.existsSync(path.join(path.dirname(filePaths[index]), 'cover.jpg'))
-                //     ? `${routes.ebooks}/${path.relative(this.ebookDir, path.join(path.dirname(filePaths[index]), 'cover.jpg'))}`
-                //     : '',
-                coverPath: 'does/not/exist.jpg',
+                coverPath: fs.existsSync(path.join(path.dirname(filePaths[index]), 'cover.jpg'))
+                    ? `${routes.ebooks}/${path.relative(this.ebookDir, path.join(path.dirname(filePaths[index]), 'cover.jpg'))}`
+                    : '',
                 filePath: path.join(routes.ebooks, path.relative(this.ebookDir, FileUtils.changeExt(filePaths[index], 'mobi'))),
             });
         });
