@@ -23,6 +23,12 @@ export class LazyImgComponent implements OnInit {
           this.isLoading = false;
           this.image.nativeElement.src = imgUrl;
       }
+      const error = img.onerror;
+      img.onerror = () => {
+        this.isLoading = false;
+        img.onerror = error;
+        this.image.nativeElement.src = 'assets/book.png';
+      }
       img.src = imgUrl; // this causes the image to get downloaded in the background
   }
 }
