@@ -15,6 +15,7 @@ export class TorrentsComponent implements OnInit {
   public torrents: TorrentDto[] = [];
   public categoryOptions = ['movies', 'tv'];
   public selectedCategory = this.categoryOptions[0];
+  public readonly TORRENTS_URL = 'https://torrent.timbhanson.com'
 
   constructor(
     private readonly torrentService: TorrentsService,

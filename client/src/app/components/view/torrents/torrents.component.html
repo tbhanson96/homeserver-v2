@@ -14,6 +14,9 @@
     <div fxLayout="column" fxLayoutAlign="center">
         <button mat-raised-button color="primary" (click)="onTorrentSearch()">Search</button>
     </div>
+    <div fxLayout="column" fxLayoutAlign="center">
+        <button mat-raised-button color="secondary" (click)="navigateToUrl(TORRENTS_URL)">Go to Torrents</button>
+    </div>
 </div>
 <mat-divider class="divider"></mat-divider>
 <mat-selection-list [multiple]="false">

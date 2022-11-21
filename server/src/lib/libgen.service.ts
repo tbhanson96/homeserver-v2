@@ -21,7 +21,7 @@ export class LibgenService {
             query: searchQuery,
         });
         const ret: LibgenData[] = [];
-        if (results as any == {}) {
+        if (!results.length) {
             return ret;
         }
         results?.forEach(result => {
