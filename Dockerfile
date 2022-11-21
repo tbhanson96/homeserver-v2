@@ -1,7 +1,7 @@
 FROM bitnami/minideb:latest
 ARG NODE_VERSION
 
-RUN apt-get update && apt-get install -y xdg-utils wget xz-utils python curl
+RUN apt-get update && apt-get install -y xdg-utils wget xz-utils python curl libegl1 libopengl0
 RUN wget --no-check-certificate -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/stdin
 
 RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - 
