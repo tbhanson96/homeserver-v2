@@ -16,7 +16,7 @@
     "auth": {
         "username": "user",
         "password": "password",
-        "sessionTimeout": "7d",
+        "sessionTimeout": "90d",
         "jwtSecret": ""
     },
     "files": {
