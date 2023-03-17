@@ -40,7 +40,7 @@
     "@types/jasmine": "4.0.0",
     "@types/jasminewd2": "2.0.10",
     "codelyzer": "6.0.2",
-    "jasmine-core": "4.0.1",
+    "jasmine-core": "4.6.0",
     "jasmine-spec-reporter": "7.0.0",
     "karma": "6.3.17",
     "karma-chrome-launcher": "3.1.1",
