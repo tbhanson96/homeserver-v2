@@ -62,7 +62,7 @@
     "@types/supertest": "2.0.12",
     "jest": "28.1.0",
     "mkdirp": "1.0.4",
-    "prettier": "2.6.1",
+    "prettier": "2.8.8",
     "rimraf": "3.0.2",
     "supertest": "6.2.2",
     "ts-jest": "28.0.2",
