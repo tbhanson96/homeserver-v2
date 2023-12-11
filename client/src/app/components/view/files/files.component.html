@@ -8,7 +8,7 @@
         {{part.toString()}}
     </mat-chip>
 </mat-chip-listbox>
-<mat-list [multiple]="false">
+<mat-list>
     <mat-list-item *ngFor="let file of visibleFiles" (click)="navigateToFileUrl(file)">
         <div matListItemIcon>
             <img class="list-image" [src]="'/assets/icons/' + file.type + '.png'" />
