@@ -1,16 +1,16 @@
-<mat-chip-list class="file-nav">
-    <mat-chip class="chip" [selected]="reqPath.length === 0" routerLink="/home/files">
-        <mat-icon>folder</mat-icon>
+<mat-chip-listbox class="file-nav">
+    <mat-chip class="chip" [highlighted]="reqPath.length === 0" routerLink="/home/files">
+        <mat-icon matChipAvatar>folder</mat-icon>
         Home
     </mat-chip>
-    <mat-chip *ngFor="let part of reqPath; last as isLast" [selected]="isLast" [routerLink]="getRouterLinkFromDir(part)"
+    <mat-chip *ngFor="let part of reqPath; last as isLast" [highlighted]="isLast" [routerLink]="getRouterLinkFromDir(part)"
         class="chip">
         {{part.toString()}}
     </mat-chip>
-</mat-chip-list>
-<mat-selection-list [multiple]="false">
-    <mat-list-option *ngFor="let file of visibleFiles" (click)="navigateToFileUrl(file)">
-        <div matListAvatar>
+</mat-chip-listbox>
+<mat-list [multiple]="false">
+    <mat-list-item *ngFor="let file of visibleFiles" (click)="navigateToFileUrl(file)">
+        <div matListItemIcon>
             <img class="list-image" [src]="'/assets/icons/' + file.type + '.png'" />
         </div>
         <div>
@@ -35,8 +35,8 @@
                 </mat-menu>
             </div>
         </div>
-    </mat-list-option>
-</mat-selection-list>
+    </mat-list-item>
+</mat-list>
 <button fxFlexAlign="center" class="show-more" *ngIf="this.maxFilesShown < this.files.length"
     (click)="onShowMoreFiles()" mat-button>Show More</button>
 <div fxLayout="column" fxLayoutGap="20px" class="floating-buttons">

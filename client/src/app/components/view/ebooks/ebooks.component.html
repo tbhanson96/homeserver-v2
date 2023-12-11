@@ -10,7 +10,7 @@
           <mat-card-title>{{ ebook.name }}</mat-card-title>
           <mat-card-subtitle>{{ ebook.author }}</mat-card-subtitle>
         </mat-card-header>
-        <div fxLayoutAlign="center">
+        <div fxLayoutAlign="center center">
           <app-lazy-img mat-card-image [src]="ebook.coverPath || 'assets/book.png'" ></app-lazy-img>
         </div>
         <mat-card-actions>

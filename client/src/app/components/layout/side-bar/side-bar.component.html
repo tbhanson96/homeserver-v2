@@ -1,18 +1,18 @@
-<mat-selection-list [multiple]="false">
-  <mat-list-option (click)="onNavigatePage()" routerLink="/home/files">
-    <mat-icon mat-list-icon>folder</mat-icon>
-    <div mat-line>Files</div>
-  </mat-list-option>
-  <mat-list-option (click)="onNavigatePage()" routerLink="/home/ebooks">
-    <mat-icon mat-list-icon>book</mat-icon>
-    <div mat-line>Ebooks</div>
-  </mat-list-option>
-  <mat-list-option (click)="onNavigatePage()" routerLink="/home/torrents">
-    <mat-icon mat-list-icon>download</mat-icon>
-    <div mat-line>Torrents</div>
-  </mat-list-option>
-  <mat-list-option (click)="onOpenSettings()">
-    <mat-icon mat-list-icon>settings</mat-icon>
-    <div mat-line>Settings</div>
-  </mat-list-option>
-</mat-selection-list>
+<mat-list [multiple]="false">
+  <mat-list-item (click)="onNavigatePage()" routerLink="/home/files">
+    <mat-icon matListItemIcon>folder</mat-icon>
+    <div matListItemTitle>Files</div>
+  </mat-list-item>
+  <mat-list-item (click)="onNavigatePage()" routerLink="/home/ebooks">
+    <mat-icon matListItemIcon>book</mat-icon>
+    <div matListItemTitle>Ebooks</div>
+  </mat-list-item>
+  <mat-list-item (click)="onNavigatePage()" routerLink="/home/torrents">
+    <mat-icon matListItemIcon>download</mat-icon>
+    <div matListItemTitle>Torrents</div>
+  </mat-list-item>
+  <mat-list-item (click)="onOpenSettings()">
+    <mat-icon matListItemIcon>settings</mat-icon>
+    <div matListItemTitle>Settings</div>
+  </mat-list-item>
+</mat-list>
