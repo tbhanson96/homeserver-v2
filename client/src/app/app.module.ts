@@ -109,13 +109,13 @@ import { LazyImgComponent } from './components/view/lazy-img/lazy-img.component'
     UploadInterceptor,
     StatusService,
   ],
-  entryComponents: [
+  bootstrap: [
+    AppComponent,
     UploadDialogComponent,
     DeleteDialogComponent,
     SettingsComponent,
     RenameFileComponent,
     ProgressDialogComponent,
-  ],
-  bootstrap: [AppComponent]
+  ]
 })
 export class AppModule { }

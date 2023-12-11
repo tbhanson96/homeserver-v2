@@ -1,6 +1,5 @@
 import { Injectable, PipeTransform, ArgumentMetadata, BadRequestException, NotFoundException } from "@nestjs/common";
 import * as fs from 'fs';
-import { pathToFilename } from "memfs/lib/volume";
 import { FileService } from "./file.service";
 
 @Injectable()

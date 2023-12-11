@@ -1,13 +1,14 @@
 {
+  "extends": "@tsconfig/node18",
   "compilerOptions": {
     "strict": true,
-    "module": "commonjs",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es2017",
+    "target": "es2022",
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./src",
@@ -16,5 +17,6 @@
     "esModuleInterop": true,
     "strictPropertyInitialization": false,
   },
-  "include": ["src/**/*.ts", "src/**/*.json", "test/**/*.ts"]
+  "include": ["*.ts", "*.json"],
+  "exclude": ["test"],
 }

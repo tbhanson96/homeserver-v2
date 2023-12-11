@@ -143,5 +143,8 @@
         }
       }
     }},
-  "defaultProject": "homeserver-client"
+  "defaultProject": "homeserver-client",
+  "cli": {
+    "analytics": false
+  }
 }

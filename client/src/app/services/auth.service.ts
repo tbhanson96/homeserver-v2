@@ -17,9 +17,9 @@ export class AuthService implements CanActivate {
     return new Observable(observer => {
       this.api.authControllerIsLoggedIn().subscribe({
         next: () => {
-        observer.next(true);
-        observer.complete();
-        this.isAuthenticated = true;
+          observer.next(true);
+          observer.complete();
+          this.isAuthenticated = true;
         },
         error: () => {
           observer.next(false);

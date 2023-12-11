@@ -1,4 +1,4 @@
-const { buildApi } = require('./dist/main');
+import { buildApi } from './dist/main';
 import fs from 'fs';
 import path from 'path';
 
