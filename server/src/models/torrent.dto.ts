@@ -3,6 +3,6 @@ export class TorrentDto {
     seeders: number;
     leechers: number;
     category: string;
-    size: number;
+    size: string;
     download: string;
 }

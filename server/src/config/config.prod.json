@@ -51,8 +51,5 @@
     },
     "ui": {
         "darkMode": false
-    },
-    "torrent": {
-        "host": "https://torrentapi.org/pubapi_v2.php"
     }
 }
