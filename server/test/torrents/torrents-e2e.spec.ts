@@ -10,13 +10,16 @@ import { setupMockFs } from '../mock-helper';
 import { HttpService } from '@nestjs/axios';
 import { Observable } from 'rxjs';
 import { TorrentDto } from 'models/torrent.dto';
+import path from 'path';
+import { readFileSync } from 'fs';
 
 describe('FileController (e2e)', () => {
   let app: INestApplication;
   let dto: TorrentDto;
 
   beforeAll(async () => {
-    setupMockFs();
+    const mockPirateBay = path.join(__dirname, 'piratebay.html');
+    setupMockFs(mockPirateBay);
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
@@ -30,11 +33,7 @@ describe('FileController (e2e)', () => {
             statusText: '',
             headers: {},
             config: {},
-            data: {
-              torrent_results: [
-                dto,
-              ]
-            }
+            data: readFileSync(mockPirateBay, { encoding: 'utf-8' }),
           });
           subscriber.complete();
         });
@@ -60,9 +59,9 @@ describe('FileController (e2e)', () => {
       title,
       seeders,
       leechers: 0,
-      download: '',
-      category: 'movies',
-      size: 3000,
+      download: 'download link',
+      category: 'Video',
+      size: '165.73 GiB',
     };
     const response = await request(app.getHttpServer())
       .get('/api/torrent?search=office&category=movies')
