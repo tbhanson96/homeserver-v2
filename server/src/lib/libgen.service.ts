@@ -39,6 +39,7 @@ export class LibgenService {
                     : '',
             });
         });
+        this.log.log(`Found results for query: ${searchQuery}, ${JSON.stringify(ret)}`);
         return ret;
     }
 
@@ -59,6 +60,7 @@ export class LibgenService {
                 filePath,
                 response.data,
             );
+            this.log.log(`Succesfully downloaded book: ${book.title}`);
             return filePath;
         } catch (e) {
             this.log.error(`Could not download book from link: ${link}`);
