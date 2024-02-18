@@ -39,19 +39,6 @@ export class StubCalibreService implements CalibreService, OnModuleInit {
         return (this.curId - 1);
     }
 
-    public async addBookFormatToLibrary(id: number, filePath: string): Promise<void> {
-        if (!this.books[id]) {
-            throw new Error(`${this.getFileName(filePath)} does not exist in library`);
-        }
-        fs.copyFileSync(filePath, path.join(this.libraryPath, path.basename(filePath)));
-    }
-
-    public async convertToMobi(filepath: string): Promise<string> {
-        const newFilePath = path.join(path.dirname(filepath), this.getFileName(filepath) + '.mobi');
-        fs.copyFileSync(filepath, newFilePath);
-        return newFilePath;
-    }
-
     public async removeBookFromLibrary(id: number): Promise<void> {
         const filePath = this.books[id];
         if (!filePath) {

@@ -26,29 +26,8 @@ export class RealCalibreService implements OnModuleInit, CalibreService {
         return this.getCalibreIdFromAddResult(await this.calibre.run('calibredb add', [filePath]));
     }
 
-    public async addBookFormatToLibrary(id: number, filePath: string): Promise<void> {
-        await this.calibre.run('calibredb add_format', [id, filePath]);
-    }
-
-    public async convertToMobi(filepath: string): Promise<string> {
-        const mobiPath = FileUtils.changeExt(filepath, 'mobi');
-        let e;
-        try {
-            await this.calibre.run('ebook-convert', [filepath, FileUtils.changeExt(filepath, 'mobi')]);
-        }
-        catch (e) {
-            this.log.warn(`Error encountered during ebook-convert: ${e}`);
-            e = e;
-        }
-        if (fs.existsSync(mobiPath)) {
-            this.log.log(`Succesfully converted ${filepath} to ${mobiPath}`);
-            return mobiPath;
-        }
-        else throw new Error(`Could not create mobi file: ${e}`);
-    }
-
     public async removeBookFromLibrary(id: number): Promise<void> {
-        await this.calibre.run('calibredb remove', [id]);
+        await this.calibre.run('calibredb remove --permanent', [id]);
         this.log.log(`Succesfully removed book ${id} from library.`);
     }
 
