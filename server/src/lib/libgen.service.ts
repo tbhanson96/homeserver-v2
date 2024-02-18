@@ -6,14 +6,23 @@ import path from 'path';
 const libgen = require('libgen');
 import { ConfigService } from '../config/config.service';
 import { LibgenData } from '../models/libgen.dto';
+import { Agent } from 'https';
 
 @Injectable()
 export class LibgenService {
+    /**
+     * Temporary workaround since library.lol domain cert is expired. when the renew,
+     * remove this code.
+     */
+    private httpsAgent: Agent;
+
     constructor(
         private readonly config: ConfigService,
         private readonly http: HttpService,
         private readonly log: Logger,
-    ) { }
+    ) { 
+        this.httpsAgent = new Agent({ rejectUnauthorized: false });
+    }
 
     public async libgenSearch(searchQuery: string): Promise<LibgenData[]> {
         const results: any[] = await libgen.search({
@@ -52,6 +61,7 @@ export class LibgenService {
                 link,
                 {
                     responseType: 'stream',
+                    httpsAgent: this.httpsAgent,
                 }
             ));
             const filePath = path.join(this.config.config.files.uploadDir, `${book.title}.${book.extension}`);
