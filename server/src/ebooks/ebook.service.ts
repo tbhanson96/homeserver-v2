@@ -94,6 +94,7 @@ export class EbookService implements OnModuleInit {
             this.log.log(`Skipping email of books: ${filePaths.join(', ')}, mailing is not enabled`);
             return;
         }
+        const promises: Promise<void>[] = [];
         filePaths.forEach(file => {
             let options = {
                 from: `<${this.configService.config.email.sender}>`,
@@ -104,16 +105,18 @@ export class EbookService implements OnModuleInit {
                     }
                 ]
             }
-            return new Promise<void>((res, rej) => {
+            promises.push(new Promise((res, rej) => {
                 this.mailer.sendMail(options, (err, info) => {
                     if (err) {
                         rej(err);
                     } else {
+                        this.log.log(`Succesfully sent book to kindle: ${path.basename(file)}`);
                         res();
                     }
                 });
-            });
+            }));
         });
+        await Promise.all(promises);
     }
 
     public async removeBookFromLibrary(book: EbookData): Promise<void> {

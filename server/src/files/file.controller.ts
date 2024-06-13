@@ -8,6 +8,7 @@ import { FileData } from '../models/fileData.dto';
 import { Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import * as path from 'path'; 
+import "multer";
 
 @Controller(joinRoutes(routes.api, routes.files))
 @UseGuards(AuthGuard('jwt'))

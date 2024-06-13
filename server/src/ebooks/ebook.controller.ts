@@ -10,6 +10,7 @@ import { LibgenService } from '../lib/libgen.service';
 import { LibgenData } from '../models/libgen.dto';
 import { StatusService } from '../status/status.service';
 import { StatusChannel, StatusType } from '../models/statusUpdate.dto';
+import "multer";
 
 @Controller(joinRoutes(routes.api, routes.ebooks))
 @UseGuards(AuthGuard('jwt'))
