@@ -22,10 +22,10 @@
         </mat-card-content>
         <mat-card-actions>
             <div fxLayoutAlign="end center">
-                <mat-checkbox #showHiddenFiles>
+                <mat-checkbox #sendToKindle>
                     Send to Kindle
                 </mat-checkbox>
-                <button mat-icon-button (click)="onDownloadBook(ebook, showHiddenFiles.checked)">
+                <button mat-icon-button (click)="onDownloadBook(ebook, sendToKindle.checked)">
                     <mat-icon>download</mat-icon>
                 </button>
             </div>

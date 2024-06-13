@@ -9,7 +9,7 @@
     </mat-chip>
 </mat-chip-listbox>
 <mat-list>
-    <mat-list-item *ngFor="let file of visibleFiles" (click)="navigateToFileUrl(file)">
+    <mat-list-item *ngFor="let file of visibleFiles" (click)="navigateToFileUrl(file)" matRipple>
         <div matListItemIcon>
             <img class="list-image" [src]="'/assets/icons/' + file.type + '.png'" />
         </div>

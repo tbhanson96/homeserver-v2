@@ -76,24 +76,20 @@ export class EbookController {
                 status: StatusType.InProgress,
             });
             const path = await this.libgen.downloadBook(book);
-            this.status.updateStatus(channel, {
-                channel,
-                progress: 50,
-                text: `Converting book format to mobi...`,
-                status: StatusType.InProgress,
-            });
             const results = await this.ebookService.addBooks([{
                 originalname: `${book.title}.${book.extension}`,
                 path,
             }]);
-            this.status.updateStatus(channel, {
-                channel,
-                progress: 75,
-                text: `Sending book to kindle...`,
-                status: StatusType.InProgress,
-            });
             if (sendToKindle) {
-                this.ebookService.sendToKindle(results);
+                this.status.updateStatus(channel, {
+                    channel,
+                    progress: 75,
+                    text: `Sending book to kindle...`,
+                    status: StatusType.InProgress,
+                });
+                if (sendToKindle) {
+                    await this.ebookService.sendToKindle(results);
+                }
             }
         });
     }
