@@ -2,27 +2,23 @@ import Epub from 'epub';
 import fs from 'fs';
 import path from 'path';
 import { AsyncUtils } from './async-utils';
+import { routes } from '../routes';
 
 export class EbookUtils {
 
-    public static async getEpubData(filePaths: string[]): Promise<Epub[]> {
-        const ret: Epub[] = [];
-        await AsyncUtils.forEachAsync(filePaths, filePath => {
-            return new Promise((res, rej) => {
-                try {
-                    const epub = new Epub(filePath);
-                    ret.push(epub);
-                    epub.on('end', () => {
-                        res();
-                    });
-                    epub.parse();
+    public static async getEpubData(filePath: string): Promise<Epub> {
+        return new Promise<Epub>((res, rej) => {
+            try {
+                const epub = new Epub(filePath);
+                epub.on('end', () => {
+                    res(epub);
+                });
+                epub.parse();
 
-                } catch(e) {
-                    rej(e); 
-                }
-            });
+            } catch(e) {
+                rej(e); 
+            }
         });
-        return ret;
     }
 
     public static async scanLibForEpubsRecursiveHelper(curDir: string): Promise<string[]> {

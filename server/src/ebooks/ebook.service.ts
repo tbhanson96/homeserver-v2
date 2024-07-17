@@ -3,7 +3,6 @@ import { ConfigService } from "../config/config.service";
 import fs from 'fs';
 import path from 'path';
 import nodemailer from 'nodemailer';
-import { EbookUtils } from '../lib/ebook-utils';
 import { EbookData } from "../models/ebookData.dto";
 import { routes } from "../routes";
 import { AsyncUtils } from '../lib/async-utils';
@@ -47,27 +46,17 @@ export class EbookService implements OnModuleInit {
     }
 
     public async getEbooks(): Promise<EbookData[]> {
-        const filePaths = await EbookUtils.scanLibForEpubsRecursiveHelper(this.ebookDir);
-        const epubs = await EbookUtils.getEpubData(filePaths);
         const library = await this.calibre.getLibraryData();
         const ret: EbookData[] = [];
-        epubs.forEach((epub, index) => {
-            const id = library.find(entry =>
-                entry.title === epub.metadata.title
-            )?.id ??
-            library.find(entry => 
-                filePaths[index] === entry.title
-            )?.id ?? -1;
+        library.forEach((epub) => {
             ret.push({
-                id: id,
-                length: '',
-                name: epub.metadata.title,
-                author: epub.metadata.creator,
-                description: epub.metadata.description,
-                coverPath: fs.existsSync(path.join(path.dirname(filePaths[index]), 'cover.jpg'))
-                    ? `${routes.ebooks}/${path.relative(this.ebookDir, path.join(path.dirname(filePaths[index]), 'cover.jpg'))}`
-                    : '',
-                filePath: path.join(routes.ebooks, path.relative(this.ebookDir, filePaths[index])),
+                id: epub.id,
+                length: epub.size,
+                name: epub.title,
+                author: epub.authors,
+                description: epub.comments,
+                coverPath: epub.cover,
+                filePath: path.join(routes.ebooks, path.relative(this.ebookDir, epub.formats[0])),
             });
         });
         return ret;

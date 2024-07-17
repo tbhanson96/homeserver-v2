@@ -3,8 +3,9 @@ import { ConfigService } from "../config/config.service";
 import { Calibre } from 'node-calibre';
 import { CalibreService } from "./calibre.service";
 import { CalibreLibraryData } from "../models/calibreLibraryData";
-import { FileUtils } from "../lib/file-utils";
-import fs from 'fs';
+import path from "path";
+import { existsSync } from "fs";
+import { routes } from "../routes";
 
 @Injectable()
 export class RealCalibreService implements OnModuleInit, CalibreService {
@@ -32,8 +33,14 @@ export class RealCalibreService implements OnModuleInit, CalibreService {
     }
 
     public async getLibraryData(): Promise<CalibreLibraryData[]> {
-        const result = await this.calibre.run('calibredb list --for-machine');
-        return JSON.parse(result);
+        const result = await this.calibre.run('calibredb list --for-machine -f all');
+        const data: CalibreLibraryData[] = JSON.parse(result);
+        data.forEach(d => {
+            d.cover = existsSync(d.cover)
+                ? `${routes.ebooks}/${path.relative(this.libraryPath, d.cover)}`
+                : '';
+        });
+        return data;
     }
 
     private getCalibreIdFromAddResult(result: string): number {

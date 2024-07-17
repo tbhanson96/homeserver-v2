@@ -5,6 +5,8 @@ import { CalibreService } from './calibre.service';
 import { ConfigService } from '../config/config.service';
 import { EbookUtils } from '../lib/ebook-utils';
 import { CalibreLibraryData } from '../models/calibreLibraryData';
+import { routes } from '../routes';
+import { AsyncUtils } from '../lib/async-utils';
 
 @Injectable()
 export class StubCalibreService implements CalibreService, OnModuleInit {
@@ -50,12 +52,19 @@ export class StubCalibreService implements CalibreService, OnModuleInit {
 
     public async getLibraryData(): Promise<CalibreLibraryData[]> {
         const ret: CalibreLibraryData[] = [];
-        this.books.forEach((book, index) => {
+        await AsyncUtils.forEachAsync(this.books, async (book) => {
             if (book) {
+                const data = await EbookUtils.getEpubData(book);
                 ret.push({
-                    id: index,
-                    title: book, 
-                    authors: '',
+                    id: this.books.indexOf(book),
+                    title: data.metadata.title, 
+                    size: '',
+                    authors: data.metadata.creator,
+                    comments: data.metadata.description,
+                    formats: [book],
+                    cover: fs.existsSync(path.join(path.dirname(book), 'cover.jpg'))
+                    ? `${routes.ebooks}/${path.relative(this.libraryPath, path.join(path.dirname(book), 'cover.jpg'))}`
+                    : '',
                 });
             }
         });
