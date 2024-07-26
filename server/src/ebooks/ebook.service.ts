@@ -49,6 +49,7 @@ export class EbookService implements OnModuleInit {
         const library = await this.calibre.getLibraryData();
         const ret: EbookData[] = [];
         library.forEach((epub) => {
+            const epubFormat = epub.formats.find(f => path.extname(f) === 'epub') || epub.formats[0];
             ret.push({
                 id: epub.id,
                 length: epub.size,
@@ -56,7 +57,7 @@ export class EbookService implements OnModuleInit {
                 author: epub.authors,
                 description: epub.comments,
                 coverPath: epub.cover,
-                filePath: path.join(routes.ebooks, path.relative(this.ebookDir, epub.formats[0])),
+                filePath: path.join(routes.ebooks, path.relative(this.ebookDir, epubFormat)),
             });
         });
         return ret;

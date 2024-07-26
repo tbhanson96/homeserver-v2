@@ -43,7 +43,7 @@ import { StatusService } from './status/status.service';
     JwtModule.registerAsync({
       imports: [AppModule],
       useFactory: async (config: ConfigService) => ({
-        secret: config.config.auth.jwtSecret,
+        secret: Buffer.from(config.config.auth.jwtSecret),
         signOptions: { expiresIn: config.config.auth.sessionTimeout },
       }),
       inject: [ConfigService],
