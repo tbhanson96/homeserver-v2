@@ -49,7 +49,7 @@ export class EbookService implements OnModuleInit {
         const library = await this.calibre.getLibraryData();
         const ret: EbookData[] = [];
         library.forEach((epub) => {
-            const epubFormat = epub.formats.find(f => path.extname(f) === 'epub') || epub.formats[0];
+            const epubFormat = epub.formats.find(f => path.extname(f) === '.epub') || epub.formats[0];
             ret.push({
                 id: epub.id,
                 length: epub.size,
