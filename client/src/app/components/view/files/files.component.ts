@@ -17,7 +17,7 @@ import { ProgressDialogComponent } from '../progress-dialog/progress-dialog.comp
 @Component({
   selector: 'app-files',
   templateUrl: './files.component.html',
-  styleUrls: ['./files.component.scss']
+  styleUrls: ['./files.component.scss'],
 })
 export class FilesComponent implements OnInit, OnDestroy {
   readonly defaultMaxFilesShown = 20;
@@ -25,6 +25,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   files: FileData[] = [];
   reqPath: string[];
   searchQuery = '';
+  isSearchOpen = false;
   showHiddenFiles = false;
   maxFilesShown = this.defaultMaxFilesShown;
   subscriptions: Subscription[];
@@ -145,6 +146,11 @@ export class FilesComponent implements OnInit, OnDestroy {
         });
       }
     });
+  }
+
+  public onSearchClick() {
+    this.isSearchOpen = !this.isSearchOpen;
+    this.searchQuery = '';
   }
   
   private updateFiles() {

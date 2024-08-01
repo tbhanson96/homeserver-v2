@@ -8,6 +8,12 @@
         {{part.toString()}}
     </mat-chip>
 </mat-chip-listbox>
+<div fxLayout="row" fxLayoutAlign="center center">
+    <mat-form-field fxFill *ngIf="isSearchOpen">
+        <mat-label>Search for files</mat-label>
+        <input matInput [(ngModel)]="searchQuery">
+    </mat-form-field>
+</div>
 <mat-list>
     <mat-list-item *ngFor="let file of visibleFiles" (click)="navigateToFileUrl(file)" matRipple>
         <div matListItemIcon>
@@ -40,18 +46,10 @@
 <button fxFlexAlign="center" class="show-more" *ngIf="this.maxFilesShown < this.files.length"
     (click)="onShowMoreFiles()" mat-button>Show More</button>
 <div fxLayout="column" fxLayoutGap="20px" class="floating-buttons">
-    <button mat-fab color="primary" [matMenuTriggerFor]="searchMenu">
+    <button mat-fab color="primary" (click)="onSearchClick()">
         <mat-icon>search</mat-icon>
     </button>
     <button mat-fab color="primary" (click)="openUploadDialog()">
         <mat-icon>add</mat-icon>
     </button>
 </div>
-<mat-menu #searchMenu xPosition="before">
-    <div mat-menu-item fxLayout="row" (click)="$event.stopPropagation()">
-        <mat-form-field appearance="fill">
-            <mat-label>Search</mat-label>
-            <input matInput [(ngModel)]="searchQuery" >
-        </mat-form-field>
-    </div>
-</mat-menu>
