@@ -13,6 +13,7 @@ import { ConfigService } from '../../src/config/config.service';
 import { SettingsService } from '../../src/settings/settings.service';
 import { SettingsDto } from '../../src/models/settings.dto';
 import jsonfile from 'jsonfile';
+import { JwtGuard } from '../../src/auth/jwt.guard';
 
 describe('SettingsController (e2e)', () => {
   let app: INestApplication;
@@ -31,7 +32,7 @@ describe('SettingsController (e2e)', () => {
     .compile();
     app = moduleFixture.createNestApplication();
     
-    app.get(AuthGuard('jwt')).canActivate = () => Promise.resolve(true),
+    app.get(JwtGuard).canActivate = () => Promise.resolve(true),
 
     await app.init();
   });

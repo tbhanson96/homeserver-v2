@@ -17,7 +17,8 @@
         "username": "user",
         "password": "password",
         "sessionTimeout": "5m",
-        "jwtSecret": ""
+        "jwtSecret": "",
+        "apiKeys": ["test"]
     },
     "files": {
         "uploadDir": "{.}/../../../tmp",

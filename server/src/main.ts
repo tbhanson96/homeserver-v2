@@ -4,9 +4,7 @@ import { AppModule } from './app.module';
 import { INestApplication } from '@nestjs/common';
 import { ConfigService } from './config/config.service';
 import * as fs from 'fs';
-import * as path from 'path';
-import { AuthGuard } from '@nestjs/passport';
-import { BooleanPipe } from './lib/boolean-transform.pipe';
+import { JwtGuard } from './auth/jwt.guard';
 
 export async function bootstrap() {
   const config = new ConfigService();
@@ -27,7 +25,7 @@ export async function bootstrap() {
     SwaggerModule.setup('swagger', app, document);
   }
   if (!app.get(ConfigService).config.app.requireAuth) {
-    app.get(AuthGuard('jwt')).canActivate = async () => true;
+    app.get(JwtGuard).canActivate = async () => true;
   }
   return await app.listen(app.get(ConfigService).config.app.port);
 }

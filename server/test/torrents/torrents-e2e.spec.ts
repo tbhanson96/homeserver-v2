@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { TorrentDto } from 'models/torrent.dto';
 import path from 'path';
 import { readFileSync } from 'fs';
+import { JwtGuard } from '../../src/auth/jwt.guard';
 
 describe('FileController (e2e)', () => {
   let app: INestApplication;
@@ -42,7 +43,7 @@ describe('FileController (e2e)', () => {
     .compile();
     app = moduleFixture.createNestApplication();
     
-    app.get(AuthGuard('jwt')).canActivate = () => Promise.resolve(true);
+    app.get(JwtGuard).canActivate = () => Promise.resolve(true);
 
     await app.init();
   });

@@ -1,12 +1,12 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { ApiOkResponse, ApiQuery } from '@nestjs/swagger';
 import { TorrentDto } from '../models/torrent.dto';
 import { joinRoutes, routes } from '../routes';
 import { TorrentsService, TorrentCategory } from './torrents.service';
+import { JwtGuard } from '../auth/jwt.guard';
 
 @Controller(joinRoutes(routes.api, routes.torrent))
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(JwtGuard)
 export class TorrentsController {
 
     constructor(
