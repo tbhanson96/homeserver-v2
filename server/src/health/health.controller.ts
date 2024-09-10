@@ -1,6 +1,6 @@
 import { Controller, Post, Body, Get, Req, UseGuards, Logger } from '@nestjs/common';
 import { routes, joinRoutes } from '../routes';
-import { ApiCreatedResponse, ApiOkResponse, ApiProduces, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { ApiKeyGuard } from '../auth/apikey.guard';
 
 @Controller(joinRoutes(routes.api, routes.health))
@@ -10,8 +10,8 @@ export class HealthController {
     constructor(private readonly logger: Logger) { }
 
     @Post()
-    @ApiProduces('text/html')
     @ApiCreatedResponse({ description: 'Succesfully uploaded health data'})
+    @ApiBody({ type: Object })
     @ApiUnauthorizedResponse({ description: 'Failed to login' })
     async login(@Body() healthData: any) {
       this.logger.log("Received health data.");

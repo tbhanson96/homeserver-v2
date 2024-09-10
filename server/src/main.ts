@@ -5,6 +5,7 @@ import { INestApplication } from '@nestjs/common';
 import { ConfigService } from './config/config.service';
 import * as fs from 'fs';
 import { JwtGuard } from './auth/jwt.guard';
+import { json } from 'express';
 
 export async function bootstrap() {
   const config = new ConfigService();
@@ -27,6 +28,7 @@ export async function bootstrap() {
   if (!app.get(ConfigService).config.app.requireAuth) {
     app.get(JwtGuard).canActivate = async () => true;
   }
+  app.use(json({ limit: '1000mb' }));
   return await app.listen(app.get(ConfigService).config.app.port);
 }
 
