@@ -3,8 +3,8 @@ import { routes, joinRoutes } from '../routes';
 import { AuthDto } from '../models/auth.dto';
 import { AuthService } from './auth.service';
 import { Request } from 'express';
-import { AuthGuard } from '@nestjs/passport';
 import { ApiCreatedResponse, ApiProduces, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { JwtGuard } from './jwt.guard';
 
 @Controller(joinRoutes(routes.api, routes.auth))
 export class AuthController {
@@ -30,7 +30,7 @@ export class AuthController {
     }
 
     @Get()
-    @UseGuards(AuthGuard('jwt'))
+    @UseGuards(JwtGuard)
     isLoggedIn() {
         return true;
     }

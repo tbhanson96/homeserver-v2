@@ -12,6 +12,7 @@ import { ConfigService } from '../../src/config/config.service';
 import { setupMockFs } from '../mock-helper';
 import { EbookData } from '../../src/models/ebookData.dto';
 import { FileUtils } from '../../src/lib/file-utils';
+import { JwtGuard } from '../../src/auth/jwt.guard';
 
 
 describe('EbookController (e2e)', () => {
@@ -33,7 +34,7 @@ describe('EbookController (e2e)', () => {
     .compile();
     app = moduleFixture.createNestApplication();
     
-    app.get(AuthGuard('jwt')).canActivate = () => Promise.resolve(true);
+    app.get(JwtGuard).canActivate = () => Promise.resolve(true);
 
     await app.init();
   });

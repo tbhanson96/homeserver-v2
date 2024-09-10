@@ -6,12 +6,12 @@ import { routes, joinRoutes } from '../routes';
 import { ApiBadRequestResponse, ApiOkResponse, ApiQuery, ApiConsumes, ApiBody, ApiAcceptedResponse, ApiNotFoundResponse } from '@nestjs/swagger';
 import { FileData } from '../models/fileData.dto';
 import { Response } from 'express';
-import { AuthGuard } from '@nestjs/passport';
 import * as path from 'path'; 
 import "multer";
+import { JwtGuard } from '../auth/jwt.guard';
 
 @Controller(joinRoutes(routes.api, routes.files))
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(JwtGuard)
 @UsePipes(FileValidationPipe)
 export class FileController {
     constructor(

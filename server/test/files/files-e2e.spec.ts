@@ -12,6 +12,7 @@ import { ConfigService } from '../../src/config/config.service';
 import { AuthGuard } from '@nestjs/passport';
 import { setupMockFs } from '../mock-helper';
 import { FileData } from '../../src/models/fileData.dto';
+import { JwtGuard } from '../../src/auth/jwt.guard';
 
 describe('FileController (e2e)', () => {
   let app: INestApplication;
@@ -25,7 +26,7 @@ describe('FileController (e2e)', () => {
     .compile();
     app = moduleFixture.createNestApplication();
     
-    app.get(AuthGuard('jwt')).canActivate = () => Promise.resolve(true);
+    app.get(JwtGuard).canActivate = () => Promise.resolve(true);
     const rootDir = app.get(ConfigService).config.files.homeDir;
 
     fs.writeFileSync(path.join(rootDir, 'test.txt'),  'this is a test file');

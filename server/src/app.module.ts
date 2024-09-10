@@ -9,9 +9,8 @@ import { MulterModule } from '@nestjs/platform-express';
 import { AuthController } from './auth/auth.controller';
 import { EbookController } from './ebooks/ebook.controller';
 import { AuthService } from './auth/auth.service';
-import { PassportModule, AuthGuard } from '@nestjs/passport';
+import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from './auth/jwtstrategy';
 import { FilesMiddleware } from './middlewares/files.middleware';
 import { EbookService } from './ebooks/ebook.service';
 import { EbooksMiddleware } from './middlewares/ebooks.middleware';
@@ -29,6 +28,7 @@ import { LibgenService } from './lib/libgen.service';
 import { ProxyMiddleware } from './middlewares/proxy.middleware';
 import { StatusController } from './status/status.controller';
 import { StatusService } from './status/status.service';
+import { HealthController } from './health/health.controller';
 
 @Module({
   imports: [
@@ -44,7 +44,6 @@ import { StatusService } from './status/status.service';
       imports: [AppModule],
       useFactory: async (config: ConfigService) => ({
         secret: Buffer.from(config.config.auth.jwtSecret),
-        signOptions: { expiresIn: config.config.auth.sessionTimeout },
       }),
       inject: [ConfigService],
     }),
@@ -60,6 +59,7 @@ import { StatusService } from './status/status.service';
     SettingsController,
     TorrentsController,
     StatusController,
+    HealthController,
   ],
   providers: [
     FileService,
@@ -94,7 +94,6 @@ import { StatusService } from './status/status.service';
     EbookService,
     UpdateService,
     SettingsService,
-    JwtStrategy,
     Logger,
     TorrentsService,
     LibgenService,

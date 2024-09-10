@@ -1,6 +1,5 @@
 import { Controller, Get, UseGuards, Query, Post, UseInterceptors, UploadedFiles, UsePipes, Delete, Body, Put, Sse, OnModuleInit, Res, HttpStatus } from '@nestjs/common';
 import { ApiOkResponse, ApiQuery, ApiConsumes, ApiBody, ApiAcceptedResponse } from '@nestjs/swagger';
-import { AuthGuard } from '@nestjs/passport';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
 import { routes, joinRoutes } from '../routes';
@@ -11,9 +10,10 @@ import { LibgenData } from '../models/libgen.dto';
 import { StatusService } from '../status/status.service';
 import { StatusChannel, StatusType } from '../models/statusUpdate.dto';
 import "multer";
+import { JwtGuard } from '../auth/jwt.guard';
 
 @Controller(joinRoutes(routes.api, routes.ebooks))
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(JwtGuard)
 export class EbookController {
     constructor(
         private readonly ebookService: EbookService,

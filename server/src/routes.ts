@@ -10,4 +10,5 @@ export const routes: any = {
     libgen: 'libgen',
     proxy: 'proxy',
     status: 'status',
+    health: 'health',
 }
