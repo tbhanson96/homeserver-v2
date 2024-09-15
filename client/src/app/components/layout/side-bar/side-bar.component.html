@@ -11,6 +11,10 @@
     <mat-icon matListItemIcon>download</mat-icon>
     <div matListItemTitle>Torrents</div>
   </mat-list-item>
+  <mat-list-item (click)="onNavigatePage()" routerLink="/home/health">
+    <mat-icon matListItemIcon>favorite</mat-icon>
+    <div matListItemTitle>Health</div>
+  </mat-list-item>
   <mat-list-item (click)="onOpenSettings()">
     <mat-icon matListItemIcon>settings</mat-icon>
     <div matListItemTitle>Settings</div>

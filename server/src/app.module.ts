@@ -15,6 +15,7 @@ import { FilesMiddleware } from './middlewares/files.middleware';
 import { EbookService } from './ebooks/ebook.service';
 import { EbooksMiddleware } from './middlewares/ebooks.middleware';
 import { BooleanPipe } from './lib/boolean-transform.pipe';
+import { DatePipe } from './lib/date-transform.pipe';
 import { APP_PIPE } from '@nestjs/core';
 import { CalibreService } from './ebooks/calibre.service';
 import { RealCalibreService } from './ebooks/real-calibre.service';
@@ -29,6 +30,7 @@ import { ProxyMiddleware } from './middlewares/proxy.middleware';
 import { StatusController } from './status/status.controller';
 import { StatusService } from './status/status.service';
 import { HealthController } from './health/health.controller';
+import { HealthService } from './health/health.service';
 
 @Module({
   imports: [
@@ -90,6 +92,10 @@ import { HealthController } from './health/health.controller';
       provide: APP_PIPE,
       useClass: BooleanPipe,
     },
+    {
+      provide: APP_PIPE,
+      useClass: DatePipe,
+    },
     AuthService,
     EbookService,
     UpdateService,
@@ -98,6 +104,7 @@ import { HealthController } from './health/health.controller';
     TorrentsService,
     LibgenService,
     StatusService,
+    HealthService,
   ],
 })
 export class AppModule implements NestModule {

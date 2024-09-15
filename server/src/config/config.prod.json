@@ -35,6 +35,9 @@
             "downloadUrl": "http://library.lol/main"
         }
     },
+    "health": {
+        "healthDir": "/opt/app/mnt/Documents/Health"
+    },
     "email": {
         "oauth": {
             "id": "",

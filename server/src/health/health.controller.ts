@@ -1,27 +1,45 @@
-import { Controller, Post, Body, Get, Req, UseGuards, Logger } from '@nestjs/common';
+import { Controller, Post, Body, Get, Req, UseGuards, Logger, Query } from '@nestjs/common';
 import { routes, joinRoutes } from '../routes';
-import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiQuery, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { ApiKeyGuard } from '../auth/apikey.guard';
+import { JwtGuard } from '../auth/jwt.guard';
+import { HealthService } from './health.service';
+import { HealthDataDto } from '../models/healthData.dto';
 
 @Controller(joinRoutes(routes.api, routes.health))
-@UseGuards(ApiKeyGuard)
 export class HealthController {
 
-    constructor(private readonly logger: Logger) { }
+    constructor(
+      private readonly healthService: HealthService,
+      private readonly logger: Logger
+    ) { }
 
     @Post()
     @ApiCreatedResponse({ description: 'Succesfully uploaded health data'})
     @ApiBody({ type: Object })
+    @UseGuards(ApiKeyGuard)
     @ApiUnauthorizedResponse({ description: 'Failed to login' })
     async login(@Body() healthData: any) {
       this.logger.log("Received health data.");
-      this.logger.log(JSON.stringify(healthData));
+      await this.healthService.importHealthData(healthData);
     }
 
     @Get()
-    @ApiOkResponse({ description: 'success'})
+    @UseGuards(JwtGuard)
+    @ApiOkResponse({ description: 'success', type: HealthDataDto })
+    @ApiQuery({ name: 'from', type: Date})
+    @ApiQuery({ name: 'to', type: Date})
+    @ApiQuery({ name: 'metrics', type: String, isArray: true })
     @ApiUnauthorizedResponse({ description: 'Failed to login' })
-    isLoggedIn() {
-      return true;
+    async getHealthData(
+      @Query('from') from: Date,
+      @Query('to') to: Date,
+      @Query('metrics') metrics: string[]
+    ) {
+      // Fix bug with query string arrays.
+      if (typeof metrics === 'string') {
+        metrics = [metrics]
+      }
+      return await this.healthService.getHealthData(from, to, metrics);
     }
 }

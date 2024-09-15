@@ -38,6 +38,8 @@ import { ProgressDialogComponent } from './components/view/progress-dialog/progr
 import { LibgenComponent } from '@components/view/ebooks/libgen/libgen.component';
 import { StatusService } from '@services/status.service';
 import { LazyImgComponent } from './components/view/lazy-img/lazy-img.component';
+import { HealthComponent } from '@components/view/health/health.component';
+import { HealthService } from '@services/health.service';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,7 @@ import { LazyImgComponent } from './components/view/lazy-img/lazy-img.component'
     SettingsComponent,
     RenameFileComponent,
     TorrentsComponent,
+    HealthComponent,
     FileSizePipe,
     ProgressDialogComponent,
     LibgenComponent,
@@ -106,6 +109,7 @@ import { LazyImgComponent } from './components/view/lazy-img/lazy-img.component'
     AuthService,
     EbooksService,
     TorrentsService,
+    HealthService,
     UploadInterceptor,
     StatusService,
   ],

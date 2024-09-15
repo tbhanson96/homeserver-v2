@@ -1,6 +1,6 @@
 export const joinRoutes = (...routes: string[]) => routes.join('/');
 
-export const routes: any = {
+export const routes = {
     api: 'api',
     files: 'files',
     auth: 'auth',

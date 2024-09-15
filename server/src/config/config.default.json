@@ -35,6 +35,9 @@
             "downloadUrl": "http://library.lol/main"
         }
     },
+    "health": {
+        "healthDir": "{.}/../../../mock/Documents/Health"
+    },
     "email": {
         "oauth": {
             "id": "",
