@@ -19,7 +19,7 @@ COPY server/package.json ./
 RUN npm install --omit=dev
 WORKDIR ..
 COPY server/dist ./server
-COPY server/src/config/config.prod.json ./server/config/config.default.json
+COPY server/src/config/config.prod.json ./server/config/config.json
 COPY client/dist ./client
 COPY mock ./mnt
 COPY package.json .

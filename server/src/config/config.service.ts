@@ -1,7 +1,7 @@
 import { Injectable, Inject, Logger } from "@nestjs/common";
 import path from 'path';
 import { ConfigMissingException } from '../lib/exceptions';
-import Config from './config.default.json';
+import Config from './config.json';
 import { randomBytes } from 'crypto';
 import { writeFileSync, readFileSync } from 'jsonfile';
 import { flatten, unflatten } from 'flat';

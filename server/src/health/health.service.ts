@@ -1,27 +1,43 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "../config/config.service";
-import { HealthDataDto } from "../models/healthData.dto";
+import { HealthData, HealthDataDto, HealthMetric } from "../models/healthData.dto";
+import { HealthRecord } from '../models/health';
 import { RawHealthData } from "../models/rawHealthData";
 
-import { readFile, readdir, writeFile } from "fs/promises";
-import path from "path";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
 
 @Injectable()
 export class HealthService {
   public constructor(
     private readonly config: ConfigService,
     private readonly log: Logger,
+    @InjectModel(HealthRecord.name) private readonly healthModel: Model<HealthRecord>,
   ) {
-    this.healthDir = this.config.config.health.healthDir;
   }
 
-  private healthDir: string;
+  private async addHealthRecord(metric: HealthMetric) {
+    for (const d of metric.data) {
+      const newRecord = new this.healthModel({
+        name: metric.name,
+        units: metric.units,
+        qty: d.qty,
+        Avg: d.Avg,
+        Min: d.Min,
+        Max: d.Max,
+        date: d.date,
+        source: d.source,
+      });
+      await newRecord.save();
+    }
+  }
 
   public async importHealthData(data: RawHealthData) {
-    const fileName = `${new Date().toISOString()}.json`;
     try {
-      await writeFile(path.join(this.healthDir, fileName), JSON.stringify(data));
-      this.log.log(`Imported health data: ${fileName}`);
+      for (const metric of data.data.metrics) {
+        await this.addHealthRecord(metric);
+      }
+      this.log.log(`Imported health data.`);
     } catch (e: any) {
       this.log.error(`Failed to import data: ${e.message}`);
       throw e;
@@ -34,27 +50,20 @@ export class HealthService {
    */
   public async getHealthData(from: Date, to: Date, metrics: string[]): Promise<HealthDataDto> {
     try {
-      const ret: HealthDataDto = { metrics: {} };
-      const exports = await readdir(this.healthDir);
-      for (const e of exports) {
-        const exportDate = new Date(path.basename(e, path.extname(e)));
-        if (exportDate >= from && exportDate <= to) {
-          const file = await readFile(path.join(this.healthDir, e), { encoding: 'utf-8'});
-          const data: RawHealthData = JSON.parse(file);
-          const rawMetrics = data.data;
-          for (const m of metrics) {
-            const sourceMetric = rawMetrics.metrics.find(metric => metric.name === m);
-            if (!sourceMetric) {
-              continue;
+      const ret: HealthDataDto = { metrics: { } };
+      for (const metric of metrics) {
+        const healthMetric: HealthMetric | null = await this.healthModel.findOne({ name: metric });
+        if (healthMetric) {
+          const records: HealthData[] = await this.healthModel.find({
+            name: metric,
+            date: { $lte: to, $gte: from },
+          }, { qty: 1, Avg: 1, Min: 1, Max: 1, date: 1, source: 1 }).exec();
+          if (records.length > 0) {
+            ret.metrics[metric] = {
+              name: metric,
+              units: healthMetric.units,
+              data: records,
             }
-            if (!ret.metrics[m]) {
-              ret.metrics[m] = {
-                name: m,
-                units: sourceMetric.units,
-                data: [],
-              }
-            }
-            ret.metrics[m].data.push(...sourceMetric.data);
           }
         }
       }

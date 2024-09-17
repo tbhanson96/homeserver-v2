@@ -10,6 +10,7 @@ import { AuthController } from './auth/auth.controller';
 import { EbookController } from './ebooks/ebook.controller';
 import { AuthService } from './auth/auth.service';
 import { PassportModule } from '@nestjs/passport';
+import { MongooseModule } from '@nestjs/mongoose';
 import { JwtModule } from '@nestjs/jwt';
 import { FilesMiddleware } from './middlewares/files.middleware';
 import { EbookService } from './ebooks/ebook.service';
@@ -31,9 +32,24 @@ import { StatusController } from './status/status.controller';
 import { StatusService } from './status/status.service';
 import { HealthController } from './health/health.controller';
 import { HealthService } from './health/health.service';
+import { HealthRecord, HealthSchema } from './models/health';
 
 @Module({
   imports: [
+    MongooseModule.forRootAsync({
+      imports: [AppModule],
+      useFactory: async (config: ConfigService) => ({
+        dbName: config.config.db.name,
+        uri: `mongodb://localhost:${config.config.db.port}`,
+      }),
+      inject: [ConfigService],
+    }),
+    MongooseModule.forFeature([
+      {
+        name: HealthRecord.name,
+        schema: HealthSchema,
+      }
+    ]),
     MulterModule.registerAsync({
       imports: [AppModule],
       useFactory: async (config: ConfigService) => ({

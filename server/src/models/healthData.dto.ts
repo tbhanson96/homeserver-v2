@@ -1,6 +1,4 @@
-export class HealthDataDto {
-  metrics: Record<string, HealthMetric>;
-}
+import { ApiProperty, ApiExtraModels} from '@nestjs/swagger';
 
 export class HealthMetric {
   name: string;
@@ -9,7 +7,21 @@ export class HealthMetric {
 }
 
 export class HealthData {
-  qty: number;
+  qty?: number;
+  Avg?: number;
+  Max?: number;
+  Min?: number;
   source: string;
   date: Date;
+}
+
+@ApiExtraModels(HealthMetric, HealthData)
+export class HealthDataDto {
+  @ApiProperty({
+    type: 'object',
+    additionalProperties: {
+      $ref: '#/components/schemas/HealthMetric'
+    }
+  })
+  metrics: Record<string, HealthMetric>;
 }

@@ -9,6 +9,10 @@
         "envPrefix": "APP_",
         "rootWildCard": "{.}"
     },
+    "db": {
+        "port": 27000,
+        "name": "default"
+    },
     "ssl": {
         "keyPath": "",
         "certPath": ""

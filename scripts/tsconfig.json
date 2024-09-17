@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "moduleResolution": "node",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es2022",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./src",
+    "incremental": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "strictPropertyInitialization": false
+  },
+  "include": ["*.ts", "*.json"],
+  "exclude": ["test"]
+}

@@ -3,7 +3,7 @@ jest.mock('fs', () => {
 });
 import { setupMockFs } from '../mock-helper';
 import { ConfigService } from '../../src/config/config.service';
-import Config from '../../src/config/config.default.json';
+import Config from '../../src/config/config.json';
 import ProdConfig from '../../src/config/config.prod.json';
 import path from 'path';
 import jsonfile from 'jsonfile';
@@ -11,7 +11,7 @@ import { flatten } from 'flat';
 
 describe('ConfigService', () => {
 
-    const defaultConfigPath = '../../src/config/config.default.json';
+    const defaultConfigPath = '../../src/config/config.json';
 
     beforeAll(() => {
         setupMockFs();

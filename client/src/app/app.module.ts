@@ -40,6 +40,10 @@ import { StatusService } from '@services/status.service';
 import { LazyImgComponent } from './components/view/lazy-img/lazy-img.component';
 import { HealthComponent } from '@components/view/health/health.component';
 import { HealthService } from '@services/health.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatTimepickerModule } from '@dhutaryan/ngx-mat-timepicker';
 
 @NgModule({
   declarations: [
@@ -56,7 +60,6 @@ import { HealthService } from '@services/health.service';
     SettingsComponent,
     RenameFileComponent,
     TorrentsComponent,
-    HealthComponent,
     FileSizePipe,
     ProgressDialogComponent,
     LibgenComponent,
@@ -73,6 +76,10 @@ import { HealthService } from '@services/health.service';
     AppRoutingModule,
     MaterialModule,
     BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatTimepickerModule,
   ],
   providers: [
     {

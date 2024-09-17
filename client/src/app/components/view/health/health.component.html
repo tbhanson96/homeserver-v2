@@ -1,3 +1,24 @@
-<p>
-    {{ this.healthString }}
-</p>
+<h1>
+    Select Data
+</h1>
+<div fxLayout="row" fxLayoutAlign="space-around">
+    <mat-form-field>
+        <mat-label>Enter a date range</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate placeholder="Start date" [(ngModel)]="from">
+            <input matEndDate placeholder="End date" [(ngModel)]="to">
+        </mat-date-range-input>
+        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+    <mat-form-field>
+        <input type="text" matInput [matTimepicker]="timepicker" />
+        <mat-timepicker-toggle matSuffix [for]="timepicker"></mat-timepicker-toggle>
+        <mat-timepicker #timepicker></mat-timepicker>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="getHealthData()">Search</button>
+</div>
+<div class="graph">
+    <canvas fxFill id="canvas">{{ chart }}</canvas>
+</div>
