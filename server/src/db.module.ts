@@ -19,7 +19,7 @@ export class DbModule {
         MongooseModule.forRootAsync({
           useFactory: async (config: ConfigService) => ({
             dbName: config.config.db.name,
-            uri: `mongodb://127.0.0.1:${config.config.db.port}`,
+            uri: `mongodb://${config.config.db.host}:${config.config.db.port}`,
           }),
           imports: [ConfigModule],
           inject: [ConfigService],

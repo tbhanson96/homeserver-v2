@@ -10,6 +10,7 @@
         "rootWildCard": "{.}"
     },
     "db": {
+        "host": "homeserverdb",
         "port": 27017,
         "name": "default",
         "mock": false

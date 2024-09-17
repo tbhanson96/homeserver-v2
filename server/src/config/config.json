@@ -10,6 +10,7 @@
         "rootWildCard": "{.}"
     },
     "db": {
+        "host": "localhost",
         "port": 27000,
         "name": "default",
         "mock": true

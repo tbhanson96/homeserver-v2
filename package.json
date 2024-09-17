@@ -16,8 +16,8 @@
     "docker:build": "docker build --build-arg NODE_VERSION=$(cat .nvmrc) -t $npm_package_name  .",
     "docker:tag": "docker image tag $npm_package_name:latest ghcr.io/tbhanson96/$npm_package_name:latest",
     "docker:push": "docker image push ghcr.io/tbhanson96/$npm_package_name:latest",
-    "docker:start": "docker run --rm -it --network='host' -p 3000:3000 -v `pwd`/mock:/opt/app/mnt $npm_package_name:latest",
-    "docker:debug": "docker run --rm -it --network='host' -p 9229:9229 -p 3000:3000 -v `pwd`/mock:/opt/app/mnt $npm_package_name:latest npm run start:debug",
+    "docker:start": "docker run --rm -it --net homeserver -p 3000:3000 -v `pwd`/mock:/opt/app/mnt $npm_package_name:latest",
+    "docker:debug": "docker run --rm -it --net homeserver -p 9229:9229 -p 3000:3000 -v `pwd`/mock:/opt/app/mnt $npm_package_name:latest npm run start:debug",
     "package": "npm run docker:build",
     "deploy": "npm run docker:tag && npm run docker:push"
   },
