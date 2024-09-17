@@ -11,7 +11,8 @@
     },
     "db": {
         "port": 27000,
-        "name": "default"
+        "name": "default",
+        "mock": true
     },
     "ssl": {
         "keyPath": "",

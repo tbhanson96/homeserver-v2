@@ -1,10 +1,10 @@
-import { Controller, Post, Body, Get, Req, UseGuards, Logger, Query } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Logger, Query } from '@nestjs/common';
 import { routes, joinRoutes } from '../routes';
-import { ApiBody, ApiCreatedResponse, ApiExtraModels, ApiOkResponse, ApiQuery, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiQuery, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { ApiKeyGuard } from '../auth/apikey.guard';
 import { JwtGuard } from '../auth/jwt.guard';
+import { HealthDataDto } from '../models/healthData.dto';
 import { HealthService } from './health.service';
-import { HealthData, HealthDataDto, HealthMetric } from '../models/healthData.dto';
 
 @Controller(joinRoutes(routes.api, routes.health))
 export class HealthController {

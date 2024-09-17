@@ -31,27 +31,15 @@ import { ProxyMiddleware } from './middlewares/proxy.middleware';
 import { StatusController } from './status/status.controller';
 import { StatusService } from './status/status.service';
 import { HealthController } from './health/health.controller';
-import { HealthService } from './health/health.service';
-import { HealthRecord, HealthSchema } from './models/health';
+import { ConfigModule } from './config.module';
+import { DbModule } from './db.module';
 
 @Module({
   imports: [
-    MongooseModule.forRootAsync({
-      imports: [AppModule],
-      useFactory: async (config: ConfigService) => ({
-        dbName: config.config.db.name,
-        uri: `mongodb://localhost:${config.config.db.port}`,
-      }),
-      inject: [ConfigService],
-    }),
-    MongooseModule.forFeature([
-      {
-        name: HealthRecord.name,
-        schema: HealthSchema,
-      }
-    ]),
+    ConfigModule,
+    DbModule.forRoot(),
     MulterModule.registerAsync({
-      imports: [AppModule],
+      imports: [ConfigModule],
       useFactory: async (config: ConfigService) => ({
         dest: config.config.files.uploadDir,
       }),
@@ -59,16 +47,13 @@ import { HealthRecord, HealthSchema } from './models/health';
     }),
     PassportModule,
     JwtModule.registerAsync({
-      imports: [AppModule],
+      imports: [ConfigModule],
       useFactory: async (config: ConfigService) => ({
         secret: Buffer.from(config.config.auth.jwtSecret),
       }),
       inject: [ConfigService],
     }),
     HttpModule,
-  ],
-  exports: [
-    ConfigService,
   ],
   controllers: [
     FileController,
@@ -81,13 +66,6 @@ import { HealthRecord, HealthSchema } from './models/health';
   ],
   providers: [
     FileService,
-    {
-      provide: ConfigService,
-      useFactory: (log: Logger) => {
-        return new ConfigService(log);
-      },
-      inject: [Logger]
-    },
     {
       provide: CalibreService,
       useFactory: async (config: ConfigService, log: Logger) => {
@@ -120,7 +98,6 @@ import { HealthRecord, HealthSchema } from './models/health';
     TorrentsService,
     LibgenService,
     StatusService,
-    HealthService,
   ],
 })
 export class AppModule implements NestModule {
