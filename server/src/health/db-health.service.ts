@@ -17,26 +17,31 @@ export class DbHealthService implements HealthService {
   ) {
   }
 
-  private async addHealthRecord(metric: HealthMetric) {
-    for (const d of metric.data) {
-      const newRecord = new this.healthModel({
-        name: metric.name,
-        units: metric.units,
-        qty: d.qty,
-        Avg: d.Avg,
-        Min: d.Min,
-        Max: d.Max,
-        date: d.date,
-        source: d.source,
-      });
-      await newRecord.save();
-    }
+  private async createHealthRecords(metric: HealthMetric) {
+    return metric.data.map(d => new this.healthModel({
+      name: metric.name,
+      units: metric.units,
+      qty: d.qty,
+      Avg: d.Avg,
+      Min: d.Min,
+      Max: d.Max,
+      date: d.date,
+      source: d.source,
+    }));
   }
 
   public async importHealthData(data: RawHealthData) {
+    this.log.log(`Recieved new health import at: ${new Date()}`);
     try {
       for (const metric of data.data.metrics) {
-        await this.addHealthRecord(metric);
+        const records = await this.createHealthRecords(metric);
+        await this.healthModel.bulkWrite(records.map(r => ({
+          updateOne: {
+            filter: { name: r.name, date: r.date },
+            update: { $set: r },
+            upsert: true,
+          }
+        })));
       }
       this.log.log(`Imported health data.`);
     } catch (e: any) {

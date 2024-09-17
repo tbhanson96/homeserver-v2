@@ -8,7 +8,7 @@ const configService = new ConfigService();
 
 const script = `
   /usr/bin/podman run --rm --name homeserverdb-test \
-    -p ${configService.config.app.dbPort}:27017 \
+    -p ${configService.config.db.port}:27017 \
     -v ${configService.config.health.healthDir}/data:/data/db \
     -v ${configService.config.health.healthDir}/config:/data/configdb \
     docker.io/mongo:latest
