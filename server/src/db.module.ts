@@ -1,7 +1,7 @@
 import { DynamicModule, Module, Logger, } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigService } from './config/config.service';
-import { HealthRecord, HealthSchema } from './models/health';
+import { HealthRecord, HealthSchema, SleepRecord, SleepSchema } from './models/health';
 import { HealthService } from './health/health.service';
 import { JsonHealthService } from './health/json-health.service';
 import { DbHealthService } from './health/db-health.service';
@@ -28,6 +28,10 @@ export class DbModule {
           {
             name: HealthRecord.name,
             schema: HealthSchema,
+          },
+          {
+            name: SleepRecord.name,
+            schema: SleepSchema,
           }
         ]),
       ]) ;

@@ -1,24 +1,61 @@
 <h1>
     Select Data
 </h1>
-<div fxLayout="row" fxLayoutAlign="space-around">
+<div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
     <mat-form-field>
         <mat-label>Enter a date range</mat-label>
         <mat-date-range-input [rangePicker]="picker">
             <input matStartDate placeholder="Start date" [(ngModel)]="from">
             <input matEndDate placeholder="End date" [(ngModel)]="to">
         </mat-date-range-input>
-        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
     </mat-form-field>
-    <mat-form-field>
-        <input type="text" matInput [matTimepicker]="timepicker" />
-        <mat-timepicker-toggle matSuffix [for]="timepicker"></mat-timepicker-toggle>
-        <mat-timepicker #timepicker></mat-timepicker>
-    </mat-form-field>
-    <button mat-raised-button color="primary" (click)="getHealthData()">Search</button>
+    <mat-button-toggle-group [(ngModel)]="aggregation">
+        <mat-button-toggle #daily value="daily">Daily</mat-button-toggle>
+        <mat-button-toggle #hourly value="hourly">Hourly</mat-button-toggle>
+    </mat-button-toggle-group>
+    <button mat-raised-button color="primary" (click)="getAllHealthData()">Search</button>
 </div>
+<div *ngIf="hourly.checked" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+    <mat-form-field>
+        <input type="text" [(ngModel)]="fromTime" matInput [matTimepicker]="from" />
+        <mat-timepicker-toggle matSuffix [for]="from"></mat-timepicker-toggle>
+        <mat-timepicker #from></mat-timepicker>
+    </mat-form-field>
+    <mat-form-field>
+        <input type="text" [(ngModel)]="toTime" matInput [matTimepicker]="to" />
+        <mat-timepicker-toggle matSuffix [for]="to"></mat-timepicker-toggle>
+        <mat-timepicker #to></mat-timepicker>
+    </mat-form-field>
+</div>
+<mat-divider class="divider"></mat-divider>
+<mat-tab-group #tabBar (selectedIndexChange)="renderChart($event)">
+  <mat-tab label="heart_rate">
+    <ng-template mat-tab-label>
+      Heart Rate
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="nutrition">
+    <ng-template mat-tab-label>
+      Calories
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="sleep">
+    <ng-template mat-tab-label>
+      Sleep
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="custom">
+    <ng-template mat-tab-label>
+        Custom
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
+<mat-form-field *ngIf="curChart === 3">
+    <mat-label>Enter custom metric</mat-label>
+    <input matInput [(ngModel)]="customMetric" placeholder="Ex. protein">
+</mat-form-field>
 <div class="graph">
-    <canvas fxFill id="canvas">{{ chart }}</canvas>
+    <canvas fxFill id="chart">{{ chart }}</canvas>
 </div>

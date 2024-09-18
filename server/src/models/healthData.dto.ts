@@ -1,9 +1,18 @@
 import { ApiProperty, ApiExtraModels} from '@nestjs/swagger';
+import { SleepType } from './health';
 
 export class HealthMetric {
   name: string;
   units: string;
   data: HealthData[];
+}
+
+export class SleepData {
+  qty?: number;
+  source: string;
+  value: SleepType; 
+  startDate: Date;
+  endDate: Date;
 }
 
 export class HealthData {
@@ -24,4 +33,8 @@ export class HealthDataDto {
     }
   })
   metrics: Record<string, HealthMetric>;
+}
+
+export class SleepDataDto {
+  data: SleepData[];
 }

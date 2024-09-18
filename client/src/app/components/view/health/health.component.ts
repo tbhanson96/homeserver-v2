@@ -1,14 +1,8 @@
 import { UiStateActions } from '@actions/ui-state.actions';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { HealthDataDto } from '@api/models';
-import { MatNativeDateTimeModule, MatTimepickerModule, provideNativeDateTimeAdapter } from '@dhutaryan/ngx-mat-timepicker';
+import { HealthDataDto, SleepDataDto } from '@api/models';
+import { provideNativeDateTimeAdapter } from '@dhutaryan/ngx-mat-timepicker';
 import { HealthService } from '@services/health.service';
 import { Chart } from 'chart.js/auto';
 import 'chartjs-adapter-moment';
@@ -16,17 +10,6 @@ import 'chartjs-adapter-moment';
 @Component({
   selector: 'app-health',
   templateUrl: './health.component.html',
-  standalone: true,
-  imports: [
-    MatInputModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatDatepickerModule,
-    MatTimepickerModule,
-    MatNativeDateTimeModule,
-    FlexLayoutModule,
-    FormsModule,
-  ],
   providers: [
     provideNativeDateAdapter(),
     provideNativeDateTimeAdapter(),
@@ -35,11 +18,18 @@ import 'chartjs-adapter-moment';
 })
 export class HealthComponent implements OnInit, OnDestroy {
 
-  public healthData: HealthDataDto;
-  public from = new Date(new Date().setHours(0, 0, 0, 0));
+  private healthData: HealthDataDto;
+  public aggHealthData: HealthDataDto;
+  public sleepData: SleepDataDto;
+  public from = new Date();
+  public fromTime = new Date();
   public to = new Date();
+  public toTime = new Date();
   public metrics = ['heart_rate'];
+  public customMetric = 'protein';
   public chart: Chart;
+  public curChart = 0;
+  public aggregation: 'hourly' | 'daily' = 'daily';
 
   constructor (
     private readonly service: HealthService,
@@ -48,48 +38,111 @@ export class HealthComponent implements OnInit, OnDestroy {
 
   async ngOnInit(): Promise<void> {
     this.ui.setCurrentApp('Health');
+    await this.getAllHealthData();
+  }
+
+  public async getAllHealthData() {
     this.ui.setAppBusy(true);
-    this.chart = new Chart('canvas', {
-      type: 'line',
-      data: {
-        labels: [],
-        datasets: [],
-      },
-      options: {
-        responsive: true,
-        scales: {
-          x: {
-            type: 'time',
-            time: {
-              unit: 'hour',
-              tooltipFormat: 'll',
-            }
-          }
-        }
-      }
-    });
     try {
-      await this.getHealthData();
+      this.healthData = await this.service.getHealthData(
+        this.from,
+        this.to,
+        [...this.metrics, this.customMetric]
+      );
+      this.aggHealthData = this.service.aggregateData(this.healthData, this.aggregation);
+      this.sleepData = await this.service.getSleepData(this.from, this.to);
+      this.renderChart(this.curChart);
     } catch (e: any) {
-      throw new Error('Failed to get health data.');
+      throw new Error(`Failed to get health data: ${e}`);
     } finally {
       this.ui.setAppBusy(false);
     }
   }
 
-  public async getHealthData() {
-    this.healthData = await this.service.getHealthData(this.from, this.to, this.metrics);
-    console.log(JSON.stringify(this.healthData));
-    this.chart.data = {
-      labels: this.healthData.metrics['heart_rate'].data.map(d => new Date(d.date).toISOString()),
-      datasets: [
-        {
-          label: 'Heart Rate',
-          data: this.healthData.metrics['heart_rate'].data.map(d => d.Avg), 
-        },
-      ]
+  public renderChart(event: number) {
+    console.log(`${this.fromTime} - ${this.toTime}`);
+    this.curChart = event;
+    switch (event) {
+      case 0:
+        this.renderHeartRateChart();
+        break;
+      case 3:
+        this.renderCustomChart(); 
+        break;
     }
-    this.chart.update();
+  }
+
+  private renderCustomChart() {
+    if (this.chart) {
+      this.chart.destroy();
+    }
+    this.chart = new Chart('chart', {
+      type: 'bar',
+      data: {
+        labels: this.aggHealthData.metrics[this.customMetric]?.data.map(d => new Date(d.date).toISOString()),
+        datasets: [
+          {
+            label: this.customMetric,
+            data: this.aggHealthData.metrics[this.customMetric]?.data.map(d => d.Avg || d.qty), 
+          },
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            type: 'time',
+            time: {
+              tooltipFormat: 'll',
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: this.aggHealthData.metrics[this.customMetric]?.units,
+            }
+          }
+        }
+      }
+    });
+
+  }
+
+  private renderHeartRateChart() {
+    if (this.chart) {
+      this.chart.destroy();
+    }
+    this.chart = new Chart('chart', {
+      type: 'line',
+      data: {
+        labels: this.healthData.metrics['heart_rate']?.data.map(d => new Date(d.date).toISOString()),
+        datasets: [
+          {
+            label: 'Heart Rate',
+            data: this.healthData.metrics['heart_rate']?.data.map(d => d.Avg || d.qty), 
+          },
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            type: 'time',
+            time: {
+              tooltipFormat: 'll',
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: this.healthData.metrics['heart_rate']?.units,
+            }
+          }
+        }
+      }
+    });
   }
 
 

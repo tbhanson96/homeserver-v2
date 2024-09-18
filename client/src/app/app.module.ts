@@ -21,7 +21,6 @@ import { UploadDialogComponent } from '@components/view/upload-dialog/upload-dia
 import { AuthComponent } from '@components/view/auth/auth.component';
 import { AppComponent } from '@components/app.component';
 import { AuthService } from '@services/auth.service';
-import { AuthInterceptor } from '@services/auth.interceptor';
 import { EbooksComponent } from '@components/view/ebooks/ebooks.component';
 import { EbooksService } from '@services/ebooks.service';
 import { DeleteDialogComponent } from '@components/view/delete-dialog/delete-dialog.component';
@@ -63,6 +62,7 @@ import { MatTimepickerModule } from '@dhutaryan/ngx-mat-timepicker';
     FileSizePipe,
     ProgressDialogComponent,
     LibgenComponent,
+    HealthComponent,
     LazyImgComponent,
   ],
   imports: [
@@ -80,6 +80,7 @@ import { MatTimepickerModule } from '@dhutaryan/ngx-mat-timepicker';
     MatDatepickerModule,
     MatNativeDateModule,
     MatTimepickerModule,
+    MatFormFieldModule,
   ],
   providers: [
     {
