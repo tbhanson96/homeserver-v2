@@ -4,6 +4,8 @@ import { FileUtils } from '../lib/file-utils';
 import * as fs from 'fs';
 import * as path from 'path';
 import { ConfigService } from '../config/config.service';
+import { archiveFolder } from 'zip-lib';
+import 'multer';
 
 @Injectable()
 export class FileService implements OnModuleInit {
@@ -46,6 +48,19 @@ export class FileService implements OnModuleInit {
         }
         const msg = files.map(f => f.originalname).join(', ');
         this.log.log(`Successfully uploaded file(s): ${msg}`);
+    }
+
+    async downloadFiles(filePath: string): Promise<string> {
+        try {
+            const tmpPath = this.configService.config.files.uploadDir;
+            const sourcePath = path.join(this.rootDir, filePath);
+            const outputPath = path.join(tmpPath, `${path.basename(sourcePath)}`);
+            await archiveFolder(sourcePath, outputPath);
+            this.log.log(`Created zip archive of ${sourcePath}`);
+            return outputPath;
+        } catch (e: any) {
+            throw new Error(`Failed to zip ${filePath}: ${e.message}`);
+        }
     }
 
     async deleteFile(file: FileData) {

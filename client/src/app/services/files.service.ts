@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 import { FileData, StatusUpdate, StatusChannel, StatusType } from '@api/models';
 import { ApiService } from '@api/services';
 import { share, map } from 'rxjs/operators';
@@ -23,6 +23,10 @@ export class FilesService {
   public getFile(filePath: string): Observable<any> {
     return this.api.fileControllerGetFile({ file: filePath });
   }
+
+  public downloadFolder(filePath: string): Promise<Blob> {
+    return lastValueFrom(this.api.fileControllerDownloadFolder({ path: filePath }));
+  };
 
   public uploadFiles(files: File[], directory: string) {
     const formData = {};

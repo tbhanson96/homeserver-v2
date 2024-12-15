@@ -152,6 +152,21 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.isSearchOpen = !this.isSearchOpen;
     this.searchQuery = '';
   }
+
+  public async onDownloadFolder() {
+    this.uiActions.setAppBusy(true);
+    const response = await this.filesService.downloadFolder(this.joinReqPath(this.reqPath));
+    this.uiActions.setAppBusy(false);
+    const url = window.URL.createObjectURL(response); 
+    // const url = window.URL.createObjectURL(response);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `${this.reqPath[this.reqPath.length - 1] || 'home'}.zip`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  }
   
   private updateFiles() {
     this.maxFilesShown = this.defaultMaxFilesShown;

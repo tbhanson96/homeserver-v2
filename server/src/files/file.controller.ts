@@ -3,7 +3,7 @@ import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { FileService } from './file.service';
 import { FileValidationPipe } from './file-validation.pipe';
 import { routes, joinRoutes } from '../routes';
-import { ApiBadRequestResponse, ApiOkResponse, ApiQuery, ApiConsumes, ApiBody, ApiAcceptedResponse, ApiNotFoundResponse } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiOkResponse, ApiQuery, ApiConsumes, ApiBody, ApiAcceptedResponse, ApiNotFoundResponse, ApiProperty } from '@nestjs/swagger';
 import { FileData } from '../models/fileData.dto';
 import { Response } from 'express';
 import * as path from 'path'; 
@@ -34,6 +34,25 @@ export class FileController {
     getFile(@Query('file') filePath: string, @Res() response: Response) {
         const localPath = this.fileService.getLocalFilePath(filePath);
         response.sendFile(localPath);
+    }
+
+    @Get('file/export')
+    @ApiOkResponse({
+        description: 'File successfully zipped',
+        content: {
+            'application/zip': {
+                schema: {
+                    type: 'string',
+                    format: 'binary'
+                }
+            }
+        }
+    })
+    @ApiBadRequestResponse({ description: 'Invalid file path'})
+    @ApiQuery({name: 'path', description: 'Path to directory to download'})
+    async downloadFolder(@Query('path') filePath: string, @Res() response: Response) {
+        const zipped = await this.fileService.downloadFiles(filePath);
+        response.sendFile(zipped);
     }
 
     @Post('file')
