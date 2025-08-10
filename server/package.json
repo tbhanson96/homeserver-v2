@@ -24,7 +24,7 @@
     "@nestjs/mongoose": "^10.0.10",
     "@nestjs/passport": "10.0.3",
     "@nestjs/platform-express": "10.2.10",
-    "@nestjs/swagger": "7.1.16",
+    "@nestjs/swagger": "7.4.2",
     "@nestjs/websockets": "10.2.10",
     "@types/http-proxy": "1.17.14",
     "@types/http-proxy-middleware": "0.19.3",
