@@ -32,7 +32,7 @@
     "@types/tar": "^6.1.10",
     "cheerio": "^1.0.0-rc.12",
     "epub": "1.2.1",
-    "flat": "^5.0.0",
+    "flat": "^6.0.0",
     "http-proxy-middleware": "^2.0.6",
     "jsonfile": "^6.1.0",
     "libgen": "^2.1.2",
