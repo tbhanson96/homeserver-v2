@@ -1,4 +1,4 @@
-FROM node:18-bookworm
+FROM node:24-bookworm
 ARG NODE_VERSION
 
 RUN apt-get update && apt-get install -y xdg-utils wget xz-utils python-is-python3 curl libegl1 libopengl0 libxcb-cursor0 libxkbcommon-x11-0
