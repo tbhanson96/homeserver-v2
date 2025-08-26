@@ -24,7 +24,7 @@ jobs:
         run: npm install
 
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         id: restore-dependencies-cache
         with:
           path: |
@@ -44,7 +44,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: ${{ steps.nvm.outputs.NODE_VERSION}}
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         id: restore-dependencies-cache
         with:
           path: |
@@ -60,7 +60,7 @@ jobs:
         working-directory: client
         run: npm run build:prod
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         id: build-cache
         with:
           path: |
@@ -79,7 +79,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: ${{ steps.nvm.outputs.NODE_VERSION}}
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         id: restore-dependencies-cache
         with:
           path: |
@@ -102,14 +102,14 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: ${{ steps.nvm.outputs.NODE_VERSION}}
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         id: restore-dependencies-cache
         with:
           path: |
             server/node_modules
             client/node_modules
           key: dependencies-${{ github.sha }}
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         id: build-cache
         with:
           path: |
