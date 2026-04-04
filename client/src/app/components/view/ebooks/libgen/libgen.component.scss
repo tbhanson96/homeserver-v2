@@ -1,8 +1,41 @@
+.results-grid {
+    column-width: 225px;
+    column-gap: 16px;
+}
+
 .card {
-    width: 250px;
-    margin-bottom: 10px;
+    width: 100%;
+    margin: 0 0 16px;
+    display: inline-block;
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    vertical-align: top;
 }
 
 .divider { 
     margin: 10px;
+}
+
+:host ::ng-deep app-lazy-img.cover-image {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+:host ::ng-deep app-lazy-img.cover-image .spinner {
+    min-height: 0;
+    width: 100%;
+}
+
+:host ::ng-deep app-lazy-img.cover-image .image {
+    width: 100%;
+    display: block;
+}
+
+@media (max-width: 520px) {
+    .results-grid {
+        column-width: 100%;
+    }
 }
