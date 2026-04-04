@@ -9,13 +9,13 @@
     </div>
 </div>
 <mat-divider class="divider"></mat-divider>
-<div fxLayoutAlign="space-around" fxLayout="row wrap">
+<div class="results-grid">
     <mat-card *ngFor="let ebook of books" class="card">
         <mat-card-header>
             <mat-card-title>{{ ebook.title }}</mat-card-title>
             <mat-card-subtitle>{{ ebook.author }}</mat-card-subtitle>
         </mat-card-header>
-        <app-lazy-img mat-card-image [src]="ebook.coverUrl || 'assets/book.png'" ></app-lazy-img>
+        <app-lazy-img class="cover-image" mat-card-image [src]="ebook.coverUrl || 'assets/book.png'"></app-lazy-img>
         <mat-card-content>
             <p>Format: {{ ebook.extension }}, Size: {{ ebook.filesize | fileSize }}</p>
             <p>Year: {{ ebook.year }}</p>

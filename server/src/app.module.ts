@@ -27,6 +27,7 @@ import { SettingsService } from './settings/settings.service';
 import { TorrentsController } from './torrents/torrents.controller';
 import { TorrentsService } from './torrents/torrents.service';
 import { LibgenService } from './lib/libgen.service';
+import { LibgenClient } from './lib/libgen-client';
 import { ProxyMiddleware } from './middlewares/proxy.middleware';
 import { StatusController } from './status/status.controller';
 import { StatusService } from './status/status.service';
@@ -96,6 +97,7 @@ import { DbModule } from './db.module';
     SettingsService,
     Logger,
     TorrentsService,
+    LibgenClient,
     LibgenService,
     StatusService,
   ],
