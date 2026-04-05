@@ -1,29 +1,54 @@
-<h2 mat-dialog-title>Upload Files</h2>
-<mat-dialog-content>
-  <mat-list twoLine>
-      <mat-list-item *ngFor="let file of files">
-          <div fxFlex>
-            <div mat-line class="file-title">{{file.name}}</div>
-            <div mat-line>{{ file.size | fileSize }}</div>
-          </div>
-          <div fxLayoutAlign="center">
-            <button mat-icon-button class="delete-icon" (click)="onDeleteFile(file)">
+<h2 mat-dialog-title>{{ dialogTitle }}</h2>
+<mat-dialog-content class="upload-dialog-content">
+  <p class="dialog-subtitle">{{ dialogSubtitle }}</p>
+
+  <mat-card class="selection-card" appearance="outlined">
+    <mat-card-content>
+      <div class="selection-header" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="12px">
+        <div>
+          <div class="selection-title">Selected Files</div>
+          <div class="selection-meta">{{ files.length }} item<span *ngIf="files.length !== 1">s</span></div>
+        </div>
+        <input id="files" type="file" class="file-input" (input)="onFileInput($event)" multiple>
+        <label class="file-picker-label" for="files">
+          <span>Add files</span>
+        </label>
+      </div>
+
+      <mat-list *ngIf="hasFiles; else emptySelection">
+        <ng-container *ngFor="let file of files; last as isLast">
+          <mat-list-item class="upload-file-row">
+            <div class="upload-file-copy" fxFlex>
+              <div class="file-title">{{ file.name }}</div>
+              <div class="file-subtitle">{{ file.size | fileSize }}</div>
+            </div>
+            <button mat-icon-button class="delete-icon" (click)="onDeleteFile(file)" aria-label="Remove file">
               <mat-icon>delete</mat-icon>
             </button>
-          </div>
-      </mat-list-item>
-  </mat-list>
-  <div class="menu-content" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px">
-    <input id="files" type="file" class="file-input" (input)="onFileInput($event)" multiple>
-    <label button for="files">
-        Add a file...
-    </label>
-    <mat-checkbox *ngIf="uploadService === uploadServiceEnum.Ebooks" #sendToKindle (change)="onSendToKindleInput(sendToKindle.checked)">
-      Send To Kindle
-    </mat-checkbox>
-  </div>
+          </mat-list-item>
+          <mat-divider *ngIf="!isLast"></mat-divider>
+        </ng-container>
+      </mat-list>
+
+      <ng-template #emptySelection>
+        <div class="empty-selection" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="8px">
+          <mat-icon class="empty-selection-icon">upload_file</mat-icon>
+          <p>No files selected yet.</p>
+        </div>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-checkbox
+    *ngIf="uploadService === uploadServiceEnum.Ebooks"
+    #sendToKindle
+    class="kindle-toggle"
+    (change)="onSendToKindleInput(sendToKindle.checked)"
+  >
+    Send To Kindle
+  </mat-checkbox>
 </mat-dialog-content>
-<mat-dialog-actions>
+<mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button form="uploadForm" type="submit" mat-dialog-close (click)="onUploadFiles()">Upload</button>
+  <button mat-flat-button color="primary" [disabled]="!hasFiles" mat-dialog-close (click)="onUploadFiles()">Upload</button>
 </mat-dialog-actions>

@@ -1,6 +1,13 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, Observable, Subject, debounceTime, filter } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { FilesService } from '@services/files.service';
 import { FileData } from '@api/models';
 import * as validFileTypes from './valid-files';
@@ -13,31 +20,83 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { UiStateSelectors } from '@selectors/ui-state.selectors';
 import { ProgressDialogComponent } from '../progress-dialog/progress-dialog.component';
+import { FormControl } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import {
+  animate,
+  query,
+  stagger,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-files',
   templateUrl: './files.component.html',
   styleUrls: ['./files.component.scss'],
+  animations: [
+    trigger('panelMotion', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(14px)' }),
+        animate('320ms ease-out', style({ opacity: 1, transform: 'translateY(0)' })),
+      ]),
+    ]),
+    trigger('collectionMotion', [
+      transition(':enter', [
+        query(
+          '.file-card, .list-row',
+          [
+            style({ opacity: 0, transform: 'translateY(10px)' }),
+            stagger(36, [
+              animate('240ms ease-out', style({ opacity: 1, transform: 'translateY(0)' })),
+            ]),
+          ],
+          { optional: true },
+        ),
+      ]),
+    ]),
+  ],
 })
 export class FilesComponent implements OnInit, OnDestroy {
   readonly defaultMaxFilesShown = 20;
   readonly showMoreIncrement = 20;
+  viewMode: 'cards' | 'list' = 'cards';
+  activeTypeFilter = '';
+  suggestedFilters: { label: string; value: string }[] = [];
   files: FileData[] = [];
-  reqPath: string[];
-  searchQuery = '';
-  isSearchOpen = false;
+  filteredFiles: FileData[] = [];
+  reqPath: string[] = [];
   showHiddenFiles = false;
   maxFilesShown = this.defaultMaxFilesShown;
-  subscriptions: Subscription[];
+  subscriptions: Subscription[] = [];
+  readonly searchControl = new FormControl('', { nonNullable: true });
+  @ViewChild('searchInput') searchInput?: ElementRef<HTMLInputElement>;
 
   public get visibleFiles() {
-    let ret = this.files;
-    if (this.searchQuery) {
-      ret = ret.filter(f => f.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
-    }
-    ret = ret.slice(0, this.maxFilesShown);
-    return ret;
+    return this.filteredFiles.slice(0, this.maxFilesShown);
   }
+
+  public get searchQuery() {
+    return this.searchControl.value.trim();
+  }
+
+  public get hiddenResultCount() {
+    return Math.max(this.filteredFiles.length - this.visibleFiles.length, 0);
+  }
+
+  public get directoryLabel() {
+    return this.reqPath[this.reqPath.length - 1] || 'Home';
+  }
+
+  public get totalFolders() {
+    return this.filteredFiles.filter(file => file.type === 'dir').length;
+  }
+
+  public get totalDocuments() {
+    return this.filteredFiles.length - this.totalFolders;
+  }
+
   constructor(
     private readonly router: Router,
     private readonly route: ActivatedRoute,
@@ -45,14 +104,22 @@ export class FilesComponent implements OnInit, OnDestroy {
     private readonly dialog: MatDialog,
     private readonly uiActions: UiStateActions,
     private readonly uiSelectors: UiStateSelectors,
-    private readonly filesService: FilesService) { }
+    private readonly filesService: FilesService,
+  ) {}
 
   ngOnInit() {
     this.uiActions.setCurrentApp('Files');
     this.subscriptions = [
+      this.searchControl.valueChanges.pipe(
+        debounceTime(120),
+        distinctUntilChanged(),
+      ).subscribe(() => {
+        this.maxFilesShown = this.defaultMaxFilesShown;
+        this.applySearch();
+      }),
       this.route.url.subscribe(parts => {
         this.uiActions.setAppBusy(true);
-        this.searchQuery = '';
+        this.searchControl.setValue('', { emitEvent: false });
         this.reqPath = parts.map(p => decodeURI(p.toString()));
         this.updateFiles();
         this.uiActions.setCurrentFilesDirectory(this.joinReqPath(this.reqPath));
@@ -61,7 +128,7 @@ export class FilesComponent implements OnInit, OnDestroy {
         this.showHiddenFiles = showHiddenFiles;
         this.updateFiles();
       }),
-    ]
+    ];
   }
 
   ngOnDestroy() {
@@ -77,10 +144,13 @@ export class FilesComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(UploadDialogComponent, { data: UploadType.Files });
     dialogRef.afterClosed().subscribe(result => {
       if (result instanceof Observable) {
-        const progressRef = this.dialog.open(ProgressDialogComponent, { disableClose: true, data: {
-          title: `Uploading file(s)..`,
-          status: this.filesService.getUploadProgress(),
-        }});
+        const progressRef = this.dialog.open(ProgressDialogComponent, {
+          disableClose: true,
+          data: {
+            title: `Uploading file(s)..`,
+            status: this.filesService.getUploadProgress(),
+          },
+        });
         this.uiActions.setAppBusy(true);
         result.subscribe({
           next: () => {
@@ -91,7 +161,7 @@ export class FilesComponent implements OnInit, OnDestroy {
             this.uiActions.setAppBusy(false);
             progressRef.close();
           },
-        })
+        });
       }
     });
   }
@@ -103,7 +173,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   public navigateToFileUrl(file: FileData) {
     const route = encodeURI('/home/files' + file.link);
     if (file.type === 'dir') {
-      this.router.navigateByUrl(route) 
+      this.router.navigateByUrl(route);
     } else {
       const origin = window.location.origin;
       window.location.assign(origin + route);
@@ -111,18 +181,20 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   public onDeleteFile(file: FileData) {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, { data: { service: UploadType.Files, file }});
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: { service: UploadType.Files, file },
+    });
     dialogRef.afterClosed().subscribe(result => {
       if (result instanceof Observable) {
         this.uiActions.setAppBusy(true);
         result.subscribe({
           next: () => {
-            this.snackbar.open(`Successfully deleted file: ${file.name}`);
+            this.snackbar.open(`Successfully deleted file: ${file.name}`, 'Close');
             this.updateFiles();
           },
           error: () => {
-              this.uiActions.setAppBusy(false);
-              throw new Error(`Failed to delete file: ${file.name}`);
+            this.uiActions.setAppBusy(false);
+            throw new Error(`Failed to delete file: ${file.name}`);
           },
         });
       }
@@ -130,13 +202,13 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   public onRenameFile(file: FileData) {
-    const dialogRef = this.dialog.open(RenameFileComponent, { data: { selectedFile: file }});
+    const dialogRef = this.dialog.open(RenameFileComponent, { data: { selectedFile: file } });
     dialogRef.afterClosed().subscribe(result => {
       if (result instanceof Observable) {
         this.uiActions.setAppBusy(true);
         result.subscribe({
           next: () => {
-            this.snackbar.open(`Successfully renamed file: ${file.name}`);
+            this.snackbar.open(`Successfully renamed file: ${file.name}`, 'Close');
             this.updateFiles();
           },
           error: () => {
@@ -148,17 +220,30 @@ export class FilesComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onSearchClick() {
-    this.isSearchOpen = !this.isSearchOpen;
-    this.searchQuery = '';
+  public clearSearch() {
+    this.searchControl.setValue('');
+    this.focusSearch();
+  }
+
+  public setViewMode(mode: 'cards' | 'list') {
+    this.viewMode = mode;
+  }
+
+  public setTypeFilter(filterValue: string) {
+    this.activeTypeFilter = filterValue;
+    this.maxFilesShown = this.defaultMaxFilesShown;
+    this.applySearch();
+  }
+
+  public focusSearch() {
+    queueMicrotask(() => this.searchInput?.nativeElement.focus());
   }
 
   public async onDownloadFolder() {
     this.uiActions.setAppBusy(true);
     const response = await this.filesService.downloadFolder(this.joinReqPath(this.reqPath));
     this.uiActions.setAppBusy(false);
-    const url = window.URL.createObjectURL(response); 
-    // const url = window.URL.createObjectURL(response);
+    const url = window.URL.createObjectURL(response);
     const link = document.createElement('a');
     link.href = url;
     link.setAttribute('download', `${this.reqPath[this.reqPath.length - 1] || 'home'}.zip`);
@@ -167,7 +252,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     document.body.removeChild(link);
     window.URL.revokeObjectURL(url);
   }
-  
+
   private updateFiles() {
     this.maxFilesShown = this.defaultMaxFilesShown;
     const reqPathString = this.joinReqPath(this.reqPath);
@@ -181,16 +266,64 @@ export class FilesComponent implements OnInit, OnDestroy {
           }
         }
         this.files = data;
+        this.updateSuggestedFilters();
+        this.applySearch();
         this.uiActions.setAppBusy(false);
       },
-      error: err => {
+      error: () => {
         this.uiActions.setAppBusy(false);
         throw new Error(`Could not get directory: ${reqPathString}`);
       },
     });
   }
 
+  private applySearch() {
+    const query = this.searchQuery.toLowerCase();
+    this.filteredFiles = this.files.filter(file =>
+      (!query ||
+        file.name.toLowerCase().includes(query) ||
+        file.type.toLowerCase().includes(query) ||
+        file.timestamp.toLowerCase().includes(query)) &&
+      (!this.activeTypeFilter || file.type.toLowerCase() === this.activeTypeFilter.toLowerCase())
+    );
+  }
+
+  private updateSuggestedFilters() {
+    const preferredOrder = ['dir', 'pdf', 'epub', 'jpg', 'png', 'txt', 'zip'];
+    const discoveredTypes = Array.from(new Set(this.files.map(file => file.type)));
+    const sortedTypes = preferredOrder
+      .filter(type => discoveredTypes.includes(type))
+      .concat(discoveredTypes.filter(type => !preferredOrder.includes(type)));
+    this.suggestedFilters = sortedTypes.slice(0, 4).map(type => ({
+      label: type === 'dir' ? 'Folders' : type.toUpperCase(),
+      value: type,
+    }));
+
+    if (this.activeTypeFilter && !discoveredTypes.includes(this.activeTypeFilter)) {
+      this.activeTypeFilter = '';
+    }
+  }
+
   private joinReqPath(reqPath: string[]): string {
     return reqPath.join('/') || '/';
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onGlobalKeydown(event: KeyboardEvent) {
+    const target = event.target as HTMLElement | null;
+    const isTypingTarget = !!target && (
+      target.tagName === 'INPUT' ||
+      target.tagName === 'TEXTAREA' ||
+      target.isContentEditable
+    );
+
+    if (event.key === '/' && !isTypingTarget) {
+      event.preventDefault();
+      this.focusSearch();
+    }
+
+    if (event.key === 'Escape' && this.searchQuery && isTypingTarget) {
+      this.clearSearch();
+    }
   }
 }

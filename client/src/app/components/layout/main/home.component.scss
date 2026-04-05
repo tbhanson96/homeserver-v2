@@ -1,5 +1,9 @@
 @use '@angular/material' as mat;
 
+.main {
+    height: 100vh;
+}
+
 .toolbar {
     z-index: 7;
     position: fixed;
@@ -23,6 +27,40 @@
     padding: 20px;
 }
 
-.main {
-    height: 100vh;
+.sidebar-header {
+    padding-bottom: 16px;
+}
+
+.sidebar-eyebrow {
+    margin: 0 0 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 0.68rem;
+    opacity: 0.8;
+}
+
+.sidebar-header h2 {
+    margin: 0;
+}
+
+.sidebar-copy {
+    margin: 10px 0 0;
+    line-height: 1.55;
+    opacity: 0.78;
+}
+
+@media (max-width: 900px) {
+    .sidebar {
+        width: min(82vw, 300px);
+    }
+
+    .router-content {
+        padding: 14px 12px 18px;
+    }
+}
+
+@media (max-width: 640px) {
+    .sidebar {
+        padding: 16px;
+    }
 }

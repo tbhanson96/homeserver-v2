@@ -1,0 +1,31 @@
+.progress-dialog-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: min(440px, 75vw);
+}
+
+.status-copy {
+    margin: 0;
+    opacity: 0.72;
+}
+
+.progress-card {
+    border-radius: 16px;
+    box-shadow: var(--mat-app-elevation-shadow-level-1);
+}
+
+.progress-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+    opacity: 0.72;
+}
+
+@media (max-width: 640px) {
+    .progress-dialog-content {
+        min-width: 0;
+    }
+}

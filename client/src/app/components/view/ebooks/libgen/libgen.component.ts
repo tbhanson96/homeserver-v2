@@ -1,19 +1,49 @@
 import { UiStateActions } from '@actions/ui-state.actions';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LibgenData } from '@api/models';
 import { ProgressDialogComponent } from '@components/view/progress-dialog/progress-dialog.component';
 import { EbooksService } from '@services/ebooks.service';
 import { StatusService } from '@services/status.service';
+import {
+  animate,
+  query,
+  stagger,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-libgen',
   templateUrl: './libgen.component.html',
-  styleUrls: ['./libgen.component.scss']
+  styleUrls: ['./libgen.component.scss'],
+  animations: [
+    trigger('panelMotion', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(14px)' }),
+        animate('320ms ease-out', style({ opacity: 1, transform: 'translateY(0)' })),
+      ]),
+    ]),
+    trigger('collectionMotion', [
+      transition(':enter', [
+        query(
+          '.search-card',
+          [
+            style({ opacity: 0, transform: 'translateY(10px)' }),
+            stagger(36, [
+              animate('240ms ease-out', style({ opacity: 1, transform: 'translateY(0)' })),
+            ]),
+          ],
+          { optional: true },
+        ),
+      ]),
+    ]),
+  ],
 })
 export class LibgenComponent {
 
-  query: string;
+  query = '';
   books: LibgenData[] = [];
   @Output('download') downloadEvent = new EventEmitter();
 

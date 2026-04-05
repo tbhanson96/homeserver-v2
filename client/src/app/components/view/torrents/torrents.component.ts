@@ -49,7 +49,7 @@ export class TorrentsComponent implements OnInit {
 
   async copyLinkToClipboard(torrent: TorrentDto): Promise<void> {
     await navigator.clipboard?.writeText(torrent.download);
-    this.snackbar.open(`Copied link for ${torrent.title} to clipboard!`)
+    this.snackbar.open(`Copied link for ${torrent.title} to clipboard!`, 'Close')
   }
 
 }

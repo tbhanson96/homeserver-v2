@@ -1,16 +1,29 @@
+.ebooks-page {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ebooks-page mat-card {
+    border-radius: 16px;
+    box-shadow: var(--mat-app-elevation-shadow-level-1);
+}
+
 .library-grid {
     column-width: 225px;
     column-gap: 16px;
 }
 
-.card {
+.ebook-card {
     width: 100%;
     margin: 0 0 16px;
-    display: inline-block;
+    display: inline-flex;
+    flex-direction: column;
     break-inside: avoid;
     -webkit-column-break-inside: avoid;
     page-break-inside: avoid;
     vertical-align: top;
+    overflow: hidden;
 }
 
 .description {
@@ -30,6 +43,18 @@
     padding: 20px;
 }
 
+.library-header mat-card-content {
+    padding-top: 8px;
+}
+
+.search-field {
+    width: 100%;
+}
+
+.ebook-card mat-card-actions {
+    margin-top: auto;
+}
+
 :host ::ng-deep app-lazy-img.cover-image {
     width: 100%;
     display: flex;
@@ -45,6 +70,27 @@
 :host ::ng-deep app-lazy-img.cover-image .image {
     width: 100%;
     display: block;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+}
+
+.empty-card {
+    max-width: 520px;
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 24px;
+}
+
+.empty-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 48px;
+    margin-bottom: 12px;
 }
 
 @media (max-width: 520px) {

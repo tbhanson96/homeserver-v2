@@ -22,6 +22,21 @@ export class UploadDialogComponent implements OnInit, OnDestroy {
   sendToKindle = false;
   uploadServiceEnum = UploadType;
   private subscriptions: Subscription[];
+
+  public get dialogTitle() {
+    return this.uploadService === UploadType.Ebooks ? 'Upload Ebooks' : 'Upload Files';
+  }
+
+  public get dialogSubtitle() {
+    return this.uploadService === UploadType.Ebooks
+      ? 'Add books to your library and optionally send them to Kindle.'
+      : `Add files to ${this.currentDirectory}.`;
+  }
+
+  public get hasFiles() {
+    return this.files.length > 0;
+  }
+
   constructor(
     private readonly fileService: FilesService,
     private readonly ebookService: EbooksService,
@@ -65,7 +80,7 @@ export class UploadDialogComponent implements OnInit, OnDestroy {
     const msg = this.files.map(f => f.name).join(', ');
     result.subscribe({
       next: () => {
-        this.snackbar.open(`Successfully uploaded files: ${msg}`);
+        this.snackbar.open(`Successfully uploaded files: ${msg}`, 'Close');
       },
       error: () => {
         throw new Error(`Failed to upload files: ${msg}`);

@@ -1,44 +1,60 @@
-<h2>Search Torrents</h2>
-<div fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="start">
-    <mat-form-field class="query" fxFlex appearance="fill">
-        <mat-label>Query String</mat-label>
-        <input matInput [(ngModel)]="query" placeholder="Ex. 'The Office'">
-    </mat-form-field>
-    <!-- <div fxLayout="column" fxLayoutAlign="center">
-        <mat-button-toggle-group [(ngModel)]="selectedCategory">
-            <mat-button-toggle *ngFor="let category of categoryOptions" [value]="category">
-                {{ category }}
-            </mat-button-toggle>
-        </mat-button-toggle-group>
-    </div> -->
-    <div fxLayout="column" fxLayoutAlign="center">
-        <button mat-raised-button color="primary" (click)="onTorrentSearch()">Search</button>
-    </div>
-    <div fxLayout="column" fxLayoutAlign="center">
-        <button mat-raised-button color="secondary" (click)="navigateToUrl(TORRENTS_URL)">Go to Torrents</button>
-    </div>
-</div>
-<mat-divider class="divider"></mat-divider>
-<mat-list>
-    <mat-list-item *ngFor="let torrent of torrents" (click)="navigateToUrl(torrent.download)">
-        <div>
-            <div fxFlex class="torrent-info">
-                <div mat-line>{{torrent.title}}</div>
-                <div mat-line>{{torrent.seeders}} Seeders,   {{torrent.size}}</div>
+<section class="torrents-page">
+    <mat-card class="search-card" appearance="outlined">
+        <mat-card-header>
+            <mat-card-title>Search Torrents</mat-card-title>
+            <mat-card-subtitle>Find a torrent and jump straight to the source download page.</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <div fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="start">
+                <mat-form-field class="query" fxFlex appearance="outline">
+                    <mat-label>Query String</mat-label>
+                    <input matInput [(ngModel)]="query" placeholder="Ex. 'The Office'">
+                </mat-form-field>
+                <div fxLayout="column" fxLayoutAlign="center">
+                    <button mat-raised-button color="primary" (click)="onTorrentSearch()">Search</button>
+                </div>
+                <div fxLayout="column" fxLayoutAlign="center">
+                    <button mat-stroked-button (click)="navigateToUrl(TORRENTS_URL)">Go to Torrents</button>
+                </div>
             </div>
-            <div fxLayoutAlign="center">
-                <button (click)="$event.stopPropagation()" mat-icon-button [matMenuTriggerFor]="optionsMenu" title="More info">
-                    <mat-icon>more_vert</mat-icon>
-                </button>
-                <mat-menu #optionsMenu>
-                    <button mat-menu-item (click)="copyLinkToClipboard(torrent)">Copy Link</button>
-                    <!-- <mat-list-item (click)="onMoveFile($event, file)">Move</mat-list-item> -->
-                    <button mat-menu-item disabled>Add</button>
-                </mat-menu>
-            </div>
-        </div>
-    </mat-list-item>
-</mat-list>
-<p *ngIf="torrents.length === 0">
-    No results.
-</p>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="list-card" appearance="outlined" *ngIf="torrents.length; else emptyState">
+        <mat-list>
+            <ng-container *ngFor="let torrent of torrents; last as isLast">
+                <mat-list-item class="torrent-row" (click)="navigateToUrl(torrent.download)">
+                    <div class="torrent-row-layout" fxLayout="row" fxLayoutAlign="space-between center" fxFill>
+                        <div class="torrent-main" fxLayout="column" fxLayoutAlign="center start">
+                            <div class="torrent-title">{{ torrent.title }}</div>
+                            <div class="torrent-subtitle">{{ torrent.seeders }} Seeders, {{ torrent.size }}</div>
+                        </div>
+                        <button
+                            mat-icon-button
+                            (click)="$event.stopPropagation()"
+                            [matMenuTriggerFor]="optionsMenu"
+                            title="More info"
+                        >
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #optionsMenu>
+                            <button mat-menu-item (click)="copyLinkToClipboard(torrent)">Copy Link</button>
+                            <button mat-menu-item disabled>Add</button>
+                        </mat-menu>
+                    </div>
+                </mat-list-item>
+                <mat-divider *ngIf="!isLast"></mat-divider>
+            </ng-container>
+        </mat-list>
+    </mat-card>
+
+    <ng-template #emptyState>
+        <mat-card class="empty-card" appearance="outlined">
+            <mat-card-content class="empty-state">
+                <mat-icon class="empty-icon">travel_explore</mat-icon>
+                <h2>No results</h2>
+                <p>Try a different title or broader search term.</p>
+            </mat-card-content>
+        </mat-card>
+    </ng-template>
+</section>

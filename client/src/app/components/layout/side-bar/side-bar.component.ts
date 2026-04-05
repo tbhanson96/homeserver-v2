@@ -33,7 +33,7 @@ export class SideBarComponent {
       if (result instanceof Observable) {
         result.subscribe({
           next: () => {
-            this.snackbar.open('Succesfully performed update. Please refresh page.');
+            this.snackbar.open('Succesfully performed update. Please refresh page.', 'Close');
           },
           error: err => {
             throw new Error('Failed to apply update.');

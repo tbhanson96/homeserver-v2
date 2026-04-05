@@ -1,5 +1,14 @@
 <h2 mat-dialog-title>{{ data.title }}</h2>
-<p>{{ subText }}</p>
-<mat-dialog-content>
-    <mat-progress-bar [mode]="mode" [value]="progress"></mat-progress-bar>
+<mat-dialog-content class="progress-dialog-content">
+    <p class="status-copy">{{ subText || 'Working on it...' }}</p>
+
+    <mat-card class="progress-card" appearance="outlined">
+        <mat-card-content>
+            <div class="progress-meta" *ngIf="isDeterminate">
+                <span>Progress</span>
+                <span>{{ progress }}%</span>
+            </div>
+            <mat-progress-bar [mode]="mode" [value]="progress"></mat-progress-bar>
+        </mat-card-content>
+    </mat-card>
 </mat-dialog-content>

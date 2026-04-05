@@ -1,37 +1,51 @@
-<h2>Search Library Genesis</h2>
-<div fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="start">
-    <mat-form-field class="query" fxFlex appearance="fill">
-        <mat-label>Query String</mat-label>
-        <input matInput [(ngModel)]="query" placeholder="Ex. 'Of Mice And Men'">
-    </mat-form-field>
-    <div fxLayout="column" fxLayoutAlign="center">
-        <button mat-raised-button color="primary" (click)="onLibgenSearch()">Search</button>
-    </div>
-</div>
-<mat-divider class="divider"></mat-divider>
-<div class="results-grid">
-    <mat-card *ngFor="let ebook of books" class="card">
+<div class="search-page">
+    <mat-card class="search-panel" appearance="outlined" @panelMotion>
         <mat-card-header>
-            <mat-card-title>{{ ebook.title }}</mat-card-title>
-            <mat-card-subtitle>{{ ebook.author }}</mat-card-subtitle>
+            <mat-card-title>Search Library Genesis</mat-card-title>
+            <mat-card-subtitle>Find a book, preview it, and add it to your library.</mat-card-subtitle>
         </mat-card-header>
-        <app-lazy-img class="cover-image" mat-card-image [src]="ebook.coverUrl || 'assets/book.png'"></app-lazy-img>
         <mat-card-content>
-            <p>Format: {{ ebook.extension }}, Size: {{ ebook.filesize | fileSize }}</p>
-            <p>Year: {{ ebook.year }}</p>
-        </mat-card-content>
-        <mat-card-actions>
-            <div fxLayoutAlign="end center">
-                <mat-checkbox #sendToKindle>
-                    Send to Kindle
-                </mat-checkbox>
-                <button mat-icon-button (click)="onDownloadBook(ebook, sendToKindle.checked)">
-                    <mat-icon>download</mat-icon>
-                </button>
+            <div fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="start">
+                <mat-form-field class="query" fxFlex appearance="outline">
+                    <mat-label>Book title or author</mat-label>
+                    <input matInput [(ngModel)]="query" placeholder="Ex. 'Of Mice And Men'">
+                </mat-form-field>
+                <div fxLayout="column" fxLayoutAlign="center">
+                    <button mat-raised-button color="primary" (click)="onLibgenSearch()">Search</button>
+                </div>
             </div>
-        </mat-card-actions>
+        </mat-card-content>
+    </mat-card>
+
+    <div class="results-grid" [@collectionMotion]="books.length">
+        <mat-card *ngFor="let ebook of books" class="search-card" appearance="outlined">
+            <mat-card-header>
+                <mat-card-title>{{ ebook.title }}</mat-card-title>
+                <mat-card-subtitle>{{ ebook.author }}</mat-card-subtitle>
+            </mat-card-header>
+            <app-lazy-img class="cover-image" mat-card-image [src]="ebook.coverUrl || 'assets/book.png'"></app-lazy-img>
+            <mat-card-content>
+                <p>Format: {{ ebook.extension }}, Size: {{ ebook.filesize | fileSize }}</p>
+                <p>Year: {{ ebook.year }}</p>
+            </mat-card-content>
+            <mat-card-actions>
+                <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px">
+                    <mat-checkbox #sendToKindle>
+                        Send to Kindle
+                    </mat-checkbox>
+                    <button mat-icon-button (click)="onDownloadBook(ebook, sendToKindle.checked)">
+                        <mat-icon>download</mat-icon>
+                    </button>
+                </div>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+
+    <mat-card *ngIf="books.length === 0" appearance="outlined" class="empty-card" @panelMotion>
+        <mat-card-content class="empty-state">
+            <mat-icon class="empty-icon">search</mat-icon>
+            <h2>No results</h2>
+            <p>Try a different title, author, or broader search term.</p>
+        </mat-card-content>
     </mat-card>
 </div>
-<p *ngIf="books.length === 0">
-    No results.
-</p>

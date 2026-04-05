@@ -1,11 +1,54 @@
+.torrents-page {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.torrents-page mat-card {
+    border-radius: 16px;
+    box-shadow: var(--mat-app-elevation-shadow-level-1);
+}
+
 .query {
-    padding-top: 18.8px;
+    min-width: 240px;
 }
 
-.torrent-info {
-    max-width: calc(100% - 40px);
+.list-card {
+    overflow: hidden;
 }
 
-.divider {
-    margin: 10px;
+.torrent-row {
+    cursor: pointer;
+    min-height: 72px;
+}
+
+.torrent-row-layout,
+.torrent-main {
+    min-width: 0;
+}
+
+.torrent-title,
+.torrent-subtitle {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.torrent-subtitle {
+    opacity: 0.72;
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 24px;
+}
+
+.empty-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 48px;
+    margin-bottom: 12px;
 }

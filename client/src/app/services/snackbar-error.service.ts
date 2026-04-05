@@ -13,8 +13,11 @@ export class SnackbarErrorService extends ErrorHandler {
 
   handleError(error) {
     if (environment.showErrors) {
-      this.snackbar.open(error, 'Close', {
+      const message = error instanceof Error ? error.message : String(error);
+      this.snackbar.open(message, 'Close', {
         duration: 2000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
       });
     }
     console.error(error);

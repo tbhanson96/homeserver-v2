@@ -1,12 +1,21 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UiStateSelectors } from '@selectors/ui-state.selectors';
 import { UiStateActions } from '@actions/ui-state.actions';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+  animations: [
+    trigger('shellMotion', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(12px)' }),
+        animate('280ms ease-out', style({ opacity: 1, transform: 'translateY(0)' })),
+      ]),
+    ]),
+  ],
 })
 export class HomeComponent implements OnInit, OnDestroy {
   private subscriptions = [];

@@ -43,6 +43,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTimepickerModule } from '@dhutaryan/ngx-mat-timepicker';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -110,6 +111,14 @@ import { MatTimepickerModule } from '@dhutaryan/ngx-mat-timepicker';
     {
       provide: ErrorHandler,
       useClass: SnackbarErrorService
+    },
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+      },
     },
     DeviceDetectorService,
     ApiService,

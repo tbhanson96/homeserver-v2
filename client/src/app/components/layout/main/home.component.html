@@ -1,6 +1,6 @@
 <div class="main">
     <div class="toolbar">
-        <mat-toolbar color="primary" [style.height.px]="64" >
+        <mat-toolbar color="primary" [style.height.px]="64" @shellMotion>
             <app-top-bar></app-top-bar>
         </mat-toolbar>
         <mat-progress-bar mode="indeterminate" *ngIf="isBusy"></mat-progress-bar> 
@@ -13,12 +13,16 @@
             [opened]="isOpen"
             [mode]="isMobile ? 'over' : 'side'"
         >
-            <h2>Tim's Homeserver</h2>
+            <div class="sidebar-header" @shellMotion>
+                <p class="sidebar-eyebrow">Homeserver</p>
+                <h2>Workspace</h2>
+                <p class="sidebar-copy">Navigate your library, media, and personal tools from one place.</p>
+            </div>
             <mat-divider></mat-divider>
             <app-side-bar></app-side-bar>
         </mat-sidenav>
         <mat-sidenav-content fxLayout="row" class="router-content" fxLayoutAlign="center">
-            <div fxLayout="column" fxFill>
+            <div fxLayout="column" fxFill @shellMotion>
                 <router-outlet></router-outlet>
             </div>
         </mat-sidenav-content>

@@ -36,7 +36,7 @@ export class AuthComponent implements OnInit {
           this.router.navigateByUrl('/home');
         }
       } else {
-        this.snackbar.open('Failed to login: invalid username and password.');
+        this.snackbar.open('Failed to login: invalid username and password.', 'Close');
       }
     });
   }

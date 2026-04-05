@@ -20,6 +20,10 @@ export class ProgressDialogComponent implements OnInit, OnDestroy {
   public mode = 'indeterminate';
   public subText = '';
 
+  public get isDeterminate() {
+    return this.mode === 'determinate';
+  }
+
   constructor(
     private readonly changeDetector: ChangeDetectorRef,
     private readonly dialogRef: MatDialogRef<ProgressDialogComponent>,
