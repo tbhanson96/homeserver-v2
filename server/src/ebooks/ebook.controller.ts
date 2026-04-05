@@ -70,13 +70,20 @@ export class EbookController {
         // do long running operation
         const channel = StatusChannel.EbookDownload;
         await this.status.runOperation(channel, async () => {
+            const path = await this.libgen.downloadBook(book, (progress, text) => {
+                this.status.updateStatus(channel, {
+                    channel,
+                    progress,
+                    text,
+                    status: StatusType.InProgress,
+                });
+            });
             this.status.updateStatus(channel, {
                 channel,
-                progress: 25,
-                text: `Downloading ${book.title} from library genesis...`,
+                progress: 90,
+                text: `Adding ${book.title} to ebook library...`,
                 status: StatusType.InProgress,
             });
-            const path = await this.libgen.downloadBook(book);
             const results = await this.ebookService.addBooks([{
                 originalname: `${book.title}.${book.extension}`,
                 path,
@@ -84,13 +91,11 @@ export class EbookController {
             if (sendToKindle) {
                 this.status.updateStatus(channel, {
                     channel,
-                    progress: 75,
+                    progress: 95,
                     text: `Sending book to kindle...`,
                     status: StatusType.InProgress,
                 });
-                if (sendToKindle) {
-                    await this.ebookService.sendToKindle(results);
-                }
+                await this.ebookService.sendToKindle(results);
             }
         });
     }

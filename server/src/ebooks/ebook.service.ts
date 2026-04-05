@@ -75,6 +75,7 @@ export class EbookService implements OnModuleInit {
             fs.renameSync(f.path, newPath);
             const id = await this.calibre.addBookToLibrary(newPath);
             this.log.log(`Successfully added ${newPath} to ebook library`);
+            ret.push(newPath);
         });
         return ret;
     }

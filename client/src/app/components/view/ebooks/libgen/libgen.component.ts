@@ -70,19 +70,23 @@ export class LibgenComponent {
 
   onDownloadBook(book: LibgenData, sendToKindle: boolean) {
     this.uiActions.setAppBusy(true);
+    const ref = this.dialog.open(ProgressDialogComponent, { disableClose: true, data: {
+      title: `Downloading ${book.title}`,
+      status: this.status.getChannelStatus('EbookDownload'),
+      initialText: `Preparing download for ${book.title}...`,
+    }});
+
+    ref.afterClosed().subscribe(result => {
+      this.uiActions.setAppBusy(false);
+      if (result === 'Done') {
+        this.downloadEvent.emit(null);
+      }
+    });
+
     this.ebookService.downloadBook(book, sendToKindle).subscribe({
-      next: () => {
-        const ref = this.dialog.open(ProgressDialogComponent, { disableClose: true, data: {
-          title: `Downloading ${book.title}`,
-          status: this.status.getChannelStatus('EbookDownload'),
-        }});
-        ref.afterClosed().subscribe(() => {
-          this.uiActions.setAppBusy(false);
-          this.downloadEvent.emit(null);
-        });
-      },
+      next: () => {},
       error: e => {
-        this.uiActions.setAppBusy(false);
+        ref.close('Failed');
         throw e;
       }
     });

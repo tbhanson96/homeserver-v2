@@ -6,6 +6,8 @@ import { Observable, Subscription } from 'rxjs';
 export class ProgressDialogData {
   title: string;
   status: Observable<StatusUpdate>;
+  initialProgress?: number;
+  initialText?: string;
 }
 
 @Component({
@@ -31,6 +33,14 @@ export class ProgressDialogComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    if (this.data.initialProgress !== undefined) {
+      this.progress = this.data.initialProgress;
+      this.mode = 'determinate';
+    }
+    if (this.data.initialText) {
+      this.subText = this.data.initialText;
+    }
+
     this.subscriptions.push(
       this.data.status.subscribe(status => {
         if (status.status === 'Done' || status.status === 'Failed') {

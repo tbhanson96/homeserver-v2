@@ -21,7 +21,10 @@ export class LibgenService {
         return results.filter(result => result.extension === 'epub');
     }
 
-    public async downloadBook(book: LibgenData): Promise<string> {
+    public async downloadBook(
+        book: LibgenData,
+        onProgress?: (progress: number, text: string) => void,
+    ): Promise<string> {
         const link = await this.client.getDownloadLink(book.md5);
         if (!link) {
             throw new NotFoundException(`Could not find book download link for ${book.title}`);
@@ -38,6 +41,23 @@ export class LibgenService {
                 this.config.config.files.uploadDir,
                 `${sanitizeFileName(book.title)}.${book.extension}`,
             );
+            const totalBytes = parseInt(response.headers['content-length'] || '0', 10);
+            let downloadedBytes = 0;
+
+            if (onProgress && totalBytes > 0) {
+                onProgress(0, `Downloading ${book.title} from library genesis...`);
+            }
+
+            response.data.on('data', (chunk: Buffer) => {
+                if (!onProgress || totalBytes <= 0) {
+                    return;
+                }
+
+                downloadedBytes += chunk.length;
+                const progress = Math.min(Math.round((downloadedBytes / totalBytes) * 100), 100);
+                onProgress(progress, `Downloading ${book.title} from library genesis... ${formatBytes(downloadedBytes)} / ${formatBytes(totalBytes)}`);
+            });
+
             await pipeline(response.data, fs.createWriteStream(filePath));
             return filePath;
         } catch (e) {
@@ -49,4 +69,17 @@ export class LibgenService {
 
 function sanitizeFileName(value: string): string {
     return value.replace(/[<>:"/\\|?*\u0000-\u001F]/g, '_').trim() || 'download';
+}
+
+function formatBytes(value: number): string {
+    if (value < 1024) {
+        return `${value} B`;
+    }
+    if (value < 1024 * 1024) {
+        return `${(value / 1024).toFixed(1)} KB`;
+    }
+    if (value < 1024 * 1024 * 1024) {
+        return `${(value / (1024 * 1024)).toFixed(1)} MB`;
+    }
+    return `${(value / (1024 * 1024 * 1024)).toFixed(1)} GB`;
 }
