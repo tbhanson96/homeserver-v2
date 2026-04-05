@@ -39,14 +39,26 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-checkbox
+  <div
     *ngIf="uploadService === uploadServiceEnum.Ebooks"
-    #sendToKindle
-    class="kindle-toggle"
-    (change)="onSendToKindleInput(sendToKindle.checked)"
+    fxLayout="column"
+    fxLayoutGap="8px"
   >
-    Send To Kindle
-  </mat-checkbox>
+    <mat-checkbox
+      #sendToKindle
+      class="kindle-toggle"
+      (change)="onSendToKindleInput(sendToKindle.checked)"
+    >
+      Send To Kindle
+    </mat-checkbox>
+    <mat-checkbox
+      #sendToTori
+      class="kindle-toggle"
+      (change)="onSendToToriInput(sendToTori.checked)"
+    >
+      Send to Tori
+    </mat-checkbox>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>

@@ -83,6 +83,10 @@
                     <mat-icon>send</mat-icon>
                     <span>Send to Kindle</span>
                 </button>
+                <button mat-menu-item (click)="onResendToKindle(ebook, true)">
+                    <mat-icon>forward_to_inbox</mat-icon>
+                    <span>Send to Tori</span>
+                </button>
               </mat-menu>
             </div>
           </mat-card-actions>

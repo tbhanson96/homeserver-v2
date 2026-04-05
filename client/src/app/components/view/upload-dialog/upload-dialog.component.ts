@@ -20,6 +20,7 @@ export class UploadDialogComponent implements OnInit, OnDestroy {
   });
   currentDirectory = '/';
   sendToKindle = false;
+  sendToTori = false;
   uploadServiceEnum = UploadType;
   private subscriptions: Subscription[];
 
@@ -73,7 +74,7 @@ export class UploadDialogComponent implements OnInit, OnDestroy {
         result = this.fileService.uploadFiles(this.files, this.currentDirectory);
         break;
       case UploadType.Ebooks:
-        result = this.ebookService.uploadEbooks(this.sendToKindle, this.files);
+        result = this.ebookService.uploadEbooks(this.sendToKindle, this.sendToTori, this.files);
         break;
     }
 
@@ -91,6 +92,10 @@ export class UploadDialogComponent implements OnInit, OnDestroy {
 
   onSendToKindleInput(input: boolean) {
     this.sendToKindle = input;
+  }
+
+  onSendToToriInput(input: boolean) {
+    this.sendToTori = input;
   }
 
 }

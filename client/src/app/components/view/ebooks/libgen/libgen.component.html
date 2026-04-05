@@ -29,13 +29,18 @@
                 <p>Year: {{ ebook.year }}</p>
             </mat-card-content>
             <mat-card-actions>
-                <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px">
+                <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="8px">
                     <mat-checkbox #sendToKindle>
                         Send to Kindle
                     </mat-checkbox>
-                    <button mat-icon-button (click)="onDownloadBook(ebook, sendToKindle.checked)">
-                        <mat-icon>download</mat-icon>
-                    </button>
+                    <mat-checkbox #sendToTori>
+                        Send to Tori
+                    </mat-checkbox>
+                    <div fxLayout="row" fxLayoutAlign="end center">
+                        <button mat-icon-button (click)="onDownloadBook(ebook, sendToKindle.checked, sendToTori.checked)">
+                            <mat-icon>download</mat-icon>
+                        </button>
+                    </div>
                 </div>
             </mat-card-actions>
         </mat-card>

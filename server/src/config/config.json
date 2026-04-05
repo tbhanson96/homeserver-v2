@@ -36,6 +36,7 @@
         "useCalibre": false,
         "useEmailClient": false,
         "kindeEmail": "tbhanson96@kindle.com",
+        "toriKindleEmail": "",
         "libGen": {
             "url": "https://libgen.li",
             "searchMirrors": [

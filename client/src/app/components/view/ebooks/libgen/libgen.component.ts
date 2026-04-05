@@ -68,7 +68,7 @@ export class LibgenComponent {
     });
   }
 
-  onDownloadBook(book: LibgenData, sendToKindle: boolean) {
+  onDownloadBook(book: LibgenData, sendToKindle: boolean, sendToTori: boolean) {
     this.uiActions.setAppBusy(true);
     const ref = this.dialog.open(ProgressDialogComponent, { disableClose: true, data: {
       title: `Downloading ${book.title}`,
@@ -83,7 +83,7 @@ export class LibgenComponent {
       }
     });
 
-    this.ebookService.downloadBook(book, sendToKindle).subscribe({
+    this.ebookService.downloadBook(book, sendToKindle, sendToTori).subscribe({
       next: () => {},
       error: e => {
         ref.close('Failed');

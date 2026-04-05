@@ -31,9 +31,10 @@ export class EbookController {
     @Put()
     @ApiBody({ type: EbookData, description: 'Book to send to kindle'})
     @ApiAcceptedResponse({ description: "Ebook sucessfully emailed to kindle"})
-    async sendBookToKindle(@Body() book: EbookData) {
+    @ApiQuery({name: 'sendToTori', required: false, description: 'Whether or not to send this ebook to Tori instead of the default Kindle address'})
+    async sendBookToKindle(@Body() book: EbookData, @Query('sendToTori') sendToTori: boolean) {
         const localPath = this.ebookService.getLocalFilePath(book);
-        await this.ebookService.sendToKindle([localPath]);
+        await this.ebookService.sendToKindle([localPath], sendToTori);
     }
 
     @Delete()
@@ -46,12 +47,17 @@ export class EbookController {
     @UseInterceptors(AnyFilesInterceptor())
     @ApiAcceptedResponse({ description: "Ebook succesfully uploaded!"})
     @ApiQuery({name: 'sendToKindle', description: 'Whether or not to send this ebook to kindle library'})
+    @ApiQuery({name: 'sendToTori', required: false, description: 'Whether or not to send this ebook to Tori instead of the default Kindle address'})
     @ApiConsumes('multipart/form-data')
     @ApiBody({ type: Object })
-    async addEbook(@UploadedFiles() files: Express.Multer.File[], @Query('sendToKindle') sendToKindle: boolean) {
+    async addEbook(
+        @UploadedFiles() files: Express.Multer.File[],
+        @Query('sendToKindle') sendToKindle: boolean,
+        @Query('sendToTori') sendToTori: boolean,
+    ) {
         const filePaths = await this.ebookService.addBooks(files);
-        if (sendToKindle) {
-            await this.ebookService.sendToKindle(filePaths);
+        if (sendToKindle || sendToTori) {
+            await this.ebookService.sendToKindle(filePaths, sendToTori);
         }
     }
 
@@ -64,8 +70,14 @@ export class EbookController {
     @Post(routes.libgen)
     @ApiAcceptedResponse({ description: 'Started ebook download'})
     @ApiQuery({name: 'sendToKindle', description: 'Whether or not to send this ebook to kindle library'})
+    @ApiQuery({name: 'sendToTori', required: false, description: 'Whether or not to send this ebook to Tori instead of the default Kindle address'})
     @ApiBody({ type: LibgenData, description: 'Libgen book to download'})
-    async downloadEbook(@Body() book: LibgenData, @Query('sendToKindle') sendToKindle: boolean, @Res() response: Response) {
+    async downloadEbook(
+        @Body() book: LibgenData,
+        @Query('sendToKindle') sendToKindle: boolean,
+        @Query('sendToTori') sendToTori: boolean,
+        @Res() response: Response
+    ) {
         response.sendStatus(HttpStatus.ACCEPTED);
         // do long running operation
         const channel = StatusChannel.EbookDownload;
@@ -80,7 +92,7 @@ export class EbookController {
             });
             this.status.updateStatus(channel, {
                 channel,
-                progress: 90,
+                progress: -1,
                 text: `Adding ${book.title} to ebook library...`,
                 status: StatusType.InProgress,
             });
@@ -88,14 +100,14 @@ export class EbookController {
                 originalname: `${book.title}.${book.extension}`,
                 path,
             }]);
-            if (sendToKindle) {
+            if (sendToKindle || sendToTori) {
                 this.status.updateStatus(channel, {
                     channel,
-                    progress: 95,
-                    text: `Sending book to kindle...`,
+                    progress: -1,
+                    text: sendToTori ? `Sending book to Tori...` : `Sending book to kindle...`,
                     status: StatusType.InProgress,
                 });
-                await this.ebookService.sendToKindle(results);
+                await this.ebookService.sendToKindle(results, sendToTori);
             }
         });
     }

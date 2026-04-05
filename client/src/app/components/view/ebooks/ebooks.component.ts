@@ -120,8 +120,8 @@ export class EbooksComponent implements OnInit {
     });
   }
 
-  public onResendToKindle(file: EbookData) {
-    this.ebooksService.sendToKindle(file).subscribe();
+  public onResendToKindle(file: EbookData, sendToTori = false) {
+    this.ebooksService.sendToKindle(file, sendToTori).subscribe();
   }
 
   public onDownload() {

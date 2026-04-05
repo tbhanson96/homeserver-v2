@@ -80,16 +80,19 @@ export class EbookService implements OnModuleInit {
         return ret;
     }
 
-    public async sendToKindle(filePaths: string[]): Promise<void> {
+    public async sendToKindle(filePaths: string[], sendToTori = false): Promise<void> {
         if (!this.mailer) {
             this.log.log(`Skipping email of books: ${filePaths.join(', ')}, mailing is not enabled`);
             return;
         }
+        const destination = sendToTori
+            ? this.configService.config.ebooks.toriKindleEmail
+            : this.configService.config.ebooks.kindeEmail;
         const promises: Promise<void>[] = [];
         filePaths.forEach(file => {
             let options = {
                 from: `<${this.configService.config.email.sender}>`,
-                to: this.configService.config.ebooks.kindeEmail,
+                to: destination,
                 attachments: [
                     {
                         path: file,
@@ -101,7 +104,7 @@ export class EbookService implements OnModuleInit {
                     if (err) {
                         rej(err);
                     } else {
-                        this.log.log(`Succesfully sent book to kindle: ${path.basename(file)}`);
+                        this.log.log(`Succesfully sent book to kindle destination ${destination}: ${path.basename(file)}`);
                         res();
                     }
                 });
