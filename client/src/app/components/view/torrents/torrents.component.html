@@ -39,7 +39,8 @@
                         </button>
                         <mat-menu #optionsMenu>
                             <button mat-menu-item (click)="copyLinkToClipboard(torrent)">Copy Link</button>
-                            <button mat-menu-item disabled>Add</button>
+                            <button mat-menu-item (click)="addTorrent(torrent, 'movies')">Add to Movies</button>
+                            <button mat-menu-item (click)="addTorrent(torrent, 'tv')">Add to TV Shows</button>
                         </mat-menu>
                     </div>
                 </mat-list-item>

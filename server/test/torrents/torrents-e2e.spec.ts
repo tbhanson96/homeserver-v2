@@ -13,10 +13,19 @@ import { TorrentDto } from 'models/torrent.dto';
 import path from 'path';
 import { readFileSync } from 'fs';
 import { JwtGuard } from '../../src/auth/jwt.guard';
+import { TransmissionService } from '../../src/torrents/transmission.service';
+import { TorrentCategory } from '../../src/torrents/torrents.service';
 
 describe('FileController (e2e)', () => {
   let app: INestApplication;
   let dto: TorrentDto;
+  const transmissionResult = {
+    id: 42,
+    name: 'Example Torrent',
+    hashString: 'hash-123',
+    downloadDir: '/downloads/Movies',
+    duplicate: false,
+  };
 
   beforeAll(async () => {
     const mockPirateBay = path.join(__dirname, 'piratebay.html');
@@ -39,6 +48,15 @@ describe('FileController (e2e)', () => {
           subscriber.complete();
         });
       }
+    })
+    .overrideProvider(TransmissionService)
+    .useValue({
+      addMagnet: jest.fn().mockImplementation((magnet: string, category: TorrentCategory) => {
+        return Promise.resolve({
+          ...transmissionResult,
+          downloadDir: category === TorrentCategory.TV ? '/downloads/TV Shows' : '/downloads/Movies',
+        });
+      }),
     })
     .compile();
     app = moduleFixture.createNestApplication();
@@ -68,6 +86,18 @@ describe('FileController (e2e)', () => {
       .get('/api/torrent?search=office&category=movies')
       .expect(200)
     expect(response.body).toMatchObject([dto]);
+  });
+
+  it('POST /api/torrent adds torrent to transmission', async () => {
+    const response = await request(app.getHttpServer())
+      .post('/api/torrent')
+      .send({
+        magnet: 'magnet:?xt=urn:btih:test',
+        category: 'movies',
+      })
+      .expect(201);
+
+    expect(response.body).toEqual(transmissionResult);
   });
 
 });

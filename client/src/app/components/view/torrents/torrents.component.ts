@@ -1,7 +1,7 @@
 import { UiStateActions } from '@actions/ui-state.actions';
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { TorrentDto } from '@api/models';
+import { TorrentCategory, TorrentDto } from '@api/models';
 import { TorrentsService } from '@services/torrents.service';
 
 @Component({
@@ -50,6 +50,24 @@ export class TorrentsComponent implements OnInit {
   async copyLinkToClipboard(torrent: TorrentDto): Promise<void> {
     await navigator.clipboard?.writeText(torrent.download);
     this.snackbar.open(`Copied link for ${torrent.title} to clipboard!`, 'Close')
+  }
+
+  addTorrent(torrent: TorrentDto, category: TorrentCategory): void {
+    this.uiActions.setAppBusy(true);
+    this.torrentService.addTorrent(torrent.download, category).subscribe({
+      next: result => {
+        const label = category === 'movies' ? 'Movies' : 'TV Shows';
+        const message = result.duplicate
+          ? `Torrent already exists in Transmission: ${label}`
+          : `Added torrent to Transmission: ${label}`;
+        this.snackbar.open(message, 'Close');
+        this.uiActions.setAppBusy(false);
+      },
+      error: err => {
+        this.uiActions.setAppBusy(false);
+        throw err;
+      },
+    });
   }
 
 }

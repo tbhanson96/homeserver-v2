@@ -63,6 +63,11 @@
         "installDir": "{.}/../../../tmp",
         "limit": 7
     },
+    "transmission": {
+        "url": "http://127.0.0.1:9091/transmission/rpc",
+        "username": "",
+        "password": ""
+    },
     "ui": {
         "darkMode": false
     }
