@@ -1,11 +1,24 @@
-.hidden {
-    display: none;
+:host {
+    display: block;
+    position: relative;
+    overflow: hidden;
 }
 
 .spinner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     min-height: 300px;
 }
 
 .image {
+    display: block;
     max-width: 100%;
+}
+
+.image.hidden {
+    min-height: 300px;
+    opacity: 0;
 }

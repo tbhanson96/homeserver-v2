@@ -1,4 +1,4 @@
-<div *ngIf="isLoading" fxLayoutAlign="center center" class="spinner">
+<div *ngIf="isLoading" class="spinner" aria-hidden="true">
     <mat-spinner></mat-spinner>
 </div>
 <img class="image" [ngClass]="{'hidden': isLoading}" #image>
