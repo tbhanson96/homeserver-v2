@@ -28,7 +28,7 @@ describe('FileController', () => {
     describe('getFiles', () => {
         it ('should call correct methods', async () => {
             await fileService.getFiles('Documents');
-            expect(fsMock.readdirSync).toBeCalledWith("root/Documents");
+            expect(fsMock.readdirSync).toHaveBeenCalledWith("root/Documents");
         });
 
         it('returns correct values', async () => {

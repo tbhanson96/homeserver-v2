@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HealthData, HealthDataDto, SleepDataDto } from '@api/models';
-import { ApiService } from '@api/services';
+import { HealthService as GeneratedHealthService } from '@api/services';
 import { lastValueFrom } from 'rxjs';
 
 @Injectable({
@@ -9,11 +9,11 @@ import { lastValueFrom } from 'rxjs';
 export class HealthService {
 
   constructor(
-    private readonly api: ApiService,
+    private readonly healthApi: GeneratedHealthService,
   ) { }
 
   public async getHealthData(from: Date, to: Date, metrics: string[]): Promise<HealthDataDto> {
-    return await lastValueFrom(this.api.healthControllerGetHealthData({
+    return await lastValueFrom(this.healthApi.healthControllerGetHealthData({
       from: from.toISOString(),
       to: to.toISOString(),
       metrics,
@@ -21,7 +21,7 @@ export class HealthService {
   }
 
   public async getSleepData(from: Date, to: Date): Promise<SleepDataDto> {
-    return await lastValueFrom(this.api.healthControllerGetSleepData({
+    return await lastValueFrom(this.healthApi.healthControllerGetSleepData({
       from: from.toISOString(),
       to: to.toISOString(),
     }));

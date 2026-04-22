@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from '@api/services';
+import { AuthService as GeneratedAuthService } from '@api/services';
 import { CanActivate, Router } from '@angular/router';
 import { lastValueFrom, Observable } from 'rxjs';
 
@@ -9,13 +9,13 @@ import { lastValueFrom, Observable } from 'rxjs';
 export class AuthService implements CanActivate {
   private isAuthenticated = false;
   constructor(
-    private readonly api: ApiService,
+    private readonly authApi: GeneratedAuthService,
     private readonly router: Router
   ) { }
 
   getAuthenticated(): Observable<boolean> {
     return new Observable(observer => {
-      this.api.authControllerIsLoggedIn().subscribe({
+      this.authApi.authControllerIsLoggedIn().subscribe({
         next: () => {
           observer.next(true);
           observer.complete();
@@ -32,7 +32,7 @@ export class AuthService implements CanActivate {
 
   login(username: string, password: string): Observable<boolean> {
     return new Observable(observer => {
-      this.api.authControllerLogin({ body: { username, password }}).subscribe({
+      this.authApi.authControllerLogin({ body: { username, password }}).subscribe({
         next: auth_token => {
           localStorage.setItem('access_token', auth_token); // save incase we want to get later
           observer.next(true);

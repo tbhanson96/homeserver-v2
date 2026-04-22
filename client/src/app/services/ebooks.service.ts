@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from '@api/services';
+import { EbookService as GeneratedEbookService } from '@api/services';
 import { share } from 'rxjs/operators';
 import { EbookData, LibgenData } from '@api/models';
 
@@ -8,10 +8,10 @@ import { EbookData, LibgenData } from '@api/models';
 })
 export class EbooksService {
 
-  constructor(private apiService: ApiService) { }
+  constructor(private readonly ebookApi: GeneratedEbookService) { }
 
   getEbooks() {
-    return this.apiService.ebookControllerGetBooks();
+    return this.ebookApi.ebookControllerGetBooks();
   }
 
   uploadEbooks(sendToKindle: boolean, sendToTori: boolean, files: Array<File>) {
@@ -19,22 +19,22 @@ export class EbooksService {
     files.forEach((file) => {
       formData[file.name] = file;
     });
-    return this.apiService.ebookControllerAddEbook({ sendToKindle, sendToTori, body: formData }).pipe(share());
+    return this.ebookApi.ebookControllerAddEbook({ sendToKindle, sendToTori, body: formData }).pipe(share());
   }
 
   deleteEbook(ebook: EbookData) {
-    return this.apiService.ebookControllerDeleteEbook({ body: ebook });
+    return this.ebookApi.ebookControllerDeleteEbook({ body: ebook });
   }
 
   sendToKindle(ebook: EbookData, sendToTori = false) {
-    return this.apiService.ebookControllerSendBookToKindle({ body: ebook, sendToTori });
+    return this.ebookApi.ebookControllerSendBookToKindle({ body: ebook, sendToTori });
   }
 
   searchForBooks(query: string) {
-    return this.apiService.ebookControllerSearchEbooks({ search: query});
+    return this.ebookApi.ebookControllerSearchEbooks({ search: query});
   }
 
   downloadBook(book: LibgenData, sendToKindle: boolean, sendToTori: boolean) {
-    return this.apiService.ebookControllerDownloadEbook({ sendToKindle, sendToTori, body: book });
+    return this.ebookApi.ebookControllerDownloadEbook({ sendToKindle, sendToTori, body: book });
   }
 }

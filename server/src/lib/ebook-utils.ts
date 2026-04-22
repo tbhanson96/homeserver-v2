@@ -9,11 +9,10 @@ export class EbookUtils {
     public static async getEpubData(filePath: string): Promise<Epub> {
         return new Promise<Epub>((res, rej) => {
             try {
-                const epub = new Epub(filePath);
-                epub.on('end', () => {
-                    res(epub);
-                });
-                epub.parse();
+                const epub = new Epub(fs.readFileSync(filePath));
+                epub.parse()
+                    .then(() => res(epub))
+                    .catch(rej);
 
             } catch(e) {
                 rej(e); 

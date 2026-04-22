@@ -108,7 +108,7 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(ProxyMiddleware, FilesMiddleware, EbooksMiddleware, ClientMiddleware)
     .forRoutes({
-      path: '/**',
+      path: '{*splat}',
       method: RequestMethod.GET,
     });
   }

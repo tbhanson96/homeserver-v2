@@ -11,7 +11,7 @@ import { rootReducer, initialState } from '@reducers/root.reducer';
 import { FilesComponent } from '@components/view/files/files.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FilesService } from '@services/files.service';
-import { ApiService } from '@api/services';
+import { SettingsService as GeneratedSettingsService } from '@api/services';
 import { NotFoundComponent } from '@components/view/not-found/not-found.component';
 import { MaterialModule } from './material.module';
 import { SnackbarErrorService } from '@services/snackbar-error.service';
@@ -90,10 +90,10 @@ import { environment } from '../environments/environment';
   providers: [
     {
       provide: APP_INITIALIZER,
-      useFactory: (apiService: ApiService, uiActions: UiStateActions, status: StatusService) => {
+      useFactory: (settingsApi: GeneratedSettingsService, uiActions: UiStateActions) => {
         return () => {
           return new Promise<void>((res, rej) => {
-            apiService.settingsControllerGetSettings().subscribe({
+            settingsApi.settingsControllerGetSettings().subscribe({
               next: settings => {
                 uiActions.setDarkMode(settings.useDarkMode);
                 res();
@@ -104,7 +104,7 @@ import { environment } from '../environments/environment';
           });
         };
       },
-      deps: [ApiService, UiStateActions],
+      deps: [GeneratedSettingsService, UiStateActions],
       multi: true,
     },
     {
@@ -125,7 +125,6 @@ import { environment } from '../environments/environment';
       },
     },
     DeviceDetectorService,
-    ApiService,
     FilesService,
     AuthService,
     EbooksService,

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from '@api/services';
+import { TorrentsService as GeneratedTorrentsService } from '@api/services';
 import { TorrentCategory } from '@api/models';
 
 @Injectable({
@@ -8,15 +8,15 @@ import { TorrentCategory } from '@api/models';
 export class TorrentsService {
 
   constructor(
-    private readonly api: ApiService,
+    private readonly torrentsApi: GeneratedTorrentsService,
   ) { }
 
   public queryTorrents(query: string, category: any) {
-    return this.api.torrentsControllerQueryTorrents({ search: query, category })
+    return this.torrentsApi.torrentsControllerQueryTorrents({ search: query, category })
   }
 
   public addTorrent(magnet: string, category: TorrentCategory) {
-    return this.api.torrentsControllerAddTorrent({
+    return this.torrentsApi.torrentsControllerAddTorrent({
       body: {
         magnet,
         category,

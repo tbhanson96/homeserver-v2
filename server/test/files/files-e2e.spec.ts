@@ -64,7 +64,7 @@ describe('FileController (e2e)', () => {
     request(app.getHttpServer())
       .get('/api/files/path?path=/invalid/path')
       .expect(404);
-    expect(spy).not.toBeCalled();
+    expect(spy).not.toHaveBeenCalled();
   });
 
   it('GET /api/files/file?file=/test.txt returns correct data', async () => {
@@ -81,7 +81,7 @@ describe('FileController (e2e)', () => {
     await request(app.getHttpServer())
       .get('/api/files/file?file=/fake-file.fake')
       .expect(404);
-    expect(spy).not.toBeCalled();
+    expect(spy).not.toHaveBeenCalled();
   })
 
   it('POST /api/files/path?/', async () => {

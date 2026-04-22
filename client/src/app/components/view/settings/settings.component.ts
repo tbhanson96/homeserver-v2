@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewChecked, AfterViewInit, OnDestroy } from '@angular/core';
-import { ApiService } from '@api/services';
+import { SettingsService as GeneratedSettingsService } from '@api/services';
 import { SettingsDto } from '@api/models/settings-dto';
 import { UiStateSelectors } from '@selectors/ui-state.selectors';
 import { UiStateActions } from '@actions/ui-state.actions';
@@ -27,7 +27,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('darkModeSwitch') darkModeSwitch: MatSlideToggle;
 
   constructor(
-    private readonly api: ApiService,
+    private readonly settingsApi: GeneratedSettingsService,
     private readonly dialogRef: MatDialogRef<SettingsComponent>,
     private readonly uiSelectors: UiStateSelectors,
     private readonly uiActions: UiStateActions,
@@ -56,7 +56,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onPerformUpdate() {
-    const result = this.api.settingsControllerPerformUpdate();
+    const result = this.settingsApi.settingsControllerPerformUpdate();
     this.dialogRef.close(result);
   }
 
@@ -73,7 +73,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
       showHiddenFiles: this.showHiddenFiles,
       useDarkMode: this.useDarkMode,
     };
-    this.api.settingsControllerSetSettings({ body: settings }).subscribe({
+    this.settingsApi.settingsControllerSetSettings({ body: settings }).subscribe({
       complete: () => { },
       error: () => {
         throw new Error(`Failed to save settings: ${settings}`)
@@ -85,7 +85,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onLoadSettingsFile() {
-    this.api.settingsControllerReloadSettings().subscribe({
+    this.settingsApi.settingsControllerReloadSettings().subscribe({
       next: () => {
         this.loadSettings();
       },
@@ -93,7 +93,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private loadSettings() {
-    this.api.settingsControllerGetSettings().subscribe({
+    this.settingsApi.settingsControllerGetSettings().subscribe({
       next: settings => {
         this.uiActions.setDarkMode(settings.useDarkMode)
         this.uiActions.setShowHiddenFiles(settings.showHiddenFiles);

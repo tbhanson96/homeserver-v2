@@ -1,5 +1,5 @@
 {
-  "extends": "@tsconfig/node18",
+  "extends": "@tsconfig/node24",
   "compilerOptions": {
     "strict": true,
     "module": "CommonJS",
@@ -12,10 +12,12 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./src",
+    "types": ["node", "jest"],
     "incremental": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "strictPropertyInitialization": false,
+    "ignoreDeprecations": "6.0"
   },
   "include": ["*.ts", "*.json"],
   "exclude": ["test"],

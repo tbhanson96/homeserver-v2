@@ -20,13 +20,13 @@ describe('AuthController', () => {
             jest.spyOn(service, 'authenticate').mockReturnValue(true);
             const authorize = jest.spyOn(service, 'authorize');
             await controller.login({username: '', password: ''}, request);
-            expect(service.authenticate).toBeCalled();
-            expect(authorize).toBeCalled();
+            expect(service.authenticate).toHaveBeenCalled();
+            expect(authorize).toHaveBeenCalled();
             authorize.mockClear();
             jest.spyOn(service, 'authenticate').mockReturnValue(false);
             await controller.login({username: '', password: ''}, request);
-            expect(service.authenticate).toBeCalled();
-            expect(authorize).not.toBeCalled();
+            expect(service.authenticate).toHaveBeenCalled();
+            expect(authorize).not.toHaveBeenCalled();
         });
 
         it('should return token', async () => {

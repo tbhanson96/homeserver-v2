@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { lastValueFrom, Observable } from 'rxjs';
 import { FileData, StatusUpdate, StatusChannel, StatusType } from '@api/models';
-import { ApiService } from '@api/services';
+import { FileService as GeneratedFileService } from '@api/services';
 import { share, map } from 'rxjs/operators';
 import { UploadInterceptor } from './upload.interceptor';
 import { HttpEventType } from '@angular/common/http';
@@ -12,20 +12,20 @@ import { HttpEventType } from '@angular/common/http';
 export class FilesService {
 
   constructor(
-    private readonly api: ApiService,
+    private readonly fileApi: GeneratedFileService,
     private readonly upload: UploadInterceptor,
     ) { }
 
   public getDirectory(filePath: string, showHiddenFiles: boolean): Observable<FileData[]> {
-    return this.api.fileControllerGetPath({ path: filePath });
+    return this.fileApi.fileControllerGetPath({ path: filePath });
   }
 
   public getFile(filePath: string): Observable<any> {
-    return this.api.fileControllerGetFile({ file: filePath });
+    return this.fileApi.fileControllerGetFile({ file: filePath });
   }
 
   public downloadFolder(filePath: string): Promise<Blob> {
-    return lastValueFrom(this.api.fileControllerDownloadFolder({ path: filePath }));
+    return lastValueFrom(this.fileApi.fileControllerDownloadFolder({ path: filePath }));
   };
 
   public uploadFiles(files: File[], directory: string) {
@@ -33,15 +33,15 @@ export class FilesService {
     files.forEach(f => {
       formData[f.name] = f;
     });
-    return this.api.fileControllerUploadFiles({ path: directory, body: formData }).pipe(share());
+    return this.fileApi.fileControllerUploadFiles({ path: directory, body: formData }).pipe(share());
   }
 
   public deleteFile(file: FileData) {
-    return this.api.fileControllerDeleteFile({ body: file }).pipe(share());
+    return this.fileApi.fileControllerDeleteFile({ body: file }).pipe(share());
   }
 
   public renameFile(file: FileData, newName: string) {
-    return this.api.fileControllerRenameFile({ name: newName, body: file }).pipe(share());
+    return this.fileApi.fileControllerRenameFile({ name: newName, body: file }).pipe(share());
   }
 
   public getUploadProgress(): Observable<StatusUpdate> {
