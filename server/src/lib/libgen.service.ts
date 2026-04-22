@@ -41,7 +41,7 @@ export class LibgenService {
                 this.config.config.files.uploadDir,
                 `${sanitizeFileName(book.title)}.${book.extension}`,
             );
-            const totalBytes = parseInt(response.headers['content-length'] || '0', 10);
+            const totalBytes = parseContentLength(response.headers['content-length']);
             let downloadedBytes = 0;
 
             if (onProgress && totalBytes > 0) {
@@ -82,4 +82,18 @@ function formatBytes(value: number): string {
         return `${(value / (1024 * 1024)).toFixed(1)} MB`;
     }
     return `${(value / (1024 * 1024 * 1024)).toFixed(1)} GB`;
+}
+
+function parseContentLength(value: string | number | boolean | string[] | null | undefined): number {
+    if (typeof value === 'number') {
+        return Number.isFinite(value) ? value : 0;
+    }
+    if (typeof value === 'string') {
+        const parsed = parseInt(value, 10);
+        return Number.isFinite(parsed) ? parsed : 0;
+    }
+    if (Array.isArray(value)) {
+        return parseContentLength(value[0]);
+    }
+    return 0;
 }
