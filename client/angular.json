@@ -27,6 +27,10 @@
             "optimization": false,
             "tsConfig": "tsconfig.app.json",
             "assets": [
+              "src/favicon.ico",
+              "src/apple-touch-icon.png",
+              "src/apple-touch-icon-precomposed.png",
+              "src/manifest.webmanifest",
               "src/assets"
             ],
             "styles": [
@@ -57,7 +61,16 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
+              "serviceWorker": true,
+              "ngswConfigPath": "ngsw-config.json",
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": true
+                },
+                "fonts": false
+              },
               "outputHashing": "all",
               "outputPath": "dist/",
               "sourceMap": false,
@@ -107,6 +120,9 @@
             "karmaConfig": "karma.conf.js",
             "assets": [
               "src/favicon.ico",
+              "src/apple-touch-icon.png",
+              "src/apple-touch-icon-precomposed.png",
+              "src/manifest.webmanifest",
               "src/assets"
             ],
             "styles": [
@@ -143,7 +159,6 @@
         }
       }
     }},
-  "defaultProject": "homeserver-client",
   "cli": {
     "analytics": false
   }

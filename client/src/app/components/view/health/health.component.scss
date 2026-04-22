@@ -1,5 +1,18 @@
+.health-controls,
+.health-time-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+}
+
 .graph {
   height: 500px;
+}
+
+.health-chart {
+  width: 100%;
+  height: 100%;
 }
 
 .divider {

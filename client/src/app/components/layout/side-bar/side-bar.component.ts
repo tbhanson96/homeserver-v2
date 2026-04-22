@@ -7,9 +7,10 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { UiStateActions } from '@actions/ui-state.actions';
 
 @Component({
-  selector: 'app-side-bar',
-  templateUrl: './side-bar.component.html',
-  styleUrls: ['./side-bar.component.scss']
+    selector: 'app-side-bar',
+    templateUrl: './side-bar.component.html',
+    styleUrls: ['./side-bar.component.scss'],
+    standalone: false
 })
 export class SideBarComponent {
 

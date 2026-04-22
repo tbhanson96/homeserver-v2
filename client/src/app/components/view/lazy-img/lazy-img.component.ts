@@ -1,9 +1,10 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'app-lazy-img',
-  templateUrl: './lazy-img.component.html',
-  styleUrls: ['./lazy-img.component.scss']
+    selector: 'app-lazy-img',
+    templateUrl: './lazy-img.component.html',
+    styleUrls: ['./lazy-img.component.scss'],
+    standalone: false
 })
 export class LazyImgComponent implements OnInit {
 

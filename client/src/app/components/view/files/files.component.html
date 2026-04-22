@@ -1,217 +1,234 @@
 <section class="files-page">
-    <mat-card class="files-header" appearance="outlined" @panelMotion>
-        <mat-card-header>
-            <mat-card-title>{{ directoryLabel }}</mat-card-title>
-            <mat-card-subtitle>Browse, search, and manage files in this folder.</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content class="header-content">
-            <div class="stats-row">
-                <mat-chip-set>
-                    <mat-chip>Items: {{ filteredFiles.length }}</mat-chip>
-                    <mat-chip>Folders: {{ totalFolders }}</mat-chip>
-                    <mat-chip>Files: {{ totalDocuments }}</mat-chip>
-                </mat-chip-set>
-            </div>
+  <mat-card class="files-header" appearance="outlined" @panelMotion>
+    <mat-card-header>
+      <mat-card-title>{{ directoryLabel }}</mat-card-title>
+      <mat-card-subtitle>Browse, search, and manage files in this folder.</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="header-content">
+      <div class="stats-row">
+        <mat-chip-set>
+          <mat-chip>Items: {{ filteredFiles.length }}</mat-chip>
+          <mat-chip>Folders: {{ totalFolders }}</mat-chip>
+          <mat-chip>Files: {{ totalDocuments }}</mat-chip>
+        </mat-chip-set>
+      </div>
 
-            <mat-chip-listbox class="file-nav">
-                <mat-chip-option [selected]="reqPath.length === 0" routerLink="/home/files">
-                    <mat-icon matChipAvatar>folder</mat-icon>
-                    Home
-                </mat-chip-option>
-                <mat-chip-option
-                    *ngFor="let part of reqPath; last as isLast"
-                    [selected]="isLast"
-                    [routerLink]="getRouterLinkFromDir(part)"
-                >
-                    {{ part }}
-                </mat-chip-option>
-            </mat-chip-listbox>
-        </mat-card-content>
-    </mat-card>
-
-    <mat-card class="search-card" appearance="outlined" @panelMotion>
-        <mat-card-content class="search-layout">
-            <div class="search-column">
-                <mat-form-field class="search-field" appearance="outline" subscriptSizing="dynamic">
-                    <mat-label>Search files</mat-label>
-                    <mat-icon matPrefix>search</mat-icon>
-                    <input
-                        #searchInput
-                        matInput
-                        [formControl]="searchControl"
-                        placeholder="Search by name, type, or date"
-                        autocomplete="off"
-                    >
-                    <span matTextSuffix *ngIf="!searchQuery">/</span>
-                    <button
-                        *ngIf="searchQuery"
-                        matSuffix
-                        mat-icon-button
-                        type="button"
-                        aria-label="Clear search"
-                        (click)="clearSearch()"
-                    >
-                        <mat-icon>close</mat-icon>
-                    </button>
-                    <mat-hint>Press `/` to focus search and `Esc` to clear it.</mat-hint>
-                </mat-form-field>
-
-                <mat-chip-listbox
-                    *ngIf="suggestedFilters.length"
-                    class="filter-chips"
-                    [value]="activeTypeFilter"
-                    [multiple]="false"
-                    aria-label="Filter files by type"
-                    (change)="setTypeFilter($event.value)"
-                >
-                    <mat-chip-option value="">
-                        All
-                    </mat-chip-option>
-                    <mat-chip-option
-                        *ngFor="let filter of suggestedFilters"
-                        [value]="filter.value"
-                    >
-                        {{ filter.label }}
-                    </mat-chip-option>
-                </mat-chip-listbox>
-            </div>
-
-            <div class="actions-column">
-                <mat-button-toggle-group [value]="viewMode" aria-label="Choose file layout">
-                    <mat-button-toggle value="cards" (click)="setViewMode('cards')">
-                        <mat-icon>grid_view</mat-icon>
-                    </mat-button-toggle>
-                    <mat-button-toggle value="list" (click)="setViewMode('list')">
-                        <mat-icon>view_list</mat-icon>
-                    </mat-button-toggle>
-                </mat-button-toggle-group>
-
-                <div class="action-buttons">
-                    <button mat-flat-button color="primary" (click)="openUploadDialog()">
-                        <mat-icon>add</mat-icon>
-                        Upload
-                    </button>
-                    <button mat-stroked-button (click)="onDownloadFolder()">
-                        <mat-icon>download</mat-icon>
-                        Download Folder
-                    </button>
-                </div>
-            </div>
-        </mat-card-content>
-    </mat-card>
-
-    <mat-card class="results-card" appearance="outlined" *ngIf="searchQuery" @panelMotion>
-        <mat-card-content>
-            <p class="results-copy">
-                {{ filteredFiles.length }} result<span *ngIf="filteredFiles.length !== 1">s</span> for "{{ searchQuery }}"
-            </p>
-        </mat-card-content>
-    </mat-card>
-
-    <div *ngIf="visibleFiles.length; else emptyState">
-        <div
-            class="files-grid"
-            *ngIf="viewMode === 'cards'; else listView"
-            [@collectionMotion]="visibleFiles.length + '-cards'"
-        >
-            <mat-card
-                *ngFor="let file of visibleFiles"
-                class="file-card"
-                appearance="outlined"
-                (click)="navigateToFileUrl(file)"
+      <mat-chip-listbox class="file-nav">
+        <mat-chip-option [selected]="reqPath.length === 0" routerLink="/home/files">
+          <mat-icon matChipAvatar>folder</mat-icon>
+          Home
+        </mat-chip-option>
+        @for (part of reqPath; track part; let isLast = $last) {
+          <mat-chip-option
+            [selected]="isLast"
+            [routerLink]="getRouterLinkFromDir(part)"
             >
-                <mat-card-header>
-                    <div mat-card-avatar class="file-avatar">
-                        <img class="list-image" [src]="'/assets/icons/' + file.type + '.png'" />
-                    </div>
-                    <mat-card-title>{{ file.name }}</mat-card-title>
-                    <mat-card-subtitle>{{ file.timestamp }}</mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content>
-                    <mat-chip-set>
-                        <mat-chip>{{ file.type === 'dir' ? 'Folder' : file.type }}</mat-chip>
-                    </mat-chip-set>
-                </mat-card-content>
-                <mat-card-actions align="end">
-                    <button mat-icon-button (click)="$event.stopPropagation()" [matMenuTriggerFor]="cardMenu">
-                        <mat-icon>more_vert</mat-icon>
-                    </button>
-                    <mat-menu #cardMenu>
-                        <button mat-menu-item (click)="onRenameFile(file)">
-                            <mat-icon>edit</mat-icon>
-                            <span>Rename</span>
-                        </button>
-                        <button mat-menu-item (click)="onDeleteFile(file)">
-                            <mat-icon>delete</mat-icon>
-                            <span>Delete</span>
-                        </button>
-                    </mat-menu>
-                </mat-card-actions>
-            </mat-card>
+            {{ part }}
+          </mat-chip-option>
+        }
+      </mat-chip-listbox>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="search-card" appearance="outlined" @panelMotion>
+    <mat-card-content class="search-layout">
+      <div class="search-column">
+        <mat-form-field class="search-field" appearance="outline" subscriptSizing="dynamic">
+          <mat-label>Search files</mat-label>
+          <mat-icon matPrefix>search</mat-icon>
+          <input
+            #searchInput
+            matInput
+            [formControl]="searchControl"
+            placeholder="Search by name, type, or date"
+            autocomplete="off"
+            >
+          @if (!searchQuery) {
+            <span matTextSuffix>/</span>
+          }
+          @if (searchQuery) {
+            <button
+              matSuffix
+              mat-icon-button
+              type="button"
+              aria-label="Clear search"
+              (click)="clearSearch()"
+              >
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+          <mat-hint>Press `/` to focus search and `Esc` to clear it.</mat-hint>
+        </mat-form-field>
+
+        @if (suggestedFilters.length) {
+          <mat-chip-listbox
+            class="filter-chips"
+            [value]="activeTypeFilter"
+            [multiple]="false"
+            aria-label="Filter files by type"
+            (change)="setTypeFilter($event.value)"
+            >
+            <mat-chip-option value="">
+              All
+            </mat-chip-option>
+            @for (filter of suggestedFilters; track filter) {
+              <mat-chip-option
+                [value]="filter.value"
+                >
+                {{ filter.label }}
+              </mat-chip-option>
+            }
+          </mat-chip-listbox>
+        }
+      </div>
+
+      <div class="actions-column">
+        <mat-button-toggle-group [value]="viewMode" aria-label="Choose file layout">
+          <mat-button-toggle value="cards" (click)="setViewMode('cards')">
+            <mat-icon>grid_view</mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle value="list" (click)="setViewMode('list')">
+            <mat-icon>view_list</mat-icon>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+
+        <div class="action-buttons">
+          <button mat-flat-button color="primary" (click)="openUploadDialog()">
+            <mat-icon>add</mat-icon>
+            Upload
+          </button>
+          <button mat-stroked-button (click)="onDownloadFolder()">
+            <mat-icon>download</mat-icon>
+            Download Folder
+          </button>
         </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
 
-        <ng-template #listView>
-            <mat-card class="list-card" appearance="outlined">
-                <mat-list [@collectionMotion]="visibleFiles.length + '-list'">
-                    <ng-container *ngFor="let file of visibleFiles; last as isLast">
-                        <mat-list-item
-                            class="file-row"
-                            (click)="navigateToFileUrl(file)"
-                        >
-                            <div class="file-row-layout" fxLayout="row" fxLayoutAlign="space-between center" fxFill>
-                                <div class="file-row-main" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
-                                    <img class="list-image" [src]="'/assets/icons/' + file.type + '.png'" />
-                                    <div class="file-row-copy" fxLayout="column" fxLayoutAlign="center start">
-                                        <div class="file-row-title">{{ file.name }}</div>
-                                        <div class="file-row-subtitle">{{ file.timestamp }}</div>
-                                    </div>
-                                </div>
-                                <button
-                                    class="file-row-action"
-                                    mat-icon-button
-                                    (click)="$event.stopPropagation()"
-                                    [matMenuTriggerFor]="listMenu"
-                                >
-                                    <mat-icon>more_vert</mat-icon>
-                                </button>
-                            </div>
-                            <mat-menu #listMenu>
-                                <button mat-menu-item (click)="onRenameFile(file)">
-                                    <mat-icon>edit</mat-icon>
-                                    <span>Rename</span>
-                                </button>
-                                <button mat-menu-item (click)="onDeleteFile(file)">
-                                    <mat-icon>delete</mat-icon>
-                                    <span>Delete</span>
-                                </button>
-                            </mat-menu>
-                        </mat-list-item>
-                        <mat-divider *ngIf="!isLast"></mat-divider>
-                    </ng-container>
-                </mat-list>
-            </mat-card>
-        </ng-template>
-    </div>
+  @if (searchQuery) {
+    <mat-card class="results-card" appearance="outlined" @panelMotion>
+      <mat-card-content>
+        <p class="results-copy">
+          {{ filteredFiles.length }} result@if (filteredFiles.length !== 1) {
+          <span>s</span>
+          } for "{{ searchQuery }}"
+        </p>
+      </mat-card-content>
+    </mat-card>
+  }
 
-    <ng-template #emptyState>
-        <mat-card appearance="outlined" @panelMotion>
-            <mat-card-content class="empty-state">
-                <mat-icon class="empty-icon">{{ searchQuery ? 'travel_explore' : 'folder_open' }}</mat-icon>
-                <h2>{{ searchQuery ? 'No matches yet' : 'This folder is empty' }}</h2>
-                <p>
-                    {{ searchQuery ? 'Try a different search or clear the current filter.' : 'Upload something here to get started.' }}
-                </p>
-                <div class="empty-actions">
-                    <button *ngIf="searchQuery" mat-stroked-button (click)="clearSearch()">Clear Search</button>
-                    <button mat-flat-button color="primary" (click)="openUploadDialog()">Upload Files</button>
+  @if (visibleFiles.length) {
+    <div>
+      @if (viewMode === 'cards') {
+        <div
+          class="files-grid"
+          [@collectionMotion]="visibleFiles.length + '-cards'"
+          >
+          @for (file of visibleFiles; track file) {
+            <mat-card
+              class="file-card"
+              appearance="outlined"
+              (click)="navigateToFileUrl(file)"
+              >
+              <mat-card-header>
+                <div mat-card-avatar class="file-avatar">
+                  <img class="list-image" [src]="'/assets/icons/' + file.type + '.png'" />
                 </div>
-            </mat-card-content>
+                <mat-card-title>{{ file.name }}</mat-card-title>
+                <mat-card-subtitle>{{ file.timestamp }}</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <mat-chip-set>
+                  <mat-chip>{{ file.type === 'dir' ? 'Folder' : file.type }}</mat-chip>
+                </mat-chip-set>
+              </mat-card-content>
+              <mat-card-actions align="end">
+                <button mat-icon-button (click)="$event.stopPropagation()" [matMenuTriggerFor]="cardMenu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #cardMenu>
+                  <button mat-menu-item (click)="onRenameFile(file)">
+                    <mat-icon>edit</mat-icon>
+                    <span>Rename</span>
+                  </button>
+                  <button mat-menu-item (click)="onDeleteFile(file)">
+                    <mat-icon>delete</mat-icon>
+                    <span>Delete</span>
+                  </button>
+                </mat-menu>
+              </mat-card-actions>
+            </mat-card>
+          }
+        </div>
+      } @else {
+        <mat-card class="list-card" appearance="outlined">
+          <mat-list [@collectionMotion]="visibleFiles.length + '-list'">
+            @for (file of visibleFiles; track file; let isLast = $last) {
+              <mat-list-item
+                class="file-row"
+                (click)="navigateToFileUrl(file)"
+                >
+                <div class="file-row-layout">
+                  <div class="file-row-main">
+                    <img class="list-image" [src]="'/assets/icons/' + file.type + '.png'" />
+                    <div class="file-row-copy">
+                      <div class="file-row-title">{{ file.name }}</div>
+                      <div class="file-row-subtitle">{{ file.timestamp }}</div>
+                    </div>
+                  </div>
+                  <button
+                    class="file-row-action"
+                    mat-icon-button
+                    (click)="$event.stopPropagation()"
+                    [matMenuTriggerFor]="listMenu"
+                    >
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                </div>
+                <mat-menu #listMenu>
+                  <button mat-menu-item (click)="onRenameFile(file)">
+                    <mat-icon>edit</mat-icon>
+                    <span>Rename</span>
+                  </button>
+                  <button mat-menu-item (click)="onDeleteFile(file)">
+                    <mat-icon>delete</mat-icon>
+                    <span>Delete</span>
+                  </button>
+                </mat-menu>
+              </mat-list-item>
+              @if (!isLast) {
+                <mat-divider></mat-divider>
+              }
+            }
+          </mat-list>
         </mat-card>
-    </ng-template>
-
-    <div class="show-more-row" *ngIf="hiddenResultCount > 0">
-        <button mat-stroked-button (click)="onShowMoreFiles()">
-            Show {{ hiddenResultCount > showMoreIncrement ? showMoreIncrement : hiddenResultCount }} More
-        </button>
+      }
     </div>
+  } @else {
+    <mat-card appearance="outlined" @panelMotion>
+      <mat-card-content class="empty-state">
+        <mat-icon class="empty-icon">{{ searchQuery ? 'travel_explore' : 'folder_open' }}</mat-icon>
+        <h2>{{ searchQuery ? 'No matches yet' : 'This folder is empty' }}</h2>
+        <p>
+          {{ searchQuery ? 'Try a different search or clear the current filter.' : 'Upload something here to get started.' }}
+        </p>
+        <div class="empty-actions">
+          @if (searchQuery) {
+            <button mat-stroked-button (click)="clearSearch()">Clear Search</button>
+          }
+          <button mat-flat-button color="primary" (click)="openUploadDialog()">Upload Files</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  }
+
+
+  @if (hiddenResultCount > 0) {
+    <div class="show-more-row">
+      <button mat-stroked-button (click)="onShowMoreFiles()">
+        Show {{ hiddenResultCount > showMoreIncrement ? showMoreIncrement : hiddenResultCount }} More
+      </button>
+    </div>
+  }
 </section>

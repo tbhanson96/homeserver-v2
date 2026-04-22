@@ -4,9 +4,10 @@ import { FilesService } from '@services/files.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-rename-file',
-  templateUrl: './rename-file.component.html',
-  styleUrls: ['./rename-file.component.scss']
+    selector: 'app-rename-file',
+    templateUrl: './rename-file.component.html',
+    styleUrls: ['./rename-file.component.scss'],
+    standalone: false
 })
 export class RenameFileComponent implements OnInit {
 

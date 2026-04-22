@@ -22,31 +22,28 @@ import {
 } from '@angular/animations';
 
 @Component({
-  selector: 'app-ebooks',
-  templateUrl: './ebooks.component.html',
-  styleUrls: ['./ebooks.component.scss'],
-  animations: [
-    trigger('panelMotion', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(14px)' }),
-        animate('320ms ease-out', style({ opacity: 1, transform: 'translateY(0)' })),
-      ]),
-    ]),
-    trigger('collectionMotion', [
-      transition(':enter', [
-        query(
-          '.ebook-card',
-          [
-            style({ opacity: 0, transform: 'translateY(10px)' }),
-            stagger(36, [
-              animate('240ms ease-out', style({ opacity: 1, transform: 'translateY(0)' })),
+    selector: 'app-ebooks',
+    templateUrl: './ebooks.component.html',
+    styleUrls: ['./ebooks.component.scss'],
+    animations: [
+        trigger('panelMotion', [
+            transition(':enter', [
+                style({ opacity: 0, transform: 'translateY(14px)' }),
+                animate('320ms ease-out', style({ opacity: 1, transform: 'translateY(0)' })),
             ]),
-          ],
-          { optional: true },
-        ),
-      ]),
-    ]),
-  ],
+        ]),
+        trigger('collectionMotion', [
+            transition(':enter', [
+                query('.ebook-card', [
+                    style({ opacity: 0, transform: 'translateY(10px)' }),
+                    stagger(36, [
+                        animate('240ms ease-out', style({ opacity: 1, transform: 'translateY(0)' })),
+                    ]),
+                ], { optional: true }),
+            ]),
+        ]),
+    ],
+    standalone: false
 })
 export class EbooksComponent implements OnInit {
 

@@ -4,6 +4,18 @@
     gap: 16px;
 }
 
+.search-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.search-action {
+    display: flex;
+    align-items: center;
+}
+
 .search-page mat-card {
     border-radius: 16px;
     box-shadow: var(--mat-app-elevation-shadow-level-1);
@@ -11,6 +23,7 @@
 
 .search-panel .query {
     min-width: 240px;
+    flex: 1 1 240px;
 }
 
 .results-grid {
@@ -55,6 +68,19 @@
 
 .search-card mat-card-actions {
     margin-top: auto;
+}
+
+.search-card-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+}
+
+.download-action {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .empty-card {

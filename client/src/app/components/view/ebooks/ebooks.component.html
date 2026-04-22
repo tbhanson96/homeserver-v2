@@ -28,90 +28,97 @@
               [formControl]="searchControl"
               placeholder="Search by title, author, or description"
               autocomplete="off"
-            >
-            <span matTextSuffix *ngIf="!searchQuery">/</span>
-            <button
-              *ngIf="searchQuery"
-              matSuffix
-              mat-icon-button
-              type="button"
-              aria-label="Clear search"
-              (click)="clearSearch()"
-            >
-              <mat-icon>close</mat-icon>
-            </button>
+              >
+            @if (!searchQuery) {
+              <span matTextSuffix>/</span>
+            }
+            @if (searchQuery) {
+              <button
+                matSuffix
+                mat-icon-button
+                type="button"
+                aria-label="Clear search"
+                (click)="clearSearch()"
+                >
+                <mat-icon>close</mat-icon>
+              </button>
+            }
             <mat-hint>Press `/` to focus search and `Esc` to clear it.</mat-hint>
           </mat-form-field>
         </mat-card-content>
       </mat-card>
 
       <div class="library-grid" [@collectionMotion]="filteredEbooks.length">
-        <mat-card *ngFor="let ebook of filteredEbooks" class="ebook-card" appearance="outlined">
-          <mat-card-header>
-            <mat-card-title>{{ ebook.name }}</mat-card-title>
-            <mat-card-subtitle>{{ ebook.author }}</mat-card-subtitle>
-          </mat-card-header>
-          <app-lazy-img class="cover-image" mat-card-image [src]="ebook.coverPath || 'assets/book.png'"></app-lazy-img>
-          <mat-card-actions>
-            <div #descriptionAnchor fxLayoutAlign="end">
-              <button mat-button [matMenuTriggerFor]="demoSurface">Description</button>
-              <mat-menu #demoSurface>
-                <div class="description" [innerHtml]="ebook.description || 'No description provided.'">
-                </div>
-              </mat-menu>
-              <button
-                #optionsButton
-                mat-icon-button
-                aria-label="View more"
-                title="More info"
-                [matMenuTriggerFor]="optionsMenu"
-              >
-              <mat-icon>
-                menu
-              </mat-icon>
-              </button>
-              <mat-menu #optionsMenu>
-                <a mat-menu-item [href]="ebook.filePath">
+        @for (ebook of filteredEbooks; track ebook) {
+          <mat-card class="ebook-card" appearance="outlined">
+            <mat-card-header>
+              <mat-card-title>{{ ebook.name }}</mat-card-title>
+              <mat-card-subtitle>{{ ebook.author }}</mat-card-subtitle>
+            </mat-card-header>
+            <app-lazy-img class="cover-image" mat-card-image [src]="ebook.coverPath || 'assets/book.png'"></app-lazy-img>
+            <mat-card-actions>
+              <div #descriptionAnchor class="ebook-card-actions">
+                <button mat-button [matMenuTriggerFor]="demoSurface">Description</button>
+                <mat-menu #demoSurface>
+                  <div class="description" [innerHtml]="ebook.description || 'No description provided.'">
+                  </div>
+                </mat-menu>
+                <button
+                  #optionsButton
+                  mat-icon-button
+                  aria-label="View more"
+                  title="More info"
+                  [matMenuTriggerFor]="optionsMenu"
+                  >
+                  <mat-icon>
+                    menu
+                  </mat-icon>
+                </button>
+                <mat-menu #optionsMenu>
+                  <a mat-menu-item [href]="ebook.filePath">
                     <mat-icon>download</mat-icon>
                     <span>Download</span>
-                </a>
-                <button mat-menu-item (click)="onDeleteEbook(ebook)">
+                  </a>
+                  <button mat-menu-item (click)="onDeleteEbook(ebook)">
                     <mat-icon>delete</mat-icon>
                     <span>Delete</span>
-                </button>
-                <button mat-menu-item (click)="onResendToKindle(ebook)">
+                  </button>
+                  <button mat-menu-item (click)="onResendToKindle(ebook)">
                     <mat-icon>send</mat-icon>
                     <span>Send to Kindle</span>
-                </button>
-                <button mat-menu-item (click)="onResendToKindle(ebook, true)">
+                  </button>
+                  <button mat-menu-item (click)="onResendToKindle(ebook, true)">
                     <mat-icon>forward_to_inbox</mat-icon>
                     <span>Send to Tori</span>
-                </button>
-              </mat-menu>
-            </div>
-          </mat-card-actions>
-        </mat-card>
+                  </button>
+                </mat-menu>
+              </div>
+            </mat-card-actions>
+          </mat-card>
+        }
       </div>
 
-      <mat-card *ngIf="filteredEbooks.length === 0" appearance="outlined" class="empty-card" @panelMotion>
-        <mat-card-content class="empty-state">
-          <mat-icon class="empty-icon">menu_book</mat-icon>
-          <h2>{{ searchQuery ? 'No matches yet' : 'No ebooks yet' }}</h2>
-          <p>{{ searchQuery ? 'Try a different search or clear the current filter.' : 'Upload a book or use Search to add one to your library.' }}</p>
-        </mat-card-content>
-      </mat-card>
+      @if (filteredEbooks.length === 0) {
+        <mat-card appearance="outlined" class="empty-card" @panelMotion>
+          <mat-card-content class="empty-state">
+            <mat-icon class="empty-icon">menu_book</mat-icon>
+            <h2>{{ searchQuery ? 'No matches yet' : 'No ebooks yet' }}</h2>
+            <p>{{ searchQuery ? 'Try a different search or clear the current filter.' : 'Upload a book or use Search to add one to your library.' }}</p>
+          </mat-card-content>
+        </mat-card>
+      }
     </div>
     <button mat-fab class="upload-button" color="primary" (click)="onUploadClick()">
-        <mat-icon>add</mat-icon>
+      <mat-icon>add</mat-icon>
     </button>
   </mat-tab>
   <mat-tab>
-      <ng-template mat-tab-label>
-        <mat-icon>download</mat-icon>
-        Search
-      </ng-template>
-      <div class="content ebooks-page" >
-        <app-libgen (download)="onDownload()"></app-libgen>
-      </div>
+    <ng-template mat-tab-label>
+      <mat-icon>download</mat-icon>
+      Search
+    </ng-template>
+    <div class="content ebooks-page" >
+      <app-libgen (download)="onDownload()"></app-libgen>
+    </div>
   </mat-tab>
 </mat-tab-group>

@@ -6,7 +6,7 @@
         <mat-icon>settings</mat-icon>
         General
       </ng-template>
-      <div class="tab" fxLayout="column" fxLayoutGap="20px">
+      <div class="tab settings-tab">
         <mat-checkbox #showHiddenFiles (change)="onShowHiddenFilesToggle(showHiddenFiles.checked)">
           Show Hidden Files
         </mat-checkbox>
@@ -28,7 +28,13 @@
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button mat-dialog-close>Cancel</button>
-  <button *ngIf="activeTab === 0" mat-button mat-dialog-close (click)="onSettingsSave()">Save</button>
-  <button *ngIf="activeTab === 0" mat-button mat-dialog-close (click)="onLoadSettingsFile()">Reload</button>
-  <button *ngIf="activeTab === 1" mat-button mat-dialog-close (click)="onPerformUpdate()">Update</button>
+  @if (activeTab === 0) {
+    <button mat-button mat-dialog-close (click)="onSettingsSave()">Save</button>
+  }
+  @if (activeTab === 0) {
+    <button mat-button mat-dialog-close (click)="onLoadSettingsFile()">Reload</button>
+  }
+  @if (activeTab === 1) {
+    <button mat-button mat-dialog-close (click)="onPerformUpdate()">Update</button>
+  }
 </mat-dialog-actions>

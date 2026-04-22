@@ -1,30 +1,32 @@
 <div class="main">
-    <div class="toolbar">
-        <mat-toolbar color="primary" [style.height.px]="64" @shellMotion>
-            <app-top-bar></app-top-bar>
-        </mat-toolbar>
-        <mat-progress-bar mode="indeterminate" *ngIf="isBusy"></mat-progress-bar> 
-    </div>
-    <mat-sidenav-container class="main-content" autosize>
-        <mat-sidenav
-            class="sidebar"
-            [fixedTopGap]="64"
-            [fixedInViewport]="true"
-            [opened]="isOpen"
-            [mode]="isMobile ? 'over' : 'side'"
-        >
-            <div class="sidebar-header" @shellMotion>
-                <p class="sidebar-eyebrow">Homeserver</p>
-                <h2>Workspace</h2>
-                <p class="sidebar-copy">Navigate your library, media, and personal tools from one place.</p>
-            </div>
-            <mat-divider></mat-divider>
-            <app-side-bar></app-side-bar>
-        </mat-sidenav>
-        <mat-sidenav-content fxLayout="row" class="router-content" fxLayoutAlign="center">
-            <div fxLayout="column" fxFill @shellMotion>
-                <router-outlet></router-outlet>
-            </div>
-        </mat-sidenav-content>
-    </mat-sidenav-container>
+  <div class="toolbar">
+    <mat-toolbar color="primary" [style.height.px]="64" @shellMotion>
+      <app-top-bar></app-top-bar>
+    </mat-toolbar>
+    @if (isBusy) {
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    }
+  </div>
+  <mat-sidenav-container class="main-content" autosize>
+    <mat-sidenav
+      class="sidebar"
+      [fixedTopGap]="64"
+      [fixedInViewport]="true"
+      [opened]="isOpen"
+      [mode]="isMobile ? 'over' : 'side'"
+      >
+      <div class="sidebar-header" @shellMotion>
+        <p class="sidebar-eyebrow">Homeserver</p>
+        <h2>Workspace</h2>
+        <p class="sidebar-copy">Navigate your library, media, and personal tools from one place.</p>
+      </div>
+      <mat-divider></mat-divider>
+      <app-side-bar></app-side-bar>
+    </mat-sidenav>
+    <mat-sidenav-content class="router-content">
+      <div class="router-shell" @shellMotion>
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>

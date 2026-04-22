@@ -101,14 +101,25 @@
 
 .file-row-layout {
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
 }
 
 .file-row-main {
     min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1 1 auto;
 }
 
 .file-row-copy {
     min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .file-row-title,

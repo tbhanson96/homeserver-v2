@@ -8,13 +8,14 @@ import { Chart } from 'chart.js/auto';
 import 'chartjs-adapter-moment';
 
 @Component({
-  selector: 'app-health',
-  templateUrl: './health.component.html',
-  providers: [
-    provideNativeDateAdapter(),
-    provideNativeDateTimeAdapter(),
-  ],
-  styleUrls: ['./health.component.scss'],
+    selector: 'app-health',
+    templateUrl: './health.component.html',
+    providers: [
+        provideNativeDateAdapter(),
+        provideNativeDateTimeAdapter(),
+    ],
+    styleUrls: ['./health.component.scss'],
+    standalone: false
 })
 export class HealthComponent implements OnInit, OnDestroy {
 

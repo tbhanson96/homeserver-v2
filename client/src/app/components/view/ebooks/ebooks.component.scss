@@ -55,6 +55,13 @@
     margin-top: auto;
 }
 
+.ebook-card-actions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
 :host ::ng-deep app-lazy-img.cover-image {
     width: 100%;
     display: flex;

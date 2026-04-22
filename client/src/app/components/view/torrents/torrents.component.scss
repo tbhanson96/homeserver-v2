@@ -4,6 +4,18 @@
     gap: 16px;
 }
 
+.search-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.search-action {
+    display: flex;
+    align-items: center;
+}
+
 .torrents-page mat-card {
     border-radius: 16px;
     box-shadow: var(--mat-app-elevation-shadow-level-1);
@@ -11,6 +23,7 @@
 
 .query {
     min-width: 240px;
+    flex: 1 1 240px;
 }
 
 .list-card {
@@ -25,6 +38,21 @@
 .torrent-row-layout,
 .torrent-main {
     min-width: 0;
+}
+
+.torrent-row-layout {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.torrent-main {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .torrent-title,

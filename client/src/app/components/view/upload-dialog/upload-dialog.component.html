@@ -4,10 +4,12 @@
 
   <mat-card class="selection-card" appearance="outlined">
     <mat-card-content>
-      <div class="selection-header" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="12px">
+      <div class="selection-header">
         <div>
           <div class="selection-title">Selected Files</div>
-          <div class="selection-meta">{{ files.length }} item<span *ngIf="files.length !== 1">s</span></div>
+          <div class="selection-meta">{{ files.length }} item@if (files.length !== 1) {
+            <span>s</span>
+          }</div>
         </div>
         <input id="files" type="file" class="file-input" (input)="onFileInput($event)" multiple>
         <label class="file-picker-label" for="files">
@@ -15,50 +17,53 @@
         </label>
       </div>
 
-      <mat-list *ngIf="hasFiles; else emptySelection">
-        <ng-container *ngFor="let file of files; last as isLast">
-          <mat-list-item class="upload-file-row">
-            <div class="upload-file-copy" fxFlex>
-              <div class="file-title">{{ file.name }}</div>
-              <div class="file-subtitle">{{ file.size | fileSize }}</div>
-            </div>
-            <button mat-icon-button class="delete-icon" (click)="onDeleteFile(file)" aria-label="Remove file">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </mat-list-item>
-          <mat-divider *ngIf="!isLast"></mat-divider>
-        </ng-container>
-      </mat-list>
-
-      <ng-template #emptySelection>
-        <div class="empty-selection" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="8px">
+      @if (hasFiles) {
+        <mat-list>
+          @for (file of files; track file; let isLast = $last) {
+            <mat-list-item class="upload-file-row">
+              <div class="upload-file-layout">
+                <div class="upload-file-copy">
+                  <div class="file-title">{{ file.name }}</div>
+                  <div class="file-subtitle">{{ file.size | fileSize }}</div>
+                </div>
+                <button mat-icon-button class="delete-icon" (click)="onDeleteFile(file)" aria-label="Remove file">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </mat-list-item>
+            @if (!isLast) {
+              <mat-divider></mat-divider>
+            }
+          }
+        </mat-list>
+      } @else {
+        <div class="empty-selection">
           <mat-icon class="empty-selection-icon">upload_file</mat-icon>
           <p>No files selected yet.</p>
         </div>
-      </ng-template>
+      }
+
     </mat-card-content>
   </mat-card>
 
-  <div
-    *ngIf="uploadService === uploadServiceEnum.Ebooks"
-    fxLayout="column"
-    fxLayoutGap="8px"
-  >
-    <mat-checkbox
-      #sendToKindle
-      class="kindle-toggle"
-      (change)="onSendToKindleInput(sendToKindle.checked)"
-    >
-      Send To Kindle
-    </mat-checkbox>
-    <mat-checkbox
-      #sendToTori
-      class="kindle-toggle"
-      (change)="onSendToToriInput(sendToTori.checked)"
-    >
-      Send to Tori
-    </mat-checkbox>
-  </div>
+  @if (uploadService === uploadServiceEnum.Ebooks) {
+    <div class="upload-options">
+      <mat-checkbox
+        #sendToKindle
+        class="kindle-toggle"
+        (change)="onSendToKindleInput(sendToKindle.checked)"
+        >
+        Send To Kindle
+      </mat-checkbox>
+      <mat-checkbox
+        #sendToTori
+        class="kindle-toggle"
+        (change)="onSendToToriInput(sendToTori.checked)"
+        >
+        Send to Tori
+      </mat-checkbox>
+    </div>
+  }
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>

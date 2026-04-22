@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler, APP_INITIALIZER, forwardRef } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from '@components/layout/main/home.component';
@@ -28,6 +27,7 @@ import { SettingsComponent } from '@components/view/settings/settings.component'
 import { UiStateActions } from '@actions/ui-state.actions';
 import { RenameFileComponent } from '@components/view/rename-file/rename-file.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { TorrentsComponent } from '@components/view/torrents/torrents.component';
 import { TorrentsService } from '@services/torrents.service';
@@ -44,6 +44,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTimepickerModule } from '@dhutaryan/ngx-mat-timepicker';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,6 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
     HttpClientModule,
     ReduxModule,
     StoreModule.forRoot(rootReducer, { initialState }),
-    FlexLayoutModule,
     AppRoutingModule,
     MaterialModule,
     BrowserAnimationsModule,
@@ -82,6 +82,10 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
     MatNativeDateModule,
     MatTimepickerModule,
     MatFormFieldModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
   providers: [
     {

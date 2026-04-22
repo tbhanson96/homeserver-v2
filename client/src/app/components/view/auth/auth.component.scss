@@ -5,6 +5,26 @@
     margin-top: 50px;
 }
 
+.auth-shell,
+.auth-shell__inner,
+.auth-card {
+    display: flex;
+}
+
+.auth-shell {
+    flex-direction: column;
+    justify-content: center;
+}
+
+.auth-shell__inner {
+    justify-content: center;
+}
+
+.auth-card {
+    flex-direction: column;
+    justify-content: center;
+}
+
 .background {
     position: fixed;
     right: 0;

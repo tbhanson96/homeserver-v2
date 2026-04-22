@@ -1,4 +1,6 @@
-<div *ngIf="isLoading" class="spinner" aria-hidden="true">
+@if (isLoading) {
+  <div class="spinner" aria-hidden="true">
     <mat-spinner></mat-spinner>
-</div>
+  </div>
+}
 <img class="image" [ngClass]="{'hidden': isLoading}" #image>

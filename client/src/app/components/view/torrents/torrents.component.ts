@@ -5,9 +5,10 @@ import { TorrentCategory, TorrentDto } from '@api/models';
 import { TorrentsService } from '@services/torrents.service';
 
 @Component({
-  selector: 'app-torrents',
-  templateUrl: './torrents.component.html',
-  styleUrls: ['./torrents.component.scss']
+    selector: 'app-torrents',
+    templateUrl: './torrents.component.html',
+    styleUrls: ['./torrents.component.scss'],
+    standalone: false
 })
 export class TorrentsComponent implements OnInit {
 

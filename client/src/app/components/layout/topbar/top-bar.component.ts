@@ -4,9 +4,10 @@ import { Subscription } from 'rxjs';
 import { UiStateSelectors } from '@selectors/ui-state.selectors';
 
 @Component({
-  selector: 'app-top-bar',
-  templateUrl: './top-bar.component.html',
-  styleUrls: ['./top-bar.component.scss']
+    selector: 'app-top-bar',
+    templateUrl: './top-bar.component.html',
+    styleUrls: ['./top-bar.component.scss'],
+    standalone: false
 })
 export class TopbarComponent implements OnInit, OnDestroy {
   shownComponent: string;

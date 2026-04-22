@@ -11,9 +11,10 @@ export class ProgressDialogData {
 }
 
 @Component({
-  selector: 'app-progress-dialog',
-  templateUrl: './progress-dialog.component.html',
-  styleUrls: ['./progress-dialog.component.scss']
+    selector: 'app-progress-dialog',
+    templateUrl: './progress-dialog.component.html',
+    styleUrls: ['./progress-dialog.component.scss'],
+    standalone: false
 })
 export class ProgressDialogComponent implements OnInit, OnDestroy {
 
