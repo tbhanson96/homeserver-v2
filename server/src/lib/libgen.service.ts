@@ -84,7 +84,7 @@ function formatBytes(value: number): string {
     return `${(value / (1024 * 1024 * 1024)).toFixed(1)} GB`;
 }
 
-function parseContentLength(value: string | number | boolean | string[] | null | undefined): number {
+function parseContentLength(value: unknown): number {
     if (typeof value === 'number') {
         return Number.isFinite(value) ? value : 0;
     }
