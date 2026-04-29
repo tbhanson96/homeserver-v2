@@ -29,7 +29,7 @@
     "@types/http-proxy": "1.17.17",
     "@types/http-proxy-middleware": "0.19.3",
     "@types/nodemailer": "8.0.0",
-    "@types/tar": "6.1.10",
+    "@types/tar": "6.1.13",
     "cheerio": "1.2.0",
     "epub": "2.1.1",
     "flat": "6.0.1",
