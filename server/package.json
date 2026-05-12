@@ -35,7 +35,7 @@
     "flat": "6.0.1",
     "http-proxy-middleware": "3.0.5",
     "jsonfile": "6.2.1",
-    "libgen": "2.1.2",
+    "libgen": "2.2.0",
     "memfs": "4.57.2",
     "mongoose": "9.5.0",
     "morgan": "1.10.1",
