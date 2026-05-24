@@ -27,8 +27,10 @@ export class ConfigService {
         };
 
         this.config = unflatten<any, any>(resultFlat, { delimiter: this.DELIMITER });
-        this.config.auth.jwtSecret = randomBytes(20).toString();
-        this.log?.log(`Succesfully loaded config: ${JSON.stringify(this.config)}`);
+        if (!this.config.auth.jwtSecret) {
+            this.config.auth.jwtSecret = randomBytes(32).toString('base64url');
+        }
+        this.log?.log('Successfully loaded application configuration');
     } 
 
     // loads config file, returns whether or not load was successful

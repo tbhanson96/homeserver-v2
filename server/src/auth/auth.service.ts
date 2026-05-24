@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { ConfigService } from '../config/config.service';
 import { timingSafeEqual } from 'crypto';
 
@@ -25,7 +25,11 @@ export class AuthService {
 
     async authorize(username: string) {
         const payload = { username } ;
-        return this.jwtService.sign(payload)
+        const token = this.jwtService.sign(payload, {
+            expiresIn: this.configService.config.auth.sessionTimeout as JwtSignOptions['expiresIn'],
+        });
+        this.configService.saveConfig();
+        return token;
     }
 
 }

@@ -100,4 +100,25 @@ describe('ConfigService', () => {
         const json = await jsonfile.readFile('config.json');
         expect(json).toStrictEqual(config.config); 
     });
+
+    it('persists its JWT signing secret across reloads', async () => {
+        const configPath = 'auth-config.json';
+        const config = new ConfigService();
+        config.config.app.configOverridePath = configPath;
+        config.saveConfig();
+
+        const storedConfig = await jsonfile.readFile(configPath);
+        expect(storedConfig.auth.jwtSecret).toEqual(config.config.auth.jwtSecret);
+
+        const previousOverridePath = process.env['APP_app_configOverridePath'];
+        process.env['APP_app_configOverridePath'] = configPath;
+        const reloadedConfig = new ConfigService();
+        if (previousOverridePath === undefined) {
+            delete process.env['APP_app_configOverridePath'];
+        } else {
+            process.env['APP_app_configOverridePath'] = previousOverridePath;
+        }
+
+        expect(reloadedConfig.config.auth.jwtSecret).toEqual(config.config.auth.jwtSecret);
+    });
 });

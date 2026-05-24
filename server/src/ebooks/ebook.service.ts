@@ -93,8 +93,12 @@ export class EbookService implements OnModuleInit {
             let options = {
                 from: `<${this.configService.config.email.sender}>`,
                 to: destination,
+                subject: path.basename(file),
+                // Kindle does not reliably detect an attachment-only, single-part MIME message.
+                text: 'Document attached for Send to Kindle.',
                 attachments: [
                     {
+                        filename: path.basename(file),
                         path: file,
                     }
                 ]

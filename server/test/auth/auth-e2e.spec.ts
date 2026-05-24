@@ -4,9 +4,13 @@ import request from 'supertest';
 import { AppModule } from '../../src/app.module';
 import { ConfigService } from '../../src/config/config.service';
 import { AuthDto } from '../../src/models/auth.dto';
+import fs from 'fs';
+import os from 'os';
+import path from 'path';
 
 describe('FileController (e2e)', () => {
   let app: INestApplication;
+  const authConfigPath = path.join(os.tmpdir(), `homeserver-auth-e2e-${process.pid}.json`);
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -16,10 +20,13 @@ describe('FileController (e2e)', () => {
     app = moduleFixture.createNestApplication();
 
     await app.init();
+    const config = app.get(ConfigService);
+    config.config.app.configOverridePath = authConfigPath;
   });
 
   afterAll(async () => {
     await app.close();
+    fs.rmSync(authConfigPath, { force: true });
   })
 
   it('POST /api/auth, GET /api/auth correctly auths', async () => {
