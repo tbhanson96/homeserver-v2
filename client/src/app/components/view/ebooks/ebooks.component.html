@@ -23,22 +23,22 @@
             <mat-label>Search ebooks</mat-label>
             <mat-icon matPrefix>search</mat-icon>
             <input
-              #searchInput
+              #librarySearchInput
               matInput
-              [formControl]="searchControl"
+              [formControl]="librarySearchControl"
               placeholder="Search by title, author, or description"
               autocomplete="off"
               >
-            @if (!searchQuery) {
+            @if (!librarySearchQuery) {
               <span matTextSuffix>/</span>
             }
-            @if (searchQuery) {
+            @if (librarySearchQuery) {
               <button
                 matSuffix
                 mat-icon-button
                 type="button"
                 aria-label="Clear search"
-                (click)="clearSearch()"
+                (click)="clearLibrarySearch()"
                 >
                 <mat-icon>close</mat-icon>
               </button>
@@ -102,8 +102,8 @@
         <mat-card appearance="outlined" class="empty-card" @panelMotion>
           <mat-card-content class="empty-state">
             <mat-icon class="empty-icon">menu_book</mat-icon>
-            <h2>{{ searchQuery ? 'No matches yet' : 'No ebooks yet' }}</h2>
-            <p>{{ searchQuery ? 'Try a different search or clear the current filter.' : 'Upload a book or use Search to add one to your library.' }}</p>
+            <h2>{{ librarySearchQuery ? 'No matches yet' : 'No ebooks yet' }}</h2>
+            <p>{{ librarySearchQuery ? 'Try a different search or clear the current filter.' : 'Upload a book or use Search to add one to your library.' }}</p>
           </mat-card-content>
         </mat-card>
       }
@@ -136,22 +136,27 @@
             <mat-label>Search newspapers</mat-label>
             <mat-icon matPrefix>search</mat-icon>
             <input
+              #newspaperSearchInput
               matInput
-              [formControl]="searchControl"
+              [formControl]="newspaperSearchControl"
               placeholder="Search by title, author, or description"
               autocomplete="off"
               >
-            @if (searchQuery) {
+            @if (!newspaperSearchQuery) {
+              <span matTextSuffix>/</span>
+            }
+            @if (newspaperSearchQuery) {
               <button
                 matSuffix
                 mat-icon-button
                 type="button"
                 aria-label="Clear search"
-                (click)="clearSearch()"
+                (click)="clearNewspaperSearch()"
                 >
                 <mat-icon>close</mat-icon>
               </button>
             }
+            <mat-hint>Press `/` to focus search and `Esc` to clear it.</mat-hint>
           </mat-form-field>
         </mat-card-content>
       </mat-card>
@@ -201,8 +206,8 @@
         <mat-card appearance="outlined" class="empty-card" @panelMotion>
           <mat-card-content class="empty-state">
             <mat-icon class="empty-icon">newspaper</mat-icon>
-            <h2>{{ searchQuery ? 'No matches yet' : 'No newspapers yet' }}</h2>
-            <p>{{ searchQuery ? 'Try a different search or clear the current filter.' : 'New issues appear here after they are added through the newspaper API.' }}</p>
+            <h2>{{ newspaperSearchQuery ? 'No matches yet' : 'No newspapers yet' }}</h2>
+            <p>{{ newspaperSearchQuery ? 'Try a different search or clear the current filter.' : 'New issues appear here after they are added through the newspaper API.' }}</p>
           </mat-card-content>
         </mat-card>
       }

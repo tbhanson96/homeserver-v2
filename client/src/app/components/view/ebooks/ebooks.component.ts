@@ -52,12 +52,18 @@ export class EbooksComponent implements OnInit {
   newspapers: EbookData[] = [];
   filteredNewspapers: EbookData[] = [];
   subscriptions: Subscription[] = [];
-  readonly searchControl = new FormControl('', { nonNullable: true });
+  readonly librarySearchControl = new FormControl('', { nonNullable: true });
+  readonly newspaperSearchControl = new FormControl('', { nonNullable: true });
   @ViewChild('tabBar') tabs: MatTabGroup;
-  @ViewChild('searchInput') searchInput?: ElementRef<HTMLInputElement>;
+  @ViewChild('librarySearchInput') librarySearchInput?: ElementRef<HTMLInputElement>;
+  @ViewChild('newspaperSearchInput') newspaperSearchInput?: ElementRef<HTMLInputElement>;
 
-  public get searchQuery() {
-    return this.searchControl.value.trim();
+  public get librarySearchQuery() {
+    return this.librarySearchControl.value.trim();
+  }
+
+  public get newspaperSearchQuery() {
+    return this.newspaperSearchControl.value.trim();
   }
 
   constructor(
@@ -71,10 +77,14 @@ export class EbooksComponent implements OnInit {
   ngOnInit() {
     this.uiActions.setCurrentApp('Ebooks');
     this.subscriptions = [
-      this.searchControl.valueChanges.pipe(
+      this.librarySearchControl.valueChanges.pipe(
         debounceTime(120),
         distinctUntilChanged(),
-      ).subscribe(() => this.applySearch()),
+      ).subscribe(() => this.applyLibrarySearch()),
+      this.newspaperSearchControl.valueChanges.pipe(
+        debounceTime(120),
+        distinctUntilChanged(),
+      ).subscribe(() => this.applyNewspaperSearch()),
     ];
     this.updateEbooks();
     this.updateNewspapers();
@@ -134,13 +144,22 @@ export class EbooksComponent implements OnInit {
     this.updateEbooks();
   }
 
-  public clearSearch() {
-    this.searchControl.setValue('');
-    this.focusSearch();
+  public clearLibrarySearch() {
+    this.librarySearchControl.setValue('');
+    this.focusLibrarySearch();
   }
 
-  public focusSearch() {
-    queueMicrotask(() => this.searchInput?.nativeElement.focus());
+  public clearNewspaperSearch() {
+    this.newspaperSearchControl.setValue('');
+    this.focusNewspaperSearch();
+  }
+
+  public focusLibrarySearch() {
+    queueMicrotask(() => this.librarySearchInput?.nativeElement.focus());
+  }
+
+  public focusNewspaperSearch() {
+    queueMicrotask(() => this.newspaperSearchInput?.nativeElement.focus());
   }
 
   private updateEbooks() {
@@ -148,7 +167,7 @@ export class EbooksComponent implements OnInit {
     this.ebooksService.getEbooks().subscribe({
       next: ebooks => {
         this.ebooks = ebooks;
-        this.applySearch();
+        this.applyLibrarySearch();
         this.uiActions.setAppBusy(false);
       },
       error: e => {
@@ -163,7 +182,7 @@ export class EbooksComponent implements OnInit {
     this.ebooksService.getNewspapers().subscribe({
       next: newspapers => {
         this.newspapers = newspapers;
-        this.applySearch();
+        this.applyNewspaperSearch();
         this.uiActions.setAppBusy(false);
       },
       error: e => {
@@ -173,15 +192,22 @@ export class EbooksComponent implements OnInit {
     });
   }
 
-  private applySearch() {
-    const query = this.searchQuery.toLowerCase();
+  private applyLibrarySearch() {
+    this.filteredEbooks = this.filterCollection(this.ebooks, this.librarySearchQuery);
+  }
+
+  private applyNewspaperSearch() {
+    this.filteredNewspapers = this.filterCollection(this.newspapers, this.newspaperSearchQuery);
+  }
+
+  private filterCollection(collection: EbookData[], searchQuery: string) {
+    const query = searchQuery.toLowerCase();
     const matches = (ebook: EbookData) =>
       !query ||
       ebook.name.toLowerCase().includes(query) ||
       ebook.author.toLowerCase().includes(query) ||
       (ebook.description || '').toLowerCase().includes(query);
-    this.filteredEbooks = this.ebooks.filter(matches);
-    this.filteredNewspapers = this.newspapers.filter(matches);
+    return collection.filter(matches);
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -194,12 +220,21 @@ export class EbooksComponent implements OnInit {
     );
 
     if (event.key === '/' && !isTypingTarget) {
-      event.preventDefault();
-      this.focusSearch();
+      if (this.tabs.selectedIndex === 0) {
+        event.preventDefault();
+        this.focusLibrarySearch();
+      } else if (this.tabs.selectedIndex === 1) {
+        event.preventDefault();
+        this.focusNewspaperSearch();
+      }
     }
 
-    if (event.key === 'Escape' && this.searchQuery && isTypingTarget) {
-      this.clearSearch();
+    if (event.key === 'Escape' && isTypingTarget) {
+      if (this.tabs.selectedIndex === 0 && this.librarySearchQuery) {
+        this.clearLibrarySearch();
+      } else if (this.tabs.selectedIndex === 1 && this.newspaperSearchQuery) {
+        this.clearNewspaperSearch();
+      }
     }
   }
 }
