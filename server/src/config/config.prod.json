@@ -46,6 +46,10 @@
             ]
         }
     },
+    "newspapers": {
+        "homeDir": "/opt/app/mnt/Newspapers",
+        "useCalibre": true
+    },
     "health": {
         "healthDir": "/opt/app/mnt/Documents/Health"
     },

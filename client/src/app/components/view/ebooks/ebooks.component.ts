@@ -49,6 +49,8 @@ export class EbooksComponent implements OnInit {
 
   ebooks: EbookData[] = [];
   filteredEbooks: EbookData[] = [];
+  newspapers: EbookData[] = [];
+  filteredNewspapers: EbookData[] = [];
   subscriptions: Subscription[] = [];
   readonly searchControl = new FormControl('', { nonNullable: true });
   @ViewChild('tabBar') tabs: MatTabGroup;
@@ -75,6 +77,7 @@ export class EbooksComponent implements OnInit {
       ).subscribe(() => this.applySearch()),
     ];
     this.updateEbooks();
+    this.updateNewspapers();
   }
 
   ngOnDestroy() {
@@ -105,8 +108,13 @@ export class EbooksComponent implements OnInit {
         this.uiActions.setAppBusy(true);
         result.subscribe({
           next: () => {
-            this.snackbar.open(`Successfully remove ebook from libary: ${file.name}`, 'Close');
-            this.updateEbooks();
+            const libraryName = file.library === 'newspapers' ? 'newspaper' : 'ebook';
+            this.snackbar.open(`Successfully removed ${libraryName} from library: ${file.name}`, 'Close');
+            if (file.library === 'newspapers') {
+              this.updateNewspapers();
+            } else {
+              this.updateEbooks();
+            }
           },
           error: () => {
             this.uiActions.setAppBusy(false);
@@ -150,14 +158,30 @@ export class EbooksComponent implements OnInit {
     });
   }
 
+  private updateNewspapers() {
+    this.uiActions.setAppBusy(true);
+    this.ebooksService.getNewspapers().subscribe({
+      next: newspapers => {
+        this.newspapers = newspapers;
+        this.applySearch();
+        this.uiActions.setAppBusy(false);
+      },
+      error: e => {
+        this.uiActions.setAppBusy(false);
+        throw e;
+      },
+    });
+  }
+
   private applySearch() {
     const query = this.searchQuery.toLowerCase();
-    this.filteredEbooks = this.ebooks.filter(ebook =>
+    const matches = (ebook: EbookData) =>
       !query ||
       ebook.name.toLowerCase().includes(query) ||
       ebook.author.toLowerCase().includes(query) ||
-      (ebook.description || '').toLowerCase().includes(query)
-    );
+      (ebook.description || '').toLowerCase().includes(query);
+    this.filteredEbooks = this.ebooks.filter(matches);
+    this.filteredNewspapers = this.newspapers.filter(matches);
   }
 
   @HostListener('document:keydown', ['$event'])

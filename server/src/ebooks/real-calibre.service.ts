@@ -16,10 +16,13 @@ export class RealCalibreService implements OnModuleInit, CalibreService {
     constructor(
         private readonly configService: ConfigService,
         private readonly log: Logger,
+        private readonly libraryName: string = routes.ebooks,
     ) { }
 
     onModuleInit() {
-        this.libraryPath = this.configService.config.ebooks.homeDir;
+        this.libraryPath = this.libraryName === routes.newspapers
+            ? this.configService.config.newspapers.homeDir
+            : this.configService.config.ebooks.homeDir;
         this.calibre = new Calibre({ library: this.libraryPath })
     }
 
@@ -37,7 +40,7 @@ export class RealCalibreService implements OnModuleInit, CalibreService {
         const data: CalibreLibraryData[] = JSON.parse(result);
         data.forEach(d => {
             d.cover = existsSync(d.cover)
-                ? `${routes.ebooks}/${path.relative(this.libraryPath, d.cover)}`
+                ? `${this.libraryName}/${path.relative(this.libraryPath, d.cover)}`
                 : '';
         });
         return data;

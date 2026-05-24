@@ -1,3 +1,8 @@
+export enum EbookLibrary {
+    Books = 'books',
+    Newspapers = 'newspapers',
+}
+
 export class EbookData {
     constructor(attr: any) {
         this.name = attr.name;
@@ -14,4 +19,5 @@ export class EbookData {
     description: string;
     coverPath: string;
     filePath: string;
+    library: EbookLibrary;
 }

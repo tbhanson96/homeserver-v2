@@ -10,6 +10,7 @@ export function setupMockFs(...filesToMock: string[]): void {
     fs.mkdirSync(config.config.files.homeDir, { recursive: true });
     fs.mkdirSync(config.config.app.clientDir, { recursive: true });
     fs.mkdirSync(config.config.ebooks.homeDir, { recursive: true });
+    fs.mkdirSync(config.config.newspapers.homeDir, { recursive: true });
     fs.mkdirSync(config.config.updates.updatesDir, { recursive: true });
     fs.mkdirSync(config.config.updates.installDir, { recursive: true });
     fs.mkdirSync(config.config.files.uploadDir, { recursive: true });

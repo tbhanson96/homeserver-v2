@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common';
-import { CalibreService } from '../../src/ebooks/calibre.service';
+import { CalibreService, NewspaperCalibreService } from '../../src/ebooks/calibre.service';
 import { EbookService } from '../../src/ebooks/ebook.service';
 import { ConfigService } from '../../src/config/config.service';
 
@@ -15,7 +15,7 @@ describe('EbookService', () => {
                 },
             },
         } as ConfigService;
-        const service = new EbookService(configService, {} as CalibreService, new Logger());
+        const service = new EbookService(configService, {} as CalibreService, {} as NewspaperCalibreService, new Logger());
         const sendMail = jest.fn((_options, callback) => callback(null, {}));
         (service as any).mailer = { sendMail };
 

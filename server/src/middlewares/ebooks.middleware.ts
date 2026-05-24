@@ -15,6 +15,9 @@ export class EbooksMiddleware implements NestMiddleware {
         // it starts with /api --> continue with execution
         next();
         return;
+    } else if (url.includes(routes.newspapers + '/') && url.includes('.')) {
+        const reqFilePath = decodeURI(url.split(routes.newspapers).slice(-1)[0]);
+        res.sendFile(path.join(this.configService.config.newspapers.homeDir, reqFilePath));
     } else if (url.includes(routes.ebooks + '/') && url.includes('.')) {
         const reqFilePath = decodeURI(url.split(routes.ebooks).slice(-1)[0]);
         res.sendFile(path.join(this.configService.config.ebooks.homeDir, reqFilePath));

@@ -1,7 +1,7 @@
 <mat-tab-group #tabBar>
   <mat-tab>
     <ng-template mat-tab-label>
-      <mat-icon>book</mat-icon>
+      <mat-icon class="tab-icon">book</mat-icon>
       Library
     </ng-template>
     <div class="content ebooks-page">
@@ -114,7 +114,103 @@
   </mat-tab>
   <mat-tab>
     <ng-template mat-tab-label>
-      <mat-icon>download</mat-icon>
+      <mat-icon class="tab-icon">newspaper</mat-icon>
+      Newspapers
+    </ng-template>
+    <div class="content ebooks-page">
+      <mat-card class="library-header" appearance="outlined" @panelMotion>
+        <mat-card-header>
+          <mat-card-title>Newspapers</mat-card-title>
+          <mat-card-subtitle>Browse and manage newspaper editions delivered through the newspaper API.</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-chip-set>
+            <mat-chip>Issues: {{ filteredNewspapers.length }}</mat-chip>
+          </mat-chip-set>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="search-card" appearance="outlined" @panelMotion>
+        <mat-card-content>
+          <mat-form-field class="search-field" appearance="outline" subscriptSizing="dynamic">
+            <mat-label>Search newspapers</mat-label>
+            <mat-icon matPrefix>search</mat-icon>
+            <input
+              matInput
+              [formControl]="searchControl"
+              placeholder="Search by title, author, or description"
+              autocomplete="off"
+              >
+            @if (searchQuery) {
+              <button
+                matSuffix
+                mat-icon-button
+                type="button"
+                aria-label="Clear search"
+                (click)="clearSearch()"
+                >
+                <mat-icon>close</mat-icon>
+              </button>
+            }
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+
+      <div class="library-grid" [@collectionMotion]="filteredNewspapers.length">
+        @for (newspaper of filteredNewspapers; track newspaper) {
+          <mat-card class="ebook-card" appearance="outlined">
+            <mat-card-header>
+              <mat-card-title>{{ newspaper.name }}</mat-card-title>
+              <mat-card-subtitle>{{ newspaper.author }}</mat-card-subtitle>
+            </mat-card-header>
+            <app-lazy-img class="cover-image" mat-card-image [src]="newspaper.coverPath || 'assets/book.png'"></app-lazy-img>
+            <mat-card-actions>
+              <div class="ebook-card-actions">
+                <button mat-button [matMenuTriggerFor]="newspaperDescription">Description</button>
+                <mat-menu #newspaperDescription>
+                  <div class="description" [innerHtml]="newspaper.description || 'No description provided.'"></div>
+                </mat-menu>
+                <button mat-icon-button aria-label="View more" title="More info" [matMenuTriggerFor]="newspaperOptions">
+                  <mat-icon>menu</mat-icon>
+                </button>
+                <mat-menu #newspaperOptions>
+                  <a mat-menu-item [href]="newspaper.filePath">
+                    <mat-icon>download</mat-icon>
+                    <span>Download</span>
+                  </a>
+                  <button mat-menu-item (click)="onDeleteEbook(newspaper)">
+                    <mat-icon>delete</mat-icon>
+                    <span>Delete</span>
+                  </button>
+                  <button mat-menu-item (click)="onResendToKindle(newspaper)">
+                    <mat-icon>send</mat-icon>
+                    <span>Send to Kindle</span>
+                  </button>
+                  <button mat-menu-item (click)="onResendToKindle(newspaper, true)">
+                    <mat-icon>forward_to_inbox</mat-icon>
+                    <span>Send to Tori</span>
+                  </button>
+                </mat-menu>
+              </div>
+            </mat-card-actions>
+          </mat-card>
+        }
+      </div>
+
+      @if (filteredNewspapers.length === 0) {
+        <mat-card appearance="outlined" class="empty-card" @panelMotion>
+          <mat-card-content class="empty-state">
+            <mat-icon class="empty-icon">newspaper</mat-icon>
+            <h2>{{ searchQuery ? 'No matches yet' : 'No newspapers yet' }}</h2>
+            <p>{{ searchQuery ? 'Try a different search or clear the current filter.' : 'New issues appear here after they are added through the newspaper API.' }}</p>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="tab-icon">download</mat-icon>
       Search
     </ng-template>
     <div class="content ebooks-page" >

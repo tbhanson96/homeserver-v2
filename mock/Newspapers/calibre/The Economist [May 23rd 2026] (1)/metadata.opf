@@ -1,0 +1,506 @@
+<?xml version='1.0' encoding='utf-8'?>
+<package xmlns="http://www.idpf.org/2007/opf" version="2.0" unique-identifier="uuid_id">
+  <metadata xmlns:opf="http://www.idpf.org/2007/opf" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:calibre="http://calibre.kovidgoyal.net/2009/metadata">
+    <dc:language>en</dc:language>
+    <dc:title>The Economist [May 23rd 2026]</dc:title>
+    <dc:creator opf:file-as="calibre" opf:role="aut">calibre</dc:creator>
+    <dc:contributor opf:role="bkp">calibre (9.2.1) [https://calibre-ebook.com]</dc:contributor>
+    <dc:description>Articles in this issue:
+
+Politics
+
+Business
+
+The weekly cartoon
+
+SpaceX is capitalism on rocket fuel
+
+American growth could be even better
+
+Why NATO needs a Plan B
+
+How to stop the Ebola outbreak
+
+Lessons from the Premier League for Britain’s next premier
+
+Do most baristas in Norway have a master’s degree?
+
+The IPO wave will enshrine the AI gods’ control over the future
+
+Turkey’s struggle for democracy is like Hungary’s, but harder
+
+SpaceX has initiated the biggest ever public offering
+
+Even by Trumpian standards, a $1.8bn fund for friends is bad
+
+Drained by war with Iran, America is stalling deliveries of arms to Europe
+
+America’s sermons are becoming op-eds
+
+Democratic primary voters chose a dicey candidate for Georgia governor
+
+Europe’s first known language is alive in America’s West
+
+Michigan’s Senate primary is a fight over the future of the Democratic Party
+
+Leftist populism’s next big test
+
+Donald Trump is pushing towards the end-game in Cuba
+
+Months after electing a centrist president, Bolivia boils over
+
+Why Brazil’s government is obsessed with vaccines
+
+Why Japan and China will struggle to end their feud
+
+Is Donald Trump selling out Taiwan?
+
+India’s loudest political fight obscures a more urgent one
+
+India’s diplomats are hosting the world
+
+Overseas Chinese risk losing their oldest institutions
+
+Vladimir Putin’s turn with Xi Jinping
+
+How China quietly helps Russia in Ukraine
+
+What China can learn from Japan about escaping deflation
+
+A new Ebola outbreak could be the worst in a decade
+
+How to save the safari
+
+Is Binyamin Netanyahu facing his last stand?
+
+Israel’s economy is booming
+
+The mother of the world v the upstart
+
+Donald Trump is still looking for a quick fix in Iran
+
+Europe’s secret Plan B to replace NATO
+
+Who are Europe’s newest troublemakers?
+
+Real Madrid’s boss calls an election
+
+How Europe is fighting for digital sovereignty
+
+Bre-entry may be the next drama to grip the European Union
+
+In football, Britain has a world-beating industry
+
+Why football attendance is booming outside the Premier League
+
+The legal case hanging over Man City and the Premier League
+
+Britain’s second-biggest city goes from dysfunctional to worse
+
+Labour’s “battle for ideas” is a skirmish over small differences
+
+Hate Labour? Vote Labour!
+
+Home-schooling is on the rise around the world
+
+Israel the lonely
+
+Dope and glory: inside the Enhanced Games
+
+AI super-apps are remaking China’s internet
+
+Google is dethroning OpenAI as the king of consumer AI
+
+Chanel’s creative revival is paying off
+
+The strange fate of Hard Rock Cafe
+
+How Star Wars went from space opera to soap opera
+
+A new mega-deal shows how AI has turned utilities into hot property
+
+Can an Italian company disrupt Germany’s broken railway industry?
+
+Why you should (almost) always look on the bright side of life
+
+How much is Donald Trump costing America’s economy?
+
+The insurers on the hook for war in Iran
+
+The other China shock
+
+Economics lessons from Home Depot
+
+Where expat escapees from Dubai end up
+
+Investors fear another surge in inflation
+
+How should economists treat morality?
+
+Breakthroughs for batteries could soon make them much better
+
+The hantavirus outbreak is a tragedy—and a valuable data source
+
+Could microscopic spheres of silica help cool the planet?
+
+How well do anabolic steroids work?
+
+A blind tasting revolutionised the wine world 50 years ago
+
+The unlikely inspiration for North Korea’s first dictator
+
+Why the sex in “Rivals” is more than mere titillation
+
+Not all Jews believed their future lay in Israel
+
+Beware the typo—and other lessons of literary history
+
+Gamified novels—known as LitRPG—are a winning format
+
+Economic data, commodities and markets
+
+Edith Eger danced for Josef Mengele
+
+A Starship enterprise</dc:description>
+    <dc:publisher>calibre</dc:publisher>
+    <dc:date>2026-05-23T00:00:00+00:00</dc:date>
+    <meta name="calibre:timestamp" content="2026-05-22T12:01:47.312445+00:00"/>
+    <meta name="calibre:publication_type" content="periodical:unknown:The Economist"/>
+    <dc:identifier id="uuid_id" opf:scheme="uuid">e5807e29-faa5-4e0a-a4af-444c9b776567</dc:identifier>
+    <meta name="cover" content="cover"/>
+  </metadata>
+  <manifest>
+    <item id="cover" href="cover.jpg" media-type="image/jpeg"/>
+    <item id="titlepage" href="titlepage.xhtml" media-type="application/xhtml+xml"/>
+    <item id="id221" href="index_u91.html" media-type="application/xhtml+xml"/>
+    <item id="id1" href="feed_0/index_u39.html" media-type="application/xhtml+xml"/>
+    <item id="id4" href="feed_0/article_0/index_u49.html" media-type="application/xhtml+xml"/>
+    <item id="id7" href="feed_0/article_1/index_u8.html" media-type="application/xhtml+xml"/>
+    <item id="id2" href="feed_0/article_2/index_u70.html" media-type="application/xhtml+xml"/>
+    <item id="id9" href="feed_1/index_u17.html" media-type="application/xhtml+xml"/>
+    <item id="id14" href="feed_1/article_0/index_u34.html" media-type="application/xhtml+xml"/>
+    <item id="id18" href="feed_1/article_1/index_u3.html" media-type="application/xhtml+xml"/>
+    <item id="id12" href="feed_1/article_2/index_u11.html" media-type="application/xhtml+xml"/>
+    <item id="id16" href="feed_1/article_3/index_u80.html" media-type="application/xhtml+xml"/>
+    <item id="id10" href="feed_1/article_4/index_u71.html" media-type="application/xhtml+xml"/>
+    <item id="id20" href="feed_2/index_u40.html" media-type="application/xhtml+xml"/>
+    <item id="id21" href="feed_2/article_0/index_u52.html" media-type="application/xhtml+xml"/>
+    <item id="id24" href="feed_3/index_u29.html" media-type="application/xhtml+xml"/>
+    <item id="id25" href="feed_3/article_0/index_u93.html" media-type="application/xhtml+xml"/>
+    <item id="id27" href="feed_3/article_1/index_u66.html" media-type="application/xhtml+xml"/>
+    <item id="id29" href="feed_4/index_u30.html" media-type="application/xhtml+xml"/>
+    <item id="id30" href="feed_4/article_0/index_u72.html" media-type="application/xhtml+xml"/>
+    <item id="id35" href="feed_5/index_u41.html" media-type="application/xhtml+xml"/>
+    <item id="id40" href="feed_5/article_0/index_u12.html" media-type="application/xhtml+xml"/>
+    <item id="id46" href="feed_5/article_1/index_u18.html" media-type="application/xhtml+xml"/>
+    <item id="id38" href="feed_5/article_2/index_u46.html" media-type="application/xhtml+xml"/>
+    <item id="id44" href="feed_5/article_3/index_u53.html" media-type="application/xhtml+xml"/>
+    <item id="id36" href="feed_5/article_4/index_u76.html" media-type="application/xhtml+xml"/>
+    <item id="id49" href="feed_5/article_5/index_u20.html" media-type="application/xhtml+xml"/>
+    <item id="id42" href="feed_5/article_6/index_u81.html" media-type="application/xhtml+xml"/>
+    <item id="id51" href="feed_6/index_u87.html" media-type="application/xhtml+xml"/>
+    <item id="id55" href="feed_6/article_0/index_u24.html" media-type="application/xhtml+xml"/>
+    <item id="id59" href="feed_6/article_1/index_u67.html" media-type="application/xhtml+xml"/>
+    <item id="id52" href="feed_6/article_2/index_u22.html" media-type="application/xhtml+xml"/>
+    <item id="id61" href="feed_7/index_u31.html" media-type="application/xhtml+xml"/>
+    <item id="id66" href="feed_7/article_0/index_u4.html" media-type="application/xhtml+xml"/>
+    <item id="id70" href="feed_7/article_1/index_u45.html" media-type="application/xhtml+xml"/>
+    <item id="id64" href="feed_7/article_2/index_u35.html" media-type="application/xhtml+xml"/>
+    <item id="id68" href="feed_7/article_3/index_u77.html" media-type="application/xhtml+xml"/>
+    <item id="id62" href="feed_7/article_4/index_u73.html" media-type="application/xhtml+xml"/>
+    <item id="id72" href="feed_8/index_u13.html" media-type="application/xhtml+xml"/>
+    <item id="id76" href="feed_8/article_0/index_u54.html" media-type="application/xhtml+xml"/>
+    <item id="id78" href="feed_8/article_1/index_u19.html" media-type="application/xhtml+xml"/>
+    <item id="id73" href="feed_8/article_2/index_u50.html" media-type="application/xhtml+xml"/>
+    <item id="id80" href="feed_9/index_u84.html" media-type="application/xhtml+xml"/>
+    <item id="id85" href="feed_9/article_0/index_u59.html" media-type="application/xhtml+xml"/>
+    <item id="id92" href="feed_9/article_1/index_u96.html" media-type="application/xhtml+xml"/>
+    <item id="id83" href="feed_9/article_2/index_u88.html" media-type="application/xhtml+xml"/>
+    <item id="id90" href="feed_9/article_3/index_u26.html" media-type="application/xhtml+xml"/>
+    <item id="id81" href="feed_9/article_4/index_u21.html" media-type="application/xhtml+xml"/>
+    <item id="id96" href="feed_9/article_5/index_u36.html" media-type="application/xhtml+xml"/>
+    <item id="id98" href="feed_10/index_u5.html" media-type="application/xhtml+xml"/>
+    <item id="id103" href="feed_10/article_0/index_u79.html" media-type="application/xhtml+xml"/>
+    <item id="id109" href="feed_10/article_1/index_u85.html" media-type="application/xhtml+xml"/>
+    <item id="id101" href="feed_10/article_2/index_u9.html" media-type="application/xhtml+xml"/>
+    <item id="id106" href="feed_10/article_3/index_u63.html" media-type="application/xhtml+xml"/>
+    <item id="id99" href="feed_10/article_4/index_u42.html" media-type="application/xhtml+xml"/>
+    <item id="id111" href="feed_11/index_u57.html" media-type="application/xhtml+xml"/>
+    <item id="id117" href="feed_11/article_0/index_u64.html" media-type="application/xhtml+xml"/>
+    <item id="id125" href="feed_11/article_1/index_u37.html" media-type="application/xhtml+xml"/>
+    <item id="id115" href="feed_11/article_2/index_u92.html" media-type="application/xhtml+xml"/>
+    <item id="id121" href="feed_11/article_3/index_u68.html" media-type="application/xhtml+xml"/>
+    <item id="id112" href="feed_11/article_4/index_u89.html" media-type="application/xhtml+xml"/>
+    <item id="id128" href="feed_11/article_5/index_u43.html" media-type="application/xhtml+xml"/>
+    <item id="id130" href="feed_12/index_u10.html" media-type="application/xhtml+xml"/>
+    <item id="id131" href="feed_12/article_0/index_u47.html" media-type="application/xhtml+xml"/>
+    <item id="id135" href="feed_12/article_1/index_u16.html" media-type="application/xhtml+xml"/>
+    <item id="id137" href="feed_13/index_u55.html" media-type="application/xhtml+xml"/>
+    <item id="id138" href="feed_13/article_0/index_u83.html" media-type="application/xhtml+xml"/>
+    <item id="id145" href="feed_14/index_u23.html" media-type="application/xhtml+xml"/>
+    <item id="id152" href="feed_14/article_0/index_u97.html" media-type="application/xhtml+xml"/>
+    <item id="id158" href="feed_14/article_1/index_u74.html" media-type="application/xhtml+xml"/>
+    <item id="id148" href="feed_14/article_2/index_u25.html" media-type="application/xhtml+xml"/>
+    <item id="id156" href="feed_14/article_3/index.html" media-type="application/xhtml+xml"/>
+    <item id="id146" href="feed_14/article_4/index_u60.html" media-type="application/xhtml+xml"/>
+    <item id="id161" href="feed_14/article_5/index_u6.html" media-type="application/xhtml+xml"/>
+    <item id="id154" href="feed_14/article_6/index_u32.html" media-type="application/xhtml+xml"/>
+    <item id="id150" href="feed_14/article_7/index_u94.html" media-type="application/xhtml+xml"/>
+    <item id="id164" href="feed_15/index_u58.html" media-type="application/xhtml+xml"/>
+    <item id="id171" href="feed_15/article_0/index_u82.html" media-type="application/xhtml+xml"/>
+    <item id="id182" href="feed_15/article_1/index_u61.html" media-type="application/xhtml+xml"/>
+    <item id="id167" href="feed_15/article_2/index_u56.html" media-type="application/xhtml+xml"/>
+    <item id="id179" href="feed_15/article_3/index_u65.html" media-type="application/xhtml+xml"/>
+    <item id="id165" href="feed_15/article_4/index_u86.html" media-type="application/xhtml+xml"/>
+    <item id="id184" href="feed_15/article_5/index_u90.html" media-type="application/xhtml+xml"/>
+    <item id="id177" href="feed_15/article_6/index_u27.html" media-type="application/xhtml+xml"/>
+    <item id="id186" href="feed_16/index_u38.html" media-type="application/xhtml+xml"/>
+    <item id="id189" href="feed_16/article_0/index_u7.html" media-type="application/xhtml+xml"/>
+    <item id="id193" href="feed_16/article_1/index_u48.html" media-type="application/xhtml+xml"/>
+    <item id="id187" href="feed_16/article_2/index_u1.html" media-type="application/xhtml+xml"/>
+    <item id="id191" href="feed_16/article_3/index_u78.html" media-type="application/xhtml+xml"/>
+    <item id="id195" href="feed_17/index_u14.html" media-type="application/xhtml+xml"/>
+    <item id="id200" href="feed_17/article_0/index_u15.html" media-type="application/xhtml+xml"/>
+    <item id="id207" href="feed_17/article_1/index_u2.html" media-type="application/xhtml+xml"/>
+    <item id="id198" href="feed_17/article_2/index_u95.html" media-type="application/xhtml+xml"/>
+    <item id="id205" href="feed_17/article_3/index_u44.html" media-type="application/xhtml+xml"/>
+    <item id="id196" href="feed_17/article_4/index_u51.html" media-type="application/xhtml+xml"/>
+    <item id="id210" href="feed_17/article_5/index_u33.html" media-type="application/xhtml+xml"/>
+    <item id="id212" href="feed_18/index_u69.html" media-type="application/xhtml+xml"/>
+    <item id="id213" href="feed_18/article_0/index_u28.html" media-type="application/xhtml+xml"/>
+    <item id="id218" href="feed_19/index_u75.html" media-type="application/xhtml+xml"/>
+    <item id="id219" href="feed_19/article_0/index_u62.html" media-type="application/xhtml+xml"/>
+    <item id="id5" href="feed_0/article_0/images/img1_u8.jpg" media-type="image/jpeg"/>
+    <item id="id6" href="feed_0/article_0/images/img2_u1.jpg" media-type="image/jpeg"/>
+    <item id="id8" href="feed_0/article_1/images/img1_u65.jpg" media-type="image/jpeg"/>
+    <item id="id3" href="feed_0/article_2/images/img1_u2.jpg" media-type="image/jpeg"/>
+    <item id="id15" href="feed_1/article_0/images/img1_u40.jpg" media-type="image/jpeg"/>
+    <item id="id19" href="feed_1/article_1/images/img1_u29.jpg" media-type="image/jpeg"/>
+    <item id="id13" href="feed_1/article_2/images/img1_u9.jpg" media-type="image/jpeg"/>
+    <item id="id17" href="feed_1/article_3/images/img1_u64.jpg" media-type="image/jpeg"/>
+    <item id="id11" href="feed_1/article_4/images/img1_u38.jpg" media-type="image/jpeg"/>
+    <item id="id22" href="feed_2/article_0/images/img1_u71.jpg" media-type="image/jpeg"/>
+    <item id="id23" href="feed_2/article_0/images/img2_u3.jpg" media-type="image/jpeg"/>
+    <item id="id26" href="feed_3/article_0/images/img1_u21.jpg" media-type="image/jpeg"/>
+    <item id="id28" href="feed_3/article_1/images/img1_u72.jpg" media-type="image/jpeg"/>
+    <item id="id33" href="feed_4/article_0/images/img1_u49.jpg" media-type="image/jpeg"/>
+    <item id="id34" href="feed_4/article_0/images/img4.jpg" media-type="image/jpeg"/>
+    <item id="id41" href="feed_5/article_0/images/img1_u30.jpg" media-type="image/jpeg"/>
+    <item id="id48" href="feed_5/article_1/images/img1_u63.jpg" media-type="image/jpeg"/>
+    <item id="id39" href="feed_5/article_2/images/img1_u57.jpg" media-type="image/jpeg"/>
+    <item id="id45" href="feed_5/article_3/images/img1_u61.jpg" media-type="image/jpeg"/>
+    <item id="id37" href="feed_5/article_4/images/img1_u5.jpg" media-type="image/jpeg"/>
+    <item id="id50" href="feed_5/article_5/images/img1_u36.jpg" media-type="image/jpeg"/>
+    <item id="id43" href="feed_5/article_6/images/img1_u12.jpg" media-type="image/jpeg"/>
+    <item id="id57" href="feed_6/article_0/images/img1_u69.jpg" media-type="image/jpeg"/>
+    <item id="id58" href="feed_6/article_0/images/img2_u2.jpg" media-type="image/jpeg"/>
+    <item id="id56" href="feed_6/article_0/images/img3_u4.jpg" media-type="image/jpeg"/>
+    <item id="id60" href="feed_6/article_1/images/img1_u73.jpg" media-type="image/jpeg"/>
+    <item id="id54" href="feed_6/article_2/images/img1_u66.jpg" media-type="image/jpeg"/>
+    <item id="id67" href="feed_7/article_0/images/img1_u25.jpg" media-type="image/jpeg"/>
+    <item id="id71" href="feed_7/article_1/images/img1_u58.jpg" media-type="image/jpeg"/>
+    <item id="id65" href="feed_7/article_2/images/img1_u50.jpg" media-type="image/jpeg"/>
+    <item id="id69" href="feed_7/article_3/images/img1_u6.jpg" media-type="image/jpeg"/>
+    <item id="id63" href="feed_7/article_4/images/img1.jpg" media-type="image/jpeg"/>
+    <item id="id77" href="feed_8/article_0/images/img1_u62.jpg" media-type="image/jpeg"/>
+    <item id="id79" href="feed_8/article_1/images/img1_u33.jpg" media-type="image/jpeg"/>
+    <item id="id75" href="feed_8/article_2/images/img1_u11.jpg" media-type="image/jpeg"/>
+    <item id="id88" href="feed_9/article_0/images/img1_u41.jpg" media-type="image/jpeg"/>
+    <item id="id87" href="feed_9/article_0/images/img3_u1.jpg" media-type="image/jpeg"/>
+    <item id="id89" href="feed_9/article_0/images/img4_u2.jpg" media-type="image/jpeg"/>
+    <item id="id94" href="feed_9/article_1/images/img1_u46.jpg" media-type="image/jpeg"/>
+    <item id="id95" href="feed_9/article_1/images/img2.jpg" media-type="image/jpeg"/>
+    <item id="id93" href="feed_9/article_1/images/img3_u2.jpg" media-type="image/jpeg"/>
+    <item id="id84" href="feed_9/article_2/images/img1_u17.jpg" media-type="image/jpeg"/>
+    <item id="id91" href="feed_9/article_3/images/img1_u43.jpg" media-type="image/jpeg"/>
+    <item id="id82" href="feed_9/article_4/images/img1_u37.jpg" media-type="image/jpeg"/>
+    <item id="id97" href="feed_9/article_5/images/img1_u51.jpg" media-type="image/jpeg"/>
+    <item id="id105" href="feed_10/article_0/images/img1_u31.jpg" media-type="image/jpeg"/>
+    <item id="id110" href="feed_10/article_1/images/img1_u15.jpg" media-type="image/jpeg"/>
+    <item id="id102" href="feed_10/article_2/images/img1_u27.jpg" media-type="image/jpeg"/>
+    <item id="id108" href="feed_10/article_3/images/img1_u34.jpg" media-type="image/jpeg"/>
+    <item id="id100" href="feed_10/article_4/images/img1_u53.jpg" media-type="image/jpeg"/>
+    <item id="id120" href="feed_11/article_0/images/img1_u74.jpg" media-type="image/jpeg"/>
+    <item id="id127" href="feed_11/article_1/images/img1_u3.jpg" media-type="image/jpeg"/>
+    <item id="id116" href="feed_11/article_2/images/img1_u20.jpg" media-type="image/jpeg"/>
+    <item id="id124" href="feed_11/article_3/images/img1_u1.jpg" media-type="image/jpeg"/>
+    <item id="id114" href="feed_11/article_4/images/img1_u39.jpg" media-type="image/jpeg"/>
+    <item id="id129" href="feed_11/article_5/images/img1_u54.jpg" media-type="image/jpeg"/>
+    <item id="id134" href="feed_12/article_0/images/img1_u32.jpg" media-type="image/jpeg"/>
+    <item id="id136" href="feed_12/article_1/images/img1_u60.jpg" media-type="image/jpeg"/>
+    <item id="id140" href="feed_13/article_0/images/img1_u35.jpg" media-type="image/jpeg"/>
+    <item id="id144" href="feed_13/article_0/images/img2_u5.jpg" media-type="image/jpeg"/>
+    <item id="id139" href="feed_13/article_0/images/img3.jpg" media-type="image/jpeg"/>
+    <item id="id142" href="feed_13/article_0/images/img4_u1.jpg" media-type="image/jpeg"/>
+    <item id="id143" href="feed_13/article_0/images/img5.jpg" media-type="image/jpeg"/>
+    <item id="id141" href="feed_13/article_0/images/img6.jpg" media-type="image/jpeg"/>
+    <item id="id153" href="feed_14/article_0/images/img1_u44.jpg" media-type="image/jpeg"/>
+    <item id="id160" href="feed_14/article_1/images/img1_u55.jpg" media-type="image/jpeg"/>
+    <item id="id149" href="feed_14/article_2/images/img1_u42.jpg" media-type="image/jpeg"/>
+    <item id="id157" href="feed_14/article_3/images/img1_u23.jpg" media-type="image/jpeg"/>
+    <item id="id147" href="feed_14/article_4/images/img1_u67.jpg" media-type="image/jpeg"/>
+    <item id="id163" href="feed_14/article_5/images/img1_u10.jpg" media-type="image/jpeg"/>
+    <item id="id155" href="feed_14/article_6/images/img1_u47.jpg" media-type="image/jpeg"/>
+    <item id="id151" href="feed_14/article_7/images/img1_u22.jpg" media-type="image/jpeg"/>
+    <item id="id176" href="feed_15/article_0/images/img1_u45.jpg" media-type="image/jpeg"/>
+    <item id="id183" href="feed_15/article_1/images/img1_u18.jpg" media-type="image/jpeg"/>
+    <item id="id170" href="feed_15/article_2/images/img1_u13.jpg" media-type="image/jpeg"/>
+    <item id="id181" href="feed_15/article_3/images/img1_u68.jpg" media-type="image/jpeg"/>
+    <item id="id166" href="feed_15/article_4/images/img1_u16.jpg" media-type="image/jpeg"/>
+    <item id="id185" href="feed_15/article_5/images/img1_u48.jpg" media-type="image/jpeg"/>
+    <item id="id178" href="feed_15/article_6/images/img1_u70.jpg" media-type="image/jpeg"/>
+    <item id="id190" href="feed_16/article_0/images/img1_u26.jpg" media-type="image/jpeg"/>
+    <item id="id194" href="feed_16/article_1/images/img1_u59.jpg" media-type="image/jpeg"/>
+    <item id="id188" href="feed_16/article_2/images/img1_u52.jpg" media-type="image/jpeg"/>
+    <item id="id192" href="feed_16/article_3/images/img1_u7.jpg" media-type="image/jpeg"/>
+    <item id="id204" href="feed_17/article_0/images/img1_u56.jpg" media-type="image/jpeg"/>
+    <item id="id202" href="feed_17/article_0/images/img3_u3.jpg" media-type="image/jpeg"/>
+    <item id="id208" href="feed_17/article_1/images/img1_u24.jpg" media-type="image/jpeg"/>
+    <item id="id209" href="feed_17/article_1/images/img2_u4.jpg" media-type="image/jpeg"/>
+    <item id="id199" href="feed_17/article_2/images/img1_u14.jpg" media-type="image/jpeg"/>
+    <item id="id206" href="feed_17/article_3/images/img1_u4.jpg" media-type="image/jpeg"/>
+    <item id="id197" href="feed_17/article_4/images/img1_u28.jpg" media-type="image/jpeg"/>
+    <item id="id211" href="feed_17/article_5/images/img1_u75.jpg" media-type="image/jpeg"/>
+    <item id="id220" href="feed_19/article_0/images/img1_u19.jpg" media-type="image/jpeg"/>
+    <item id="masthead-image" href="mastheadImage.jpg" media-type="image/jpeg"/>
+    <item id="id31" href="feed_4/article_0/images/img2.png" media-type="image/png"/>
+    <item id="id32" href="feed_4/article_0/images/img3_u1.png" media-type="image/png"/>
+    <item id="id47" href="feed_5/article_1/images/img2_u11.png" media-type="image/png"/>
+    <item id="id53" href="feed_6/article_2/images/img2_u12.png" media-type="image/png"/>
+    <item id="id74" href="feed_8/article_2/images/img2_u16.png" media-type="image/png"/>
+    <item id="id86" href="feed_9/article_0/images/img2_u17.png" media-type="image/png"/>
+    <item id="id104" href="feed_10/article_0/images/img2_u2.png" media-type="image/png"/>
+    <item id="id107" href="feed_10/article_3/images/img2_u5.png" media-type="image/png"/>
+    <item id="id118" href="feed_11/article_0/images/img2_u7.png" media-type="image/png"/>
+    <item id="id119" href="feed_11/article_0/images/img3_u2.png" media-type="image/png"/>
+    <item id="id126" href="feed_11/article_1/images/img2_u13.png" media-type="image/png"/>
+    <item id="id122" href="feed_11/article_3/images/img2_u8.png" media-type="image/png"/>
+    <item id="id123" href="feed_11/article_3/images/img3_u4.png" media-type="image/png"/>
+    <item id="id113" href="feed_11/article_4/images/img2_u4.png" media-type="image/png"/>
+    <item id="id132" href="feed_12/article_0/images/img2_u14.png" media-type="image/png"/>
+    <item id="id133" href="feed_12/article_0/images/img3.png" media-type="image/png"/>
+    <item id="id159" href="feed_14/article_1/images/img2_u9.png" media-type="image/png"/>
+    <item id="id162" href="feed_14/article_5/images/img2_u1.png" media-type="image/png"/>
+    <item id="id172" href="feed_15/article_0/images/img2_u10.png" media-type="image/png"/>
+    <item id="id173" href="feed_15/article_0/images/img3_u5.png" media-type="image/png"/>
+    <item id="id175" href="feed_15/article_0/images/img4_u2.png" media-type="image/png"/>
+    <item id="id174" href="feed_15/article_0/images/img5.png" media-type="image/png"/>
+    <item id="id168" href="feed_15/article_2/images/img2_u3.png" media-type="image/png"/>
+    <item id="id169" href="feed_15/article_2/images/img3_u6.png" media-type="image/png"/>
+    <item id="id180" href="feed_15/article_3/images/img2_u6.png" media-type="image/png"/>
+    <item id="id201" href="feed_17/article_0/images/img2_u15.png" media-type="image/png"/>
+    <item id="id203" href="feed_17/article_0/images/img4.png" media-type="image/png"/>
+    <item id="id217" href="feed_18/article_0/images/img1.png" media-type="image/png"/>
+    <item id="id214" href="feed_18/article_0/images/img2_u18.png" media-type="image/png"/>
+    <item id="id215" href="feed_18/article_0/images/img3_u3.png" media-type="image/png"/>
+    <item id="id216" href="feed_18/article_0/images/img4_u1.png" media-type="image/png"/>
+    <item id="page_css" href="page_styles.css" media-type="text/css"/>
+    <item id="css" href="stylesheet.css" media-type="text/css"/>
+    <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>
+  </manifest>
+  <spine toc="ncx">
+    <itemref idref="titlepage"/>
+    <itemref idref="id221"/>
+    <itemref idref="id1"/>
+    <itemref idref="id4"/>
+    <itemref idref="id7"/>
+    <itemref idref="id2"/>
+    <itemref idref="id9"/>
+    <itemref idref="id14"/>
+    <itemref idref="id18"/>
+    <itemref idref="id12"/>
+    <itemref idref="id16"/>
+    <itemref idref="id10"/>
+    <itemref idref="id20"/>
+    <itemref idref="id21"/>
+    <itemref idref="id24"/>
+    <itemref idref="id25"/>
+    <itemref idref="id27"/>
+    <itemref idref="id29"/>
+    <itemref idref="id30"/>
+    <itemref idref="id35"/>
+    <itemref idref="id40"/>
+    <itemref idref="id46"/>
+    <itemref idref="id38"/>
+    <itemref idref="id44"/>
+    <itemref idref="id36"/>
+    <itemref idref="id49"/>
+    <itemref idref="id42"/>
+    <itemref idref="id51"/>
+    <itemref idref="id55"/>
+    <itemref idref="id59"/>
+    <itemref idref="id52"/>
+    <itemref idref="id61"/>
+    <itemref idref="id66"/>
+    <itemref idref="id70"/>
+    <itemref idref="id64"/>
+    <itemref idref="id68"/>
+    <itemref idref="id62"/>
+    <itemref idref="id72"/>
+    <itemref idref="id76"/>
+    <itemref idref="id78"/>
+    <itemref idref="id73"/>
+    <itemref idref="id80"/>
+    <itemref idref="id85"/>
+    <itemref idref="id92"/>
+    <itemref idref="id83"/>
+    <itemref idref="id90"/>
+    <itemref idref="id81"/>
+    <itemref idref="id96"/>
+    <itemref idref="id98"/>
+    <itemref idref="id103"/>
+    <itemref idref="id109"/>
+    <itemref idref="id101"/>
+    <itemref idref="id106"/>
+    <itemref idref="id99"/>
+    <itemref idref="id111"/>
+    <itemref idref="id117"/>
+    <itemref idref="id125"/>
+    <itemref idref="id115"/>
+    <itemref idref="id121"/>
+    <itemref idref="id112"/>
+    <itemref idref="id128"/>
+    <itemref idref="id130"/>
+    <itemref idref="id131"/>
+    <itemref idref="id135"/>
+    <itemref idref="id137"/>
+    <itemref idref="id138"/>
+    <itemref idref="id145"/>
+    <itemref idref="id152"/>
+    <itemref idref="id158"/>
+    <itemref idref="id148"/>
+    <itemref idref="id156"/>
+    <itemref idref="id146"/>
+    <itemref idref="id161"/>
+    <itemref idref="id154"/>
+    <itemref idref="id150"/>
+    <itemref idref="id164"/>
+    <itemref idref="id171"/>
+    <itemref idref="id182"/>
+    <itemref idref="id167"/>
+    <itemref idref="id179"/>
+    <itemref idref="id165"/>
+    <itemref idref="id184"/>
+    <itemref idref="id177"/>
+    <itemref idref="id186"/>
+    <itemref idref="id189"/>
+    <itemref idref="id193"/>
+    <itemref idref="id187"/>
+    <itemref idref="id191"/>
+    <itemref idref="id195"/>
+    <itemref idref="id200"/>
+    <itemref idref="id207"/>
+    <itemref idref="id198"/>
+    <itemref idref="id205"/>
+    <itemref idref="id196"/>
+    <itemref idref="id210"/>
+    <itemref idref="id212"/>
+    <itemref idref="id213"/>
+    <itemref idref="id218"/>
+    <itemref idref="id219"/>
+  </spine>
+  <guide>
+    <reference type="other.masthead" href="mastheadImage.jpg" title="Masthead Image"/>
+    <reference type="cover" href="titlepage.xhtml" title="Cover"/>
+  </guide>
+</package>

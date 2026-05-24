@@ -19,10 +19,14 @@ export class StubCalibreService implements CalibreService, OnModuleInit {
     constructor(
         private readonly configService: ConfigService,
         private readonly log: Logger,
+        private readonly libraryName: string = routes.ebooks,
     ) { }
 
     async onModuleInit(): Promise<void> {
-        this.libraryPath = this.configService.config.ebooks.homeDir;
+        this.libraryPath = this.libraryName === routes.newspapers
+            ? this.configService.config.newspapers.homeDir
+            : this.configService.config.ebooks.homeDir;
+        fs.mkdirSync(this.libraryPath, { recursive: true });
         const files = await EbookUtils.scanLibForEpubsRecursiveHelper(this.libraryPath);
         files.forEach(file => {
             this.books.push(file);
@@ -63,7 +67,7 @@ export class StubCalibreService implements CalibreService, OnModuleInit {
                     comments: data.metadata.description,
                     formats: [book],
                     cover: fs.existsSync(path.join(path.dirname(book), 'cover.jpg'))
-                    ? `${routes.ebooks}/${path.relative(this.libraryPath, path.join(path.dirname(book), 'cover.jpg'))}`
+                    ? `${this.libraryName}/${path.relative(this.libraryPath, path.join(path.dirname(book), 'cover.jpg'))}`
                     : '',
                 });
             }

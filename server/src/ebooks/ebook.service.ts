@@ -3,11 +3,11 @@ import { ConfigService } from "../config/config.service";
 import fs from 'fs';
 import path from 'path';
 import nodemailer from 'nodemailer';
-import { EbookData } from "../models/ebookData.dto";
+import { EbookData, EbookLibrary } from "../models/ebookData.dto";
 import { routes } from "../routes";
 import { AsyncUtils } from '../lib/async-utils';
 import Mail from "nodemailer/lib/mailer";
-import { CalibreService } from "./calibre.service";
+import { CalibreService, NewspaperCalibreService } from "./calibre.service";
 import { FileUtils } from "../lib/file-utils";
 
 export interface UploadFile {
@@ -18,17 +18,16 @@ export interface UploadFile {
 @Injectable()
 export class EbookService implements OnModuleInit {
 
-    private ebookDir: string;
     private mailer: Mail;
 
     constructor(
         private readonly configService: ConfigService,
         private readonly calibre: CalibreService,
+        private readonly newspaperCalibre: NewspaperCalibreService,
         private readonly log: Logger,
         ) { }
 
     onModuleInit() {
-        this.ebookDir = this.configService.config.ebooks.homeDir;
         if (this.configService.config.ebooks.useEmailClient) {
             this.mailer = nodemailer.createTransport({
                 host: this.configService.config.email.smtpHost,
@@ -45,8 +44,10 @@ export class EbookService implements OnModuleInit {
         } 
     }
 
-    public async getEbooks(): Promise<EbookData[]> {
-        const library = await this.calibre.getLibraryData();
+    public async getEbooks(libraryType: EbookLibrary = EbookLibrary.Books): Promise<EbookData[]> {
+        const library = await this.getCalibre(libraryType).getLibraryData();
+        const libraryDir = this.getLibraryDir(libraryType);
+        const libraryRoute = this.getLibraryRoute(libraryType);
         const ret: EbookData[] = [];
         library.forEach((epub) => {
             const epubFormat = epub.formats.find(f => path.extname(f) === '.epub') || epub.formats[0];
@@ -57,24 +58,25 @@ export class EbookService implements OnModuleInit {
                 author: epub.authors,
                 description: epub.comments,
                 coverPath: epub.cover,
-                filePath: path.join(routes.ebooks, path.relative(this.ebookDir, epubFormat)),
+                filePath: path.join(libraryRoute, path.relative(libraryDir, epubFormat)),
+                library: libraryType,
             });
         });
         return ret;
     }
 
-    public getLocalFilePath(ebook: EbookData) {
-        const relativePath = path.relative(routes.ebooks, ebook.filePath);
-        return path.resolve(this.ebookDir, relativePath);
+    public getLocalFilePath(ebook: EbookData, libraryType: EbookLibrary = ebook.library || EbookLibrary.Books) {
+        const relativePath = path.relative(this.getLibraryRoute(libraryType), ebook.filePath);
+        return path.resolve(this.getLibraryDir(libraryType), relativePath);
     }
 
-    public async addBooks(files: UploadFile[]): Promise<string[]> {
+    public async addBooks(files: UploadFile[], libraryType: EbookLibrary = EbookLibrary.Books): Promise<string[]> {
         const ret: string[] = [];
         await AsyncUtils.forEachAsync(files, async f => {
             const newPath = path.join(path.dirname(f.path), f.originalname);
             fs.renameSync(f.path, newPath);
-            const id = await this.calibre.addBookToLibrary(newPath);
-            this.log.log(`Successfully added ${newPath} to ebook library`);
+            await this.getCalibre(libraryType).addBookToLibrary(newPath);
+            this.log.log(`Successfully added ${newPath} to ${libraryType} library`);
             ret.push(newPath);
         });
         return ret;
@@ -117,7 +119,21 @@ export class EbookService implements OnModuleInit {
         await Promise.all(promises);
     }
 
-    public async removeBookFromLibrary(book: EbookData): Promise<void> {
-        await this.calibre.removeBookFromLibrary(book.id);
+    public async removeBookFromLibrary(book: EbookData, libraryType: EbookLibrary = book.library || EbookLibrary.Books): Promise<void> {
+        await this.getCalibre(libraryType).removeBookFromLibrary(book.id);
+    }
+
+    private getCalibre(libraryType: EbookLibrary): CalibreService {
+        return libraryType === EbookLibrary.Newspapers ? this.newspaperCalibre : this.calibre;
+    }
+
+    private getLibraryDir(libraryType: EbookLibrary): string {
+        return libraryType === EbookLibrary.Newspapers
+            ? this.configService.config.newspapers.homeDir
+            : this.configService.config.ebooks.homeDir;
+    }
+
+    private getLibraryRoute(libraryType: EbookLibrary): string {
+        return libraryType === EbookLibrary.Newspapers ? routes.newspapers : routes.ebooks;
     }
 }

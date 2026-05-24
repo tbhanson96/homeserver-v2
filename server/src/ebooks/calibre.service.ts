@@ -16,3 +16,6 @@ export class CalibreService {
         throw new Error('App module configured incorrectly');
     }
 }
+
+@Injectable()
+export class NewspaperCalibreService extends CalibreService { }

@@ -18,7 +18,7 @@ import { EbooksMiddleware } from './middlewares/ebooks.middleware';
 import { BooleanPipe } from './lib/boolean-transform.pipe';
 import { DatePipe } from './lib/date-transform.pipe';
 import { APP_PIPE } from '@nestjs/core';
-import { CalibreService } from './ebooks/calibre.service';
+import { CalibreService, NewspaperCalibreService } from './ebooks/calibre.service';
 import { RealCalibreService } from './ebooks/real-calibre.service';
 import { StubCalibreService } from './ebooks/stub-calibre.service';
 import { UpdateService } from './settings/update.service';
@@ -35,6 +35,7 @@ import { StatusService } from './status/status.service';
 import { HealthController } from './health/health.controller';
 import { ConfigModule } from './config.module';
 import { DbModule } from './db.module';
+import { routes } from './routes';
 
 @Module({
   imports: [
@@ -75,6 +76,17 @@ import { DbModule } from './db.module';
           return new RealCalibreService(config, log);
         } else {
           return new StubCalibreService(config, log);
+        }
+      },
+      inject: [ConfigService, Logger],
+    },
+    {
+      provide: NewspaperCalibreService,
+      useFactory: async (config: ConfigService, log: Logger) => {
+        if (config.config.newspapers.useCalibre) {
+          return new RealCalibreService(config, log, routes.newspapers);
+        } else {
+          return new StubCalibreService(config, log, routes.newspapers);
         }
       },
       inject: [ConfigService, Logger],

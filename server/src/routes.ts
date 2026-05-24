@@ -5,6 +5,7 @@ export const routes = {
     files: 'files',
     auth: 'auth',
     ebooks: 'ebooks',
+    newspapers: 'newspapers',
     settings: 'settings',
     torrent: 'torrent',
     libgen: 'libgen',

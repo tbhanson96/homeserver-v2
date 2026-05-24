@@ -46,6 +46,10 @@
             ]
         }
     },
+    "newspapers": {
+        "homeDir": "{.}/../../../mock/Newspapers",
+        "useCalibre": false
+    },
     "health": {
         "healthDir": "{.}/../../../mock/Documents/Health"
     },

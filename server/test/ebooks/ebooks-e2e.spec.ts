@@ -77,6 +77,54 @@ describe('EbookController (e2e)', () => {
     expect(newFiles.includes('igp.epub')).toBeTruthy();
   });
 
+  it('POST /api/ebooks/newspapers adds API-key submissions only to newspapers', async () => {
+    const config = app.get(ConfigService).config;
+    const { body: booksBefore }: { body: EbookData[] } = await request(app.getHttpServer())
+      .get('/api/ebooks')
+      .expect(200);
+    await request(app.getHttpServer())
+      .post('/api/ebooks/newspapers?sendToKindle=false')
+      .set('x-api-key', 'test')
+      .attach('0', path.join(__dirname, 'god.epub'))
+      .expect(201);
+
+    const { body: newspapers }: { body: EbookData[] } = await request(app.getHttpServer())
+      .get('/api/ebooks?library=newspapers')
+      .expect(200);
+    expect(newspapers).toHaveLength(1);
+    expect(newspapers[0]).toMatchObject({
+      filePath: 'newspapers/god.epub',
+      library: 'newspapers',
+    });
+    expect(fs.readdirSync(config.newspapers.homeDir)).toContain('god.epub');
+    const { body: booksAfter }: { body: EbookData[] } = await request(app.getHttpServer())
+      .get('/api/ebooks')
+      .expect(200);
+    expect(booksAfter).toEqual(booksBefore);
+  });
+
+  it('POST /api/ebooks/newspapers requires an API key', async () => {
+    await request(app.getHttpServer())
+      .post('/api/ebooks/newspapers?sendToKindle=false')
+      .attach('0', path.join(__dirname, 'igp.epub'))
+      .expect(403);
+  });
+
+  it('DELETE /api/ebooks targets the selected newspaper library', async () => {
+    const { body: newspapers }: { body: EbookData[] } = await request(app.getHttpServer())
+      .get('/api/ebooks?library=newspapers')
+      .expect(200);
+    await request(app.getHttpServer())
+      .delete('/api/ebooks?library=newspapers')
+      .send(newspapers[0])
+      .expect(200);
+
+    const { body: newNewspapers }: { body: EbookData[] } = await request(app.getHttpServer())
+      .get('/api/ebooks?library=newspapers')
+      .expect(200);
+    expect(newNewspapers).toHaveLength(0);
+  });
+
   it('DELETE /api/ebooks deletes correctly', async () => {
     const response = await request(app.getHttpServer())
       .get('/api/ebooks')

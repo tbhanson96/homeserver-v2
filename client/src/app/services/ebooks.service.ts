@@ -11,7 +11,11 @@ export class EbooksService {
   constructor(private readonly ebookApi: GeneratedEbookService) { }
 
   getEbooks() {
-    return this.ebookApi.ebookControllerGetBooks();
+    return this.ebookApi.ebookControllerGetBooks({ library: 'books' });
+  }
+
+  getNewspapers() {
+    return this.ebookApi.ebookControllerGetBooks({ library: 'newspapers' });
   }
 
   uploadEbooks(sendToKindle: boolean, sendToTori: boolean, files: Array<File>) {
@@ -23,11 +27,11 @@ export class EbooksService {
   }
 
   deleteEbook(ebook: EbookData) {
-    return this.ebookApi.ebookControllerDeleteEbook({ body: ebook });
+    return this.ebookApi.ebookControllerDeleteEbook({ library: ebook.library, body: ebook });
   }
 
   sendToKindle(ebook: EbookData, sendToTori = false) {
-    return this.ebookApi.ebookControllerSendBookToKindle({ body: ebook, sendToTori });
+    return this.ebookApi.ebookControllerSendBookToKindle({ library: ebook.library, body: ebook, sendToTori });
   }
 
   searchForBooks(query: string) {
