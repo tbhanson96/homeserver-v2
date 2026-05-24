@@ -36,6 +36,7 @@ import { HealthController } from './health/health.controller';
 import { ConfigModule } from './config.module';
 import { DbModule } from './db.module';
 import { routes } from './routes';
+import { Calibre } from 'node-calibre';
 
 @Module({
   imports: [
@@ -70,26 +71,30 @@ import { routes } from './routes';
   providers: [
     FileService,
     {
+      provide: Calibre,
+      useFactory: () => new Calibre(),
+    },
+    {
       provide: CalibreService,
-      useFactory: async (config: ConfigService, log: Logger) => {
+      useFactory: async (config: ConfigService, log: Logger, calibre: Calibre) => {
         if (config.config.ebooks.useCalibre) {
-          return new RealCalibreService(config.config.ebooks.homeDir, log, routes.ebooks);
+          return new RealCalibreService(calibre, config.config.ebooks.homeDir, log, routes.ebooks);
         } else {
           return new StubCalibreService(config, log);
         }
       },
-      inject: [ConfigService, Logger],
+      inject: [ConfigService, Logger, Calibre],
     },
     {
       provide: NewspaperCalibreService,
-      useFactory: async (config: ConfigService, log: Logger) => {
+      useFactory: async (config: ConfigService, log: Logger, calibre: Calibre) => {
         if (config.config.newspapers.useCalibre) {
-          return new RealCalibreService(config.config.newspapers.homeDir, log, routes.newspapers);
+          return new RealCalibreService(calibre, config.config.newspapers.homeDir, log, routes.newspapers);
         } else {
           return new StubCalibreService(config, log, routes.newspapers);
         }
       },
-      inject: [ConfigService, Logger],
+      inject: [ConfigService, Logger, Calibre],
     },
     {
       provide: FileValidationPipe,

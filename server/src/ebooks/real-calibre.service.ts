@@ -9,28 +9,26 @@ import { routes } from "../routes";
 @Injectable()
 export class RealCalibreService implements CalibreService {
 
-    private calibre: Calibre;
-
     constructor(
+        private readonly calibre: Calibre,
         private readonly libraryPath: string,
         private readonly log: Logger,
         private readonly libraryName: string = routes.ebooks,
-    ) {
-        this.calibre = new Calibre({ library: this.libraryPath });
-        this.log.log(`Initialized Calibre client for ${this.libraryName} library at ${this.libraryPath}`);
-    }
+    ) { }
 
     public async addBookToLibrary(filePath: string): Promise<number> {
-        return this.getCalibreIdFromAddResult(await this.calibre.run('calibredb add', [filePath]));
+        return this.getCalibreIdFromAddResult(
+            await this.calibre.run('calibredb add', [filePath], this.getLibraryOptions()),
+        );
     }
 
     public async removeBookFromLibrary(id: number): Promise<void> {
-        await this.calibre.run('calibredb remove --permanent', [id]);
+        await this.calibre.run('calibredb remove --permanent', [id], this.getLibraryOptions());
         this.log.log(`Succesfully removed book ${id} from library.`);
     }
 
     public async getLibraryData(): Promise<CalibreLibraryData[]> {
-        const result = await this.calibre.run('calibredb list --for-machine -f all');
+        const result = await this.calibre.run('calibredb list --for-machine -f all', [], this.getLibraryOptions());
         const data: CalibreLibraryData[] = JSON.parse(result);
         data.forEach(d => {
             d.cover = existsSync(d.cover)
@@ -38,6 +36,10 @@ export class RealCalibreService implements CalibreService {
                 : '';
         });
         return data;
+    }
+
+    private getLibraryOptions() {
+        return { libraryPath: this.libraryPath };
     }
 
     private getCalibreIdFromAddResult(result: string): number {
