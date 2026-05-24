@@ -1,5 +1,4 @@
-import { Injectable, Logger, OnModuleInit } from "@nestjs/common";
-import { ConfigService } from "../config/config.service";
+import { Injectable, Logger } from "@nestjs/common";
 import { Calibre } from 'node-calibre';
 import { CalibreService } from "./calibre.service";
 import { CalibreLibraryData } from "../models/calibreLibraryData";
@@ -8,22 +7,17 @@ import { existsSync } from "fs";
 import { routes } from "../routes";
 
 @Injectable()
-export class RealCalibreService implements OnModuleInit, CalibreService {
+export class RealCalibreService implements CalibreService {
 
-    private libraryPath: string;
     private calibre: Calibre;
 
     constructor(
-        private readonly configService: ConfigService,
+        private readonly libraryPath: string,
         private readonly log: Logger,
         private readonly libraryName: string = routes.ebooks,
-    ) { }
-
-    onModuleInit() {
-        this.libraryPath = this.libraryName === routes.newspapers
-            ? this.configService.config.newspapers.homeDir
-            : this.configService.config.ebooks.homeDir;
-        this.calibre = new Calibre({ library: this.libraryPath })
+    ) {
+        this.calibre = new Calibre({ library: this.libraryPath });
+        this.log.log(`Initialized Calibre client for ${this.libraryName} library at ${this.libraryPath}`);
     }
 
     public async addBookToLibrary(filePath: string): Promise<number> {

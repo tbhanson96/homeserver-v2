@@ -73,7 +73,7 @@ import { routes } from './routes';
       provide: CalibreService,
       useFactory: async (config: ConfigService, log: Logger) => {
         if (config.config.ebooks.useCalibre) {
-          return new RealCalibreService(config, log);
+          return new RealCalibreService(config.config.ebooks.homeDir, log, routes.ebooks);
         } else {
           return new StubCalibreService(config, log);
         }
@@ -84,7 +84,7 @@ import { routes } from './routes';
       provide: NewspaperCalibreService,
       useFactory: async (config: ConfigService, log: Logger) => {
         if (config.config.newspapers.useCalibre) {
-          return new RealCalibreService(config, log, routes.newspapers);
+          return new RealCalibreService(config.config.newspapers.homeDir, log, routes.newspapers);
         } else {
           return new StubCalibreService(config, log, routes.newspapers);
         }
