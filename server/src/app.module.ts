@@ -37,6 +37,7 @@ import { ConfigModule } from './config.module';
 import { DbModule } from './db.module';
 import { routes } from './routes';
 import { Calibre } from 'node-calibre';
+import { QueuedCalibreService } from './ebooks/queued-calibre.service';
 
 @Module({
   imports: [
@@ -72,7 +73,7 @@ import { Calibre } from 'node-calibre';
     FileService,
     {
       provide: Calibre,
-      useFactory: () => new Calibre(),
+      useClass: QueuedCalibreService,
     },
     {
       provide: CalibreService,
