@@ -8,7 +8,7 @@
       <div class="search-controls">
         <mat-form-field class="query" appearance="outline">
           <mat-label>Book title or author</mat-label>
-          <input matInput [(ngModel)]="query" placeholder="Ex. 'Of Mice And Men'">
+          <input id="libgen-search" matInput type="search" [(ngModel)]="query" placeholder="Ex. 'Of Mice And Men'" autocomplete="off">
         </mat-form-field>
         <div class="search-action">
           <button mat-raised-button color="primary" (click)="onLibgenSearch()">Search</button>

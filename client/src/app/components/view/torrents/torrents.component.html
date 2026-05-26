@@ -8,7 +8,7 @@
       <div class="search-controls">
         <mat-form-field class="query" appearance="outline">
           <mat-label>Query String</mat-label>
-          <input matInput [(ngModel)]="query" placeholder="Ex. 'The Office'">
+          <input id="torrent-search" matInput type="search" [(ngModel)]="query" placeholder="Ex. 'The Office'" autocomplete="off">
         </mat-form-field>
         <div class="search-action">
           <button mat-raised-button color="primary" (click)="onTorrentSearch()">Search</button>

@@ -38,11 +38,13 @@
           <mat-icon matPrefix>search</mat-icon>
           <input
             #searchInput
+            id="file-search"
             matInput
+            type="search"
             [formControl]="searchControl"
             placeholder="Search by name, type, or date"
             autocomplete="off"
-            >
+          >
           @if (!searchQuery) {
             <span matTextSuffix>/</span>
           }

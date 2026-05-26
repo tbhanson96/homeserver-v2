@@ -24,11 +24,13 @@
             <mat-icon matPrefix>search</mat-icon>
             <input
               #librarySearchInput
+              id="ebook-search"
               matInput
+              type="search"
               [formControl]="librarySearchControl"
               placeholder="Search by title, author, or description"
               autocomplete="off"
-              >
+            >
             @if (!librarySearchQuery) {
               <span matTextSuffix>/</span>
             }
@@ -137,11 +139,13 @@
             <mat-icon matPrefix>search</mat-icon>
             <input
               #newspaperSearchInput
+              id="newspaper-search"
               matInput
+              type="search"
               [formControl]="newspaperSearchControl"
               placeholder="Search by title, author, or description"
               autocomplete="off"
-              >
+            >
             @if (!newspaperSearchQuery) {
               <span matTextSuffix>/</span>
             }
