@@ -53,8 +53,8 @@ export class SettingsController {
 
     @Post('update')
     @UseGuards(JwtGuard)
-    @ApiAcceptedResponse({ description: 'Server shutdown and update in progress.'})
+    @ApiAcceptedResponse({ description: 'Server restart and update in progress.'})
     performUpdate() {
-        this.updateService.shutdownApplication(); // don't await this call, return http response before shutdown
+        this.updateService.restartApplication(); // don't await this call, return http response before restart
     }
 }

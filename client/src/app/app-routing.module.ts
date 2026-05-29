@@ -8,6 +8,7 @@ import { AuthService } from '@services/auth.service';
 import { EbooksComponent } from '@components/view/ebooks/ebooks.component';
 import { TorrentsComponent } from '@components/view/torrents/torrents.component';
 import { HealthComponent } from '@components/view/health/health.component';
+import { SystemctlComponent } from '@components/view/systemctl/systemctl.component';
 
 
 const routes: Routes = [
@@ -19,6 +20,7 @@ const routes: Routes = [
     { path: 'ebooks', component: EbooksComponent },
     { path: 'torrents', component: TorrentsComponent },
     { path: 'health', component: HealthComponent },
+    { path: 'services', component: SystemctlComponent },
   ]},
   { path: 'login', component: AuthComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },

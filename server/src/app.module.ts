@@ -33,6 +33,8 @@ import { ProxyMiddleware } from './middlewares/proxy.middleware';
 import { StatusController } from './status/status.controller';
 import { StatusService } from './status/status.service';
 import { HealthController } from './health/health.controller';
+import { SystemctlController } from './systemctl/systemctl.controller';
+import { SystemctlService } from './systemctl/systemctl.service';
 import { ConfigModule } from './config.module';
 import { DbModule } from './db.module';
 import { routes } from './routes';
@@ -68,6 +70,7 @@ import { QueuedCalibreService } from './ebooks/queued-calibre.service';
     TorrentsController,
     StatusController,
     HealthController,
+    SystemctlController,
   ],
   providers: [
     FileService,
@@ -120,6 +123,7 @@ import { QueuedCalibreService } from './ebooks/queued-calibre.service';
     LibgenClient,
     LibgenService,
     StatusService,
+    SystemctlService,
   ],
 })
 export class AppModule implements NestModule {
