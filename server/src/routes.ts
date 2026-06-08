@@ -12,5 +12,4 @@ export const routes = {
     proxy: 'proxy',
     status: 'status',
     health: 'health',
-    systemctl: 'systemctl',
 }

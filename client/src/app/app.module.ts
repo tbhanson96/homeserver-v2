@@ -39,8 +39,6 @@ import { StatusService } from '@services/status.service';
 import { LazyImgComponent } from './components/view/lazy-img/lazy-img.component';
 import { HealthComponent } from '@components/view/health/health.component';
 import { HealthService } from '@services/health.service';
-import { SystemctlComponent } from '@components/view/systemctl/systemctl.component';
-import { SystemctlService } from '@services/systemctl.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -67,7 +65,6 @@ import { environment } from '../environments/environment';
     ProgressDialogComponent,
     LibgenComponent,
     HealthComponent,
-    SystemctlComponent,
     LazyImgComponent,
   ],
   imports: [
@@ -133,7 +130,6 @@ import { environment } from '../environments/environment';
     EbooksService,
     TorrentsService,
     HealthService,
-    SystemctlService,
     UploadInterceptor,
     StatusService,
   ],
