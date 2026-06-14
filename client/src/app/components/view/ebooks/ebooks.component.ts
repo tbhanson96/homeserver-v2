@@ -136,7 +136,11 @@ export class EbooksComponent implements OnInit {
   }
 
   public onResendToKindle(file: EbookData, sendToTori = false) {
-    this.ebooksService.sendToKindle(file, sendToTori).subscribe();
+    this.ebooksService.sendToKindle(file, sendToTori).subscribe({
+      next: () => {
+        this.snackbar.open(`Successfully sent to Kindle: ${file.name}`, 'Close');
+      },
+    });
   }
 
   public onDownload() {
