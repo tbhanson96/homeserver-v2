@@ -14,7 +14,6 @@ import { SettingsService } from '../../src/settings/settings.service';
 import { SettingsDto } from '../../src/models/settings.dto';
 import jsonfile from 'jsonfile';
 import { JwtGuard } from '../../src/auth/jwt.guard';
-import { SystemctlService } from '../../src/systemctl/systemctl.service';
 
 describe('SettingsController (e2e)', () => {
   let app: INestApplication;
@@ -53,13 +52,9 @@ describe('SettingsController (e2e)', () => {
     ]);
   });
 
-  it('POST /api/settings/update restarts homeserver.service and writes config', async () => {
+  it('POST /api/settings/update exits process and writes config', async () => {
     const config = app.get(ConfigService).config;
-    const systemctlService = app.get(SystemctlService);
-    const restartUnit = jest.spyOn(systemctlService, 'restartUnit').mockResolvedValue({
-      unit: 'homeserver.service',
-      action: 'restart',
-    });
+    const exit = jest.spyOn(process, 'exit').mockImplementation((() => undefined) as never);
     config.app.configOverridePath = 'config.json';
     jest.useFakeTimers();
 
@@ -71,8 +66,8 @@ describe('SettingsController (e2e)', () => {
     await Promise.resolve();
     const writtenConfig = await jsonfile.readFile('config.json');
     expect(writtenConfig).toEqual(config);
-    expect(restartUnit).toHaveBeenCalledWith('homeserver.service');
-    restartUnit.mockRestore();
+    expect(exit).toHaveBeenCalledWith(0);
+    exit.mockRestore();
     jest.useRealTimers();
   });
 

@@ -5,7 +5,6 @@ import path from 'path';
 import tar from 'tar';
 import { FileUtils } from "../lib/file-utils";
 import { AsyncUtils } from "../lib/async-utils";
-import { SystemctlService } from "../systemctl/systemctl.service";
 
 @Injectable()
 export class UpdateService implements OnModuleInit {
@@ -16,7 +15,6 @@ export class UpdateService implements OnModuleInit {
     constructor(
         private readonly config: ConfigService,
         private readonly log: Logger,
-        private readonly systemctlService: SystemctlService,
     ) { }
 
     onModuleInit() {
@@ -59,15 +57,15 @@ export class UpdateService implements OnModuleInit {
     }
 
     public async restartApplication(): Promise<void> {
-        this.log.warn('Application restart requested, restarting homeserver.service.');
+        this.log.warn('Application restart requested, exiting process.');
         this.config.saveConfig();
         return new Promise((res) => {
-            setTimeout(async () => {
+            setTimeout(() => {
                 try {
-                    await this.systemctlService.restartUnit('homeserver.service');
+                    process.exit(0);
                     res();
                 } catch (e: any) {
-                    this.log.error('Failed to restart homeserver.service.', e.stack || e.message);
+                    this.log.error('Failed to exit process.', e.stack || e.message);
                     res();
                 }
             }, 500);
