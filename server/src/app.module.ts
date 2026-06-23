@@ -10,7 +10,6 @@ import { AuthController } from './auth/auth.controller';
 import { EbookController } from './ebooks/ebook.controller';
 import { AuthService } from './auth/auth.service';
 import { PassportModule } from '@nestjs/passport';
-import { MongooseModule } from '@nestjs/mongoose';
 import { JwtModule } from '@nestjs/jwt';
 import { FilesMiddleware } from './middlewares/files.middleware';
 import { EbookService } from './ebooks/ebook.service';

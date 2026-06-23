@@ -1,57 +1,56 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument } from "mongoose";
-
-export type HealthDocument = HydratedDocument<HealthRecord>;
+import { Column, Entity, Index, PrimaryColumn } from 'typeorm';
 
 /**
  * Generic health record.
  */
-@Schema({ _id: false })
+@Entity({ name: 'health_records' })
+@Index(['name', 'date'], { unique: true })
 export class HealthRecord {
-  @Prop()
+  @PrimaryColumn()
   name: string;
 
-  @Prop()
+  @Column()
   units: string;
 
-  @Prop()
+  @Column({ type: 'real', nullable: true })
   qty?: number;
 
   // Properties used for HR
-  @Prop()
+  @Column({ type: 'real', nullable: true })
   Avg?: number;
 
-  @Prop()
+  @Column({ type: 'real', nullable: true })
   Max?: number;
 
-  @Prop()
+  @Column({ type: 'real', nullable: true })
   Min?: number;
 
-  @Prop()
+  @Column()
   source: string;
 
-  @Prop()
+  @PrimaryColumn({ type: 'datetime' })
   date: Date;
 }
 
 /**
  * Sleep Record
  */
-@Schema({ _id: false })
+@Entity({ name: 'sleep_records' })
+@Index(['value', 'startDate'], { unique: true })
 export class SleepRecord {
-  @Prop()
+  @Column({ type: 'real', nullable: true })
   qty?: number;
 
-  @Prop()
+  @Column()
   source: string;
 
-  @Prop()
-  value: SleepType; 
+  @PrimaryColumn()
+  value: SleepType;
 
-  @Prop()
+  @PrimaryColumn({ type: 'datetime' })
   startDate: Date;
 
-  @Prop()
+  @Column({ type: 'datetime' })
   endDate: Date;
 }
 
@@ -62,6 +61,3 @@ export enum SleepType {
   DEEP = 'Deep',
   REM = 'REM',
 }
-
-export const HealthSchema = SchemaFactory.createForClass(HealthRecord).index({ name: 1, date: 1 }, { unique: true });
-export const SleepSchema = SchemaFactory.createForClass(SleepRecord).index({ value: 1, startDate: 1 }, { unique: true });

@@ -1,68 +1,52 @@
-import { DynamicModule, Module, Logger, } from '@nestjs/common'
-import { MongooseModule } from '@nestjs/mongoose';
+import { DynamicModule, ForwardReference, Logger, Module, Type } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigService } from './config/config.service';
-import { HealthRecord, HealthSchema, SleepRecord, SleepSchema } from './models/health';
 import { HealthService } from './health/health.service';
 import { JsonHealthService } from './health/json-health.service';
 import { DbHealthService } from './health/db-health.service';
 import { ConfigModule } from './config.module';
+import { HealthRecord, SleepRecord } from './models/health';
 
 @Module({})
 export class DbModule {
   static forRoot(): DynamicModule {
-
     const tempConfig = new ConfigService();
+    const imports: Array<Type<any> | DynamicModule | Promise<DynamicModule> | ForwardReference> = [ConfigModule];
 
-    let modules: DynamicModule[]  = [];
     if (!tempConfig.config.db.mock) {
-      modules.push(...[
-        MongooseModule.forRootAsync({
-          useFactory: async (config: ConfigService) => ({
-            dbName: config.config.db.name,
-            uri: `mongodb://${config.config.db.host}:${config.config.db.port}`,
-          }),
+      imports.push(
+        TypeOrmModule.forRootAsync({
           imports: [ConfigModule],
           inject: [ConfigService],
+          useFactory: async (config: ConfigService) => ({
+            type: 'better-sqlite3',
+            database: config.config.db.path,
+            autoLoadEntities: true,
+            synchronize: config.config.db.synchronize,
+            logging: false,
+            enableWAL: true,
+          }),
         }),
-        MongooseModule.forFeature([
-          {
-            name: HealthRecord.name,
-            schema: HealthSchema,
-          },
-          {
-            name: SleepRecord.name,
-            schema: SleepSchema,
-          }
-        ]),
-      ]) ;
+        TypeOrmModule.forFeature([HealthRecord, SleepRecord]),
+      );
     }
-    const providers = modules.flatMap(m => m.providers || []);
 
-    if (tempConfig.config.db.mock) {
-      providers.push({
+    const providers = [
+      tempConfig.config.db.mock ? {
         provide: HealthService,
         useClass: JsonHealthService,
-      });
-    } else {
-      providers.push({
+      } : {
         provide: HealthService,
         useClass: DbHealthService,
-      });
-    }
+      },
+      Logger,
+    ];
+
     return {
       module: DbModule,
-      imports: [
-        ...modules,
-        ConfigModule,
-      ],
-      providers: [
-        ...providers,
-        Logger,
-      ],
-      exports: [
-        ...modules.flatMap(m => m.exports || []),
-        HealthService,
-      ],
-    }
+      imports,
+      providers,
+      exports: [HealthService],
+    };
   }
 }

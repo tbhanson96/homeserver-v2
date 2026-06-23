@@ -10,10 +10,9 @@
         "rootWildCard": "{.}"
     },
     "db": {
-        "host": "homeserverdb",
-        "port": 27017,
-        "name": "default",
-        "mock": false
+        "path": "/opt/app/mnt/Documents/Health/health.sqlite",
+        "mock": false,
+        "synchronize": true
     },
     "ssl": {
         "keyPath": "",
