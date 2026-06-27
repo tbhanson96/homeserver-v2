@@ -2,7 +2,6 @@ import { DynamicModule, ForwardReference, Logger, Module, Type } from '@nestjs/c
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigService } from './config/config.service';
 import { HealthService } from './health/health.service';
-import { JsonHealthService } from './health/json-health.service';
 import { DbHealthService } from './health/db-health.service';
 import { ConfigModule } from './config.module';
 import { HealthRecord, SleepRecord } from './models/health';
@@ -10,32 +9,25 @@ import { HealthRecord, SleepRecord } from './models/health';
 @Module({})
 export class DbModule {
   static forRoot(): DynamicModule {
-    const tempConfig = new ConfigService();
     const imports: Array<Type<any> | DynamicModule | Promise<DynamicModule> | ForwardReference> = [ConfigModule];
-
-    if (!tempConfig.config.db.mock) {
-      imports.push(
-        TypeOrmModule.forRootAsync({
-          imports: [ConfigModule],
-          inject: [ConfigService],
-          useFactory: async (config: ConfigService) => ({
-            type: 'better-sqlite3',
-            database: config.config.db.path,
-            autoLoadEntities: true,
-            synchronize: config.config.db.synchronize,
-            logging: false,
-            enableWAL: true,
-          }),
+    imports.push(
+      TypeOrmModule.forRootAsync({
+        imports: [ConfigModule],
+        inject: [ConfigService],
+        useFactory: async (config: ConfigService) => ({
+          type: 'better-sqlite3',
+          database: config.config.db.path,
+          autoLoadEntities: true,
+          synchronize: config.config.db.synchronize,
+          logging: false,
+          enableWAL: true,
         }),
-        TypeOrmModule.forFeature([HealthRecord, SleepRecord]),
-      );
-    }
+      }),
+      TypeOrmModule.forFeature([HealthRecord, SleepRecord]),
+    );
 
     const providers = [
-      tempConfig.config.db.mock ? {
-        provide: HealthService,
-        useClass: JsonHealthService,
-      } : {
+      {
         provide: HealthService,
         useClass: DbHealthService,
       },

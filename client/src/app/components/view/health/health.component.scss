@@ -1,20 +1,278 @@
-.health-controls,
-.health-time-controls {
+:host {
+  display: block;
+}
+
+.health-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.health-page mat-card {
+  border-radius: 16px;
+  box-shadow: var(--mat-app-elevation-shadow-level-1);
+}
+
+.header-content,
+.metric-picker-content,
+.trend-card-content,
+.comparison-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.header-copy {
+  margin: 0;
+  opacity: 0.78;
+}
+
+.control-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.control-actions {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 20px;
+  gap: 12px;
 }
 
-.graph {
-  height: 500px;
-}
-
-.health-chart {
+.metric-filter {
   width: 100%;
-  height: 100%;
 }
 
-.divider {
-  margin: 10px;
+.metric-chip-list,
+mat-chip-set {
+  overflow: auto;
+}
+
+.chip-suffix {
+  margin-left: 6px;
+  opacity: 0.68;
+  font-size: 0.78rem;
+}
+
+.stats-grid,
+.insight-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 16px;
+}
+
+.stat-card h3,
+.insight-card h3 {
+  margin: 0;
+}
+
+.stat-card p {
+  margin: 4px 0 0;
+  opacity: 0.7;
+}
+
+.stat-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.trend-pill {
+  border-radius: 999px;
+  background: rgba(21, 101, 192, 0.1);
+  color: #1565c0;
+  padding: 4px 10px;
+  white-space: nowrap;
+  font-size: 0.8rem;
+}
+
+.stat-primary {
+  font-size: clamp(1.45rem, 2.4vw, 2rem);
+  font-weight: 600;
+  margin-top: 16px;
+}
+
+.stat-secondary {
+  margin-top: 8px;
+  opacity: 0.8;
+}
+
+.focus-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.focus-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  opacity: 0.8;
+}
+
+.chart-shell {
+  height: 360px;
+}
+
+.chart-shell.compact {
+  height: 280px;
+}
+
+.comparison-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.comparison-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.comparison-title {
+  font-weight: 600;
+}
+
+.comparison-helper {
+  font-size: 0.82rem;
+  opacity: 0.68;
+}
+
+.comparison-value {
+  text-align: right;
+  font-weight: 500;
+}
+
+.insight-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.insight-card p {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.analysis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.analysis-stat {
+  border-radius: 12px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.analysis-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.68;
+}
+
+.analysis-sources {
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+
+.analysis-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.analysis-note {
+  padding-left: 14px;
+  border-left: 3px solid rgba(21, 101, 192, 0.24);
+  line-height: 1.55;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 28px;
+}
+
+.empty-icon {
+  width: 48px;
+  height: 48px;
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.empty-state h2 {
+  margin: 0 0 8px;
+}
+
+.empty-state p {
+  margin: 0;
+  max-width: 34rem;
+}
+
+@media (min-width: 900px) {
+  .control-layout,
+  .focus-toolbar {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .control-group {
+    flex: 1 1 0;
+  }
+}
+
+@media (max-width: 960px) {
+  .chart-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .chart-shell {
+    height: 300px;
+  }
+
+  .chart-shell.compact {
+    height: 240px;
+  }
+
+  .comparison-row,
+  .stat-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .comparison-value {
+    text-align: left;
+  }
+
+  .control-actions button {
+    width: 100%;
+  }
 }

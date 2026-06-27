@@ -1,65 +1,228 @@
-<h1>
-  Select Data
-</h1>
-<div class="health-controls">
-  <mat-form-field>
-    <mat-label>Enter a date range</mat-label>
-    <mat-date-range-input [rangePicker]="picker">
-      <input matStartDate placeholder="Start date" [(ngModel)]="from">
-      <input matEndDate placeholder="End date" [(ngModel)]="to">
-    </mat-date-range-input>
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker></mat-date-range-picker>
-  </mat-form-field>
-  <mat-button-toggle-group [(ngModel)]="aggregation">
-    <mat-button-toggle #daily value="daily">Daily</mat-button-toggle>
-    <mat-button-toggle #hourly value="hourly">Hourly</mat-button-toggle>
-  </mat-button-toggle-group>
-  <button mat-raised-button color="primary" (click)="getAllHealthData()">Search</button>
-</div>
-@if (hourly.checked) {
-  <div class="health-time-controls">
-    <mat-form-field>
-      <input type="text" [(ngModel)]="fromTime" matInput [matTimepicker]="from" />
-      <mat-timepicker-toggle matSuffix [for]="from"></mat-timepicker-toggle>
-      <mat-timepicker #from></mat-timepicker>
-    </mat-form-field>
-    <mat-form-field>
-      <input type="text" [(ngModel)]="toTime" matInput [matTimepicker]="to" />
-      <mat-timepicker-toggle matSuffix [for]="to"></mat-timepicker-toggle>
-      <mat-timepicker #to></mat-timepicker>
-    </mat-form-field>
-  </div>
-}
-<mat-divider class="divider"></mat-divider>
-<mat-tab-group #tabBar (selectedIndexChange)="renderChart($event)">
-  <mat-tab label="heart_rate">
-    <ng-template mat-tab-label>
-      Heart Rate
-    </ng-template>
-  </mat-tab>
-  <mat-tab label="nutrition">
-    <ng-template mat-tab-label>
-      Calories
-    </ng-template>
-  </mat-tab>
-  <mat-tab label="sleep">
-    <ng-template mat-tab-label>
-      Sleep
-    </ng-template>
-  </mat-tab>
-  <mat-tab label="custom">
-    <ng-template mat-tab-label>
-      Custom
-    </ng-template>
-  </mat-tab>
-</mat-tab-group>
-@if (curChart === 3) {
-  <mat-form-field>
-    <mat-label>Enter custom metric</mat-label>
-    <input matInput [(ngModel)]="customMetric" placeholder="Ex. protein">
-  </mat-form-field>
-}
-<div class="graph">
-  <canvas class="health-chart" id="chart">{{ chart }}</canvas>
-</div>
+<section class="health-page">
+  <mat-card class="page-header" appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>Health Dashboard</mat-card-title>
+      <mat-card-subtitle>Trend monitoring, quick comparisons, and deeper analysis across your imported health metrics.</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="header-content">
+      <mat-chip-set>
+        <mat-chip>{{ catalog?.metricCount || 0 }} metrics available</mat-chip>
+        <mat-chip>{{ selectedMetrics.length }} selected</mat-chip>
+        <mat-chip>{{ totalVisibleRecords | number }} records in view</mat-chip>
+        <mat-chip>Sleep records: {{ catalog?.sleepRecordCount || 0 }}</mat-chip>
+      </mat-chip-set>
+      @if (catalog?.firstRecordDate && catalog?.lastRecordDate) {
+        <p class="header-copy">
+          Imported range: {{ formatDate(catalog?.firstRecordDate) }} to {{ formatDate(catalog?.lastRecordDate) }}
+        </p>
+      }
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="control-card" appearance="outlined">
+    <mat-card-content class="control-layout">
+      <div class="control-group">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>Date range</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate placeholder="Start date" [(ngModel)]="from">
+            <input matEndDate placeholder="End date" [(ngModel)]="to">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+
+        <mat-button-toggle-group [(ngModel)]="aggregation" aria-label="Aggregation mode">
+          <mat-button-toggle value="hourly">Hourly</mat-button-toggle>
+          <mat-button-toggle value="daily">Daily</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <div class="control-group">
+        <mat-chip-listbox aria-label="Quick date presets">
+          @for (preset of presets; track preset.label) {
+            <mat-chip-option
+              [selected]="activePresetHours === preset.hours"
+              (click)="onPresetSelect(preset.hours)"
+              >
+              {{ preset.label }}
+            </mat-chip-option>
+          }
+        </mat-chip-listbox>
+
+        <div class="control-actions">
+          <button mat-flat-button color="primary" (click)="onSearch()">
+            <mat-icon>insights</mat-icon>
+            Refresh Dashboard
+          </button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="metric-picker-card" appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>Metric Explorer</mat-card-title>
+      <mat-card-subtitle>Choose the metrics you want in the dashboard and filter the catalog when the list gets long.</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="metric-picker-content">
+      <mat-form-field appearance="outline" class="metric-filter" subscriptSizing="dynamic">
+        <mat-label>Filter metrics</mat-label>
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput [(ngModel)]="metricFilter" placeholder="Search by metric name or unit">
+      </mat-form-field>
+
+      <mat-chip-listbox class="metric-chip-list" [multiple]="true" aria-label="Available health metrics">
+        @for (metric of filteredCatalog; track metric.name) {
+          <mat-chip-option
+            [selected]="isMetricSelected(metric.name)"
+            (click)="toggleMetric(metric.name)"
+            >
+            {{ formatMetricName(metric.name) }}
+            <span class="chip-suffix">{{ metric.units }}</span>
+          </mat-chip-option>
+        }
+      </mat-chip-listbox>
+    </mat-card-content>
+  </mat-card>
+
+  @if (hasCatalog && selectedMetrics.length && dashboard) {
+    <div class="stats-grid">
+      @for (card of overviewCards; track card.name) {
+        <mat-card class="stat-card" appearance="outlined">
+          <mat-card-content>
+            <div class="stat-card-header">
+              <div>
+                <h3>{{ card.title }}</h3>
+                <p>{{ card.helperText }}</p>
+              </div>
+              <span class="trend-pill">{{ card.trendText }}</span>
+            </div>
+            <div class="stat-primary">{{ formatMetricValue({ name: card.name, units: card.units, recordCount: 0, firstDate: '', lastDate: '', sources: [] }, card.primaryValue) }}</div>
+            <div class="stat-secondary">{{ card.secondaryLabel }}: {{ formatMetricValue({ name: card.name, units: card.units, recordCount: 0, firstDate: '', lastDate: '', sources: [] }, card.secondaryValue) }}</div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+
+    <div class="chart-grid">
+      <mat-card class="trend-card" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>Trend Focus</mat-card-title>
+          <mat-card-subtitle>Inspect a single metric with its recent line and rolling trend.</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="trend-card-content">
+          <div class="focus-toolbar">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>Focused metric</mat-label>
+              <mat-select [(ngModel)]="selectedMetric" (selectionChange)="onSelectedMetricChange($event.value)">
+                @for (metricName of selectedMetrics; track metricName) {
+                  <mat-option [value]="metricName">{{ formatMetricName(metricName) }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            @if (selectedMetricSummary) {
+              <div class="focus-summary">
+                <span>{{ getMetricDetail(selectedMetricSummary) }}</span>
+                <span>Last seen {{ formatDate(selectedMetricSummary.lastDate) }}</span>
+              </div>
+            }
+          </div>
+
+          <div class="chart-shell">
+            <canvas #trendCanvas></canvas>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="comparison-card" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>Selected Metric Comparison</mat-card-title>
+          <mat-card-subtitle>Compare the current window totals or averages across the metrics you selected.</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="comparison-card-content">
+          <div class="chart-shell compact">
+            <canvas #comparisonCanvas></canvas>
+          </div>
+
+          <div class="comparison-list">
+            @for (row of comparisonRows; track row.name) {
+              <div class="comparison-row">
+                <div>
+                  <div class="comparison-title">{{ row.label }}</div>
+                  <div class="comparison-helper">{{ row.helper }}</div>
+                </div>
+                <div class="comparison-value">{{ formatMetricValue({ name: row.name, units: row.units, recordCount: 0, firstDate: '', lastDate: '', sources: [] }, row.value) }}</div>
+              </div>
+            }
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="insight-grid">
+      @for (highlight of highlights; track highlight.title) {
+        <mat-card class="insight-card" appearance="outlined">
+          <mat-card-content>
+            <div class="insight-header">
+              <mat-icon>{{ highlight.icon }}</mat-icon>
+              <h3>{{ highlight.title }}</h3>
+            </div>
+            <p>{{ highlight.body }}</p>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+
+    <mat-card class="deep-analysis-card" appearance="outlined">
+      <mat-card-header>
+        <mat-card-title>Deep Analysis</mat-card-title>
+        <mat-card-subtitle>Per-metric breakdowns, peak windows, data coverage, and signal notes for closer reading.</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-accordion multi>
+          @for (analysis of deepAnalyses; track analysis.name) {
+            <mat-expansion-panel [expanded]="analysis.name === selectedMetric">
+              <mat-expansion-panel-header>
+                <mat-panel-title>{{ analysis.title }}</mat-panel-title>
+                <mat-panel-description>{{ analysis.trendText }}</mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div class="analysis-grid">
+                <div class="analysis-stat">
+                  <span class="analysis-label">Window read</span>
+                  <strong>{{ analysis.valueText }}</strong>
+                </div>
+                <div class="analysis-stat">
+                  <span class="analysis-label">Peak bucket</span>
+                  <strong>{{ analysis.peakText }}</strong>
+                </div>
+                <div class="analysis-stat">
+                  <span class="analysis-label">Coverage</span>
+                  <strong>{{ analysis.coverageText }}</strong>
+                </div>
+              </div>
+
+              <p class="analysis-sources">Source mix: {{ analysis.sourceText }}</p>
+
+              <div class="analysis-notes">
+                @for (note of analysis.notes; track note) {
+                  <div class="analysis-note">{{ note }}</div>
+                }
+              </div>
+            </mat-expansion-panel>
+          }
+        </mat-accordion>
+      </mat-card-content>
+    </mat-card>
+  } @else {
+    <mat-card appearance="outlined">
+      <mat-card-content class="empty-state">
+        <mat-icon class="empty-icon">monitor_heart</mat-icon>
+        <h2>No health metrics are ready yet</h2>
+        <p>Import health data, then refresh this page to populate the dashboard and deeper analysis sections.</p>
+      </mat-card-content>
+    </mat-card>
+  }
+</section>

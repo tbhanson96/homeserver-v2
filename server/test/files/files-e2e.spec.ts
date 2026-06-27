@@ -104,7 +104,7 @@ describe('FileController (e2e)', () => {
       .get('/api/files/path?path=/')
       .expect(200);
 
-    const fileToDelete = files[0]; 
+    const fileToDelete = files.find((file) => file.link === '/test.txt') as FileData;
     await request(app.getHttpServer())
       .delete('/api/files/file')
       .send(fileToDelete)
