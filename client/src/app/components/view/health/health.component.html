@@ -98,8 +98,8 @@
               </div>
               <span class="trend-pill">{{ card.trendText }}</span>
             </div>
-            <div class="stat-primary">{{ formatMetricValue({ name: card.name, units: card.units, recordCount: 0, firstDate: '', lastDate: '', sources: [] }, card.primaryValue) }}</div>
-            <div class="stat-secondary">{{ card.secondaryLabel }}: {{ formatMetricValue({ name: card.name, units: card.units, recordCount: 0, firstDate: '', lastDate: '', sources: [] }, card.secondaryValue) }}</div>
+            <div class="stat-primary">{{ formatMetricValueForUnits(card.units, card.primaryValue) }}</div>
+            <div class="stat-secondary">{{ card.secondaryLabel }}: {{ formatMetricValueForUnits(card.units, card.secondaryValue) }}</div>
           </mat-card-content>
         </mat-card>
       }
@@ -153,7 +153,7 @@
                   <div class="comparison-title">{{ row.label }}</div>
                   <div class="comparison-helper">{{ row.helper }}</div>
                 </div>
-                <div class="comparison-value">{{ formatMetricValue({ name: row.name, units: row.units, recordCount: 0, firstDate: '', lastDate: '', sources: [] }, row.value) }}</div>
+                <div class="comparison-value">{{ formatMetricValueForUnits(row.units, row.value) }}</div>
               </div>
             }
           </div>

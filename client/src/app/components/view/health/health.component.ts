@@ -273,6 +273,10 @@ export class HealthComponent implements OnInit, AfterViewInit, OnDestroy {
     return `${formatted} ${summary.units}`;
   }
 
+  public formatMetricValueForUnits(units: string, value?: number): string {
+    return this.formatMetricValue({ name: '', units }, value);
+  }
+
   public formatDate(date?: string | Date): string {
     if (!date) {
       return 'Unavailable';
