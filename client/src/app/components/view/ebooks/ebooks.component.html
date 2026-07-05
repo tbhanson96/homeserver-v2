@@ -5,6 +5,14 @@
       Library
     </ng-template>
     <div class="content ebooks-page">
+      @if (activeReaderBook) {
+        <app-ebook-reader
+          [book]="activeReaderBook"
+          [useDarkMode]="useDarkMode"
+          (closeReader)="closeReader()"
+        ></app-ebook-reader>
+      }
+
       <mat-card class="library-header" appearance="outlined" @panelMotion>
         <mat-card-header>
           <mat-card-title>Your Library</mat-card-title>
@@ -65,6 +73,11 @@
                   <div class="description" [innerHtml]="ebook.description || 'No description provided.'">
                   </div>
                 </mat-menu>
+                @if (canReadInBrowser(ebook)) {
+                  <button mat-flat-button color="primary" type="button" (click)="openReader(ebook)">
+                    Read
+                  </button>
+                }
                 <button
                   #optionsButton
                   mat-icon-button
@@ -77,6 +90,12 @@
                   </mat-icon>
                 </button>
                 <mat-menu #optionsMenu>
+                  @if (canReadInBrowser(ebook)) {
+                    <button mat-menu-item type="button" (click)="openReader(ebook)">
+                      <mat-icon>auto_stories</mat-icon>
+                      <span>Read in Browser</span>
+                    </button>
+                  }
                   <a mat-menu-item [href]="ebook.filePath">
                     <mat-icon>download</mat-icon>
                     <span>Download</span>
@@ -179,10 +198,21 @@
                 <mat-menu #newspaperDescription>
                   <div class="description" [innerHtml]="newspaper.description || 'No description provided.'"></div>
                 </mat-menu>
+                @if (canReadInBrowser(newspaper)) {
+                  <button mat-flat-button color="primary" type="button" (click)="openReader(newspaper)">
+                    Read
+                  </button>
+                }
                 <button mat-icon-button aria-label="View more" title="More info" [matMenuTriggerFor]="newspaperOptions">
                   <mat-icon>menu</mat-icon>
                 </button>
                 <mat-menu #newspaperOptions>
+                  @if (canReadInBrowser(newspaper)) {
+                    <button mat-menu-item type="button" (click)="openReader(newspaper)">
+                      <mat-icon>auto_stories</mat-icon>
+                      <span>Read in Browser</span>
+                    </button>
+                  }
                   <a mat-menu-item [href]="newspaper.filePath">
                     <mat-icon>download</mat-icon>
                     <span>Download</span>

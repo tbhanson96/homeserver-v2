@@ -1,5 +1,6 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { UiStateActions } from '@actions/ui-state.actions';
+import { UiStateSelectors } from '@selectors/ui-state.selectors';
 import { EbooksService } from '@services/ebooks.service';
 import { EbookData } from '@api/models';
 import { UploadDialogComponent } from '../upload-dialog/upload-dialog.component';
@@ -45,12 +46,14 @@ import {
     ],
     standalone: false
 })
-export class EbooksComponent implements OnInit {
+export class EbooksComponent implements OnInit, OnDestroy {
 
   ebooks: EbookData[] = [];
   filteredEbooks: EbookData[] = [];
   newspapers: EbookData[] = [];
   filteredNewspapers: EbookData[] = [];
+  activeReaderBook: EbookData | null = null;
+  useDarkMode = false;
   subscriptions: Subscription[] = [];
   readonly librarySearchControl = new FormControl('', { nonNullable: true });
   readonly newspaperSearchControl = new FormControl('', { nonNullable: true });
@@ -68,6 +71,7 @@ export class EbooksComponent implements OnInit {
 
   constructor(
     private uiActions: UiStateActions,
+    private uiSelectors: UiStateSelectors,
     private ebooksService: EbooksService,
     private dialog: MatDialog,
     private snackbar: MatSnackBar,
@@ -77,6 +81,9 @@ export class EbooksComponent implements OnInit {
   ngOnInit() {
     this.uiActions.setCurrentApp('Ebooks');
     this.subscriptions = [
+      this.uiSelectors.getUseDarkMode().subscribe(useDarkMode => {
+        this.useDarkMode = useDarkMode;
+      }),
       this.librarySearchControl.valueChanges.pipe(
         debounceTime(120),
         distinctUntilChanged(),
@@ -146,6 +153,21 @@ export class EbooksComponent implements OnInit {
   public onDownload() {
     this.tabs.selectedIndex = 0;
     this.updateEbooks();
+  }
+
+  public canReadInBrowser(ebook: EbookData) {
+    return !!ebook.filePath?.toLowerCase().endsWith('.epub');
+  }
+
+  public openReader(ebook: EbookData) {
+    if (!this.canReadInBrowser(ebook)) {
+      return;
+    }
+    this.activeReaderBook = ebook;
+  }
+
+  public closeReader() {
+    this.activeReaderBook = null;
   }
 
   public clearLibrarySearch() {
@@ -239,6 +261,11 @@ export class EbooksComponent implements OnInit {
       } else if (this.tabs.selectedIndex === 1 && this.newspaperSearchQuery) {
         this.clearNewspaperSearch();
       }
+    }
+
+    if (event.key === 'Escape' && !isTypingTarget && this.activeReaderBook) {
+      event.preventDefault();
+      this.closeReader();
     }
   }
 }

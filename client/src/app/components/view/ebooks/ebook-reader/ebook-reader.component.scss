@@ -1,0 +1,113 @@
+.reader-shell {
+    overflow: hidden;
+}
+
+.reader-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 0;
+}
+
+.reader-title-block {
+    min-width: 0;
+}
+
+.reader-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+}
+
+.reader-toolbar {
+    display: grid;
+    grid-template-columns: auto minmax(180px, 320px) auto;
+    gap: 16px;
+    align-items: center;
+}
+
+.reader-toolbar-group {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.chapter-select {
+    width: 100%;
+}
+
+.reader-progress {
+    justify-self: end;
+    min-width: 64px;
+    text-align: right;
+    font-weight: 500;
+    opacity: 0.82;
+}
+
+.reader-progress-empty {
+    opacity: 0.5;
+}
+
+.reader-frame {
+    position: relative;
+    min-height: 70vh;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, currentColor 10%, transparent);
+    background:
+        radial-gradient(circle at top, rgba(255, 255, 255, 0.12), transparent 44%),
+        color-mix(in srgb, currentColor 4%, transparent);
+}
+
+.reader-frame-hidden {
+    display: none;
+}
+
+.reader-viewer {
+    height: 70vh;
+    width: 100%;
+}
+
+.reader-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    text-align: center;
+}
+
+.reader-loading-overlay {
+    position: absolute;
+    inset: 92px 24px 24px;
+    min-height: 240px;
+    border-radius: 18px;
+    background: color-mix(in srgb, var(--mat-app-background-color, #101418) 88%, transparent);
+    z-index: 2;
+    backdrop-filter: blur(3px);
+}
+
+.reader-error mat-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 32px;
+}
+
+@media (max-width: 840px) {
+    .reader-toolbar {
+        grid-template-columns: 1fr;
+    }
+
+    .reader-progress {
+        justify-self: start;
+        text-align: left;
+    }
+
+    .reader-frame,
+    .reader-viewer {
+        min-height: 62vh;
+        height: 62vh;
+    }
+}
