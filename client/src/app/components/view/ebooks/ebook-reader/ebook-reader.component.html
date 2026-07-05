@@ -1,0 +1,57 @@
+<mat-card class="reader-shell" appearance="outlined">
+  <mat-card-header class="reader-header">
+    <div class="reader-title-block">
+      <mat-card-title>{{ book?.name }}</mat-card-title>
+      <mat-card-subtitle>{{ book?.author }}</mat-card-subtitle>
+    </div>
+    <button mat-icon-button type="button" aria-label="Close reader" (click)="onClose()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-card-header>
+
+  <mat-card-content class="reader-content">
+    <div class="reader-toolbar">
+      <div class="reader-toolbar-group">
+        <button mat-stroked-button type="button" (click)="goToPreviousPage()">
+          <mat-icon>chevron_left</mat-icon>
+          Previous
+        </button>
+        <button mat-stroked-button type="button" (click)="goToNextPage()">
+          Next
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+
+      <mat-form-field appearance="outline" class="chapter-select" subscriptSizing="dynamic">
+        <mat-label>Chapter</mat-label>
+        <mat-select [value]="chapterHref" (valueChange)="onChapterChange($event)">
+          @for (chapter of chapters; track chapter.href) {
+            <mat-option [value]="chapter.href">{{ chapter.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <div class="reader-progress" [class.reader-progress-empty]="!progressPercent">
+        <span>{{ progressPercent }}%</span>
+      </div>
+    </div>
+
+    @if (loading) {
+      <div class="reader-state reader-loading-overlay">
+        <mat-spinner diameter="36"></mat-spinner>
+        <p>Opening book...</p>
+      </div>
+    }
+
+    @if (errorMessage) {
+      <div class="reader-state reader-error">
+        <mat-icon>error</mat-icon>
+        <p>{{ errorMessage }}</p>
+      </div>
+    }
+
+    <div class="reader-frame" [class.reader-frame-hidden]="!!errorMessage">
+      <div #viewer class="reader-viewer"></div>
+    </div>
+  </mat-card-content>
+</mat-card>

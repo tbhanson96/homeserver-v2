@@ -4,6 +4,10 @@
     gap: 16px;
 }
 
+:host {
+    display: block;
+}
+
 .tab-icon {
     margin-right: 8px;
 }
@@ -64,6 +68,8 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
 }
 
 :host ::ng-deep app-lazy-img.cover-image {

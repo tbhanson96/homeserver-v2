@@ -35,6 +35,7 @@ import { FileSizePipe } from './pipes/fileSizePipe';
 import { UploadInterceptor } from '@services/upload.interceptor';
 import { ProgressDialogComponent } from './components/view/progress-dialog/progress-dialog.component';
 import { LibgenComponent } from '@components/view/ebooks/libgen/libgen.component';
+import { EbookReaderComponent } from '@components/view/ebooks/ebook-reader/ebook-reader.component';
 import { StatusService } from '@services/status.service';
 import { LazyImgComponent } from './components/view/lazy-img/lazy-img.component';
 import { HealthComponent } from '@components/view/health/health.component';
@@ -64,6 +65,7 @@ import { environment } from '../environments/environment';
     FileSizePipe,
     ProgressDialogComponent,
     LibgenComponent,
+    EbookReaderComponent,
     HealthComponent,
     LazyImgComponent,
   ],
