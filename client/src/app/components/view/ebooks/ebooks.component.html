@@ -5,14 +5,6 @@
       Library
     </ng-template>
     <div class="content ebooks-page">
-      @if (activeReaderBook) {
-        <app-ebook-reader
-          [book]="activeReaderBook"
-          [useDarkMode]="useDarkMode"
-          (closeReader)="closeReader()"
-        ></app-ebook-reader>
-      }
-
       <mat-card class="library-header" appearance="outlined" @panelMotion>
         <mat-card-header>
           <mat-card-title>Your Library</mat-card-title>
@@ -127,6 +119,16 @@
             <p>{{ librarySearchQuery ? 'Try a different search or clear the current filter.' : 'Upload a book or use Search to add one to your library.' }}</p>
           </mat-card-content>
         </mat-card>
+      }
+
+      @if (activeReaderBook) {
+        <div #readerPanel class="reader-panel-anchor">
+          <app-ebook-reader
+            [book]="activeReaderBook"
+            [useDarkMode]="useDarkMode"
+            (closeReader)="closeReader()"
+          ></app-ebook-reader>
+        </div>
       }
     </div>
     <button mat-fab class="upload-button" color="primary" (click)="onUploadClick()">

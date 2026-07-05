@@ -60,6 +60,7 @@ export class EbooksComponent implements OnInit, OnDestroy {
   @ViewChild('tabBar') tabs: MatTabGroup;
   @ViewChild('librarySearchInput') librarySearchInput?: ElementRef<HTMLInputElement>;
   @ViewChild('newspaperSearchInput') newspaperSearchInput?: ElementRef<HTMLInputElement>;
+  @ViewChild('readerPanel') readerPanel?: ElementRef<HTMLElement>;
 
   public get librarySearchQuery() {
     return this.librarySearchControl.value.trim();
@@ -164,6 +165,12 @@ export class EbooksComponent implements OnInit, OnDestroy {
       return;
     }
     this.activeReaderBook = ebook;
+    setTimeout(() => {
+      this.readerPanel?.nativeElement.scrollIntoView({
+        behavior: 'auto',
+        block: 'start',
+      });
+    }, 50);
   }
 
   public closeReader() {
