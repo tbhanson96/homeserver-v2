@@ -19,11 +19,11 @@ jobs:
 
       - name: Download server dependencies 
         working-directory: server
-        run: npm ci
+        run: npm install
 
       - name: Download client dependencies 
         working-directory: client
-        run: npm ci
+        run: npm install
 
       - name: Cache dependencies
         uses: actions/cache@v4
