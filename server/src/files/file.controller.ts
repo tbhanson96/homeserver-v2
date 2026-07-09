@@ -9,9 +9,9 @@ import { Response } from 'express';
 import * as path from 'path'; 
 import "multer";
 import { JwtGuard } from '../auth/jwt.guard';
+import { JwtOrApiKeyGuard } from '../auth/jwt-or-api-key.guard';
 
 @Controller(joinRoutes(routes.api, routes.files))
-@UseGuards(JwtGuard)
 @UsePipes(FileValidationPipe)
 export class FileController {
     constructor(
@@ -19,6 +19,7 @@ export class FileController {
         ) {}
 
     @Get('path')
+    @UseGuards(JwtOrApiKeyGuard)
     @ApiOkResponse({type: FileData, isArray: true, description: 'Directory path was successfully read' })
     @ApiBadRequestResponse({ description: 'Invalid directory path'})
     @ApiQuery({name: 'path', type: String, description: 'Path to get files from'})
@@ -28,6 +29,7 @@ export class FileController {
     }
 
     @Get('file')
+    @UseGuards(JwtGuard)
     @ApiOkResponse({ description: 'File successfully found'})
     @ApiBadRequestResponse({ description: 'Invalid file path'})
     @ApiQuery({name: 'file', description: 'Path to file to retrieve'})
@@ -37,6 +39,7 @@ export class FileController {
     }
 
     @Get('file/export')
+    @UseGuards(JwtGuard)
     @ApiOkResponse({
         description: 'File successfully zipped',
         content: {
@@ -56,6 +59,7 @@ export class FileController {
     }
 
     @Post('file')
+    @UseGuards(JwtGuard)
     @UseInterceptors(AnyFilesInterceptor())
     @ApiAcceptedResponse({ description: "File(s) succesfully uploaded!"})
     @ApiQuery({name: 'path', description: 'Directory to place file'})
@@ -66,6 +70,7 @@ export class FileController {
     } 
 
     @Put('file')
+    @UseGuards(JwtGuard)
     @ApiOkResponse({ description: "File succesfully renamed!"})
     @ApiNotFoundResponse({ description: "File not found"})
     @ApiBadRequestResponse({ description: "New path is invalid"})
@@ -76,6 +81,7 @@ export class FileController {
     } 
 
     @Delete('file')
+    @UseGuards(JwtGuard)
     @ApiOkResponse({ description: "File was successfully deleted."})
     async deleteFile(@Body() file: FileData) {
         await this.fileService.deleteFile(file);

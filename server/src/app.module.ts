@@ -37,6 +37,9 @@ import { DbModule } from './db.module';
 import { routes } from './routes';
 import { Calibre } from 'node-calibre';
 import { QueuedCalibreService } from './ebooks/queued-calibre.service';
+import { ApiKeyGuard } from './auth/apikey.guard';
+import { JwtGuard } from './auth/jwt.guard';
+import { JwtOrApiKeyGuard } from './auth/jwt-or-api-key.guard';
 
 @Module({
   imports: [
@@ -119,6 +122,9 @@ import { QueuedCalibreService } from './ebooks/queued-calibre.service';
     LibgenClient,
     LibgenService,
     StatusService,
+    ApiKeyGuard,
+    JwtGuard,
+    JwtOrApiKeyGuard,
   ],
 })
 export class AppModule implements NestModule {

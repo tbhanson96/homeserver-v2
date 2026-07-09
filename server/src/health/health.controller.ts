@@ -9,6 +9,7 @@ import {
 import { Response } from 'express';
 import { ApiKeyGuard } from '../auth/apikey.guard';
 import { JwtGuard } from '../auth/jwt.guard';
+import { JwtOrApiKeyGuard } from '../auth/jwt-or-api-key.guard';
 import {
   HealthAggregation,
   HealthCatalogDto,
@@ -71,7 +72,7 @@ export class HealthController {
   }
 
   @Get('catalog')
-  @UseGuards(JwtGuard)
+  @UseGuards(JwtOrApiKeyGuard)
   @ApiOkResponse({ description: 'success', type: HealthCatalogDto })
   @ApiUnauthorizedResponse({ description: 'Failed to login' })
   async getHealthCatalog() {
@@ -79,7 +80,7 @@ export class HealthController {
   }
 
   @Get('dashboard')
-  @UseGuards(JwtGuard)
+  @UseGuards(JwtOrApiKeyGuard)
   @ApiOkResponse({ description: 'success', type: HealthDashboardDto })
   @ApiQuery({ name: 'from', type: Date })
   @ApiQuery({ name: 'to', type: Date })

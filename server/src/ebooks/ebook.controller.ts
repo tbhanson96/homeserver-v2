@@ -12,6 +12,7 @@ import { StatusChannel, StatusType } from '../models/statusUpdate.dto';
 import "multer";
 import { JwtGuard } from '../auth/jwt.guard';
 import { ApiKeyGuard } from '../auth/apikey.guard';
+import { JwtOrApiKeyGuard } from '../auth/jwt-or-api-key.guard';
 
 @Controller(joinRoutes(routes.api, routes.ebooks))
 export class EbookController {
@@ -23,7 +24,7 @@ export class EbookController {
     }
 
     @Get()
-    @UseGuards(JwtGuard)
+    @UseGuards(JwtOrApiKeyGuard)
     @ApiQuery({name: 'library', required: false, enum: EbookLibrary, description: 'Library to retrieve'})
     @ApiOkResponse({type: EbookData, isArray: true, description: 'Directory path was successfully read' })
     async getBooks(@Query('library') library: EbookLibrary = EbookLibrary.Books) {
@@ -90,7 +91,7 @@ export class EbookController {
     }
 
     @Get(routes.libgen)
-    @UseGuards(JwtGuard)
+    @UseGuards(JwtOrApiKeyGuard)
     @ApiOkResponse({ type: LibgenData, isArray: true, description: 'List of books returned by search of library genesis'})
     async searchEbooks(@Query('search') search: string) {
         return await this.libgen.libgenSearch(search);

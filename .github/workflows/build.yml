@@ -3,17 +3,19 @@ name: Build
 # Run this workflow every time a new commit pushed to your repository
 on: push
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   install:
     name: Install dependencies 
     runs-on: ubuntu-24.04-arm 
     steps:
-      - uses: actions/checkout@v2
-      - run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-        id: nvm
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
         with:
-          node-version: ${{ steps.nvm.outputs.NODE_VERSION}}
+          node-version-file: .nvmrc
 
       - name: Download server dependencies 
         working-directory: server
@@ -24,7 +26,7 @@ jobs:
         run: npm install
 
       - name: Cache dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         id: restore-dependencies-cache
         with:
           path: |
@@ -38,13 +40,11 @@ jobs:
     runs-on: ubuntu-24.04-arm 
     needs: install
     steps:
-      - uses: actions/checkout@v2
-      - run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-        id: nvm
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
         with:
-          node-version: ${{ steps.nvm.outputs.NODE_VERSION}}
-      - uses: actions/cache@v4
+          node-version-file: .nvmrc
+      - uses: actions/cache@v6
         id: restore-dependencies-cache
         with:
           path: |
@@ -60,7 +60,7 @@ jobs:
         working-directory: client
         run: npm run build:prod
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         id: build-cache
         with:
           path: |
@@ -73,13 +73,11 @@ jobs:
     runs-on: ubuntu-24.04-arm 
     needs: install
     steps:
-      - uses: actions/checkout@v2
-      - run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-        id: nvm
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
         with:
-          node-version: ${{ steps.nvm.outputs.NODE_VERSION}}
-      - uses: actions/cache@v4
+          node-version-file: .nvmrc
+      - uses: actions/cache@v6
         id: restore-dependencies-cache
         with:
           path: |
@@ -96,20 +94,18 @@ jobs:
     runs-on: ubuntu-24.04-arm 
     needs: [build, test]
     steps:
-      - uses: actions/checkout@v2
-      - run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-        id: nvm
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
         with:
-          node-version: ${{ steps.nvm.outputs.NODE_VERSION}}
-      - uses: actions/cache@v4
+          node-version-file: .nvmrc
+      - uses: actions/cache@v6
         id: restore-dependencies-cache
         with:
           path: |
             server/node_modules
             client/node_modules
           key: dependencies-${{ github.sha }}
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         id: build-cache
         with:
           path: |
@@ -118,10 +114,10 @@ jobs:
           key: build-${{ github.sha }}
 
       - name: Log in to Container Registry
-        uses: docker/login-action@v1
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
-          username: tbhanson96
+          username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Build image
