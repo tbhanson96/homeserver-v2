@@ -3,7 +3,6 @@ import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiQuery } from '@nestjs/sw
 import { TorrentDto } from '../models/torrent.dto';
 import { joinRoutes, routes } from '../routes';
 import { TorrentsService, TorrentCategory } from './torrents.service';
-import { JwtGuard } from '../auth/jwt.guard';
 import { TransmissionService } from './transmission.service';
 import { AddTorrentDto, AddTorrentResultDto } from '../models/addTorrent.dto';
 import { JwtOrApiKeyGuard } from '../auth/jwt-or-api-key.guard';
@@ -27,7 +26,7 @@ export class TorrentsController {
     }
 
     @Post()
-    @UseGuards(JwtGuard)
+    @UseGuards(JwtOrApiKeyGuard)
     @ApiBody({ type: AddTorrentDto, description: 'Magnet link and category to add to Transmission.' })
     @ApiCreatedResponse({ type: AddTorrentResultDto, description: 'Added torrent to Transmission successfully.' })
     async addTorrent(@Body() body: AddTorrentDto) {
