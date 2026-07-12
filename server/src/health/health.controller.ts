@@ -8,7 +8,6 @@ import {
 } from '@nestjs/swagger';
 import { Response } from 'express';
 import { ApiKeyGuard } from '../auth/apikey.guard';
-import { JwtGuard } from '../auth/jwt.guard';
 import { JwtOrApiKeyGuard } from '../auth/jwt-or-api-key.guard';
 import {
   HealthAggregation,
@@ -54,7 +53,7 @@ export class HealthController {
   }
 
   @Get()
-  @UseGuards(JwtGuard)
+  @UseGuards(JwtOrApiKeyGuard)
   @ApiOkResponse({ description: 'success', type: HealthDataDto })
   @ApiQuery({ name: 'from', type: Date })
   @ApiQuery({ name: 'to', type: Date })
@@ -106,7 +105,7 @@ export class HealthController {
   }
 
   @Get('sleep')
-  @UseGuards(JwtGuard)
+  @UseGuards(JwtOrApiKeyGuard)
   @ApiOkResponse({ description: 'success', type: SleepDataDto })
   @ApiQuery({ name: 'from', type: Date })
   @ApiQuery({ name: 'to', type: Date })
