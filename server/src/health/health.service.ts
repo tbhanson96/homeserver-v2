@@ -5,6 +5,7 @@ import {
   HealthDashboardDto,
   HealthDataDto,
   SleepDataDto,
+  SleepSummaryDto,
 } from '../models/healthData.dto';
 import { RawHealthData, RawSleepData } from '../models/rawHealthData';
 
@@ -38,6 +39,10 @@ export class HealthService {
   }
 
   public async getSleepData(from: Date, to: Date): Promise<SleepDataDto> {
+    throw new Error('App module configured incorrectly.');
+  }
+
+  public async getSleepSummary(from: Date, to: Date): Promise<SleepSummaryDto> {
     throw new Error('App module configured incorrectly.');
   }
 }

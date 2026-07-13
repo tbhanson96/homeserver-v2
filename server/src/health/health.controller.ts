@@ -15,6 +15,7 @@ import {
   HealthDashboardDto,
   HealthDataDto,
   SleepDataDto,
+  SleepSummaryDto,
 } from '../models/healthData.dto';
 import { RawHealthData } from '../models/rawHealthData';
 import { joinRoutes, routes } from '../routes';
@@ -102,6 +103,19 @@ export class HealthController {
       metrics || [],
       aggregation || 'hourly',
     );
+  }
+
+  @Get('sleep/summary')
+  @UseGuards(JwtOrApiKeyGuard)
+  @ApiOkResponse({ description: 'success', type: SleepSummaryDto })
+  @ApiQuery({ name: 'from', type: Date })
+  @ApiQuery({ name: 'to', type: Date })
+  @ApiUnauthorizedResponse({ description: 'Failed to login' })
+  async getSleepSummary(
+    @Query('from') from: Date,
+    @Query('to') to: Date,
+  ) {
+    return this.healthService.getSleepSummary(from, to);
   }
 
   @Get('sleep')
