@@ -13,6 +13,17 @@
   box-shadow: var(--mat-app-elevation-shadow-level-1);
 }
 
+.health-tabs {
+  display: block;
+}
+
+.tab-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 16px;
+}
+
 .header-content,
 .metric-picker-content,
 .trend-card-content,
@@ -210,6 +221,109 @@ mat-chip-set {
   line-height: 1.55;
 }
 
+.sleep-stage-grid,
+.sleep-night-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sleep-stage-row,
+.sleep-night-row {
+  display: grid;
+  grid-template-columns: minmax(96px, 0.8fr) minmax(160px, 2fr) minmax(96px, auto);
+  align-items: center;
+  gap: 14px;
+}
+
+.sleep-stage-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.sleep-stage-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  flex: 0 0 auto;
+}
+
+.sleep-stage-meter {
+  height: 12px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.sleep-stage-fill {
+  height: 100%;
+  border-radius: inherit;
+}
+
+.sleep-stage-value {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.sleep-stage-value span {
+  opacity: 0.68;
+}
+
+.sleep-timeline {
+  position: relative;
+  height: 72px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.sleep-segment {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  min-width: 3px;
+}
+
+.sleep-timeline-axis {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+  font-size: 0.82rem;
+  opacity: 0.72;
+}
+
+.sleep-night-values {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  white-space: nowrap;
+}
+
+.sleep-stage-inbed {
+  background: #78909c;
+}
+
+.sleep-stage-awake {
+  background: #ef6c00;
+}
+
+.sleep-stage-core {
+  background: #1565c0;
+}
+
+.sleep-stage-deep {
+  background: #4527a0;
+}
+
+.sleep-stage-rem {
+  background: #00838f;
+}
+
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -263,13 +377,30 @@ mat-chip-set {
   }
 
   .comparison-row,
-  .stat-card-header {
+  .stat-card-header,
+  .sleep-stage-row,
+  .sleep-night-row {
     flex-direction: column;
     align-items: flex-start;
   }
 
+  .sleep-stage-row,
+  .sleep-night-row {
+    display: flex;
+  }
+
   .comparison-value {
     text-align: left;
+  }
+
+  .sleep-stage-meter {
+    width: 100%;
+  }
+
+  .sleep-stage-value,
+  .sleep-night-values {
+    justify-content: flex-start;
+    flex-wrap: wrap;
   }
 
   .control-actions button {

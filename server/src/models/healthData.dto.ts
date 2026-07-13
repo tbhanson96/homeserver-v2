@@ -17,6 +17,24 @@ export class SleepData {
   endDate: Date;
 }
 
+export class SleepStageSummaryDto {
+  value: SleepType;
+  segmentCount: number;
+  totalMinutes: number;
+  percentOfWindow: number;
+}
+
+export class SleepNightSummaryDto {
+  date: string;
+  startDate: Date;
+  endDate: Date;
+  segmentCount: number;
+  totalMinutes: number;
+  asleepMinutes: number;
+  awakeMinutes: number;
+  stageSummaries: SleepStageSummaryDto[];
+}
+
 export class HealthData {
   qty?: number;
   Avg?: number;
@@ -89,5 +107,19 @@ export class HealthDashboardDto {
 }
 
 export class SleepDataDto {
+  data: SleepData[];
+}
+
+export class SleepSummaryDto {
+  from: Date;
+  to: Date;
+  recordCount: number;
+  firstStartDate?: Date;
+  lastEndDate?: Date;
+  totalMinutes: number;
+  asleepMinutes: number;
+  awakeMinutes: number;
+  stageSummaries: SleepStageSummaryDto[];
+  nights: SleepNightSummaryDto[];
   data: SleepData[];
 }

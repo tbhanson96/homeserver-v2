@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Between, Repository } from 'typeorm';
+import { Between, LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
 import {
   HealthAggregation,
   HealthCatalogDto,
@@ -11,8 +11,11 @@ import {
   HealthMetricCatalogItemDto,
   HealthMetricSummaryDto,
   SleepDataDto,
+  SleepNightSummaryDto,
+  SleepStageSummaryDto,
+  SleepSummaryDto,
 } from '../models/healthData.dto';
-import { HealthRecord, SleepRecord } from '../models/health';
+import { HealthRecord, SleepRecord, SleepType } from '../models/health';
 import { RawHealthData, RawHealthMetric, RawSleepData, RawSleepMetric } from '../models/rawHealthData';
 import { HealthService } from './health.service';
 import { getSyntheticMetricDefinition, listSyntheticMetricDefinitions } from './synthetic-metrics';
@@ -50,6 +53,11 @@ type ResolvedMetricSeries = {
   name: string;
   units: string;
   data: HealthData[];
+};
+
+type SleepDuration = {
+  record: SleepRecord;
+  minutes: number;
 };
 
 @Injectable()
@@ -108,6 +116,16 @@ export class DbHealthService implements HealthService {
       Max: record.Max,
       date: record.date,
       source: record.source,
+    };
+  }
+
+  private toSleepData(record: SleepRecord) {
+    return {
+      qty: record.qty,
+      source: record.source,
+      value: record.value,
+      startDate: record.startDate,
+      endDate: record.endDate,
     };
   }
 
@@ -183,6 +201,78 @@ export class DbHealthService implements HealthService {
     return aggregation === 'daily'
       ? '%Y-%m-%d 00:00:00.000'
       : '%Y-%m-%d %H:00:00.000';
+  }
+
+  private getSleepDuration(record: SleepRecord, from: Date, to: Date): number {
+    const start = Math.max(new Date(record.startDate).getTime(), from.getTime());
+    const end = Math.min(new Date(record.endDate).getTime(), to.getTime());
+    return Math.max(0, (end - start) / 60000);
+  }
+
+  private getSleepNightKey(record: SleepRecord): string {
+    const nightDate = new Date(new Date(record.startDate).getTime() - (12 * 60 * 60 * 1000));
+    return nightDate.toISOString().slice(0, 10);
+  }
+
+  private isAsleepStage(stage: SleepType): boolean {
+    return ![SleepType.AWAKE, SleepType.IN_BED].includes(stage);
+  }
+
+  private buildSleepStageSummaries(durations: SleepDuration[]): SleepStageSummaryDto[] {
+    const totals = new Map<SleepType, { segmentCount: number; totalMinutes: number }>();
+    const totalMinutes = durations.reduce((sum, duration) => sum + duration.minutes, 0);
+    const stageOrder = [SleepType.IN_BED, SleepType.AWAKE, SleepType.REM, SleepType.CORE, SleepType.DEEP];
+
+    for (const duration of durations) {
+      const current = totals.get(duration.record.value) ?? { segmentCount: 0, totalMinutes: 0 };
+      current.segmentCount += 1;
+      current.totalMinutes += duration.minutes;
+      totals.set(duration.record.value, current);
+    }
+
+    return [...totals.entries()]
+      .sort((left, right) => {
+        const leftIndex = stageOrder.indexOf(left[0]);
+        const rightIndex = stageOrder.indexOf(right[0]);
+        return (leftIndex === -1 ? stageOrder.length : leftIndex) - (rightIndex === -1 ? stageOrder.length : rightIndex);
+      })
+      .map(([value, summary]) => ({
+        value,
+        segmentCount: summary.segmentCount,
+        totalMinutes: summary.totalMinutes,
+        percentOfWindow: totalMinutes ? (summary.totalMinutes / totalMinutes) * 100 : 0,
+      }));
+  }
+
+  private buildSleepNightSummaries(durations: SleepDuration[]): SleepNightSummaryDto[] {
+    const grouped = new Map<string, SleepDuration[]>();
+
+    for (const duration of durations) {
+      const key = this.getSleepNightKey(duration.record);
+      grouped.set(key, [...(grouped.get(key) ?? []), duration]);
+    }
+
+    return [...grouped.entries()]
+      .sort(([left], [right]) => left.localeCompare(right))
+      .map(([date, entries]) => {
+        const totalMinutes = entries.reduce((sum, entry) => sum + entry.minutes, 0);
+        const awakeMinutes = entries
+          .filter((entry) => entry.record.value === SleepType.AWAKE)
+          .reduce((sum, entry) => sum + entry.minutes, 0);
+        const asleepMinutes = entries
+          .filter((entry) => this.isAsleepStage(entry.record.value))
+          .reduce((sum, entry) => sum + entry.minutes, 0);
+        return {
+          date,
+          startDate: new Date(Math.min(...entries.map((entry) => new Date(entry.record.startDate).getTime()))),
+          endDate: new Date(Math.max(...entries.map((entry) => new Date(entry.record.endDate).getTime()))),
+          segmentCount: entries.length,
+          totalMinutes,
+          asleepMinutes,
+          awakeMinutes,
+          stageSummaries: this.buildSleepStageSummaries(entries),
+        };
+      });
   }
 
   private mergeHealthDataPoints(
@@ -690,6 +780,55 @@ export class DbHealthService implements HealthService {
       return ret;
     } catch (e: any) {
       this.log.log(`Failed to export sleep data: ${e.message}`);
+      throw e;
+    }
+  }
+
+  public async getSleepSummary(from: Date, to: Date): Promise<SleepSummaryDto> {
+    try {
+      const records = await this.sleepRepository.find({
+        where: {
+          startDate: LessThanOrEqual(to),
+          endDate: MoreThanOrEqual(from),
+        },
+        order: {
+          startDate: 'ASC',
+        },
+      });
+
+      const durations = records
+        .map((record) => ({
+          record,
+          minutes: this.getSleepDuration(record, from, to),
+        }))
+        .filter((duration) => duration.minutes > 0);
+      const totalMinutes = durations.reduce((sum, duration) => sum + duration.minutes, 0);
+      const awakeMinutes = durations
+        .filter((duration) => duration.record.value === SleepType.AWAKE)
+        .reduce((sum, duration) => sum + duration.minutes, 0);
+      const asleepMinutes = durations
+        .filter((duration) => this.isAsleepStage(duration.record.value))
+        .reduce((sum, duration) => sum + duration.minutes, 0);
+
+      return {
+        from,
+        to,
+        recordCount: durations.length,
+        firstStartDate: durations.length
+          ? new Date(Math.min(...durations.map((duration) => new Date(duration.record.startDate).getTime())))
+          : undefined,
+        lastEndDate: durations.length
+          ? new Date(Math.max(...durations.map((duration) => new Date(duration.record.endDate).getTime())))
+          : undefined,
+        totalMinutes,
+        asleepMinutes,
+        awakeMinutes,
+        stageSummaries: this.buildSleepStageSummaries(durations),
+        nights: this.buildSleepNightSummaries(durations),
+        data: durations.map((duration) => this.toSleepData(duration.record)),
+      };
+    } catch (e: any) {
+      this.log.log(`Failed to summarize sleep data: ${e.message}`);
       throw e;
     }
   }

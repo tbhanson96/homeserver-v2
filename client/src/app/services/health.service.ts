@@ -6,6 +6,7 @@ import {
   HealthAggregation,
   HealthCatalog,
   HealthDashboard,
+  SleepSummary,
 } from '@models/health-dashboard';
 import { lastValueFrom } from 'rxjs';
 
@@ -56,5 +57,15 @@ export class HealthService {
       from: from.toISOString(),
       to: to.toISOString(),
     }));
+  }
+
+  public async getSleepSummary(from: Date, to: Date): Promise<SleepSummary> {
+    const params = new HttpParams()
+      .set('from', from.toISOString())
+      .set('to', to.toISOString());
+
+    return await lastValueFrom(
+      this.http.get<SleepSummary>('/api/health/sleep/summary', { params }),
+    );
   }
 }

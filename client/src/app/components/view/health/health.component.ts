@@ -9,6 +9,11 @@ import {
   HealthMetricCatalogItem,
   HealthMetricSummary,
   HealthDashboard,
+  SleepNightSummary,
+  SleepSegment,
+  SleepStage,
+  SleepStageSummary,
+  SleepSummary,
 } from '@models/health-dashboard';
 import { HealthService } from '@services/health.service';
 import { Chart, ChartConfiguration } from 'chart.js/auto';
@@ -50,6 +55,12 @@ type ComparisonRow = {
   helper: string;
 };
 
+type SleepTimelineSegment = SleepSegment & {
+  left: number;
+  width: number;
+  minutes: number;
+};
+
 @Component({
   selector: 'app-health',
   templateUrl: './health.component.html',
@@ -76,6 +87,7 @@ export class HealthComponent implements OnInit, AfterViewInit, OnDestroy {
   public highlights: Highlight[] = [];
   public deepAnalyses: DeepAnalysis[] = [];
   public comparisonRows: ComparisonRow[] = [];
+  public sleepSummary?: SleepSummary;
   public activePresetHours = 36;
 
   private trendChart?: Chart;
@@ -152,6 +164,31 @@ export class HealthComponent implements OnInit, AfterViewInit, OnDestroy {
       .reduce((sum, count) => sum + count, 0);
   }
 
+  public get primarySleepNight(): SleepNightSummary | undefined {
+    return this.sleepSummary?.nights[this.sleepSummary.nights.length - 1];
+  }
+
+  public get sleepTimelineSegments(): SleepTimelineSegment[] {
+    if (!this.sleepSummary?.data.length) {
+      return [];
+    }
+
+    const start = new Date(this.sleepSummary.firstStartDate || this.sleepSummary.from).getTime();
+    const end = new Date(this.sleepSummary.lastEndDate || this.sleepSummary.to).getTime();
+    const total = Math.max(1, end - start);
+
+    return this.sleepSummary.data.map((segment) => {
+      const segmentStart = new Date(segment.startDate).getTime();
+      const segmentEnd = new Date(segment.endDate).getTime();
+      return {
+        ...segment,
+        left: Math.max(0, ((segmentStart - start) / total) * 100),
+        width: Math.max(0.5, ((segmentEnd - segmentStart) / total) * 100),
+        minutes: Math.max(0, (segmentEnd - segmentStart) / 60000),
+      };
+    });
+  }
+
   public async loadCatalog(): Promise<void> {
     this.ui.setAppBusy(true);
     try {
@@ -164,6 +201,7 @@ export class HealthComponent implements OnInit, AfterViewInit, OnDestroy {
         this.highlights = [];
         this.deepAnalyses = [];
         this.comparisonRows = [];
+        await this.refreshSleepSummary();
         return;
       }
 
@@ -171,6 +209,7 @@ export class HealthComponent implements OnInit, AfterViewInit, OnDestroy {
       this.selectedMetrics = this.pickDefaultMetrics(this.catalog.metrics).map((metric) => metric.name);
       this.selectedMetric = this.selectedMetrics[0] || '';
       await this.refreshDashboard();
+      await this.refreshSleepSummary();
     } finally {
       this.ui.setAppBusy(false);
     }
@@ -184,6 +223,7 @@ export class HealthComponent implements OnInit, AfterViewInit, OnDestroy {
       this.deepAnalyses = [];
       this.comparisonRows = [];
       this.renderCharts();
+      await this.refreshSleepSummary();
       return;
     }
 
@@ -212,10 +252,21 @@ export class HealthComponent implements OnInit, AfterViewInit, OnDestroy {
     this.activePresetHours = hours;
     this.applyRelativeRange(hours);
     await this.refreshDashboard();
+    await this.refreshSleepSummary();
   }
 
   public async onSearch(): Promise<void> {
     await this.refreshDashboard();
+    await this.refreshSleepSummary();
+  }
+
+  public async refreshSleepSummary(): Promise<void> {
+    this.ui.setAppBusy(true);
+    try {
+      this.sleepSummary = await this.service.getSleepSummary(this.from, this.to);
+    } finally {
+      this.ui.setAppBusy(false);
+    }
   }
 
   public async toggleMetric(metricName: string): Promise<void> {
@@ -298,6 +349,57 @@ export class HealthComponent implements OnInit, AfterViewInit, OnDestroy {
       day: 'numeric',
       hour: this.aggregation === 'hourly' ? 'numeric' : undefined,
     }).format(new Date(date));
+  }
+
+  public formatDuration(minutes?: number): string {
+    if (minutes === undefined || Number.isNaN(minutes)) {
+      return 'No data';
+    }
+
+    const rounded = Math.round(minutes);
+    const hours = Math.floor(rounded / 60);
+    const remainingMinutes = rounded % 60;
+    if (!hours) {
+      return `${remainingMinutes}m`;
+    }
+    return `${hours}h ${remainingMinutes}m`;
+  }
+
+  public formatPercent(value?: number): string {
+    if (value === undefined || Number.isNaN(value)) {
+      return '0%';
+    }
+    return `${value.toFixed(1)}%`;
+  }
+
+  public formatSleepNightDate(date?: string): string {
+    if (!date) {
+      return 'Unavailable';
+    }
+    return new Intl.DateTimeFormat('en-US', {
+      month: 'short',
+      day: 'numeric',
+      weekday: 'short',
+    }).format(new Date(`${date}T12:00:00`));
+  }
+
+  public formatSleepStage(stage: SleepStage): string {
+    return stage === 'InBed' ? 'In Bed' : stage;
+  }
+
+  public getSleepStageClass(stage: SleepStage): string {
+    return `sleep-stage-${stage.toLowerCase()}`;
+  }
+
+  public getSleepSegmentStyle(segment: SleepTimelineSegment): Record<string, string> {
+    return {
+      left: `${segment.left}%`,
+      width: `${segment.width}%`,
+    };
+  }
+
+  public getSleepStageSummary(stage: SleepStage, summaries?: SleepStageSummary[]): SleepStageSummary | undefined {
+    return summaries?.find((summary) => summary.value === stage);
   }
 
   public formatSources(sources: string[]): string {

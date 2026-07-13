@@ -42,3 +42,45 @@ export interface HealthDashboard {
   aggregation: HealthAggregation;
   metrics: Record<string, HealthMetricSummary>;
 }
+
+export type SleepStage = 'InBed' | 'Awake' | 'Core' | 'Deep' | 'REM';
+
+export interface SleepSegment {
+  qty?: number;
+  source: string;
+  value: SleepStage;
+  startDate: string;
+  endDate: string;
+}
+
+export interface SleepStageSummary {
+  value: SleepStage;
+  segmentCount: number;
+  totalMinutes: number;
+  percentOfWindow: number;
+}
+
+export interface SleepNightSummary {
+  date: string;
+  startDate: string;
+  endDate: string;
+  segmentCount: number;
+  totalMinutes: number;
+  asleepMinutes: number;
+  awakeMinutes: number;
+  stageSummaries: SleepStageSummary[];
+}
+
+export interface SleepSummary {
+  from: string;
+  to: string;
+  recordCount: number;
+  firstStartDate?: string;
+  lastEndDate?: string;
+  totalMinutes: number;
+  asleepMinutes: number;
+  awakeMinutes: number;
+  stageSummaries: SleepStageSummary[];
+  nights: SleepNightSummary[];
+  data: SleepSegment[];
+}

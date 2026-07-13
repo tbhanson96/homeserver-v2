@@ -19,72 +19,75 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-card class="control-card" appearance="outlined">
-    <mat-card-content class="control-layout">
-      <div class="control-group">
-        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-          <mat-label>Date range</mat-label>
-          <mat-date-range-input [rangePicker]="picker">
-            <input matStartDate placeholder="Start date" [(ngModel)]="from">
-            <input matEndDate placeholder="End date" [(ngModel)]="to">
-          </mat-date-range-input>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-date-range-picker #picker></mat-date-range-picker>
-        </mat-form-field>
+  <mat-tab-group class="health-tabs" mat-stretch-tabs="false">
+    <mat-tab label="Metrics">
+      <div class="tab-panel">
+        <mat-card class="control-card" appearance="outlined">
+          <mat-card-content class="control-layout">
+            <div class="control-group">
+              <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                <mat-label>Date range</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                  <input matStartDate placeholder="Start date" [(ngModel)]="from">
+                  <input matEndDate placeholder="End date" [(ngModel)]="to">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+              </mat-form-field>
 
-        <mat-button-toggle-group [(ngModel)]="aggregation" aria-label="Aggregation mode">
-          <mat-button-toggle value="hourly">Hourly</mat-button-toggle>
-          <mat-button-toggle value="daily">Daily</mat-button-toggle>
-        </mat-button-toggle-group>
-      </div>
+              <mat-button-toggle-group [(ngModel)]="aggregation" aria-label="Aggregation mode">
+                <mat-button-toggle value="hourly">Hourly</mat-button-toggle>
+                <mat-button-toggle value="daily">Daily</mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
 
-      <div class="control-group">
-        <mat-chip-listbox aria-label="Quick date presets">
-          @for (preset of presets; track preset.label) {
-            <mat-chip-option
-              [selected]="activePresetHours === preset.hours"
-              (click)="onPresetSelect(preset.hours)"
-              >
-              {{ preset.label }}
-            </mat-chip-option>
-          }
-        </mat-chip-listbox>
+            <div class="control-group">
+              <mat-chip-listbox aria-label="Quick date presets">
+                @for (preset of presets; track preset.label) {
+                  <mat-chip-option
+                    [selected]="activePresetHours === preset.hours"
+                    (click)="onPresetSelect(preset.hours)"
+                    >
+                    {{ preset.label }}
+                  </mat-chip-option>
+                }
+              </mat-chip-listbox>
 
-        <div class="control-actions">
-          <button mat-flat-button color="primary" (click)="onSearch()">
-            <mat-icon>insights</mat-icon>
-            Refresh Dashboard
-          </button>
-        </div>
-      </div>
-    </mat-card-content>
-  </mat-card>
+              <div class="control-actions">
+                <button mat-flat-button color="primary" (click)="onSearch()">
+                  <mat-icon>insights</mat-icon>
+                  Refresh Dashboard
+                </button>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
 
-  <mat-card class="metric-picker-card" appearance="outlined">
-    <mat-card-header>
-      <mat-card-title>Metric Explorer</mat-card-title>
-      <mat-card-subtitle>Choose the metrics you want in the dashboard and filter the catalog when the list gets long.</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content class="metric-picker-content">
-      <mat-form-field appearance="outline" class="metric-filter" subscriptSizing="dynamic">
-        <mat-label>Filter metrics</mat-label>
-        <mat-icon matPrefix>search</mat-icon>
-        <input matInput [(ngModel)]="metricFilter" placeholder="Search by metric name or unit">
-      </mat-form-field>
+        <mat-card class="metric-picker-card" appearance="outlined">
+          <mat-card-header>
+            <mat-card-title>Metric Explorer</mat-card-title>
+            <mat-card-subtitle>Choose the metrics you want in the dashboard and filter the catalog when the list gets long.</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content class="metric-picker-content">
+            <mat-form-field appearance="outline" class="metric-filter" subscriptSizing="dynamic">
+              <mat-label>Filter metrics</mat-label>
+              <mat-icon matPrefix>search</mat-icon>
+              <input matInput [(ngModel)]="metricFilter" placeholder="Search by metric name or unit">
+            </mat-form-field>
 
-      <mat-chip-listbox class="metric-chip-list" [multiple]="true" aria-label="Available health metrics">
-        @for (metric of filteredCatalog; track metric.name) {
-          <mat-chip-option
-            [selected]="isMetricSelected(metric.name)"
-            (click)="toggleMetric(metric.name)"
-            >
-            {{ formatMetricName(metric.name) }}
-            <span class="chip-suffix">{{ metric.units }}</span>
-          </mat-chip-option>
-        }
-      </mat-chip-listbox>
-    </mat-card-content>
-  </mat-card>
+            <mat-chip-listbox class="metric-chip-list" [multiple]="true" aria-label="Available health metrics">
+              @for (metric of filteredCatalog; track metric.name) {
+                <mat-chip-option
+                  [selected]="isMetricSelected(metric.name)"
+                  (click)="toggleMetric(metric.name)"
+                  >
+                  {{ formatMetricName(metric.name) }}
+                  <span class="chip-suffix">{{ metric.units }}</span>
+                </mat-chip-option>
+              }
+            </mat-chip-listbox>
+          </mat-card-content>
+        </mat-card>
 
   @if (hasCatalog && selectedMetrics.length && dashboard) {
     <div class="stats-grid">
@@ -225,4 +228,169 @@
       </mat-card-content>
     </mat-card>
   }
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Sleep">
+      <div class="tab-panel sleep-panel">
+        <mat-card class="control-card" appearance="outlined">
+          <mat-card-content class="control-layout">
+            <div class="control-group">
+              <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                <mat-label>Sleep date range</mat-label>
+                <mat-date-range-input [rangePicker]="sleepPicker">
+                  <input matStartDate placeholder="Start date" [(ngModel)]="from">
+                  <input matEndDate placeholder="End date" [(ngModel)]="to">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matIconSuffix [for]="sleepPicker"></mat-datepicker-toggle>
+                <mat-date-range-picker #sleepPicker></mat-date-range-picker>
+              </mat-form-field>
+            </div>
+
+            <div class="control-group">
+              <mat-chip-set>
+                <mat-chip>{{ sleepSummary?.recordCount || 0 }} sleep segments</mat-chip>
+                <mat-chip>{{ sleepSummary?.nights?.length || 0 }} nights</mat-chip>
+              </mat-chip-set>
+
+              <div class="control-actions">
+                <button mat-flat-button color="primary" (click)="refreshSleepSummary()">
+                  <mat-icon>bedtime</mat-icon>
+                  Refresh Sleep
+                </button>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        @if (sleepSummary?.recordCount) {
+          <div class="stats-grid sleep-stats-grid">
+            <mat-card class="stat-card" appearance="outlined">
+              <mat-card-content>
+                <div class="stat-card-header">
+                  <div>
+                    <h3>Asleep</h3>
+                    <p>{{ sleepSummary?.recordCount || 0 }} staged segments</p>
+                  </div>
+                  <span class="trend-pill">{{ formatPercent(((sleepSummary?.asleepMinutes || 0) / (sleepSummary?.totalMinutes || 1)) * 100) }}</span>
+                </div>
+                <div class="stat-primary">{{ formatDuration(sleepSummary?.asleepMinutes) }}</div>
+                <div class="stat-secondary">Tracked window: {{ formatDuration(sleepSummary?.totalMinutes) }}</div>
+              </mat-card-content>
+            </mat-card>
+
+            <mat-card class="stat-card" appearance="outlined">
+              <mat-card-content>
+                <div class="stat-card-header">
+                  <div>
+                    <h3>Awake</h3>
+                    <p>Interruptions inside sleep window</p>
+                  </div>
+                  <span class="trend-pill">{{ getSleepStageSummary('Awake', sleepSummary?.stageSummaries)?.segmentCount || 0 }} segments</span>
+                </div>
+                <div class="stat-primary">{{ formatDuration(sleepSummary?.awakeMinutes) }}</div>
+                <div class="stat-secondary">First to last: {{ formatDate(sleepSummary?.firstStartDate) }} to {{ formatDate(sleepSummary?.lastEndDate) }}</div>
+              </mat-card-content>
+            </mat-card>
+
+            @if (primarySleepNight) {
+              <mat-card class="stat-card" appearance="outlined">
+                <mat-card-content>
+                  <div class="stat-card-header">
+                    <div>
+                      <h3>{{ formatSleepNightDate(primarySleepNight.date) }}</h3>
+                      <p>Latest sleep night in range</p>
+                    </div>
+                    <span class="trend-pill">{{ primarySleepNight.segmentCount }} segments</span>
+                  </div>
+                  <div class="stat-primary">{{ formatDuration(primarySleepNight.asleepMinutes) }}</div>
+                  <div class="stat-secondary">{{ formatDate(primarySleepNight.startDate) }} to {{ formatDate(primarySleepNight.endDate) }}</div>
+                </mat-card-content>
+              </mat-card>
+            }
+          </div>
+
+          <mat-card class="sleep-stage-card" appearance="outlined">
+            <mat-card-header>
+              <mat-card-title>Stage Breakdown</mat-card-title>
+              <mat-card-subtitle>Minutes and share of tracked sleep segments in the selected range.</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="sleep-stage-grid">
+                @for (stage of sleepSummary?.stageSummaries || []; track stage.value) {
+                  <div class="sleep-stage-row">
+                    <div class="sleep-stage-label">
+                      <span class="sleep-stage-dot" [ngClass]="getSleepStageClass(stage.value)"></span>
+                      <span>{{ formatSleepStage(stage.value) }}</span>
+                    </div>
+                    <div class="sleep-stage-meter">
+                      <div class="sleep-stage-fill" [ngClass]="getSleepStageClass(stage.value)" [style.width.%]="stage.percentOfWindow"></div>
+                    </div>
+                    <div class="sleep-stage-value">
+                      <strong>{{ formatDuration(stage.totalMinutes) }}</strong>
+                      <span>{{ formatPercent(stage.percentOfWindow) }}</span>
+                    </div>
+                  </div>
+                }
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="sleep-timeline-card" appearance="outlined">
+            <mat-card-header>
+              <mat-card-title>Sleep Timeline</mat-card-title>
+              <mat-card-subtitle>Staged sleep segments from first recorded start to last recorded end.</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="sleep-timeline">
+                @for (segment of sleepTimelineSegments; track segment.value + segment.startDate) {
+                  <div
+                    class="sleep-segment"
+                    [ngClass]="getSleepStageClass(segment.value)"
+                    [ngStyle]="getSleepSegmentStyle(segment)"
+                    [matTooltip]="formatSleepStage(segment.value) + ': ' + formatDuration(segment.minutes) + ' from ' + formatDate(segment.startDate) + ' to ' + formatDate(segment.endDate)"
+                  ></div>
+                }
+              </div>
+              <div class="sleep-timeline-axis">
+                <span>{{ formatDate(sleepSummary?.firstStartDate) }}</span>
+                <span>{{ formatDate(sleepSummary?.lastEndDate) }}</span>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="sleep-nights-card" appearance="outlined">
+            <mat-card-header>
+              <mat-card-title>Sleep Nights</mat-card-title>
+              <mat-card-subtitle>Nightly rollups grouped from noon to noon.</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="sleep-night-list">
+                @for (night of sleepSummary?.nights || []; track night.date) {
+                  <div class="sleep-night-row">
+                    <div>
+                      <div class="comparison-title">{{ formatSleepNightDate(night.date) }}</div>
+                      <div class="comparison-helper">{{ formatDate(night.startDate) }} to {{ formatDate(night.endDate) }}</div>
+                    </div>
+                    <div class="sleep-night-values">
+                      <span>{{ formatDuration(night.asleepMinutes) }} asleep</span>
+                      <span>{{ formatDuration(night.awakeMinutes) }} awake</span>
+                    </div>
+                  </div>
+                }
+              </div>
+            </mat-card-content>
+          </mat-card>
+        } @else {
+          <mat-card appearance="outlined">
+            <mat-card-content class="empty-state">
+              <mat-icon class="empty-icon">bedtime_off</mat-icon>
+              <h2>No sleep records in this range</h2>
+              <p>Import sleep data or adjust the date range to show sleep stages, nightly totals, and the timeline.</p>
+            </mat-card-content>
+          </mat-card>
+        }
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </section>
