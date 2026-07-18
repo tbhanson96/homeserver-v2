@@ -137,11 +137,6 @@ import { environment } from '../environments/environment';
   ],
   bootstrap: [
     AppComponent,
-    UploadDialogComponent,
-    DeleteDialogComponent,
-    SettingsComponent,
-    RenameFileComponent,
-    ProgressDialogComponent,
   ]
 })
 export class AppModule { }
