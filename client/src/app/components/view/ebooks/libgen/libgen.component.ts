@@ -1,5 +1,5 @@
 import { UiStateActions } from '@actions/ui-state.actions';
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LibgenData } from '@api/models';
 import { ProgressDialogComponent } from '@components/view/progress-dialog/progress-dialog.component';
@@ -36,6 +36,7 @@ import {
             ]),
         ]),
     ],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class LibgenComponent {

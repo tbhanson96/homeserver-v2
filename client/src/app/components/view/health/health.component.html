@@ -13,7 +13,7 @@
       </mat-chip-set>
       @if (catalog?.firstRecordDate && catalog?.lastRecordDate) {
         <p class="header-copy">
-          Imported range: {{ formatDate(catalog?.firstRecordDate) }} to {{ formatDate(catalog?.lastRecordDate) }}
+          Imported range: {{ formatDate($safeNavigationMigration(catalog?.firstRecordDate)) }} to {{ formatDate($safeNavigationMigration(catalog?.lastRecordDate)) }}
         </p>
       }
     </mat-card-content>
@@ -274,8 +274,8 @@
                   </div>
                   <span class="trend-pill">{{ formatPercent(((sleepSummary?.asleepMinutes || 0) / (sleepSummary?.totalMinutes || 1)) * 100) }}</span>
                 </div>
-                <div class="stat-primary">{{ formatDuration(sleepSummary?.asleepMinutes) }}</div>
-                <div class="stat-secondary">Tracked window: {{ formatDuration(sleepSummary?.totalMinutes) }}</div>
+                <div class="stat-primary">{{ formatDuration($safeNavigationMigration(sleepSummary?.asleepMinutes)) }}</div>
+                <div class="stat-secondary">Tracked window: {{ formatDuration($safeNavigationMigration(sleepSummary?.totalMinutes)) }}</div>
               </mat-card-content>
             </mat-card>
 
@@ -286,10 +286,10 @@
                     <h3>Awake</h3>
                     <p>Interruptions inside sleep window</p>
                   </div>
-                  <span class="trend-pill">{{ getSleepStageSummary('Awake', sleepSummary?.stageSummaries)?.segmentCount || 0 }} segments</span>
+                  <span class="trend-pill">{{ getSleepStageSummary('Awake', $safeNavigationMigration(sleepSummary?.stageSummaries))?.segmentCount || 0 }} segments</span>
                 </div>
-                <div class="stat-primary">{{ formatDuration(sleepSummary?.awakeMinutes) }}</div>
-                <div class="stat-secondary">First to last: {{ formatDate(sleepSummary?.firstStartDate) }} to {{ formatDate(sleepSummary?.lastEndDate) }}</div>
+                <div class="stat-primary">{{ formatDuration($safeNavigationMigration(sleepSummary?.awakeMinutes)) }}</div>
+                <div class="stat-secondary">First to last: {{ formatDate($safeNavigationMigration(sleepSummary?.firstStartDate)) }} to {{ formatDate($safeNavigationMigration(sleepSummary?.lastEndDate)) }}</div>
               </mat-card-content>
             </mat-card>
 
@@ -353,8 +353,8 @@
                 }
               </div>
               <div class="sleep-timeline-axis">
-                <span>{{ formatDate(sleepSummary?.firstStartDate) }}</span>
-                <span>{{ formatDate(sleepSummary?.lastEndDate) }}</span>
+                <span>{{ formatDate($safeNavigationMigration(sleepSummary?.firstStartDate)) }}</span>
+                <span>{{ formatDate($safeNavigationMigration(sleepSummary?.lastEndDate)) }}</span>
               </div>
             </mat-card-content>
           </mat-card>

@@ -15,8 +15,8 @@ WORKDIR /opt/app
 RUN mkdir updates
 
 WORKDIR server
-COPY server/package.json ./
-RUN npm install --omit=dev
+COPY server/package.json server/package-lock.json ./
+RUN npm ci --omit=dev
 WORKDIR ..
 COPY server/dist ./server
 COPY server/src/config/config.prod.json ./server/config/config.json

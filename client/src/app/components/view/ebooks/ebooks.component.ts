@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { UiStateActions } from '@actions/ui-state.actions';
 import { UiStateSelectors } from '@selectors/ui-state.selectors';
 import { EbooksService } from '@services/ebooks.service';
@@ -44,6 +44,7 @@ import {
             ]),
         ]),
     ],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class EbooksComponent implements OnInit, OnDestroy {

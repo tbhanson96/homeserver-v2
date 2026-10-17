@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { UiStateSelectors } from '@selectors/ui-state.selectors';
 import { UiStateActions } from '@actions/ui-state.actions';
 import { DeviceDetectorService } from 'ngx-device-detector';
@@ -16,6 +16,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
             ]),
         ]),
     ],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class HomeComponent implements OnInit, OnDestroy {

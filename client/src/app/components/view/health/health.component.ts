@@ -1,5 +1,5 @@
 import { UiStateActions } from '@actions/ui-state.actions';
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { provideNativeDateTimeAdapter } from '@dhutaryan/ngx-mat-timepicker';
 import {
@@ -69,6 +69,7 @@ type SleepTimelineSegment = SleepSegment & {
     provideNativeDateTimeAdapter(),
   ],
   styleUrls: ['./health.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class HealthComponent implements OnInit, AfterViewInit, OnDestroy {

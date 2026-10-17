@@ -9,6 +9,7 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { EbookData } from '@api/models';
 import ePub from 'epubjs';
@@ -21,6 +22,7 @@ type EpubLocation = { start?: { cfi?: string } };
   selector: 'app-ebook-reader',
   templateUrl: './ebook-reader.component.html',
   styleUrls: ['./ebook-reader.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class EbookReaderComponent implements AfterViewInit, OnChanges, OnDestroy {
