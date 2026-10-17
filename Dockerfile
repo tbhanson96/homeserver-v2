@@ -2,6 +2,8 @@ ARG NODE_VERSION=24.15.0
 FROM node:${NODE_VERSION}-bookworm
 
 ARG CALIBRE_VERSION=9.16.0
+ARG GIT_SHA=unknown
+LABEL org.opencontainers.image.revision=$GIT_SHA
 
 RUN apt-get update && apt-get install -y xdg-utils wget xz-utils python-is-python3 curl libegl1 libopengl0 libxcb-cursor0 libxkbcommon-x11-0
 RUN wget --no-check-certificate -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/stdin version=${CALIBRE_VERSION}

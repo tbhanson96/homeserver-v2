@@ -140,7 +140,7 @@ Run the image with Node inspector enabled:
 npm run docker:debug
 ```
 
-Tag and push for deployment:
+Tag and push manually for troubleshooting:
 
 ```bash
 npm run docker:tag
@@ -161,7 +161,22 @@ GitHub Actions in `.github/workflows/build.yml` currently:
 - builds the server
 - builds the production client
 - runs the server test suite
-- builds and pushes the container image on `master`
+- audits production dependencies at the critical severity gate
+
+Ordinary pushes do not publish or deploy an image. To release, dispatch the
+`Publish image` workflow with the full reviewed `master` commit SHA. It repeats
+tests, production builds, and audits before publishing immutable
+`sha-<commit>` and `latest` tags. After publication succeeds, deploy that exact
+revision from the host:
+
+```sh
+deploy/deploy-host.sh <full-commit-sha>
+```
+
+The deploy helper validates and installs the tracked systemd unit, pulls the
+immutable image, restarts the service, checks the local HTTP root, verifies the
+running OCI revision, and attempts to restore the previous image digest if
+verification fails.
 
 ## Notes
 

@@ -1,0 +1,28 @@
+[Unit]
+Description=Homeserver for all purposes
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+Environment=HOMESERVER_IMAGE=ghcr.io/tbhanson96/homeserver:latest
+EnvironmentFile=-%h/.config/homeserver/deployed-image.env
+ExecStartPre=/usr/bin/mkdir -p %h/.local/state/homeserver
+ExecStartPre=/usr/bin/podman pull ${HOMESERVER_IMAGE}
+ExecStartPre=-/usr/bin/podman rm -f homeserver
+ExecStart=/usr/bin/podman run --rm \
+  --name homeserver \
+  --volume %h:/opt/app/mnt \
+  --volume /mnt/ExternalHDD:/mnt/ExternalHDD \
+  --publish 3000:3000 \
+  --env-file=%h/.config/homeserver/.env \
+  ${HOMESERVER_IMAGE}
+ExecStop=/usr/bin/podman stop -t 30 homeserver
+ExecStopPost=-/usr/bin/podman rm -f homeserver
+Restart=always
+RestartSec=10
+SuccessExitStatus=143
+TimeoutStopSec=45
+
+[Install]
+WantedBy=default.target

@@ -1,11 +1,11 @@
 name: Build
 
-# Run this workflow every time a new commit pushed to your repository
-on: push
+on:
+  push:
+  pull_request:
 
 permissions:
   contents: read
-  packages: write
 
 jobs:
   install:
@@ -90,41 +90,9 @@ jobs:
       - name: Run client tests
         working-directory: client
         run: npm run test -- --watch=false
-
-  deploy:
-    name: Deploy
-    if: ${{ github.ref == 'refs/heads/master' }}
-    runs-on: ubuntu-24.04-arm 
-    needs: [build, test]
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v6
-        with:
-          node-version-file: .nvmrc
-      - uses: actions/cache@v6
-        id: restore-dependencies-cache
-        with:
-          path: |
-            server/node_modules
-            client/node_modules
-          key: dependencies-${{ github.sha }}
-      - uses: actions/cache@v6
-        id: build-cache
-        with:
-          path: |
-            server/dist
-            client/dist
-          key: build-${{ github.sha }}
-
-      - name: Log in to Container Registry
-        uses: docker/login-action@v4
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Build image
-        run: npm run package
-      
-      - name: Deploy image
-        run: npm run deploy
+      - name: Audit server production dependencies
+        working-directory: server
+        run: npm audit --omit=dev --audit-level=critical
+      - name: Audit client production dependencies
+        working-directory: client
+        run: npm audit --omit=dev --audit-level=critical
