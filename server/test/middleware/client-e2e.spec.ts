@@ -45,4 +45,11 @@ describe('ClientMiddleware (e2e)', () => {
     expect(response.text).toEqual('client file');
   })
 
+  it('GET /test.txt ignores cache-busting query parameters', async() => {
+    const response = await request(app.getHttpServer())
+      .get('/client-file.txt?ngsw-cache-bust=123')
+      .expect(200);
+    expect(response.text).toEqual('client file');
+  });
+
 });
