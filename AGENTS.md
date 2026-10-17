@@ -8,15 +8,19 @@
   and final reporting. The user should not need to ask separately for each
   routine step.
 - Before editing, inspect the worktree and preserve unrelated user changes.
-  Before pushing, fetch `origin/master` and do not overwrite upstream work.
+  This repository protects `master` with required checks: work on a topic
+  branch, open a pull request, wait for every required check, and merge without
+  an administrator bypass. Never push a routine change directly to `master`.
+  Fetch `origin/master` first and do not overwrite upstream work.
 - Run the server and client tests, `npm run build:prod`, production dependency
   audits, and `git diff --check` before committing. The server currently has
   upstream high/moderate audit findings without non-breaking fixes; fail the
   routine release gate on critical findings and report the known lower-severity
   findings in the final outcome.
-- After pushing `master`, wait for the `Build` workflow for the exact commit to
-  succeed. Then dispatch `Publish image` with the full commit SHA, wait for it
-  to publish successfully, and deploy that exact SHA with
+- After the pull request merges, confirm that the exact merge commit is the
+  `origin/master` tip and its `Build` workflow succeeded. Then dispatch
+  `Publish image` with the full merge commit SHA, wait for it to publish
+  successfully, and deploy that exact SHA with
   `deploy/deploy-host.sh <full-commit-sha>`.
 - Verify `homeserver.service`, the local HTTP root, the running image revision,
   and the requested feature after deployment. Verification must not modify
