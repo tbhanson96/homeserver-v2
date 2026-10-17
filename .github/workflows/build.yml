@@ -19,11 +19,11 @@ jobs:
 
       - name: Download server dependencies 
         working-directory: server
-        run: npm install
+        run: npm ci
 
       - name: Download client dependencies 
         working-directory: client
-        run: npm install
+        run: npm ci
 
       - name: Cache dependencies
         uses: actions/cache@v6
@@ -84,9 +84,12 @@ jobs:
             server/node_modules
             client/node_modules
           key: dependencies-${{ github.sha }}
-      - name: Run tests
+      - name: Run server tests
         working-directory: server
         run: npm run test
+      - name: Run client tests
+        working-directory: client
+        run: npm run test -- --watch=false
 
   deploy:
     name: Deploy

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FilesService } from '@services/files.service';
 import { UiStateSelectors } from '@selectors/ui-state.selectors';
@@ -12,6 +12,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
     selector: 'app-upload-dialog',
     templateUrl: './upload-dialog.component.html',
     styleUrls: ['./upload-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class UploadDialogComponent implements OnInit, OnDestroy {

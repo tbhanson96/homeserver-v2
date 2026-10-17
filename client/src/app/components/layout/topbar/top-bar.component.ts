@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { UiStateActions } from '@actions/ui-state.actions';
 import { Subscription } from 'rxjs';
 import { UiStateSelectors } from '@selectors/ui-state.selectors';
@@ -7,6 +7,7 @@ import { UiStateSelectors } from '@selectors/ui-state.selectors';
     selector: 'app-top-bar',
     templateUrl: './top-bar.component.html',
     styleUrls: ['./top-bar.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TopbarComponent implements OnInit, OnDestroy {

@@ -22,6 +22,7 @@
     "deploy": "npm run docker:tag && npm run docker:push"
   },
   "devDependencies": {
+    "@types/node": "24.19.2",
     "ts-node": "^10.7.0"
   }
 }

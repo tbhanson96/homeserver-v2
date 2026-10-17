@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { StatusUpdate } from '@api/models';
 import { Observable, Subscription } from 'rxjs';
@@ -14,6 +14,7 @@ export class ProgressDialogData {
     selector: 'app-progress-dialog',
     templateUrl: './progress-dialog.component.html',
     styleUrls: ['./progress-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ProgressDialogComponent implements OnInit, OnDestroy {
