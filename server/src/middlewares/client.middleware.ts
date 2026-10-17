@@ -11,13 +11,13 @@ export class ClientMiddleware implements NestMiddleware {
     private readonly configService: ConfigService) { }
 
   use(req: Request, res: Response, next: Function) {
-    const { url } = req;
-    if (url.indexOf(routes.api) === 1) {
+    const requestPath = req.path;
+    if (requestPath.indexOf(routes.api) === 1) {
         // it starts with /api --> continue with execution
         next();
-    } else if (url.includes('.')) {
+    } else if (requestPath.includes('.')) {
       // it has a file extension --> resolve the file
-      res.sendFile(this.resolvePath(url));
+      res.sendFile(this.resolvePath(requestPath));
     } else {
         // in all other cases, redirect to the index.html
         res.sendFile(this.resolvePath('index.html'));
