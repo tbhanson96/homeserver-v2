@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewChecked, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewChecked, AfterViewInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { SettingsService as GeneratedSettingsService } from '@api/services';
 import { SettingsDto } from '@api/models/settings-dto';
 import { UiStateSelectors } from '@selectors/ui-state.selectors';
@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
     selector: 'app-settings',
     templateUrl: './settings.component.html',
     styleUrls: ['./settings.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {

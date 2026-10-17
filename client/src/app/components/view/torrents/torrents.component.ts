@@ -1,5 +1,5 @@
 import { UiStateActions } from '@actions/ui-state.actions';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TorrentCategory, TorrentDto } from '@api/models';
 import { TorrentsService } from '@services/torrents.service';
@@ -8,6 +8,7 @@ import { TorrentsService } from '@services/torrents.service';
     selector: 'app-torrents',
     templateUrl: './torrents.component.html',
     styleUrls: ['./torrents.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TorrentsComponent implements OnInit {

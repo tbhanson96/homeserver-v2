@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { SettingsComponent } from '@components/view/settings/settings.component';
 import { Observable, Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,6 +10,7 @@ import { UiStateActions } from '@actions/ui-state.actions';
     selector: 'app-side-bar',
     templateUrl: './side-bar.component.html',
     styleUrls: ['./side-bar.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SideBarComponent {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, DOCUMENT } from '@angular/core';
+import { Component, OnInit, Inject, DOCUMENT, ChangeDetectionStrategy } from '@angular/core';
 
 import { UiStateSelectors } from '@selectors/ui-state.selectors';
 
@@ -6,6 +6,7 @@ import { UiStateSelectors } from '@selectors/ui-state.selectors';
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AppComponent implements OnInit {
