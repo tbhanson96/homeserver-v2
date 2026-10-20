@@ -24,7 +24,7 @@
     "@nestjs/passport": "11.0.5",
     "@nestjs/platform-express": "11.2.7",
     "@nestjs/swagger": "11.4.7",
-    "@nestjs/typeorm": "11.0.3",
+    "@nestjs/typeorm": "12.0.2",
     "@nestjs/websockets": "11.2.7",
     "better-sqlite3": "12.11.1",
     "cheerio": "1.2.0",
